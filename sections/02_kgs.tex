@@ -1,10 +1,11 @@
 \section{Knowledge Graphs(1.5 pages)}
 \label{sec:kgs}
 
-Knowledge Graphs (KGs) are large collections of factual triples of the form $\tuple{subject, predicate,object}$ (SPO, for short) about people, organizations, places, etc. Predicates encodes the relations between them, \eg $\tuple{einstein, wasBornIn, Ulm}$. KGs can also be represented as $p(s,o)$
+Knowledge Graphs (KGs) are large collections of factual triples of the form $\tuple{subject, predicate,object}$ (SPO, for short) about people, organizations, places, etc. Predicates encodes the relations between them, \eg $\tuple{einstein, wasBornIn, Ulm}$. KGs can also be represented similar to formal logic syntax as binary predicate $p(s,o)$, where $subject$ and $object$ are the arguments. KGs can be seen as instantiations for some ontological schema.  
 %\leanparagraph{Definition}
 
-\leanparagraph{Construction} KGs are constructed either manually via crowd-sourcing techniques, \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}  
+\leanparagraph{Construction} KGs are constructed either manually via crowd-sourcing techniques, \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}, semi-automatically as for NELL~\cite{NELL-aaai15} where humans review the curated data, or fully automated as in YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. The later two types are either curated from unstructured data \eg textual articles or semi-structured data such as Wikipedia info-boxes and lists~\cite{yago,dbpedia}
+
 
 \leanparagraph{Categorization}
 
