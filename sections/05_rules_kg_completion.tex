@@ -1,12 +1,12 @@
 \section{Combining Rule Learning and Reasoning For Knowledge Completion (5 pages)}
 \label{sec:rules_kg_completion}
+%!TEX root = ../main.tex
+Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
+association rule learning systems such as \cite{DBLP:conf/esf/GoethalsB02,amie} induce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,Chen:2016:OP:2882903.2882954, rumis}.
+In this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. We classify them into two main categories: Horn rules learning and Non-monotonic rules learning systems.
+\subsubsection{Horn rule learning}
 
-
-
-\leanparagraph{Horn rule learning}
-AMIE, OP, and RDF2Rules
-
-\leanparagraph{Nonmonotonic rule learning}
+\subsubsection{Non-monotonic rule learning}
 \begin{itemize}
 \item Propositionalization (as trial) ISWC2016
 \item ILP2016
