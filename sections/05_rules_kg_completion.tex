@@ -5,11 +5,11 @@ Traditional rules learning systems in the context of Inductive Logic Programming
 association rule learning systems such as \cite{DBLP:conf/esf/GoethalsB02,amie} induce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,Chen:2016:OP:2882903.2882954, rumis}.
 In this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. We classify them into two main categories: Horn rules learning and Non-monotonic rules learning systems.
 \subsection{Horn rule learning}
-Horn rule learning systems focus on mining rules consisting of only positive atoms. Some examples of such mining systems are AMIE \cite{}, OP, \cite{} and RDF2Rules \cite{}.
+Horn rule learning systems focus on mining rules consisting of only positive atoms. Most of these systems only extract rules that are \emph{closed}, where every variable appears at least twice. Some examples of such mining systems are AMIE \cite{}, OP, \cite{} and RDF2Rules \cite{}.
 \subsubsection{AMIE}
-AMIE is a state-of-the-art positive rule mining systems in the context of OWA. Apart from the algorithm being used to construct the rules, AMIE also introduce a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch.
+AMIE \cite{} is a state-of-the-art positive rule mining systems in the context of OWA. Apart from the algorithm being used to construct the rules, AMIE also introduce a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch.
 \thi{PCA confidence formular here}.
-PCA confidence is then exploited by AMIE to mine positive rules using the its introduced algorithm. In AMIE, rule is treated as a sequence of atoms, where the first atom is the head of the rule, and other atoms are the body of the rule. Mining operators are introduced to extend the sequences of atoms to explore the rules' search space as follows:
+PCA confidence is then exploited by AMIE to mine positive rules using its introduced algorithm. In AMIE, rule is treated as a sequence of atoms, where the first atom is the head of the rule, and other atoms are the body of the rule. Mining operators are introduced to extend the sequences of atoms to explore the rules' search space as follows:
 \begin{enumerate}
 \item \texttt{Add Dangling Atom}.\\
   This operator adds a positive atom to the rule. One of the two arguments of the atom should be a fresh new variable. The other argument is a shared variable, which appears in some other atoms of the rule.
@@ -18,14 +18,13 @@ PCA confidence is then exploited by AMIE to mine positive rules using the its in
 \item \texttt{Add Closing Atom}.\\
   This operator adds a positive atom to the rule, in which both arguments of the atom are shared variables with the rule.
 \end{enumerate}
-
 \begin{algorithm}[H]
 \DontPrintSemicolon
 $queue\leftarrow \langle[]\rangle$\\
 Execute in parallel:\\
 \While{$\neg$queue.isEmpty()}{    
     \textit{rule $\leftarrow$ queue.dequeue()}\\
-    \tcc{Computes rule statistics and output if necessary.}
+%    \tcc{Computes rule statistics and output if necessary.}
     \If{rule.isClosed()}{
         \textit{stats $\leftarrow$ computeStatistics(rule)}\\
         \eIf{stats.isEligibleForOutput()}{
@@ -34,14 +33,14 @@ Execute in parallel:\\
             continue while loop
         }
     }
-    \tcc{Applies operators to explore more new rules.}
+%    \tcc{Applies operators to explore more new rules.}
     \ForEach{operator o}{
         \ForEach{newRule $\in$ o(rule)}{
-            \If{newRule.hasGoodFormat()}{
-                \tcc{Check whether there exists some version of the rule in queue.}
+%            \If{newRule.hasGoodFormat()}{
+%                \tcc{Check whether there exists some version of the rule in queue.}
                 \If{newRule $\notin$ queue}{ 
                     \textit{queue.enqueue(newRule)}
-                }
+%               }
             }
         }
     }    
@@ -49,8 +48,10 @@ Execute in parallel:\\
 \caption{AMIE's mining algorithm.}
 \label{algor:amie}
 \end{algorithm}
+Algorithm \ref{algor:mining} presents AMIE's algorithm in applying mining operators to extract rules from KGs. The algorithm maintain a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
+Checking for outputting is the process of collecting rules' statistics including: support, PCA confidence, head coverage \cite{}, and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and language bias. In particular, firstly, adding an atom into the rule must increase its PCA confidence. Secondly, the number of atoms of the rule does not exceed some threshold.
 
-
+To computing rule's statistics, we must find all instances of rule's variable in the KG. Several options have been proposed by AMIE: either using SQL, SPARQL \cite{} or using an In-Memory Database.
 
 \subsubsection{AMIE}
 \subsection{Non-monotonic rule learning}
