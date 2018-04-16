@@ -5,6 +5,15 @@
 \documentclass[runningheads]{llncs}
 %
 \usepackage{graphicx}
+\usepackage{tikz}
+\usepackage{subcaption}
+\captionsetup{compatibility=false}
+\newcommand*\rot{\rotatebox{90}}
+\usepackage{amssymb}
+\usetikzlibrary{positioning}
+
+\usetikzlibrary{arrows}
+
 \usepackage{amsmath}
 \usepackage[ruled,vlined,linesnumbered]{algorithm2e}
 
@@ -29,9 +38,9 @@
 % If the paper title is too long for the running head, you can set
 % an abbreviated paper title here
 %
-\author{First Author\inst{1}\orcidID{0000-1111-2222-3333} \and
-Second Author\inst{2,3}\orcidID{1111-2222-3333-4444} \and
-Third Author\inst{3}\orcidID{2222--3333-4444-5555}}
+\author{First Author\inst{1} \and
+Second Author\inst{1} \and
+Third Author\inst{1}}
 
 
 %
