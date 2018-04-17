@@ -69,8 +69,21 @@ Horn rule learning systems mine rules in form $H \leftarrow B$, where $B$ contai
 exceptions, and might thus deduce incorrect facts \cite{rumis}. For instance, rule $r_1 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z)$ might not hold if $Y$ is a researcher. Non-monotonic rule learning approaches \cite{gad2016,rumis} fix this issue by allowing negated atoms to appear in the body of the rules: $H \leftarrow B, \naf E$. Here, $\naf$ is the so-called \textit{negation as failure (NAF)} or \textit{default negation}. Rule $r_2$ could be extended from $r_1$ as follows:
 \[r_2 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf researcher(Y)\]
 Most non-monotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art non-monotonic rule learning system which is recently proposed.
-\subsubsection{RUMIS.} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then find the single best exception for each Horn rule $r \in \cR_N$ to obtain a revised set of non-monotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. The overview of how RUMIS revises the ruleset $\cR_H$ is as follows:
+\subsubsection{RUMIS.} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then find the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of non-monotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. The overview of how RUMIS revises the ruleset $\cR_H$ is as follows:
 \begin{enumerate}
-\item 
+\item First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, we find the normal substitutions and abnormal substitutions as follows:
+\begin{itemize}
+\item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$ is the set of normal substitutions, and
+\item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$ is the set of abnormal substitutions,
+where $\theta: \mathcal{V} \rightarrow \cC$.
+\end{itemize}
+Informally, the normal and abnormal substitutions stand for the substitutions of variables $\mathcal{V}$ such that the rule $r$ holds (both the head and the body hold) and does not hold (only the body holds) in $\cG$.
+
+\item Second, let $\mathcal{X} \subseteq \mathcal{V}$ compute the Exception Witness Set (EWS), which is a maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ s.t.:
+\begin{itemize}
+\item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
+\item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
+\end{itemize}
+Intuitively, $\mathcal{X}$ is set contains of either 1 or 2 variables\thi{end here} the first condition ensure that applying
 \end{enumerate}
 \leanparagraph{CARL}
