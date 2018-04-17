@@ -1,23 +1,24 @@
 \section{Reasoning over Knowledge Graphs (1.5 pages)}
 \label{sec:reasoning}
 
-\leanparagraph{Rules}
+\leanparagraph{Logic Programs} Logical rules have been introduced and used in the context of declarative programming. A set of rules are called logical program. There are several types of logical programs (as explained in~\cite{DBLP:books/sp/Lloyd87}), in this tutorial, we are interested in \textit{Horn} and \textit{Nonmonotonic} Logic Programs.
 
-\leanparagraph{Nonmonotonic Logic Programs} \gad{Todo: fix to binary and to fit our purpose}
-We define a logic program in the usual way~\cite{DBLP:books/sp/Lloyd87}. 
-In short, a \emph{(nonmonotonic) logic program} $P$ is a set of \emph{rules} of the form
+%We define a logic programs similar to~\cite{DBLP:books/sp/Lloyd87}. 
+Similar to ~\cite{DBLP:books/sp/Lloyd87}, we define a \emph{(nonmonotonic) logic program} $P$ is a set of \emph{rules} of the form
 \begin{equation}
 H\leftarrow B, \naf\ E
 \end{equation}
- where $H$ is a standard first-order atom of the form $a(\vec{X})$ known as the rule head and denoted as $\mi{Head(r)}$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$  to which we refer as $\mi{Body^+}(r)$, and $\naf\ E$, with slight abuse of notation, denotes the conjunction of atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Here, $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}. The negated part of the body is denoted as $\mi{Body^-}(r)$.  The rule $r$ is \emph{positive} or
-\emph{Horn} if $\mi{Body^-}(r)=\emptyset$.
- $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either constants or
-variables whose length corresponds to the arity of the predicates
-$a,b_1,\ldots,b_n$ respectively. The signature of $P$ is given as $\Sigma_{\mi{P}}=\tuple{\mathbf{P},\cC}$, where $\mathbf{P}$ and $\cC$ are resp. sets of predicates and constants occurring in $P$.
+ where $H$ is a standard first-order atom of the form $a(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $\naf\ E$ %with slight abuse of notation, 
+ denotes the conjunction of atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$ such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. Note that, $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either constants or variables whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
+% such that $\vec{X}$, $Y_i$  are vectors of variables and constants with lengths $n$ and $m_i$ respectively. 
+ 
+$H$ is also known as the rule head and denoted as $\mi{Head(r)}$, $B$ as the positive part of the rule body $\mi{Body^+}(r)$; while, the negated part of the body $ \naf E$ is denoted as $\mi{Body^-}(r)$. Hence, a rule $r$ is \emph{positive} or
+\emph{Horn} if $\mi{Body^-}(r)=\emptyset$. For program $P$ to be a \textit{Horn logic program}, every $r \in P$ should be \emph{positive} or \emph{Horn}. 
+  The signature of $P$ is given as $\Sigma_{\mi{P}}=\tuple{\mathbf{P},\cC}$, where $\mathbf{P}$ and $\cC$ are respectively sets of predicates and constants occurring in $P$. 
 
-
-A logic program $P$ is \emph{ground} if it consists of only ground rules, i.e. rules without
-variables. Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. The \emph{Herbrand universe}  $\mi{HU(P)}$ (resp. \emph{Herbrand base} $\mi{HB(P)}$) of $\mi{P}$, is the set of all constants occurring in $\mi{P}$, i.e.  $\mi{HU(P)}=\cC$ (resp.
+\gad{ would that be required?}
+\leanparagraph{Ground Program} A logic program $P$ is \emph{ground} if it consists of only ground rules, i.e. rules without
+variables. Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. The \emph{Herbrand universe}  $\mi{HU(P)}$ (respectively \emph{Herbrand base} $\mi{HB(P)}$) of $\mi{P}$, is the set of all constants occurring in $\mi{P}$, i.e.  $\mi{HU(P)}=\cC$ (resp.
 the set of all possible ground atoms that can be formed with predicates in $\mathbf{P}$
 and constants in $\cC$). We refer to any subset of $\mi{HB(P)}$ as a \emph{Herbrand interpretation}. By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
 
@@ -43,7 +44,6 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X$ with $\m
 \normalsize
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning from incomplete information.
 
-\leanparagraph{Types of Rules}
 
-\leanparagraph{Applying rules on KGs}
+\leanparagraph{Rule-based tasks over KGs}
 
