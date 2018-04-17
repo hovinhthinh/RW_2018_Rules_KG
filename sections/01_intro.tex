@@ -4,7 +4,7 @@
 
 \leanparagraph{Motivation}
 Recent advances in information extraction have led to
-huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples. 
+huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples, e.g., $\tuple{\mi{clara\;isMarriedTo\;dave}}$ or $\tuple{\mi{dave\;isA\;researcher}}$. 
 
 An important task over KGs is rule learning, which is relevant for a variety of applications ranging from knowledge graph curation (completion, error detection) \cite{DBLP:journals/semweb/Paulheim17} to data mining and semantic culturonomics. 
 Traditionally, rule extraction has been studied in the context of relational data mining (see e.g., \cite{amie,op,rdf2rules}). These methods can be used to identify prominent patterns, such as \emph{``Married people live in the same
@@ -18,17 +18,21 @@ $\mi{r_1}$ mined from the graph in Fig.~\ref{rdf}, the missing living place of D
 that $\mi{livesIn}$ is a functional relation, Amsterdam as a living place of
 Alice could be questioned as it differs from her husband's.
 
-Horn rules, where all predicates in the rule body are positive are insufficiently expressive % .
+The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interalation and applications for reasoning over KGs. 
+
+Learning Horn rules, where all predicates in the rule body are positive might not always be sufficiently expressive % .
 % This is insufficient
-to capture rules that have exceptions, such as
+to capture KG patterns accurately. For example, rules with exceptions such as
 \emph{``Married people live in the same place unless one is a
   researcher''}:\\ $\mi{r_2{:}livesIn(Y,Z){\leftarrow}
-  isMarriedTo(X,Y){,}livesIn(X,Z){,}{\naf\,} researcher(Y)}$. This additional knowledge could be an explanation for Alice living in an unexpected place. If $\mi{r_2}$ often holds, then
+  isMarriedTo(X,Y){,}livesIn(X,Z){,}{\naf\,} researcher(Y)}$ cannot be handled by Horn rules. The additional 
+knowledge could be an explanation for Alice living in an unexpected place. If $\mi{r_2}$ often holds, then
 one can no longer complete the missing living place for Dave by assuming
-that he lives with his wife Clara.  Thus, understanding exceptions is crucial for KG completion and curation \cite{DBLP:conf/semweb/Gad-ElrabSUW16,rumis}.
+that he lives with his wife Clara.  Understanding exceptions is crucial for KG completion and curation, and it has been therefore studied in several recent works \cite{DBLP:conf/semweb/Gad-ElrabSUW16,rumis}.
 
-Moreover, since rules are learned from incomplete KGs, they might be themselves erroneous and might make incorrect predictions on missing facts. 
- E.g., $\mi{r_3}: \mathit{hasChild(X,Y)}\leftarrow \mathit{worksAt}(X,Z),\mathit{educatedAt}(Y,Z)$ could be mined from a highly incomplete and biased KG stating that workers of certain institutions often have children among the people educated there, 
+Particularly challenging property of KGs for extraction of meaningful rules is their incompleteness and strong data bias. 
+Indeed, rules learned from incomplete KGs might be erroneous and might make incorrect predictions on missing facts. 
+For example, $\mi{r_3}: \mathit{hasChild(X,Y)}\leftarrow \mathit{worksAt}(X,Z),\mathit{educatedAt}(Y,Z)$ could be mined from a highly incomplete and biased KG stating that workers of certain institutions often have children among the people educated there, 
 as this is frequently the case for popular scientists.
 
 Recently, efforts have been put into detecting the concrete numbers of 
@@ -36,7 +40,7 @@ facts of certain types that hold in the real world
 (e.g., \emph{``Einstein has 3 children''}) by exploiting Web extraction and crowd-sourcing methods~\cite{cardinality-extraction-iswc-2016,cool-wd}. Such 
 meta-data provides a lot of hints about the topology of KGs, and reveals 
 parts that should be especially targeted by rule learning methods.
-This additional knowledge can effectively exploited in the rule learning process as shown in \cite{carl}.
+This additional knowledge can be effectively exploited in the rule learning process as shown in \cite{carl}.
 
 \leanparagraph{Overview}
 
