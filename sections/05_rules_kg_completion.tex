@@ -58,9 +58,9 @@ where $U$ is the set of entities that previously have no relations of $p$, but h
 
 About the mining algorithm, while AMIE mines one rule at a time, RDF2Rules parallelizes this process by first extracting Frequent Predicate Cycles (FPCs) of length $k$:
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ..., p_k^{d_k}, x_1)\]
-where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i \in \{0,1\}$s state the direction of these predicates. Then, rules are extracted from the FPC by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
-\[r_j: \underset{i \in [1,k], i \ne j}{\mathlarger{\mathlarger{\mathlarger{\wedge}}}} \tuple{x_i,p_i^{d_i},x_{i+1}} \Rightarrow \tuple{x_j,p_j^{d_j},x_{j+1}}\]
-These generated rules are without \textit{type} information. To generate rules with \textit{type}, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rules it can extract are restricted, since the algorithm relies on the FPCs.
+where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. Then, rules are extracted from the FPC by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
+\[r_j: \tuple{x_j,p_j^{d_j},x_{j+1}} \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} \tuple{x_i,p_i^{d_i},x_{i+1}} \]
+These generated rules are without \textit{type} information. To generate rules with \textit{type}, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can extract are restricted, since the rules extraction relies on the FPCs.
 
 \subsubsection{OP (Ontological Pathfinding).}
 \thi{todo}
@@ -68,22 +68,25 @@ These generated rules are without \textit{type} information. To generate rules w
 Horn rule learning systems mine rules in form $H \leftarrow B$, where $B$ contains only positive atoms. This type of rules might be insufficiently expressive to capture
 exceptions, and might thus deduce incorrect facts \cite{rumis}. For instance, rule $r_1 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z)$ might not hold if $Y$ is a researcher. Non-monotonic rule learning approaches \cite{gad2016,rumis} fix this issue by allowing negated atoms to appear in the body of the rules: $H \leftarrow B, \naf E$. Here, $\naf$ is the so-called \textit{negation as failure (NAF)} or \textit{default negation}. Rule $r_2$ could be extended from $r_1$ as follows:
 \[r_2 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf researcher(Y)\]
-Most non-monotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art non-monotonic rule learning system which is recently proposed.
-\subsubsection{RUMIS.} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then find the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of non-monotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. The overview of how RUMIS revises the ruleset $\cR_H$ is as follows:
+Most non-monotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art non-monotonic rule learning system proposed recently.
+\subsubsection{RUMIS.} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of non-monotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
 \begin{enumerate}
-\item First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, we find the normal substitutions and abnormal substitutions as follows:
+\item First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, the normal substitutions and abnormal substitutions are extracted as follows:
 \begin{itemize}
 \item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$ is the set of normal substitutions, and
-\item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$ is the set of abnormal substitutions,
+\item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$ is the set of abnormal substitutions\\
 where $\theta: \mathcal{V} \rightarrow \cC$.
 \end{itemize}
-Informally, the normal and abnormal substitutions stand for the substitutions of variables $\mathcal{V}$ such that the rule $r$ holds (both the head and the body hold) and does not hold (only the body holds) in $\cG$.
+Informally, the normal and abnormal substitutions stand for the substitutions of variables $\mathcal{V}$ with the entities such that the rule $r$ holds (both the head and the body hold) and does not hold (only the body holds) in $\cG$, correspondingly.
 
 \item Second, let $\mathcal{X} \subseteq \mathcal{V}$ compute the Exception Witness Set (EWS), which is a maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ s.t.:
 \begin{itemize}
 \item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
 \item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
 \end{itemize}
-Intuitively, $\mathcal{X}$ is set contains of either 1 or 2 variables\thi{end here} the first condition ensure that applying
+Intuitively, $\mathcal{X}$ is set contains of either 1 or 2 variables corresponds to the usage of unary or binary exception. While the first condition ensures that the exception does affects the abnormal substitutions of the rule, the second condition ensures that it does not affect the rule's normal substitutions part. In other words, $EWS(r,\cG,\mathcal{X})$ contains all possible exceptions to be added to $r$ at variables of $\mathcal{X}$, such that the addition of the exception should result in the rule $r'$, satisfying $b-supp(r', \cG) < b-supp(r, \cG)$and $r-supp(r', \cG) = r-supp(r, \cG)$. Intuitively, the application of exception must lead to the decrease of body support, but not lead to the decrease of
+the rule support, i.e., exceptions should explain the absence of predictions expected to be in the graph rather then their presence.
+Combining all possible exceptions at different variables of rule we have:
+\[EWS(r,\cG) = \bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\]
 \end{enumerate}
 \leanparagraph{CARL}
