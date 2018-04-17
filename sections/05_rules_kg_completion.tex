@@ -2,12 +2,12 @@
 \label{sec:rules_kg_completion}
 %!TEX root = ../main.tex
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
-association rule learning systems such as \cite{DBLP:conf/esf/GoethalsB02,amie} induce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,Chen:2016:OP:2882903.2882954, rumis}.
+association rule learning systems such as \cite{DBLP:conf/esf/GoethalsB02,amie} induce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
 In this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. We classify them into two main categories: Horn rules learning and Non-monotonic rules learning systems.
 \subsection{Horn rule learning}
-Horn rule learning systems focus on mining rules consisting of only positive atoms. Most of these systems only extract rules that are \emph{closed}, where every variable appears at least twice. Some examples of such mining systems are AMIE \cite{}, OP, \cite{} and RDF2Rules \cite{}.
+Horn rule learning systems focus on mining rules consisting of only positive atoms. Most of these systems only extract rules that are \emph{closed}, where every variable appears at least twice. Some examples of such mining systems are AMIE \cite{amie}, OP, \cite{op} and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE}
-AMIE \cite{} is a state-of-the-art positive rule mining systems in the context of OWA. Apart from the algorithm being used to construct the rules, AMIE also introduce a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch.
+AMIE \cite{amie} is a state-of-the-art positive rule mining systems in the context of OWA. Apart from the algorithm being used to construct the rules, AMIE also introduce a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch.
 \thi{PCA confidence formular here}.
 PCA confidence is then exploited by AMIE to mine positive rules using its introduced algorithm. In AMIE, rule is treated as a sequence of atoms, where the first atom is the head of the rule, and other atoms are the body of the rule. Mining operators are introduced to extend the sequences of atoms to explore the rules' search space as follows:
 \begin{enumerate}
@@ -48,20 +48,20 @@ Execute in parallel:\\
 \caption{AMIE's mining algorithm.}
 \label{algor:amie}
 \end{algorithm}
-Algorithm \ref{algor:mining} presents AMIE's algorithm in applying mining operators to extract rules from KGs. The algorithm maintain a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
-Checking for outputting is the process of collecting rules' statistics including: support, PCA confidence, head coverage \cite{}, and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and language bias. In particular, firstly, adding an atom into the rule must increase its PCA confidence. Secondly, the number of atoms of the rule does not exceed some threshold.
+Algorithm \ref{algor:amie} presents AMIE's algorithm in applying mining operators to extract rules from KGs. The algorithm maintain a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
+Checking for outputting is the process of collecting rules' statistics including: support, PCA confidence, head coverage, and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and language bias. In particular, firstly, adding an atom into the rule must increase its PCA confidence. Secondly, the number of atoms of the rule does not exceed some threshold.
 
-To computing rule's statistics, we must find all instances of rule's variable in the KG. Several options have been proposed by AMIE: either using SQL, SPARQL \cite{} or using an In-Memory Database.
+To computing rule's statistics, we must find all instances of rule's variable in the KG. Several options have been proposed by AMIE: either using SQL, SPARQL \cite{amie} or using an In-Memory Database.
 
 \subsubsection{RDF2Rules}
 Most of state-of-the-art positive rule mining systems are different from each other at the rule metric that they introduce to measure rule's quality and how to exploit this measure in learning rule.
-Unlike AMIE, which does not work with $type$ relation, RDF2Rules \cite{} can work with $type$ and use these $type$ information to  introduce a new rule metric called soft confidence.
+Unlike AMIE, which does not work with $type$ relation, RDF2Rules \cite{rdf2rules} can work with $type$ and use these $type$ information to  introduce a new rule metric called \textit{soft confidence}.
 \[conf_{st}(R_{body} \Rightarrow \tuple{x,p,y}) = \frac{sup(R_{body} \Rightarrow \tuple{x,p,y})}{R_{body} - \sum_{e \in U}P(e,p)} \]
-where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity type information. \cite{}\thi{should I describe P(e,p) here?}.
+where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity type information. \cite{rdf2rules}\thi{should I describe P(e,p) here?}.
 
 About the mining algorithm, while AMIE mine 1 rule at a time, RDF2Rules parallelizes this process by first extracting Frequent Predicate Cycles (FPCs):
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ..., p_k^{d_k}, x_1)\]
-where, ${x_i}$ are variables to be appeared in the rules, ${p_i}$ are predicates between these variables, and ${d_i \in {0,1}}$ state the direction of these predicates. Then, rules are extracted from the predicate cycle by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
+where, ${x_i}$ are variables to be appeared in the rules, $\{p_i\}$ are predicates between these variables, and ${d_i \in {0,1}}$ state the direction of these predicates. Then, rules are extracted from the predicate cycle by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
 \[r_j: \underset{i \in [1,k], i \ne j}{\mathlarger{\mathlarger{\mathlarger{\wedge}}}} \tuple{x_i,p_i^{d_i},x_{i+1}} \Rightarrow \tuple{x_j,p_j^{d_j},x_{j+1}}\]
 These generated rules are without type information. To generate rules with type, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule.
 
