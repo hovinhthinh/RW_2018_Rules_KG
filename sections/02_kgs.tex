@@ -20,6 +20,6 @@ $\tuple{interstellar, wonPrize, visual\_effects\_oscar}$.
 \leanparagraph{Construction} KGs are constructed either manually via crowd-sourcing as for \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}, or automatically extracted from semi-structured resources such as Wikipedia, like  YAGO~\cite{yago} and DBpedia~\cite{dbpedia}, or from unstructured resources resulting in KGs such as  NELL~\cite{NELL-aaai15}, KnowledgeVault~\cite{KnowledgeVault}. Table~\ref{tab:kgs}, shows examples for several available KGs (extended discussions can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}).
 
 
-\leanparagraph{KGs quality}
+\leanparagraph{KGs quality} Both manually and automatically KGs are still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing entities and their relationships. (ii) they are \textit{inaccurate} due to the extraction errors and the heuristic methods applied while construction as well.  
 
-\leanparagraph{Closed World vs. Open World assumptions}
+\leanparagraph{Closed World vs. Open World assumptions} Existing KGs consists of positive facts only (\ie true relations). There are two paradigms to interpret the missing fact: (i) under closed world assumption (CWA), in which missing relations (\ie edges) indicates false relationship. For example, \gad{to be added according to the global example}. (ii) under open world assumption (OWA), such that non-existing relations are interpreted as unknown and can be either true or false. Given the \textit{incompleteness} and \textit{inaccuracy} of the existing real life KGs, they are usually interpreted under OWA~\cite{Nickel2015ARO}. 
