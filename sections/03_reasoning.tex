@@ -12,7 +12,7 @@ H\leftarrow B, \naf\ E
  denotes the conjunction of atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$ such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. Note that, $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either constants or variables whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
 % such that $\vec{X}$, $Y_i$  are vectors of variables and constants with lengths $n$ and $m_i$ respectively. 
  
-$H$ is also known as the rule head and denoted as $\mi{Head(r)}$, $B$ as the positive part of the rule body $\mi{Body^+}(r)$; while, the negated part of the body $ \naf E$ is denoted as $\mi{Body^-}(r)$. Hence, a rule $r$ is \emph{positive} or
+$H$ is also known as the rule head and denoted as $\mi{Head(r)}$, $B$ as the positive part of the rule body $\mi{Body^+}(r)$; while, the negated part of the body ($\naf E$) is denoted as $\mi{Body^-}(r)$. Hence, a rule $r$ is called \emph{positive} or
 \emph{Horn} if $\mi{Body^-}(r)=\emptyset$. For program $P$ to be a \textit{Horn logic program}, every $r \in P$ should be \emph{positive} or \emph{Horn}. 
   The signature of $P$ is given as $\Sigma_{\mi{P}}=\tuple{\mathbf{P},\cC}$, where $\mathbf{P}$ and $\cC$ are respectively sets of predicates and constants occurring in $P$. 
 
@@ -45,5 +45,5 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X$ with $\m
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning from incomplete information.
 
 
-\leanparagraph{Rule-based tasks over KGs}
+\leanparagraph{Rule-based tasks over KGs} Logical programs are used for KGs refinement. It has two main tasks that solves the shortcomings of existing KGs, namely, inaccuracy and incompleteness, through \textit{erroneous fact cleaning} and \textit{fact prediction} tasks respectively.
 
