@@ -11,24 +11,21 @@ Traditionally, rule extraction has been studied in the context of relational dat
 place''}, and cast them in the form of Horn rules, such as:
 $\mi{r_1:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{isMarriedTo(X,Y),livesIn(X,Z)}$.
 
-For the KG curaction, this has twofold benefits. First, since KGs operate under the Open World
+For the KG curation, this has twofold benefits. First, since KGs operate under the Open World
 Assumption (OWA) (i.e., absent facts are treated as unknown rather than false),
 the rules can be used to derive additional facts. For example, applying the rule
-$\mi{r_1}$ mined from the graph in Fig.~\ref{rdf}, the missing living place of Dave can be deduced based on the data about his wife Clara. Second, rules can be used to eliminate erroneous facts in the KG. For example, assuming
+$\mi{r_1}$ mined from the graph in Figure~\ref{rdf}, the missing living place of Dave can be deduced based on the data about his wife Clara. Second, rules can be used to eliminate erroneous facts in the KG. For example, assuming
 that $\mi{livesIn}$ is a functional relation, Amsterdam as a living place of
 Alice could be questioned as it differs from her husband's.
 
-The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interalation and applications for reasoning over KGs. 
-
-Learning Horn rules, where all predicates in the rule body are positive might not always be sufficiently expressive % .
+Horn rules such as $r_1$, where all predicates in the rule body are positive,  might not always be sufficiently expressive % .
 % This is insufficient
-to capture KG patterns accurately. For example, rules with exceptions such as
-\emph{``Married people live in the same place unless one is a
-  researcher''}:\\ $\mi{r_2{:}livesIn(Y,Z){\leftarrow}
-  isMarriedTo(X,Y){,}livesIn(X,Z){,}{\naf\,} researcher(Y)}$ cannot be handled by Horn rules. The additional 
-knowledge could be an explanation for Alice living in an unexpected place. If $\mi{r_2}$ often holds, then
-one can no longer complete the missing living place for Dave by assuming
-that he lives with his wife Clara.  Understanding exceptions is crucial for KG completion and curation, and it has been therefore studied in several recent works \cite{DBLP:conf/semweb/Gad-ElrabSUW16,rumis}.
+to capture KG patterns accurately. Indeed, Horn rules cannot handle exceptions, which often appear in practical applications, and thus such rules might make incorrect predictions on missing facts.
+For example, consider a more accurae version of $\mi{r_1}$ given as \\$\mi{r_2{:}livesIn(Y,Z){\leftarrow}
+  isMarriedTo(X,Y){,}livesIn(X,Z){,}{\naf\,} researcher(Y)}$, which \\states that \emph{``Married people live in the same place unless one is a
+  researcher''}. The additional knowledge that Alice is a researcher could be actually an explanation for her living in an unexpected place. If $\mi{r_2}$ often holds, then
+one can no longer complete the missing living place for Dave by assuming that he lives with his wife Clara. 
+Understanding exceptions is crucial for KG completion and curation, and it has been therefore studied in several recent works \cite{DBLP:conf/semweb/Gad-ElrabSUW16,rumis}.
 
 Particularly challenging property of KGs for extraction of meaningful rules is their incompleteness and strong data bias. 
 Indeed, rules learned from incomplete KGs might be erroneous and might make incorrect predictions on missing facts. 
@@ -41,6 +38,10 @@ facts of certain types that hold in the real world
 meta-data provides a lot of hints about the topology of KGs, and reveals 
 parts that should be especially targeted by rule learning methods.
 This additional knowledge can be effectively exploited in the rule learning process as shown in \cite{carl}.
+
+
+
+The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interalation and applications for KGs. 
 
 \leanparagraph{Overview}
 
