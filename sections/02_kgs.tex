@@ -1,14 +1,20 @@
 \section{Knowledge Graphs(1.5 pages)}
 \label{sec:kgs}
-Knowledge Graphs (KGs) are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them. KGs were introduced in the Semantic Web community to create the "web of data" which is readable by machines. This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}. Under this representation entities in the KG are usually encoded as the nodes of the graph and the relations as a directed edges between them~\cite{Nickel2015ARO}. In literature, a simplified representation of KGs as sets of triples in the form of$\tuple{subject, predicate,object}$ (SPO triples, for short) is used. Alternatively, they can also be represented as binary predicate $p(s,o)$, where $subject$ and $object$ are the arguments. 
 
-\begin{example}
-The statement \textit{``Christopher Nolan is the director of the science fiction movie Interstellar, which won the Best Visual Effects Oscar"} will be represented in several SPO triples:\\
-$\tuple{chris\_nolan, isA, director}$,\\
-$\tuple{chris\_nolan, directed, interstellar}$,\\
-$\tuple{interstellar, gerne, science\_fiction}$, and \\
-$\tuple{interstellar, wonPrize, visual\_effects\_oscar}$.
+\subsection{Graph-based Representation}
+Knowledge Graphs (KGs) are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them. KGs were introduced in the Semantic Web community to create the ``web of data" which is readable by machines. This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}. Under this representation the entities are encoded as the nodes of the graph and the relations as directed edges between them~\cite{Nickel2015ARO}. In many literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate,object}$ (SPO triples, for short). Alternatively, %they can also be represented as binary predicate $p(s,o)$, where the subject $s$ and the object $o$ are its the arguments. 
+%Formally, 
+others adopt a factual representation for which a KG $\cG$ is defined over the signature $\sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates and $\cC$  are the set of constants appearing in $\cG$.  A single fact in $\cG$ is repented as $p(s,o)$ where $p \in \cR$ and $s,o \in \cC$. \gad{could you please check this?}
+
+\begin{example} Figure~\ref{rdf} shows a snippet of a graph containing some people and there relations between them and their living places as well. For instance, the upper part encodes the statement `` Ann lives with her husband Brad in Berlin, while her brother John lives in Chicago with his wife Kate'', which would also represented as the set \\$\{ \mi{isMarriedTo(brad, ann)}$,  $\mi{livesIn(brad, berlin)}$, $\mi{livesIn(ann, berlin)}$,\\ $\mi{hasBrother(ann, john)}$,\\ $\mi{isMarriedTo(john, kate)}$, $\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$ \qed
 \end{example}
+%\begin{example}
+%The statement \textit{``Christopher Nolan is the director of the science fiction movie Interstellar, which won the Best Visual Effects Oscar"} will be represented in several SPO triples:\\
+%$\tuple{chris\_nolan, isA, director}$,\\
+%$\tuple{chris\_nolan, directed, interstellar}$,\\
+%$\tuple{interstellar, gerne, science\_fiction}$, and \\
+%$\tuple{interstellar, wonPrize, visual\_effects\_oscar}$.
+%\end{example}
 
 
 
@@ -17,9 +23,12 @@ $\tuple{interstellar, wonPrize, visual\_effects\_oscar}$.
 %about people, organizations, places, etc. Predicates encodes the relations between them, \eg $\tuple{einstein, wasBornIn, Ulm}$. KGs can also be represented similar to formal logic syntax as binary predicate $p(s,o)$, where $subject$ and $object$ are the arguments. KGs can be seen as instantiations for some ontological schema.  
 %\leanparagraph{Definition}
 
-\leanparagraph{Construction} KGs are constructed either manually via crowd-sourcing as for \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}, or automatically extracted from semi-structured resources such as Wikipedia, like  YAGO~\cite{yago} and DBpedia~\cite{dbpedia}, or from unstructured resources resulting in KGs such as  NELL~\cite{nell}, KnowledgeVault~\cite{KnowledgeVault}. Table~\ref{tab:kgs}, shows examples for several available KGs (extended discussions can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}).
+\subsection{Knowledge Graphs Construction and Quality}
+KGs are constructed either manually via crowd-sourcing as for \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}, or automatically extracted from semi-structured resources such as Wikipedia, like  YAGO~\cite{yago} and DBpedia~\cite{dbpedia}, or from unstructured resources resulting in KGs such as  NELL~\cite{nell}, KnowledgeVault~\cite{KnowledgeVault}. Table~\ref{tab:kgs}, shows examples for several available KGs (extended discussions can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}).
 
 
-\leanparagraph{KGs quality} Both manually and automatically KGs are still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing entities and their relationships. (ii) they are \textit{inaccurate} due to the extraction errors and the heuristic methods applied while construction as well.  
+Both manually and automatically KGs are still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing entities and their relationships. (ii) they are \textit{inaccurate} due to the extraction errors and the heuristic methods applied while construction as well.  
+
+
 
 \leanparagraph{Closed World vs. Open World assumptions} Existing KGs consists of positive facts only (\ie true relations). There are two paradigms to interpret the missing fact: (i) under closed world assumption (CWA), in which missing relations (\ie edges) indicates false relationship. For example, \gad{to be added according to the global example}. (ii) under open world assumption (OWA), such that non-existing relations are interpreted as unknown and can be either true or false. Given the \textit{incompleteness} and \textit{inaccuracy} of the existing real life KGs, they are usually interpreted under OWA~\cite{Nickel2015ARO}. 
