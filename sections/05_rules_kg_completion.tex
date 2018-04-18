@@ -95,7 +95,7 @@ Combining all possible exceptions at different variables of rule we have:
 \item \textbf{Naive (N)}: is the simplest scoring function, which choosing the exception with the highest value of some standard rule measure $rm$. RUMIS system uses conviction as the rule measure $rm$.
 \item \textbf{PM}: invoke the novel concept of \textit{partial materialization}. The idea behind it is to rank candidate exceptions not based on $\cG$ as in Naive, but rather on its
 extension with predictions produced by other rules in $\cR_H$, thus ensuring a crosstalk between the rules.
-\item \textbf{OPM}: stands for \textit{ordered partial materialization}. This exception scoring function is similar to \textbf{PM}, but also takes into account the order of rules $\cR_{NM}$, which is defined based on some rule measure (e.g. \textit{r-supp} in RUMIS).
+\item \textbf{OPM}: stands for \textit{ordered partial materialization}. This exception scoring function is similar to \textbf{PM}, but also takes into account the order of rules in $\cR_{H}$, which is defined based on some rule measure (e.g. \textit{r-supp} in RUMIS).
 
 \thi {Should I describe the 3 ranking measures in more detail?}
 \end{itemize}
