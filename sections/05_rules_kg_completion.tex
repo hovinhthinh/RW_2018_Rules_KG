@@ -1,10 +1,11 @@
 \section{Learning Rules for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
+\subsection{Learning Task}
 %!TEX root = ../main.tex
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
 In this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. We classify them into two main categories: Horn rules learning and Non-monotonic rules learning systems.
-\subsection{Horn Rule Learning}
+\subsection{Rule construction algorithm}
 Horn rule learning systems focus on mining rules consisting of only positive atoms. Most of these systems only extract rules that are \emph{closed}, where every variable appears at least twice. Some examples of such mining systems are AMIE \cite{amie}, OP, \cite{op} and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE}
 AMIE \cite{amie} is a state-of-the-art positive rule mining system in the context of OWA. Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $\tuple{s,p,o} \in \cG$, the assumption states that:
@@ -65,8 +66,8 @@ These generated rules are without \textit{type} information. To generate rules w
 \subsubsection{OP (Ontological Pathfinding)}
 \thi{todo}
 
-\subsection{Completeness-awareness in Rule Learning}
-
+\subsection{Measuring quality of rules}
+\thi{Completeness-awareness in Rule Learning HERE}
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
 from outside of the KG about potential existence of certain types of facts was exploited.
 However, this knowledge is obviously useful, and furthermore, it is even available on the Web
