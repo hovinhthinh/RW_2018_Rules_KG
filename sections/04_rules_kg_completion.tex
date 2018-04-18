@@ -69,9 +69,11 @@ where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates b
 \[r_j: p_j^{d_j}(x_j,x_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
 These generated rules are without \textit{type} information. To generate rules with \textit{type}, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can extract are restricted, since the rules extraction relies on the FPCs.
 
-\subsubsection{OP (Ontological Pathfinding)}
-\thi{todo}
+\subsubsection{OP (Ontological Pathfinding)} 
+Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG. Most of state-of-the-art rule mining systems parallelize only construction of the rules, while the quality of the rules are determined with a single thread.
+Web-scale knowledge bases such as YAGO or Freebase might contain hundreds million of entities and billions of facts between them, Hence, it is impossible to store these KGs in a single machine. As a result, these rule mining systems either cannot scale to this size to determine the rules' quality, or they have to assign this task to some third-party system such as SQL, SPARQL \cite{amie}, which might be inefficient.
 
+The focus of the novel rule-mining algorithm OP\cite{op} is not at how to find the candidate rules in the knowledge graph, but rather at how to examine their quality. The rules construction in Ontological Pathfinding (OP) algorithm relies on relational pathfinding\cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including partitioning, joining and pruning strategies. 
 \subsection{Other measures for quality of rules}
 \thi{Completeness-awareness in Rule Learning HERE}
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
@@ -413,7 +415,7 @@ The constructed rules are then applied to the facts in $\cS$ to obtain an extend
 %This process materialize fully all "interesting" predicated: it is only interesting to consider $p_{\leq 0}$ and the predicates $p_{\leq k+1}$ such that $\{ x \mid p_{\leq k+1}(x) \} \neq \{ x \mid p_{\leq k}(x) \}$ because, if not, then $\{ x \mid p_{\leq k+1}(x) \} = \{ x \mid p_{\leq k}(x) \}$ and, so, does not brings any new information (as we obviously have $\{ x \mid p_{\leq k+1}(x) \} \subseteq \{ x \mid p_{\leq k}(x) \}$). The same idea holds for $(p_{\geq k})_{k \in \mathbb{N}}$.\tptcomment{Previous sentences updated}
 %We denote the set of all such additional facts as $\cG^{\mi{card}}$.
 
-\leanparagraph{Step 2} We then use such a standard rule learning system, AMIE \cite{amieplus}, on $\cG^a \cup \cG^{\mi{card}}$ to mine rules like:
+\leanparagraph{Step 2} We then use such a standard rule learning system, AMIE \cite{amie}, on $\cG^a \cup \cG^{\mi{card}}$ to mine rules like:
  
 \vspace{-\topsep}
 \small{
