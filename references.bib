@@ -1,3 +1,7 @@
+
+%%%%%%%%%%%% Knowledge Graphs %%%%%%%%%%%%
+
+
 @misc{freebase,
   title = {Freebase: an open, shared database of the world's knowledge},
   howpublished = {\url{http://www.freebase.com/}}
@@ -38,30 +42,6 @@ Author = {T. Mitchell and W. Cohen and E. Hruschka and P. Talukdar and J. Better
 Booktitle = {AAAI}, 
 Year = {2015}}
 
-@electronic{rdf2004,
-  added-at = {2015-04-22T11:25:59.000+0200},
-  author = {Klyne, Graham and Carroll, Jeremy J.},
-  biburl = {https://www.bibsonomy.org/bibtex/2003493a3d6b8eb635f78ae36f53f54ac/asalber},
-  howpublished = {W3C Recommendation},
-  interhash = {4ec789f7af499569daace4f3ae925cec},
-  intrahash = {003493a3d6b8eb635f78ae36f53f54ac},
-  keywords = {ontologies rdf semantic-web},
-  organization = {W3C},
-  timestamp = {2015-05-29T13:34:17.000+0200},
-  title = {Resource Description Framework (RDF): Concepts and Abstract Syntax},
-  url = {http://www.w3.org/TR/2004/REC-rdf-concepts-20040210/},
-  urldate = {2015-03-15},
-  year = 2004
-}
-
-@article{Nickel2015ARO,
-  title={A Review of Relational Machine Learning for Knowledge Graphs: From Multi-Relational Link Prediction to Automated Knowledge Graph Construction},
-  author={Maximilian Nickel and Kevin Murphy and Volker Tresp and Evgeniy Gabrilovich},
-  journal={CoRR},
-  year={2015},
-  volume={abs/1503.00759}
-}
-
 @inproceedings{KnowledgeVault,
  author = {Dong, Xin and Gabrilovich, Evgeniy and Heitz, Geremy and Horn, Wilko and Lao, Ni and Murphy, Kevin and Strohmann, Thomas and Sun, Shaohua and Zhang, Wei},
  title = {Knowledge Vault: A Web-scale Approach to Probabilistic Knowledge Fusion},
@@ -80,6 +60,39 @@ Year = {2015}}
  keywords = {information extraction, knowledge bases, machine learning, probabilistic models}
 } 
 
+
+
+%%%%%%%%%%%% RDF standard %%%%%%%%%%%%
+
+@electronic{rdf2004,
+  added-at = {2015-04-22T11:25:59.000+0200},
+  author = {Klyne, Graham and Carroll, Jeremy J.},
+  biburl = {https://www.bibsonomy.org/bibtex/2003493a3d6b8eb635f78ae36f53f54ac/asalber},
+  howpublished = {W3C Recommendation},
+  interhash = {4ec789f7af499569daace4f3ae925cec},
+  intrahash = {003493a3d6b8eb635f78ae36f53f54ac},
+  keywords = {ontologies rdf semantic-web},
+  organization = {W3C},
+  timestamp = {2015-05-29T13:34:17.000+0200},
+  title = {Resource Description Framework (RDF): Concepts and Abstract Syntax},
+  url = {http://www.w3.org/TR/2004/REC-rdf-concepts-20040210/},
+  urldate = {2015-03-15},
+  year = 2004
+}
+
+
+%%%%%%%%%%%% Surveys on KG refinement %%%%%%%%%%%%
+
+
+@article{Nickel2015ARO,
+  title={A Review of Relational Machine Learning for Knowledge Graphs: From Multi-Relational Link Prediction to Automated Knowledge Graph Construction},
+  author={Maximilian Nickel and Kevin Murphy and Volker Tresp and Evgeniy Gabrilovich},
+  journal={CoRR},
+  year={2015},
+  volume={abs/1503.00759}
+}
+
+
 @article{DBLP:journals/semweb/Paulheim17,
   author    = {Heiko Paulheim},
   title     = {Knowledge graph refinement: {A} survey of approaches and evaluation
@@ -95,6 +108,10 @@ Year = {2015}}
   biburl    = {https://dblp.org/rec/bib/journals/semweb/Paulheim17},
   bibsource = {dblp computer science bibliography, https://dblp.org}
 }
+
+
+%%%%%%%%%%%% Rule Learning from KGs %%%%%%%%%%%%
+
 
 @inproceedings{op,
   author    = {Yang Chen and
@@ -157,26 +174,10 @@ Year = {2015}}
   year      = {2017}
 }
 
-@inproceedings{cool-wd,
-  author    = {Radityo Eko Prasojo and
-               Fariz Darari and
-               Simon Razniewski and
-               Werner Nutt},
-  title     = {Managing and Consuming Completeness Information for Wikidata Using
-               {COOL-WD}},
-  booktitle = {COLD@ISWC},
-  year      = {2016},
-}
 
-@inproceedings{cardinality-extraction-iswc-2016,
-  author    = {Paramita Mirza and
-               Simon Razniewski and
-               Werner Nutt},
-  title     = {Expanding Wikidata's Parenthood Information by 178{\%}, or How To
-               Mine Relation Cardinality Information},
-  booktitle = {{ISWC} 2016 Posters {\&} Demos},
-  year      = {2016}
-}
+
+%%%%%%%%%%%% Rule Learning from probabilistic DBs %%%%%%%%%%%%
+
 
 @inproceedings{probfoil,
   author    = {Luc De Raedt and
@@ -204,11 +205,39 @@ Year = {2015}}
                Daniel Sykes and
                Katsumi Inoue and
                Alessandra Russo},
-  title     = {Probabilistic Rule LeaDBLP:conf/nips/YangYC17rning in Nonmonotonic Domains},
+  title     = {Probabilistic Rule Learning in Nonmonotonic Domains},
   booktitle = {{CLIMA}},
   series    = {LNCS},
   year      = {2011}
 }
+
+
+@inproceedings{gad2016,
+  title={Exception-enriched rule learning from knowledge graphs},
+  author={Gad-Elrab, Mohamed H and Stepanova, Daria and Urbani, Jacopo and Weikum, Gerhard},
+  booktitle={Proceedings of ISWC},
+  pages={234--251},
+  year={2016}
+}
+
+
+%%%%%%%%%%%% Seminal relational association rule learning %%%%%%%%%%%%
+
+
+@inproceedings{DBLP:conf/ilp/DehaspeR97,
+  author    = {Dehaspe, Luc and
+               De Raedt, Luc},
+  title     = {Mining Association Rules in Multiple Relations},
+  pages     = {125--132},
+  editor    = {Lavrac, Nada and
+               Dzeroski, Saso},
+  booktitle     = {Inductive Logic Programming, 7th International Workshop, ILP-97, Prague, Czech Republic, September 17-20, 1997, Proceedings},
+  series    = {Lecture Notes in Computer Science},
+  volume    = {1297},
+  publisher = {Springer},
+  year      = {1997}
+}
+
 
 @inproceedings{DBLP:conf/esf/GoethalsB02,
   author    = {Bart Goethals and
@@ -218,10 +247,28 @@ Year = {2015}}
   year      = {2002}
 }
 
-@inproceedings{gad2016,
-  title={Exception-enriched rule learning from knowledge graphs},
-  author={Gad-Elrab, Mohamed H and Stepanova, Daria and Urbani, Jacopo and Weikum, Gerhard},
-  booktitle={Proceedings of ISWC},
-  pages={234--251},
-  year={2016}
+
+
+%%%%%%%%%%%% Extraction of cardinality statements %%%%%%%%%%%%
+
+
+@inproceedings{cool-wd,
+  author    = {Radityo Eko Prasojo and
+               Fariz Darari and
+               Simon Razniewski and
+               Werner Nutt},
+  title     = {Managing and Consuming Completeness Information for Wikidata Using
+               {COOL-WD}},
+  booktitle = {COLD@ISWC},
+  year      = {2016},
+}
+
+@inproceedings{cardinality-extraction-iswc-2016,
+  author    = {Paramita Mirza and
+               Simon Razniewski and
+               Werner Nutt},
+  title     = {Expanding Wikidata's Parenthood Information by 178{\%}, or How To
+               Mine Relation Cardinality Information},
+  booktitle = {{ISWC} 2016 Posters {\&} Demos},
+  year      = {2016}
 }
