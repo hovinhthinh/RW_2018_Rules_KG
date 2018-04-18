@@ -5,39 +5,3 @@
 % \item Relational  association rule learning
 % \end{itemize}
 
-\leanparagraph{Relational association rule mining} 
-Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
-
-A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and }$\\$ f \text{ is a matching of } Q \text{ on } \cG\}$.
-Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$. The support of the query
-\begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
-\end{equation}
-over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $6$. 
-
-An \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
-
-For example, from the above $Q(X,Y,Z)$ and
-\begin{equation}Q'(X,Y,Z):-\mi{isMarriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
-\end{equation} we can construct the rule $Q => Q'$. 
-
- 
-Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) the are treated as logical rules, i.e., for $Q_1=>Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. E.g., $Q=>Q'$ from above corresponds to $\mi{r1}$ from Sec.~\ref{sec:intro}.
-
-A large number of various measures for evaluating the quality of learned rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence, conviction} \cite{convict}. The latter is accepted to be appropriate for estimating the actual implication of the rule at hand, and is thus particularly attractive for predictive purposes. For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, the \emph{conviction} is given by:
-\vspace{-.26cm}
-\begin{equation}
-\mi{conv(r, \cG)= \dfrac{1 - supp(h(X,Y), \cG)}{1 - conf(r, \cG)}}
-\end{equation}
-where $\mi{supp(h(X,Y),\cG)}$ is the \textit{relative support} of $\mi{h(X,Y)}$ defined as follows:
-\vspace{-.28cm}
-\begin{equation}
-supp(h(X,Y),\cG)=\dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y\;h(X,Y)\in \cG)*(\#Y:\exists X\;h(X,Y)\in \cG)}
-\end{equation}
-and $\mi{conf}$ is the confidence of $r$ given as
-\begin{equation}
-\mi{conf(r,\cG)=\dfrac{\#(X,Y): H \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG}{\#(X,Y):\exists \vec{Z}\; B\in \cG, E \not \in \cG}}
-\end{equation}
-\vspace{-.3cm}
-\begin{example}
-The conviction of the above rule $\mi{r1}$ is $\mi{conv(r1,\cG)}=\dfrac{1-0.3}{1-0.5}=1.4$\qed
-\end{example}
