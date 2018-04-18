@@ -55,19 +55,28 @@ The answer set semantics for nonmonotonic logic programs is based on the CWA, un
 An association rule is a rule where certain properties of the data in the body of
 the rule are related to other properties in the head of the rule. For an example of a association rule, consider a
 database containing transactional data from a store selling computer equipment.
-Then the following association rule might be discovered: 30\% of the customers
-buying a color printer also buy a scanner.
+From this data the association rule stating that 70\% of the customers
+buying a laptop also buy a docking station. The knowledge that such rule reflects 
+can assist in planning store layout or to decide which customers are likely to respond to a
+offer.
 
 Traditionally, the discovery of association rules  has been performed on data stored in a single table.
 Recently, however, many methods for mining relational, i.e., graph-based data have been
-proposed (see Section~\ref{} for an overview). 
+proposed (see Section~\ref{sec:rulelearn} for an overview). 
 
-Following \cite{warmer} we now formally define relational association rules. An \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
+The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption. 
+A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of }\\ Q \text{ on } \cG\}$.
+Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$. The support of the query
+\begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\end{equation}
+over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $4$. 
+Formally, a \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
 
 For example, from the above $Q(X,Y,Z)$ and
 \begin{equation}Q'(X,Y,Z):-\mi{isMarriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
 \end{equation} we can construct the rule $Q => Q'$. 
  
+
 Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) they can be treated as logical rules, i.e., for $Q_1=>Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. E.g., $Q=>Q'$ from above corresponds to $\mi{r1}$ from Sec.~\ref{sec:intro}.
 
 A large number of various measures for evaluating the quality of learned rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence, conviction} \cite{convict}. The latter is accepted to be appropriate for estimating the actual implication of the rule at hand, and is thus particularly attractive for predictive purposes. For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, the \emph{conviction} is given by:
