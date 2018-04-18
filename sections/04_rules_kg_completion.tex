@@ -1,7 +1,13 @@
 \section{Learning Rules for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
 \subsection{Learning Task}
-%!TEX root = ../main.tex
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
+
+A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and }$\\$ f \text{ is a matching of } Q \text{ on } \cG\}$.
+Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$. The support of the query
+\begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\end{equation}
+over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $6$. 
 \subsection{Rule construction algorithm}
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
@@ -60,12 +66,14 @@ where $U$ is the set of entities that previously have no relations of $p$, but h
 About the mining algorithm, while AMIE mines one rule at a time, RDF2Rules parallelizes this process by first extracting Frequent Predicate Cycles (FPCs) of length $k$:
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ..., p_k^{d_k}, x_1)\]
 where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. Then, rules are extracted from the FPC by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
-\[r_j: p_j^{d_j}(x_j,x_{j+1} \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
+\[r_j: p_j^{d_j}(x_j,x_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
 These generated rules are without \textit{type} information. To generate rules with \textit{type}, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can extract are restricted, since the rules extraction relies on the FPCs.
 
-\subsubsection{OP (Ontological Pathfinding)}
-\thi{todo}
+\subsubsection{OP (Ontological Pathfinding)} 
+Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG. Most of state-of-the-art rule mining systems parallelize only the construction of the rules, while the quality of the rules are determined by a single thread.
+Modern web-scale knowledge bases such as YAGO or Freebase might contain hundreds million of entities and billions of facts between them, Hence, it is impossible to store these KGs in a single machine. As a result, these rule mining systems either cannot scale to this size to determine the rules' quality, or they have to assign this task to some third-party system such as SQL, SPARQL \cite{amie}, which might be inefficient.
 
+The focus of the novel rule-mining algorithm OP\cite{op} is not at how to find the candidate rules in the knowledge graph, but rather at how to examine their quality. The rules construction in Ontological Pathfinding (OP) algorithm relies on the relational pathfinding method\cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including partitioning, joining and pruning strategies. 
 \subsection{Other measures for quality of rules}
 \thi{Completeness-awareness in Rule Learning HERE}
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
@@ -407,7 +415,7 @@ The constructed rules are then applied to the facts in $\cS$ to obtain an extend
 %This process materialize fully all "interesting" predicated: it is only interesting to consider $p_{\leq 0}$ and the predicates $p_{\leq k+1}$ such that $\{ x \mid p_{\leq k+1}(x) \} \neq \{ x \mid p_{\leq k}(x) \}$ because, if not, then $\{ x \mid p_{\leq k+1}(x) \} = \{ x \mid p_{\leq k}(x) \}$ and, so, does not brings any new information (as we obviously have $\{ x \mid p_{\leq k+1}(x) \} \subseteq \{ x \mid p_{\leq k}(x) \}$). The same idea holds for $(p_{\geq k})_{k \in \mathbb{N}}$.\tptcomment{Previous sentences updated}
 %We denote the set of all such additional facts as $\cG^{\mi{card}}$.
 
-\leanparagraph{Step 2} We then use such a standard rule learning system, AMIE \cite{amieplus}, on $\cG^a \cup \cG^{\mi{card}}$ to mine rules like:
+\leanparagraph{Step 2} We then use such a standard rule learning system, AMIE \cite{amie}, on $\cG^a \cup \cG^{\mi{card}}$ to mine rules like:
  
 \vspace{-\topsep}
 \small{
