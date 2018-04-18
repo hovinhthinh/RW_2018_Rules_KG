@@ -35,4 +35,13 @@ Both manually and automatically KGs are still far from modeling the real world i
 
 Existing KGs consists of positive facts only (\ie true relations). There are two paradigms to interpret the missing fact: (i) under \textit{closed world assumption} (CWA), in which missing relations (\ie edges) indicates false relationship. (ii) under open world assumption (OWA), such that non-existing relations are interpreted as unknown and can be either true or false. For example, in Figure~\cite{rdf}, the missing \textit{livesIn} link between \textit{Dave} and \textit{Chicago} would be interpreted as $\neg livesIn(dave, chicago)$ under CWA. However under OWA, no conclusion can be made. Given the \textit{incompleteness} and \textit{inaccuracy} of the existing real life KGs, they are usually interpreted under OWA~\cite{Nickel2015ARO}. 
 
+To study the incompleteness of KGs, we assume the existence of another ideal graph $\cG^i$ containing a snapshot of the current world and we define the incompleteness of knowledge graphs as:
+
+\begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
+    $G = (\cG^a, \cG^i)$ of two KGs, where $\cG^a\subseteq \cG^i$ and
+    $\Sigma_{\cA_{\cG^a}}=\Sigma_{\cA_{\cG^i}}$. We call $\cG^a$ the available
+    graph and $\mathcal{G}^i$ the ideal graph.  \end{definition}
+    
+This definition allows evaluating the proposed approaches for completing the knowledge graph.  
+    
 
