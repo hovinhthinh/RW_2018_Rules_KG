@@ -60,7 +60,7 @@ where $U$ is the set of entities that previously have no relations of $p$, but h
 About the mining algorithm, while AMIE mines one rule at a time, RDF2Rules parallelizes this process by first extracting Frequent Predicate Cycles (FPCs) of length $k$:
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ..., p_k^{d_k}, x_1)\]
 where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. Then, rules are extracted from the FPC by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule j-th is generated from the FPC as follows:
-\[r_j: p_j^{d_j}(x_j,x_{j+1} \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
+\[r_j: p_j^{d_j}(x_j,x_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
 These generated rules are without \textit{type} information. To generate rules with \textit{type}, the given FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can extract are restricted, since the rules extraction relies on the FPCs.
 
 \subsubsection{OP (Ontological Pathfinding)}
