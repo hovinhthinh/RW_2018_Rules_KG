@@ -1,7 +1,13 @@
 \section{Learning Rules for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
 \subsection{Learning Task}
-%!TEX root = ../main.tex
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
+
+A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and }$\\$ f \text{ is a matching of } Q \text{ on } \cG\}$.
+Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$. The support of the query
+\begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\end{equation}
+over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $6$. 
 \subsection{Rule construction algorithm}
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
