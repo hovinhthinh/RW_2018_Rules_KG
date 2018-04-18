@@ -1,4 +1,4 @@
-\section{Combining Rule Learning and Reasoning For Knowledge Completion (5 pages)}
+\section{Combining Rule Learning and Reasoning For Knowledge Completion}
 \label{sec:rules_kg_completion}
 %!TEX root = ../main.tex
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
@@ -100,6 +100,52 @@ extension with predictions produced by other rules in $\cR_H$, thus ensuring a c
 \thi {Should I describe the 3 ranking measures in more detail?}
 \end{itemize}
 \end{enumerate}
+
+
+\begin{figure}[t]
+\begin{center}
+%\includegraphics[width=.8\textwidth]{figures/fam_grad}
+
+%%%%%% New KG %%%%%%%
+
+\begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
+  thick,main node/.style={font=\bfseries}]
+
+  \node[main node] (1) {john};
+  \node[main node] (2) [right=3cm of 1] {mary};
+  \node[main node] (3) [below left=1cm and 2cm of 1] {alice};
+  \node[main node] (4) [below right=1cm and 1.5cm of 1] {bob};
+  \node[main node] (5) [below right=1cm and 2cm of 2] {carol};
+  \node[main node] (6) [above left=1cm and 2cm of 1] {dave};
+  \node[main node] (7) [above right=1cm and 1.5cm of 1] {tuwien};
+  \node[main node] (8) [above right=1cm and 2cm of 2] {mpi};
+
+  \path[every node/.style={color=teal,fill=white,font=\small}]
+    (1) edge node [right=-20pt] {worksAt} (7)
+    (2) edge node [right=-15pt] {worksAt} (7)
+    (4) edge node [right=-30pt] {educatedAt} (7)
+    (2) edge node [right=-10pt] {hasChild} (4)
+    (2) edge node [left=-20pt] {hasChild} (5)
+    (1) edge[bend left=20] node [right=-20pt] {hasChild} (4)
+    (4) edge[bend left=20] node [left=-20pt] {hasFather} (1)
+    (1) edge[bend right=20] node [right=-20pt] {hasChild} (3)
+    (3) edge[bend right=20] node [right=-20pt] {hasFather} (1)
+    (2) edge node [left=-20pt] {educatedAt} (8)
+    (5) edge[bend left=20] node [left=-10pt] {educatedAt} (8)
+    (5) edge[bend right=20] node [right=-10pt,pos=0.4] {worksAt} (8)
+    (6) edge node [right=-5pt] {hasFather} (1)
+    (3) edge[bend right=20] node [right=-10pt,pos=0.55] {hasSibling} (6)
+    (6) edge[bend right=20] node [left=-10pt,pos=0.65] {hasSibling} (3)
+    (6) edge[bend left=20] node [above=-10pt] {worksAt} (7)
+    (6) edge[bend right=5] node [below=-10pt] {educatedAt} (7)
+    (4) edge node [right=-20pt] {hasSibling} (5)
+    ;
+\end{tikzpicture}
+
+\caption{Example KG}
+\label{fig:fam_grad}
+\end{center}
+\end{figure}
 \subsection{Completeness-awareness in Rule Learning}
 
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
@@ -108,7 +154,7 @@ However, this knowledge is obviously useful, and furthermore, it is even availab
 in the form of cardinality statements, e. g., Brad has three children or Mary is a citizen of two countries. 
 If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
 one. Since such existential information is beneficial not only for guided rule learning but
-also for increasing the scope of KGs and estimating their recall, recent works, e.g., \cite{} focused 
+also for increasing the scope of KGs and estimating their recall, recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused 
 on the task of extracting such cardinality information from text.
 
 We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  
@@ -206,7 +252,6 @@ Henceforth, all examples
 consider the KG in Fig.~\ref{fig:fam_grad}, 
 rules from Ex.~\ref{ex:conf}, and cardinality statements  described in Ex.~\ref{ex:cardinality}.
 
-\vspace{-.2cm}
 \leanparagraph{Completeness Confidence}
 
 In this work we propose to explicitly rely on incompleteness information in determining whether to consider an instance as a counterexample for a rule at hand or not.
@@ -276,7 +321,6 @@ and the PCA confidence:
 
 \begin{proposition}
 For every KG $\cG$ and rule $r$ it holds that 
-\vspace{-0.2cm}
 \begin{itemize}
 \item[(i)] under the Closed World Assumption (CWA) $\mi{conf_{comp}(r)=conf(r)}$;
 \item[(ii)] under the Partial Completeness Assumption (PCA) $\mi{conf_{comp}(r)=conf_{pca}(r)}$.
@@ -320,7 +364,6 @@ $\mi{miss}(p,s)=0$ , then $\mi{conf_{comp}}$ is the same as the standard confide
 fact $p(s,\_)\in \cG^a$ exists and  $\mi{miss}(p,s) = +\infty$ for the rest,  
 then $\mi{conf_{comp}}$ is the same as the PCA confidence.
 
-\vspace{-.2cm}
 \leanparagraph{Completeness Precision and Recall}
 
 Further developing the idea of scoring rules based on their predictions in complete and incomplete KG parts, we propose to consider the notions of  \emph{completeness precision} and \emph{recall}\footnote{For brevity we skip the word "completeness" if clear from the context.} for rules defined in the spirit of information retrieval. Intuitively, rules having high precision are rules that predict few facts in complete parts, while rules having high recall are rules that predict many facts in incomplete ones. Rule scoring could then be based on any weighted combination of these two metrics.
@@ -364,7 +407,6 @@ not very informative.
 Therefore, next we propose to look at the difference between  
 expected numbers of predictions in complete and incomplete parts, or simply at their ratio.
 
-\vspace{-.2cm}
 \leanparagraph{Directional Bias}
 
 If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. 
@@ -413,7 +455,6 @@ confidence from Ex.~\ref{ex:conf}, %we get
 $\mi{weighted\_dm(r_1)} \approx 0.29$ and $\mi{weighted\_dm(r_2)} \approx 0.48$. \qed
 \end{example}
 
-\vspace{-.4cm}
 \leanparagraph{Acquisition of Numerical Statements}
 \label{sec:acquisition-numerical}
 As we have shown, exploitation of numerical (in-)completeness statements is very beneficial for rule quality assessment. 
