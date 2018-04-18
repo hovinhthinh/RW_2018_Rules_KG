@@ -1,6 +1,17 @@
-\section{Learning Rules for Knowledge Graph Completion}
+\section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
-\subsection{Learning Task}
+\subsection{Rule Learning Tasks}
+Rule learning is an important subfield of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules 
+Inductive Logic Programming (ILP), originally defined as a subfield
+of machine learning that assumes Logic Programming as a representation formalism of
+hypotheses and background knowledge. Since then ILP has been further refined to a
+broader definition that considers not only Logic Programs as a representation, but also
+other subsets of the first-order logic. In particular, its methodology is well-suited for the
+tasks where Description Logics are used as representation formalism. The distinguishing
+feature of the ILP methods is their ability to take into account background knowledge,
+that is the knowledge generally valid in some domain, represented, for example, in the
+form of ontologies.
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
 
 A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and }$\\$ f \text{ is a matching of } Q \text{ on } \cG\}$.
