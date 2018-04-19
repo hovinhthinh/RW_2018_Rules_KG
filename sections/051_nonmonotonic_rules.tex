@@ -1,11 +1,28 @@
 \section{Non-monotonic Rule Learning}
 
-\subsection{Traditional Non-monotonic Rule Learning}
+%Horn rule learning systems mine rules in form $H \leftarrow B$, where $B$ contains only positive atoms. 
+Previously described approaches learn Horn rules only, which, might not be sufficiently expressive to capture
+exceptions. Therefore, they predict erroneous facts~\cite{rumis}. 
 
-Horn rule learning systems mine rules in form $H \leftarrow B$, where $B$ contains only positive atoms. This type of rules might be insufficiently expressive to capture
-exceptions, and might thus deduce incorrect facts \cite{rumis}. For instance, rule $r_1 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z)$ might not hold if $Y$ is a researcher. Non-monotonic rule learning approaches \cite{gad2016,rumis} fix this issue by allowing negated atoms to appear in the body of the rules: $H \leftarrow B, \naf E$. Here, $\naf$ is the so-called \textit{negation as failure (NAF)} or \textit{default negation}. Rule $r_2$ could be extended from $r_1$ as follows:
-\[r_2 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf researcher(Y)\]
-Most non-monotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art non-monotonic rule learning system proposed recently.
+\begin{example}
+\label{ex:horn_example}
+Recalling the KG shown in Figure~\ref{rdf}, a Horn rule 
+\[r_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)},\ \mi{livesIn(X,Z)} \]
+is not always valid and applying it on the KG will result in the incorrect fact $\mi{livesIn(alice,amsterdam)}$.  
+\end{example}
+
+Nonmonotonic rules are capable of capturing exceptional cases; thus, preventing incorrect predictions. 
+\begin{example}
+Revisiting Example~\ref{ex:horn_example}, if the rule is revised to exclude researchers as nonmonotonic rule:
+\[r`_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)},\ \mi{livesIn(X,Z)}, \naf \mi{researcher(Y)}\]
+applying the rules for prediction will not result in the incorrect fact $\mi{livesIn(alice,amsterdam)}$.  
+\end{example}
+
+In this section, we are discussing the different approaches for learning nonmontonic rules from the data.
+
+%Nonmonotonic rule learning approaches such as~\cite{gad2016,rumis} try to capture exceptions fix this issue by allowing negated atoms to appear in the body of the rules: $H \leftarrow B, \naf E$. Here, $\naf$ is the so-called \textit{negation as failure (NAF)} or \textit{default negation}. Rule $r_2$ could be extended from $r_1$ as follows:
+%\[r_2 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf researcher(Y)\]
+%Most non-monotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art non-monotonic rule learning system proposed recently.
 
 \subsection{Traditional Non-monotonic Rule Learning}
 
