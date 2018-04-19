@@ -19,7 +19,7 @@ Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a co
 \begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
 \end{equation}
 over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $6$. 
-\subsection{Rule construction algorithm}
+\subsection{Rule Construction Methods}
 Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
 In this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. We classify them into two main categories: Horn rules learning and Non-monotonic rules learning systems.
@@ -85,8 +85,17 @@ Learning rules from knowledge graph consists of two phases: constructing the rul
 Modern web-scale knowledge bases such as YAGO or Freebase might contain hundreds million of entities and billions of facts between them, Hence, it is impossible to store these KGs in a single machine. As a result, these rule mining systems either cannot scale to this size to determine the rules' quality, or they have to assign this task to some third-party system such as SQL, SPARQL \cite{amie}, which might be inefficient.
 
 The focus of the novel rule-mining algorithm OP\cite{op} is not at how to find the candidate rules in the knowledge graph, but rather at how to examine their quality. The rules construction in Ontological Pathfinding (OP) algorithm relies on the relational pathfinding method\cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including partitioning, joining and pruning strategies. 
-\subsection{Other measures for quality of rules}
-\thi{Completeness-awareness in Rule Learning HERE}
+\subsection{Various Measures for Rule Quality}
+Apart from standard confidence $conf$ and PCA confidence $conf_{pca}$, which works under Closed World Assumption and Partial Completeness Assumption, correspondingly, there also exist other measures introduced to quantify the quality of rules.
+\subsubsection{Conviction.} Conviction is shown to guarantee the high predictive power \cite{Azevedo2007}. Given $\mi{r:\; head\leftarrow body^+, not\;  body^-}$, conviction of $r$ is computed as follows:
+\begin{align*}
+\textit{conv}(r,\cG) & := \frac{1 - \textit{rel-supp}(head, \cG)}{1-\textit{conf}(r,\cG)}
+\end{align*}
+where $\textit{rel-supp}(head)$ is the relative support of the head measured by:
+\begin{align*}
+\textit{rel-supp}(head, \cG) = \frac{|\{(h, t) \mid head(h,t) \in \cG\}|}{|\{h \mid \exists t':head(h,t') \in \cG\}| \times |\{t \mid \exists h': head(h',t) \in \cG\}|}
+\end{align*}
+\thi{end here}
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
 from outside of the KG about potential existence of certain types of facts was exploited.
 However, this knowledge is obviously useful, and furthermore, it is even available on the Web
