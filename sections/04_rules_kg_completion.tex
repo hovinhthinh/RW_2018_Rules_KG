@@ -98,29 +98,17 @@ where $\textit{rel-supp}(head)$ is the relative support of the head measured by:
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, soft confidence is also tailored to work under Open World Assumption, measured by:
 \[conf_{st}(p(s,o) \leftarrow B) = \frac{sup(p(s,o) \leftarrow B)}{sup(B) - \sum_{e \in U}P(e,p)} \]
 where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity \textit{type} information \cite{rdf2rules}. Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p)$ in the unknown part of the rule.
-\subsection{Completeness-aware Rule Measures.} While most rule metrics is calculated relying only on the given KGs, \cite{DBLP:conf/semweb/TanonSRMW17} proposes a class of rule measures computed based on not only the given KGs, but also some meta data provided along with it - the Cardinality Statements.
-\thi{end here}
-In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
-from outside of the KG about potential existence of certain types of facts was exploited.
-However, this knowledge is obviously useful, and furthermore, it is even available on the Web
-in the form of cardinality statements, e. g., Brad has three children or Mary is a citizen of two countries. 
-If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
-one. Since such existential information is beneficial not only for guided rule learning but
-also for increasing the scope of KGs and estimating their recall, recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused 
-on the task of extracting such cardinality information from text.
+\subsection{Completeness-aware Rule Measures.}  
+In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it is even available on the Web
+in the form of Cardinality Statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
+one. Since such existential information is beneficial not only for guided rule learning but also for increasing the scope of KGs and estimating their recall.
 
-We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  
-The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) 
-has two apparent shortcomings: First,  
-it only counts as counterexamples those %objects 
-pairs $(x,y)$ for which at least one 
-$h(x,y')$ %other facts 
+Thus, recent work \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data - the Cardinality Statements.
+
+\thi{end here}
+%Recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused on the task of extracting such cardinality information from text.We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) has two apparent shortcomings: First,  it only counts as counterexamples those %objects pairs $(x,y)$ for which at least one $h(x,y')$ %other facts 
 %with the head predicate $\mi{h}$ 
-%holds 
-is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. 
-Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where 
-the important ones are added instantly, 
-while others much slower or even possibly never. 
+%holds is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where the important ones are added instantly, while others much slower or even possibly never. 
 
 
 Thus, in %our 
