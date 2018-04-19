@@ -95,6 +95,10 @@ where $\textit{rel-supp}(head)$ is the relative support of the head measured by:
 \begin{align*}
 \textit{rel-supp}(head, \cG) = \frac{|\{(h, t) \mid head(h,t) \in \cG\}|}{|\{h \mid \exists t':head(h,t') \in \cG\}| \times |\{t \mid \exists h': head(h',t) \in \cG\}|}
 \end{align*}
+\subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, soft confidence is also tailored to work under Open World Assumption, measured by:
+\[conf_{st}(p(s,o) \leftarrow B) = \frac{sup(p(s,o) \leftarrow B)}{sup(B) - \sum_{e \in U}P(e,p)} \]
+where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity \textit{type} information \cite{rdf2rules}. Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p)$ in the unknown part of the rule.
+
 \thi{end here}
 In the discussed solutions to the rule-based KG completion problem discussed so far, no external meta-information
 from outside of the KG about potential existence of certain types of facts was exploited.
