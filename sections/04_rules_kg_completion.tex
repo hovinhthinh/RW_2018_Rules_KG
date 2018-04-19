@@ -98,25 +98,33 @@ where $\textit{rel-supp}(head)$ is the relative support of the head measured by:
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, soft confidence is also tailored to work under Open World Assumption, measured by:
 \[conf_{st}(p(s,o) \leftarrow B) = \frac{sup(p(s,o) \leftarrow B)}{sup(B) - \sum_{e \in U}P(e,p)} \]
 where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity \textit{type} information \cite{rdf2rules}. Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p)$ in the unknown part of the rule.
-\subsection{Completeness-aware Rule Measures.}  
+\subsubsection{Completeness-aware Rule Measures.}  
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it is even available on the Web
 in the form of Cardinality Statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
 one. Since such existential information is beneficial not only for guided rule learning but also for increasing the scope of KGs and estimating their recall.
 
-Thus, recent work \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data - the Cardinality Statements.
+Thus, recent work CARL \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data.
 
+Overall, for a given fact $\tuple{john, hasChild, mary}$, CARL takes into account the following two numerical statements: the number of (1) children of $john$ and (2) incoming edges to $mary$, which in practice can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}. Since template (2) could be rewritten as the instances of the template (1) through the inverse relations, these meta-data statements could be formalized as follows:
+\[\mi{num}(p,s) = \# o : p(s,o) \in \cG^i\]
+indicating the total number of objects $o$ for a given subject $s$ and predicate $p$. Based on this, the number of missing objects $o$ in the available graph $\cG$ can be retrieved:
+\[\mi{miss}(p,s) = \mi{num(p,s)} - \#o : p(s,o) \in \cG\]
+A class of rules measures have been proposed by CARL based on these statements:
+\begin{itemize}
+\item \textbf{Completeness Confidence}
+\item \textbf{Completeness Precision and Recall}
+\item \textbf{Directional Metric}
+\end{itemize}
 \thi{end here}
 %Recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused on the task of extracting such cardinality information from text.We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) has two apparent shortcomings: First,  it only counts as counterexamples those %objects pairs $(x,y)$ for which at least one $h(x,y')$ %other facts 
 %with the head predicate $\mi{h}$ 
 %holds is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where the important ones are added instantly, while others much slower or even possibly never. 
 
 
-Thus, in %our 
-\cite{carl} we focused on the improvements of rule scoring functions by making use of the extra (in-)completeness meta-data. 
-Before dwelling into the details of our approach we discuss the formal representation of such meta-data. 
+%Before dwelling into the details of our approach we discuss the formal representation of such meta-data. 
 
-\leanparagraph{Cardinality Statements}
-Overall, one can think of 6 different cardinality templates obtained by fixing subject, predicate or object in a triple and report the number of respective facts that hold in $\cG^i$. 
+%\leanparagraph{Cardinality Statements}
+%Overall, one can think of 6 different cardinality templates obtained by fixing subject, predicate or object in a triple and report the number of respective facts that hold in $\cG^i$. 
 %The lattice of possible basic (in)completeness templates on the fact level is presented in Fig.~\ref{fig:cs} 
 %on an example triple $\langle\mi{john\;hasChild\;mary}\rangle$. By fixing subject, predicate or object in a triple overall we obtain 6 different templates.
  %statements for these templates 
