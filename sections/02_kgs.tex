@@ -2,12 +2,10 @@
 \label{sec:kgs}
 
 \subsection{Graph-based Representation}
-Knowledge Graphs (KGs) are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them. KGs were introduced in the Semantic Web community to create the ``web of data" which is readable by machines. This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}. Under this representation, the entities are encoded as the nodes of the graph and the relations as directed edges between them~\cite{Nickel2015ARO}. In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, %they can also be represented as binary predicate $p(s,o)$, where the subject $s$ and the object $o$ are its the arguments. 
-%Formally, 
-others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  are the set of constants (aka entities) appearing in $\cG$.  % A single fact in $\cG$ is repented as $p(s,o)$ where $p \in \cR$ and $s,o \in \cC$.
-\gad{could you please check this KG signature def?}\ds{please fix typos, otherwise it is ok}
+Knowledge Graphs (KGs) are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them. KGs were introduced in the Semantic Web community to create the ``web of data" which is readable by machines. This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}. Under this representation, the entities are encoded as the nodes of the graph and the relations as directed edges between them~\cite{Nickel2015ARO}. In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  is the set of constants (aka entities) appearing in $\cG$.  
+%\gad{could you please check this KG signature def?}\ds{please fix typos, otherwise it is ok}
 
-\begin{example} Figure~\ref{rdf} shows a snippet of a graph containing some people and their relations between them and their living places as well. For instance, the upper part encodes the statement `` Ann lives with her husband Brad in Berlin, while her brother John lives in Chicago with his wife Kate'', which would also represented as the set \\$\{ \mi{isMarriedTo(brad, ann)}$,  $\mi{livesIn(brad, berlin)}$, $\mi{livesIn(ann, berlin)}$,\\ $\mi{hasBrother(ann, john)}$,\\ $\mi{isMarriedTo(john, kate)}$, $\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$ \qed
+\begin{example} Figure~\ref{rdf} shows a snippet of a graph about some people, their relations to each other and their places of living. For instance, the upper half encodes the information that `` Ann lives with her husband Brad in Berlin, while her brother John lives in Chicago with his wife Kate'', which would also represented as the set \\$\{ \mi{isMarriedTo(brad, ann)}$,  $\mi{livesIn(brad, berlin)}$, $\mi{livesIn(ann, berlin)}$,\\ $\mi{hasBrother(ann, john)}$,\\ $\mi{isMarriedTo(john, kate)}$, $\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$ \qed
 \end{example}
 %\begin{example}
 %The statement \textit{``Christopher Nolan is the director of the science fiction movie Interstellar, which won the Best Visual Effects Oscar"} will be represented in several SPO triples:\\
@@ -26,18 +24,20 @@ others adopt a factual representation for which a KG $\cG$ is defined over the s
 
 \subsection{Knowledge Graphs Construction and Quality}
 \input{tables/kg_sizes}
-KGs are constructed either manually or automatically. Manually constructed KGs are either curated by closed group of experts as for WordNet~\cite{wordnet} or collaboratively by volunteers such as \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}.  Nevertheless, there is extensive work for automatically populating KGs from semi-structured resources such as Wikipedia info-boxes using regural expressions and other heuristics as in YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. More eager approaches were proposed to extract facts from unstructured resources using natural language processing and machine learning techniques; resulting in KGs such as  NELL~\cite{nell}, KnowledgeVault~\cite{KnowledgeVault}. Table~\ref{tab:kgs}, shows examples for several available KGs (extended discussions can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). \gad{should we speak about the sizes and scalability of exiting approaches}\ds{reporting statistics is enough}
+KGs are constructed either manually or automatically. Manually constructed KGs are either curated by a closed group of experts as for WordNet~\cite{wordnet} or collaboratively by volunteers such as \eg Freebase~\cite{Freebase} and Wikidata~\cite{wikidata}.  Nevertheless, there is extensive work for automatically populating KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other heuristics and constraints as in YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. More eager approaches propose extracting facts from unstructured resources using natural language processing and machine learning techniques; resulting in KGs such as  NELL~\cite{nell}, KnowledgeVault~\cite{KnowledgeVault}. Table~\ref{tab:kgs}, shows examples for several available KGs (extended discussions can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). 
+
+%\gad{should we speak about the sizes and scalability of existing approaches}\ds{reporting statistics is enough}
 
 
-Both manually and automatically KGs are still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing entities and their relationships. (ii) they are \textit{inaccurate} due to the extraction errors and the heuristic methods applied while construction as well.  
+Both manually and automatically constructed KGs are still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing real-world entities and the possible inter-entities relationships. (ii) they have \textit{inaccurate} facts resulting from the extraction errors and the heuristic methods applied while construction as well.  
 
 
 
 \subsection{Interpreting Knowledge Graphs under Incompleteness}
 
-Existing KGs consists of positive facts only (\ie true relations). There are two paradigms to interpret the missing fact: (i) under \textit{closed world assumption} (CWA), in which missing relations (\ie edges) indicates false relationship. (ii) under open world assumption (OWA), such that non-existing relations are interpreted as unknown and can be either true or false. For example, in Figure~\ref{rdf}, the missing \textit{livesIn} link between \textit{Dave} and \textit{Chicago} would be interpreted as $\neg livesIn(dave, chicago)$ under CWA. However under OWA, no conclusion can be made. Given the \textit{incompleteness} and \textit{inaccuracy} of the existing real life KGs, they are usually interpreted under OWA~\cite{Nickel2015ARO}. 
+Existing KGs consist of positive facts only (\ie true relations). There are two paradigms to interpret the missing fact: (i) under \textit{closed world assumption} (CWA), in which missing edges indicate a false relationship. (ii) under open world assumption (OWA), such that non-existing relations are interpreted as unknown and can be either true or false. For example, in Figure~\ref{rdf}, the missing \textit{livesIn} link between \textit{Dave} and \textit{Chicago} would be interpreted as $\neg livesIn(dave, chicago)$ under CWA. However, under OWA, no conclusion can be made. Given the \textit{incompleteness} and \textit{inaccuracy} of the existing real-life KGs, they are usually interpreted under OWA~\cite{Nickel2015ARO}. 
 
-To study the incompleteness of KGs, we assume the existence of another ideal graph $\cG^i$ containing a snapshot of the current world and we define the incompleteness of knowledge graphs as:
+To study the incompleteness of KGs, we assume the existence of an ideal graph $\cG^i$ containing a snapshot of the current world; hence, we define the incompleteness of knowledge graphs as:
 
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
@@ -45,5 +45,4 @@ To study the incompleteness of KGs, we assume the existence of another ideal gra
     graph and $\mathcal{G}^i$ the ideal graph.  \end{definition}
     
 This definition allows evaluating the proposed approaches for completing the knowledge graph.  
-    
 
