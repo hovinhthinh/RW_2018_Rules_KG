@@ -111,7 +111,23 @@ indicating the total number of objects $o$ for a given subject $s$ and predicate
 \[\mi{miss}(p,s) = \mi{num(p,s)} - \#o : p(s,o) \in \cG\]
 A class of rules measures have been proposed by CARL based on these statements:
 \begin{itemize}
-\item \textbf{Completeness Confidence}
+\item \textbf{Completeness-aware Confidence}
+First, the two indicators are defined for a given rule $r: %\vec{H}
+\mi{h(X,Y)}\leftarrow \vec{B}$, %with $\vec{H}=h(X,Y)$, 
+reflecting the number of new 
+predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, complete ($\mi{npc(r)}$) KG parts:
+\begin{align*}
+\mi{npi}(r) = \sum_x min(\#y: h(x,y)\in \cG^a_r\backslash \cG^a, \mi{miss}(h,x))
+\end{align*}
+\vspace{-\topsep}
+\begin{align*}
+\mi{npc}(r) = \sum_x max(\#y: h(x,y)\in\cG^a_r\backslash \cG^a - \mi{miss}(h,x), 0)
+\end{align*}
+Exploiting these indicators, the \emph{completeness-aware confidence} is defined as follows:
+\begin{equation}\label{eq:comp_conf}
+\mi{conf_{comp}}(r) := \frac{\mi{supp}(r)}{\mi{supp}(\vec{B}) - \mi{npi}(r)}
+\end{equation}
+Intuitively, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not.
 \item \textbf{Completeness Precision and Recall}
 \item \textbf{Directional Metric}
 \end{itemize}
