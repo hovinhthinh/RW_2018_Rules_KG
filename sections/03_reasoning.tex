@@ -50,7 +50,7 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X$ with $\m
 %\normalsize
 
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning from incomplete information.
-\subsection{Relational association rules}
+\subsection{Association Rules}
 %\leanparagraph{ mining} 
 An association rule is a rule where certain properties of the data in the body of
 the rule are related to other properties in the head of the rule. For an example of a association rule, consider a
@@ -62,7 +62,7 @@ offer.
 
 Traditionally, the discovery of association rules  has been performed on data stored in a single table.
 Recently, however, many methods for mining relational, i.e., graph-based data have been
-proposed (see Section~\ref{sec:rulelearn} for an overview). 
+proposed (see Section~\ref{sec:rules_kg_completion} for an overview). 
 
 The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption. 
 A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of }\\ Q \text{ on } \cG\}$.
@@ -99,15 +99,15 @@ The conviction of the above rule $\mi{r1}$ is $\mi{conv(r1,\cG)}=\dfrac{1-0.3}{1
 \end{example}
 
 
-\subsection{Rule-based Reasoning tasks over KGs} Logical programs are used for KGs refinement. It has two main tasks that solves the shortcomings of existing KGs, namely, inaccuracy and incompleteness, through \textit{KG cleaning} and \textit{KG completion} tasks respectively.
+% \subsection{Rule-based Reasoning tasks over KGs} Logical programs are used for KGs refinement. It has two main tasks that solves the shortcomings of existing KGs, namely, inaccuracy and incompleteness, through \textit{KG cleaning} and \textit{KG completion} tasks respectively.
 
-\leanparagraph{KG cleaning}
+% \leanparagraph{KG cleaning}
 
-\leanparagraph{KG completion} In this task rules are used to predict the missing facts in the KG based on the existing facts in the knowledge graph. This can be formally defined as:
+% \leanparagraph{KG completion} In this task rules are used to predict the missing facts in the KG based on the existing facts in the knowledge graph. This can be formally defined as:
 
-\begin{definition}[Rule-based KG completion]\label{def:graphcompl}
-Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cA}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules %mined from $\cG$,
- i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
-Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cA_{\cR}\in AS(\cR \cup \cA)$. 
-\end{definition}
+% \begin{definition}[Rule-based KG completion]\label{def:graphcompl}
+% Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cA}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules %mined from $\cG$,
+%  i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
+% Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cA_{\cR}\in AS(\cR \cup \cA)$. 
+% \end{definition}
 
