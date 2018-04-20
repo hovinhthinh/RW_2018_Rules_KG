@@ -2,11 +2,11 @@
 
 Previously described approaches learn Horn rules only, which, might not be sufficiently expressive to capture
 exceptions. Therefore, they predict erroneous facts~\cite{rumis}. For example, recalling $r_1$:
-\[r_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{married(X,Y)},\ \mi{livesIn(X,Z)} \]
+\[r_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{marriedTo(X,Y)},\ \mi{livesIn(X,Z)} \]
 If $r_1$ is applied on KG shown in Figure~\ref{rdf}, it on the KG will result in the incorrect fact $\mi{livesIn(alice,berlin)}$, which contradicts with existing fact $\mi{livesIn(alice, amsterdam)}$. 
 
 In contrast, nonmonotonic rules are capable of capturing the patterns for which it may be inaccurate to predict some facts (\ie exceptional cases); thus, preventing such predictions. For example, if $r_1$ can be adapted in nonmontonic form to capture the cases where married couples may not live together, according to the KG in Figure~\ref{rdf}, that should be when one of them is a researcher; leading to new rule:
-\[r`_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{married(X,Y)},\ \mi{livesIn(X,Z)}, \naf \mi{researcher(Y)}\]
+\[r`_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{marriedTo(X,Y)},\ \mi{livesIn(X,Z)}, \naf \mi{researcher(Y)}\]
 When the revised rule $r'_1$ is applied on the KG, it will not predict $\mi{livesIn(alice,berline)}$. 
 
 In this section, we are discussing the different approaches for learning nonmontonic rules from the data.
