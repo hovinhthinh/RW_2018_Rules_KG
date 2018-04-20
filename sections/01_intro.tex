@@ -23,7 +23,7 @@ When rules are automatically learned, statistical measures like support, confide
 Along with KGs themselves, additional background knowledge could be used for better rule assessment. As proposed in \cite{carl} this includes meta data about the concrete numbers of facts of certain types that hold in the real world (e.g., \emph{``Einstein has 3 children''}) automatically extracted from Web resources using techniques like  \cite{paramita-acl-2017}. Other types of background knowledge comprise description logic theories, e.g., \cite{d2016ontology} or other more general hybrid theories, e.g., \cite{DBLP:journals/tplp/Lisi10,DBLP:journals/tplp/JozefowskaLL10}.
 
 \begin{figure}[t]
-\centering
+\begin{center}
 %\begin{subfigure}[b]{0.75\textwidth}
 %    \centering
 \includegraphics[width=0.7\textwidth]{figures/kg_extended}
@@ -54,6 +54,7 @@ Along with KGs themselves, additional background knowledge could be used for bet
 %\label{tab:im}
 %\end{subfigure}
 %\caption{Examples of Knowledge Graphs}
+\end{center}
 \end{figure}
 
 Even when meaningful, Horn rules, where all predicates in the rule body are positive such as $\mi{r_1}$ might not always be sufficiently expressive % .
@@ -66,23 +67,6 @@ For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} re
 %   researcher''}. The additional knowledge that Alice is a researcher could be actually an explanation for her living in an unexpected place. If $\mi{r_2}$ often holds, then
 % one can no longer complete the missing living place for Dave by assuming that he lives with his wife Clara. 
 Exception handling has been faced in inductive logic programming (ILP) by learning nonmonotonic logic programs, i.e., programs with negations from databases (e.g., \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,R08}), and recently also studied in the context of KGs \cite{gad2016,rumis}.
-
-
-Unfortunately incompleteness and strong data bias of KGs make the extraction of meaningful rules from them particularly challenging compared to databases that are treated under the Closed World Assumption (CWA, i.e., missing facts are treated as false). Indeed, rules learned from incomplete KGs might be erroneous and might make incorrect predictions on missing facts. 
-For example, $\mi{r_3}: \mathit{hasChild(X,Y)}\leftarrow \mathit{worksAt}(X,Z),\mathit{educatedAt}(Y,Z)$ could be mined from a highly incomplete and biased KG stating that workers of certain institutions often have children among the people educated there, 
-as this is frequently the case for popular scientists.
-
-
-
-
-
-Recently, efforts have been put into detecting the concrete numbers of 
-facts of certain types that hold in the real world 
-(e.g., \emph{``Einstein has 3 children''}) by exploiting Web extraction and crowd-sourcing methods~\cite{cardinality-extraction-iswc-2016,cool-wd}. Such 
-meta-data provides a lot of hints about the topology of KGs, and reveals 
-parts that should be especially targeted by rule learning methods.
-This additional knowledge can be effectively exploited in the rule learning process as shown in \cite{carl}.
-
 
 
 The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interalation and applications for KGs. 
