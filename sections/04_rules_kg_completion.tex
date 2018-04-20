@@ -92,7 +92,7 @@ Most of state-of-the-art positive rule mining systems are different from each ot
 \[\forall o' : p(s,o') \in \cG^i \implies p(s,o') \in \cG\]
 Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. Formally, \textit{PCA confidence} is defined as follows:
 \[
-\mi{conf_{pca}}(r, \cG) := \frac{\mi{supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
+\mi{conf_{pca}}(r, \cG) := \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
 \]
 \subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
 \begin{align*}
@@ -104,7 +104,7 @@ where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured 
 \end{align*}
 
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, \textit{soft confidence} is also tailored to work under Open World Assumption, measured by:
-\[conf_{st}(r, \cG) = \frac{supp(r, \cG)}{supp(B,\naf\ E,\cG) - \sum_{e \in U}P(e,p,\cG)} \]
+\[conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U}P(e,p,\cG)} \]
 where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p,\cG)$ is the probability of entity $e$ having relation $p$ in $\cG$, which is approximated by using entity \textit{type} information \cite{rdf2rules}:
 \[P(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}\]
 Here, $T_{e,\cG}$ contains all $type$ of entity $e$, $Inst(t, \cG)$ contains all entities of type $t$, and $Inst_p(t, \cG)$ is similar to $Inst(t, \cG)$, but restricts to only entities that have relation $p$.
@@ -136,11 +136,11 @@ Using these indicators, a class of completeness-aware rules measures have been p
 \begin{itemize}
 \item \textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as follows:
 \begin{align*}
-\mi{conf_{comp}}(r,\cG) := \frac{\mi{supp}(r,\cG)}{\mi{supp}(B,\naf\ E,\cG) - \mi{npi}(r,\cG)}
+\mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
 \item \textbf{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure rule quality based on their predictions in complete and incomplete KG parts:
 \begin{align*}
-\mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\mi{supp}(B,\naf\ E,\cG)}\\
+\mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
 \mi{recall_{comp}}(r,\cG)=\frac{\mi{npi}(r,\cG)}{\sum_X \mathit{miss}(h,X,\cG)}
 \end{align*}
 Intuitively, rules having high precision are rules that predict few facts in complete parts, while rules having high recall are rules that predict many facts in incomplete ones. Rule scoring could also be based on any weighted combination of these two metrics.
