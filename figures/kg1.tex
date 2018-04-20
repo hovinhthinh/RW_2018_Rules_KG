@@ -4,33 +4,33 @@
   thick,main node/.style={font=\bfseries}]
 
   \node[main node] (1) {brad};
-  \node[main node] (2) [right=2cm of 1] {ann};
-  \node[main node] (3) [right=2.5cm of 2] {john};
-  \node[main node] (4) [right=2cm of 3] {kate};  
-  \node[main node] (5) [below right=1cm and 0.4cm of 1] {berlin};  
-  \node[main node] (6) [above right=0.3cm and 1cm of 5] {metropolitan};  
-  \node[main node] (7) [right=4cm of 5] {chicago};  
-  \node[main node] (9) [below=2.5cm of 1] {bob};  
-  \node[main node] (10) [right=2cm of 9] {alice};  
-  \node[main node] (11) [right=1cm of 5] {researcher};  
-  \node[main node] (12) [right=1cm of 10] {dave};  
-  \node[main node] (8) [right=2cm of 12] {clara};  
-  \node[main node] (13) [right=5.5cm of 10] {li};  
-  \node[main node] (14) [below=1.5cm of 9] {artist};  
-  \node[main node] (15) [right=1.9cm of 14] {mat};  
-  \node[main node] (17) [right=2.5cm of 15] {sue};  
-  \node[main node] (18) [right=2cm of 17] {beijing};  
-  \node[main node] (19) [below right=0.1cm and 0.5cm of 9] {lucy};  
-  \node[main node] (16) [below right=0.5 and 1.2cm of 10] {amsterdam};  
+  \node[main node] (2) [right=2.5cm of 1] {ann};
+  \node[main node] (3) [right=3cm of 2] {john};
+  \node[main node] (4) [right=2.5cm of 3] {kate};  
+  \node[main node] (5) [below right=1cm and 0.5cm of 1] {berlin};  
+  \node[main node] (11) [right=1.5cm of 5] {researcher};  
+  \node[main node] (6) [above right=0.3cm and 1.5cm of 5] {metropolitan};  
+  \node[main node] (7) [right=5cm of 5] {chicago};  
+  \node[main node] (9) [below=2.3cm of 1] {bob};  
+  \node[main node] (10) [right=2.5cm of 9] {alice};  
+  \node[main node] (12) [right=1.6cm of 10] {dave};  
+  \node[main node] (8) [right=2.5cm of 12] {clara};  
+  \node[main node] (13) [right=6.5cm of 10] {li};  
+  \node[main node] (14) [below=1.3cm of 9] {artist};  
+  \node[main node] (15) [right=2.4cm of 14] {mat};  
+  \node[main node] (17) [right=3cm of 15] {sue};  
+  \node[main node] (18) [right=2.5cm of 17] {beijing};  
+  \node[main node] (19) [below right=2.7cm and 0.7cm of 1] {lucy};  
+  \node[main node] (16) [below right=0.5 and 1.6cm of 10] {amsterdam};  
   
   \path[every node/.style={color=teal,fill=white,font=\small}]
-    (1) edge node [right=-20pt] {married} (2)
+    (1) edge node [right=-23pt] {marriedTo} (2)
     (2) edge node [right=-25pt] {hasBrother} (3)
-    (3) edge node [right=-20pt] {married} (4)
-    (9) edge node [right=-20pt] {married} (10)
-    (8) edge node [right=-18pt] {married} (12)
-    (15) edge node [right=-20pt] {married} (19)
-    (17) edge node [right=-20pt] {married} (13)
+    (3) edge node [right=-23pt] {marriedTo} (4)
+    (9) edge node [right=-23pt] {marriedTo} (10)
+    (8) edge node [right=-20pt] {marriedTo} (12)
+    (15) edge node [right=-23pt] {marriedTo} (19)
+    (17) edge node [right=-23pt] {marriedTo} (13)
     (1) edge node [right=-15pt] {livesIn} (5)    
     (2) edge node [right=-15pt] {livesIn} (5)
     (3) edge node [right=-15pt] {livesIn} (7)    
@@ -41,12 +41,12 @@
     (15) edge node [right=-18pt] {livesIn} (16)
     (13) edge node [right=-15pt] {livesIn} (18)    
     (17) edge node [right=-18pt] {livesIn} (18)
-    (5) edge node [right=-7pt] {is} (6)
-    (7) edge node [right=-6pt] {is} (6)    
-    (10) edge node [right=-8pt] {is} (11)
-    (12) edge node [right=-5pt] {is} (11)    
-    (9) edge node [right=-8pt] {is} (14)
-    (15) edge node [right=-6pt] {is} (14)    
+    (5) edge node [right=-8pt] {isA} (6)
+    (7) edge node [right=-8pt] {isA} (6)    
+    (10) edge node [right=-8pt] {isA} (11)
+    (12) edge node [right=-8pt] {isA} (11)    
+    (9) edge node [right=-8pt] {isA} (14)
+    (15) edge node [right=-8pt] {isA} (14)    
     (4) edge node [right=-15pt] {hasFriend} (13)
              ;
 \end{tikzpicture}
