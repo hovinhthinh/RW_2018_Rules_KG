@@ -67,13 +67,13 @@ proposed (see Section~\ref{sec:rules_kg_completion} for an overview).
 The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption. 
 A \emph{conjunctive query} $Q$ over $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of }\\ Q \text{ on } \cG\}$.
 Following \cite{DBLP:conf/ilp/DehaspeR97}, the \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$. The support of the query
-\begin{equation}\mi{Q(X,Y,Z):-isMarriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\begin{equation}\mi{Q(X,Y,Z):-married(X,Y),\, }\mi{livesIn(X,Z)}
 \end{equation}
 over $\cG$ in Fig.~\ref{rdf} asking for people, their spouses and living places is equal to $4$. 
 Formally, a \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
 
 For example, from the above $Q(X,Y,Z)$ and
-\begin{equation}Q'(X,Y,Z):-\mi{isMarriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
+\begin{equation}Q'(X,Y,Z):-\mi{married(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
 \end{equation} we can construct the rule $Q => Q'$. 
  
 

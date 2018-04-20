@@ -4,12 +4,12 @@
 
 \leanparagraph{Motivation}
 Recent advances in information extraction have led to
-huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples, e.g., $\tuple{\mi{clara\;isMarriedTo\;dave}}$ or $\tuple{\mi{dave\;isA\;researcher}}$. Such triples can be straightforwardly represented by means of positive unary and binary first-order logic facts, e.g. $\mi{marriedTo(clara,dave)}$ and $\mi{researcher(dave)}$.
+huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples, e.g., $\tuple{\mi{clara\;married\;dave}}$ or $\tuple{\mi{dave\;is\;researcher}}$. Such triples can be straightforwardly represented by means of positive unary and binary first-order logic facts, e.g. $\mi{married(clara,dave)}$ and $\mi{researcher(dave)}$.
 
 An important task over KGs is rule learning, which is relevant for a variety of applications ranging from knowledge graph curation (completion, error detection) \cite{DBLP:journals/semweb/Paulheim17} to data mining and semantic culturonomics. Rules over KGs are of the form $\mi{head \leftarrow body}$, where $\mi{head}$ is a binary atom and $\mi{body}$ is a conjunction of, possibly negated, binary and unary atoms. 
 Traditionally, rule induction has been studied in the context of relational data mining in databases (see e.g., \cite{DBLP:books/daglib/0021868} for overview), and has recently been adapted to KGs (e.g., \cite{amie,op,rdf2rules}). The methods from this area can be used to identify prominent patterns from KGs, such as \emph{``Married people live in the same
 place''}, and cast them in the form of Horn rules, such as:
-$\mi{r_1:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{isMarriedTo(X,Y),livesIn(X,Z)}$. 
+$\mi{r_1:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{married(X,Y),livesIn(X,Z)}$. 
 
 For the KG curation, this has two-fold benefits. First, since KGs operate under the Open World
 Assumption (OWA) (i.e., absent facts are treated as unknown rather than false),
@@ -61,7 +61,7 @@ Along with KGs themselves, additional background knowledge could be used for bet
 Even when meaningful, Horn rules, where all predicates in the rule body are positive such as $\mi{r_1}$ might not always be sufficiently expressive % .
 % This is insufficient
 to capture KG patterns accurately, as they  cannot handle exceptions, which often appear in practice. 
-For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} results in the facts $\mi{livesIn(alice,berlin)}$, $\mi{livesIn(dave,chicago)}$ and $\mi{livesIn(lucy,amsterdam)}$. Observe that the first two facts might be suspected to be wrong. Indeed, both $\mi{alice}$ and $\mi{dave}$ are researchers, and the rule $\mi{r_1}$ could be suspected to have researcher as a potential exception resulting in its more accurate version given as $\mi{r_2:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{isMarriedTo(X,Y),livesIn(X,Z), not\;researcher(Y)}$.
+For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} results in the facts $\mi{livesIn(alice,berlin)}$, $\mi{livesIn(dave,chicago)}$ and $\mi{livesIn(lucy,amsterdam)}$. Observe that the first two facts might be suspected to be wrong. Indeed, both $\mi{alice}$ and $\mi{dave}$ are researchers, and the rule $\mi{r_1}$ could be suspected to have researcher as a potential exception resulting in its more accurate version given as $\mi{r_2:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{married(X,Y),livesIn(X,Z), not\;researcher(Y)}$.
 % Thus making predictions using Horn rules might result in incorrect facts.
 % For example, consider a more accurate version of $\mi{r_1}$ given as \\$\mi{r_2{:}livesIn(Y,Z){\leftarrow}
 %   isMarriedTo(X,Y){,}livesIn(X,Z){,}{\naf\,} researcher(Y)}$, which \\states that \emph{``Married people live in the same place unless one is a
