@@ -69,7 +69,7 @@ Execute in parallel:\\
 \label{algor:amie}
 \end{algorithm}
 Algorithm \ref{algor:amie} presents how AMIE's algorithm applies mining operators to extract rules from KGs. The algorithm maintains a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
-Checking for outputting is the process of collecting rules' statistics including: support, PCA confidence, head coverage, and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (AMIE uses PCA confidence). Secondly, the rule must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
+Checking for outputting is the process of collecting rules' statistics (e,g. support, confidence, head coverage), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (eg. confidence). Secondly, the rule must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
 
 To computing rule's statistics, we must find all instances of rule's variable in the KG. Several options have been proposed by AMIE depending on how the KGs are stored: either by using SQL, SPARQL \cite{amie} or using an In-Memory Database.
 
