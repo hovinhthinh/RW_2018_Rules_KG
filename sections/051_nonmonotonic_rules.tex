@@ -1,6 +1,5 @@
 \section{Nonmonotonic Rule Learning}\label{sec:nmrulelearn}
 
-%Horn rule learning systems mine rules in form $H \leftarrow B$, where $B$ contains only positive atoms. 
 Previously described approaches learn Horn rules only, which, might not be sufficiently expressive to capture
 exceptions. Therefore, they predict erroneous facts~\cite{rumis}. For example, recalling $r_1$:
 \[r_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)},\ \mi{livesIn(X,Z)} \]
@@ -12,15 +11,30 @@ When the revised rule $r'_1$ is applied on the KG, it will not predict $\mi{live
 
 In this section, we are discussing the different approaches for learning nonmontonic rules from the data.
 
-%Nonmonotonic rule learning approaches such as~\cite{gad2016,rumis} try to capture exceptions fix this issue by allowing negated atoms to appear in the body of the rules: $H \leftarrow B, \naf E$. Here, $\naf$ is the so-called \textit{negation as failure (NAF)} or \textit{default negation}. Rule $r_2$ could be extended from $r_1$ as follows:
-%\[r_2 : livesIn(Y,Z) \leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf researcher(Y)\]
-%Most nonmonotonic rule learning approaches only mine \textit{safe} rules, where every variable of the negated part appears at least twice in the Horn part. To this end, we shortly discuss about RUMIS\cite{rumis} - a state-of-the-art nonmonotonic rule learning system proposed recently.
 
 \subsection{Traditional Nonmonotonic Rule Learning}
+Exception handling has been traditionally studied in the Inductive Logic Programming domain by learning nonmonotonic
+logic programs~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,R08,CorapiRL10,ILASP_system}. These methods
+rely on CWA and focus on describing a dataset at hand  where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
+
 
 \subsection{Nonmonotonic Rule Learning under OWA}
-\leanparagraph{Challenges}
+There are several important challenges preventing us from using the off-the-shelf nonmonotonic
+ILP algorithms. First, the target predicates can not be easily identified, since
+we do not know which parts of the considered KG need to be completed. A standard
+way of addressing this issue would be just to learn rules for all the different predicate
+names occurring in the KG. Unfortunately, this is unfeasible in our case given the huge
+size of KGs. Second, the negative examples are not available, and they can not be easily
+obtained from, e.g., domain experts due to - once again - the huge size of KGs. Third,
+the definition of a language bias turns out to be cumbersome since the schema of the
+KG is usually not available.
 
+
+
+ In~\cite{gad2016} first learn a set of Horn rules, which subsequently can be revised by
+adding negated atoms to their bodies in order to account for exceptions. However, the
+proposed approach applies only to a flattened representation of a KG containing just
+unary facts
 
 \leanparagraph{RUMIS} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of \textit{closed} Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of nonmonotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
 \begin{enumerate}
@@ -55,50 +69,7 @@ extension with predictions produced by other rules in $\cR_H$, thus ensuring a c
 \end{enumerate}
 
 
-\begin{figure}[t]
-\begin{center}
-%\includegraphics[width=.8\textwidth]{figures/fam_grad}
 
-%%%%%% New KG %%%%%%%
-
-\begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
-  thick,main node/.style={font=\bfseries}]
-
-  \node[main node] (1) {john};
-  \node[main node] (2) [right=3cm of 1] {mary};
-  \node[main node] (3) [below left=1cm and 2cm of 1] {alice};
-  \node[main node] (4) [below right=1cm and 1.5cm of 1] {bob};
-  \node[main node] (5) [below right=1cm and 2cm of 2] {carol};
-  \node[main node] (6) [above left=1cm and 2cm of 1] {dave};
-  \node[main node] (7) [above right=1cm and 1.5cm of 1] {tuwien};
-  \node[main node] (8) [above right=1cm and 2cm of 2] {mpi};
-
-  \path[every node/.style={color=teal,fill=white,font=\small}]
-    (1) edge node [right=-20pt] {worksAt} (7)
-    (2) edge node [right=-15pt] {worksAt} (7)
-    (4) edge node [right=-30pt] {educatedAt} (7)
-    (2) edge node [right=-10pt] {hasChild} (4)
-    (2) edge node [left=-20pt] {hasChild} (5)
-    (1) edge[bend left=20] node [right=-20pt] {hasChild} (4)
-    (4) edge[bend left=20] node [left=-20pt] {hasFather} (1)
-    (1) edge[bend right=20] node [right=-20pt] {hasChild} (3)
-    (3) edge[bend right=20] node [right=-20pt] {hasFather} (1)
-    (2) edge node [left=-20pt] {educatedAt} (8)
-    (5) edge[bend left=20] node [left=-10pt] {educatedAt} (8)
-    (5) edge[bend right=20] node [right=-10pt,pos=0.4] {worksAt} (8)
-    (6) edge node [right=-5pt] {hasFather} (1)
-    (3) edge[bend right=20] node [right=-10pt,pos=0.55] {hasSibling} (6)
-    (6) edge[bend right=20] node [left=-10pt,pos=0.65] {hasSibling} (3)
-    (6) edge[bend left=20] node [above=-10pt] {worksAt} (7)
-    (6) edge[bend right=5] node [below=-10pt] {educatedAt} (7)
-    (4) edge node [right=-20pt] {hasSibling} (5)
-    ;
-\end{tikzpicture}
-
-\caption{Example KG}
-\label{fig:fam_grad}
-\end{center}
-\end{figure}
 
 
 \leanparagraph{Learning rules with external resources}
