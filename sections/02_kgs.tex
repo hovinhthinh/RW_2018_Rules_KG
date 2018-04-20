@@ -1,11 +1,25 @@
-\section{Knowledge Graphs(1.5 pages)}
+\section{Knowledge Graphs}
 \label{sec:kgs}
 
-\subsection{Graph-based Representation}
-Knowledge Graphs (KGs) are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them. KGs were introduced in the Semantic Web community to create the ``web of data" which is readable by machines. This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}. Under this representation, the entities are encoded as the nodes of the graph and the relations as directed edges between them~\cite{Nickel2015ARO}. In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  is the set of constants (aka entities) appearing in $\cG$.  
+% \subsection{Graph-based Representation}
+Knowledge Graphs (KGs) have been introduced in the Semantic Web community to create the ``Web of data" that can be readable by machines. They represent interlinked collections of factual information, which are often encoded using the RDF data model \cite{rdf2004}. This data model represents the content of the graph with a set of triples of the form $\tuple{\mi{subject\;predicate\;object}}$ corresponding to positive binary and unary first-order logic (FOL) facts. For encyclopedic KGs on the semantic web, usually the open world assumption (OWA) is employed, i.e., these graphs contain only a subset of the true information. % are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them.
+%KGs %were 
+%is
+%can be . % This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}.
+%Under this representation, the entities are encoded as the nodes of the graph and the relations as directed edges between them
+%~\cite{Nickel2015ARO}. 
+%In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  is the set of constants (aka entities) appearing in $\cG$.  
 %\gad{could you please check this KG signature def?}\ds{please fix typos, otherwise it is ok}
 
-\begin{example} Figure~\ref{rdf} shows a snippet of a graph about some people, their relations to each other and their places of living. For instance, the upper half encodes the information that `` Ann lives with her husband Brad in Berlin, while her brother John lives in Chicago with his wife Kate'', which would also represented as the set \\$\{ \mi{isMarriedTo(brad, ann)}$,  $\mi{livesIn(brad, berlin)}$, $\mi{livesIn(ann, berlin)}$,\\ $\mi{hasBrother(ann, john)}$,\\ $\mi{isMarriedTo(john, kate)}$, $\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$ \qed
+\begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, marriage %their 
+relations between them %to each other and 
+their %places of 
+living places. For instance, the upper half encodes the information that ``Ann has bother john, and lives with her husband Brad in Berlin, which is a metropolitan.''. 
+%while her brother John lives in Chicago with his wife Kate. Moreover, both Berlin and Chicago are metropolitans'', which %would also 
+is % also 
+represented as the set of FOL facts $\mi{\{hasBrother(ann, john), livesIn(ann, berlin)}$, $\mi{livesIn(brad, berlin)}$,\\ $\mi{isMarriedTo(brad, ann)}$
+% $\mi{hasBrother(ann, john)}$, \\$\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$, $\mi{isMarriedTo(john, kate)}$,
+$\mi{metropolitan(berlin)}\}$.  \qed
 \end{example}
 %\begin{example}
 %The statement \textit{``Christopher Nolan is the director of the science fiction movie Interstellar, which won the Best Visual Effects Oscar"} will be represented in several SPO triples:\\
