@@ -39,39 +39,39 @@ In AMIE, rule is treated as a sequence of atoms, where the first atom is the hea
 \item \textit{Add Instantiated Atom}: This operator adds a positive atom to the rule, in which one argument of the atom is constant (entity) and the other argument is a shared variable with the rule.
 \item \textit{Add Closing Atom}: This operator adds a positive atom to the rule, in which both arguments of the atom are shared variables with the rule.
 \end{itemize}
-\begin{algorithm}[t]
-\DontPrintSemicolon
-$queue\leftarrow \langle[]\rangle$\\
-Execute in parallel:\\
-\While{$\neg$queue.isEmpty()}{    
-    \textit{rule $\leftarrow$ queue.dequeue()}\\
-%    \tcc{Computes rule statistics and output if necessary.}
-    \If{rule.isClosed()}{
-        \eIf{rule is not pruned for outputting}{
-            output($rule$)
-        }{
-            continue while loop
-        }
-    }
-%    \tcc{Applies operators to explore more new rules.}
-    \ForEach{operator o}{
-        \ForEach{newRule $\in$ o(rule)}{
-%            \If{newRule.hasGoodFormat()}{
-%                \tcc{Check whether there exists some version of the rule in queue.}
-                \If{newRule $\notin$ queue}{ 
-                    \textit{queue.enqueue(newRule)}
-%               }
-            }
-        }
-    }    
-}
-\caption{AMIE's mining algorithm.}
-\label{algor:amie}
-\end{algorithm}
-Algorithm \ref{algor:amie} presents how AMIE's algorithm applies mining operators to extract rules from KGs. The algorithm maintains a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
-Checking for outputting is the process of collecting rules' statistics (e,g. support, confidence, head coverage), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule's quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (eg. confidence). Secondly, the rule must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
+%\begin{algorithm}[t]
+%\DontPrintSemicolon
+%$queue\leftarrow \langle[]\rangle$\\
+%Execute in parallel:\\
+%\While{$\neg$queue.isEmpty()}{    
+%    \textit{rule $\leftarrow$ queue.dequeue()}\\
+%%    \tcc{Computes rule statistics and output if necessary.}
+%    \If{rule.isClosed()}{
+%        \eIf{rule is not pruned for outputting}{
+%            output($rule$)
+%        }{
+%            continue while loop
+%        }
+%    }
+%%    \tcc{Applies operators to explore more new rules.}
+%    \ForEach{operator o}{
+%        \ForEach{newRule $\in$ o(rule)}{
+%%            \If{newRule.hasGoodFormat()}{
+%%                \tcc{Check whether there exists some version of the rule in queue.}
+%                \If{newRule $\notin$ queue}{ 
+%                    \textit{queue.enqueue(newRule)}
+%%               }
+%            }
+%        }
+%    }    
+%}
+%\caption{AMIE's mining algorithm.}
+%\label{algor:amie}
+%\end{algorithm}
+These mining operators are then applied to extract rules from KGs. The algorithm maintains a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
+Checking for outputting is the process of collecting rule statistics (e.g. \textit{support}, \textit{confidence}, \textit{head coverage}), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (e.g. \textit{confidence}). Secondly, the rules being outputted must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
 
-To computing rule's statistics, we must find all instances of rule's variable in the KG. Several options have been proposed by AMIE depending on how the KGs are stored: either by using SQL, SPARQL \cite{amie} or using an In-Memory Database.
+To computing rule statistics, we must find all instances of rule variable in the KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using an In-Memory Database \cite{amie}.
 
 \subsubsection{RDF2Rules.}
 While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by first extracting Frequent Predicate Cycles (FPCs) of some length $k$, which have the following form:
