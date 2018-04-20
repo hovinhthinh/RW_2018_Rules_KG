@@ -51,7 +51,7 @@ adding negated atoms to their bodies in order to account for exceptions. However
 proposed approach applies only to a flattened representation of a KG containing just
 unary facts
 
-\leanparagraph{RUMIS} If a rule is $safe$,the Horn part of the rule is also \textit{closed}. RUMIS starts with a set of \textit{closed} Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of nonmonotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
+\leanparagraph{RUMIS} RUMIS starts with a set of \textit{closed} Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of nonmonotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
 \begin{enumerate}
 \item First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, the normal substitutions and abnormal substitutions are extracted as follows:
 \begin{itemize}
@@ -71,7 +71,7 @@ the rule support, i.e., exceptions should explain the absence of predictions exp
 Combining all possible exceptions at different variables of rule we have:
 \[EWS(r,\cG) = \bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\]
 
-\item For each rule $r \in \cG$, we now have $EWS(r,\cG)$ containing all of its exception candidates. The final step is to rank these exceptions based on some scoring function and select the one with the highest score to build the rule with exception $r'$ in $\cR_{NM}$. At this point, several exception scoring functions have been proposed by RUMIS \cite{rumis}.
+\item For each rule $r \in \cR_H$, we now have $EWS(r,\cG)$ containing all of its exception candidates. The final step is to rank these exceptions based on some scoring function and select the one with the highest score to build the rule with exception $r'$ in $\cR_{NM}$. At this point, several exception scoring functions have been proposed by RUMIS \cite{rumis}.
 %Let $r_i^j$ be the nonmonotonic rule built from $r_i \in \cR_H$ by adding $j$-th exception of $EWS(r_i,\cG)$, the introduced exception scoring functions are as follows:
 \begin{itemize}
 \item \textbf{Naive (N)}: is the simplest scoring function, which choosing the exception with the highest value of some standard rule measure $rm$. RUMIS system uses conviction as the rule measure $rm$.
