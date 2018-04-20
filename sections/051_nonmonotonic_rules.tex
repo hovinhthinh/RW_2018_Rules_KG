@@ -13,14 +13,29 @@ In this section, we are discussing the different approaches for learning nonmont
 
 
 \subsection{Traditional Nonmonotonic Rule Learning}
-Exception handling has been traditionally studied in the Inductive Logic Programming domain by learning nonmonotonic
-logic programs~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,R08,CorapiRL10,ILASP_system}. These methods
-rely on CWA and focus on describing a dataset at hand  where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
+Several approaches was introduced to extend Horn ILP into richer nonmonotonic logic formalisms such as~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,R08,CorapiRL10,ILASP_system}. Once ILP programs are extended to nonmontonic programs, they are interpreted under the answer set semantics explained in Section~\ref{sec:reasoning}~\cite{Shakerin2018}.
+
+%These methods rely on CWA and focus on describing a dataset at hand where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
+
+One of the early attempts by~\cite{DBLP:journals/tocl/Sakama05} proposed algorithms to induce a categorical logic program given the answer set of the background knowledge and either positive or negative examples. In particular, given a single answer set, they induce a program that has this answer set as a stable model. In~\cite{Sakama2009}, the approach was extended to learn from multiple answer sets by introducing brave induction, where the answer sets of the learned hypothesis and the background knowledge cover the positive examples. This work accepts only one positive example as a conjunction of atoms. It totally dismiss the negative examples. Cautious induction, the counterpart of brave induction, is also too restricted as
+it can only induce atoms in the intersection of all stable models.
+
+
+ASPAL~\cite{}is the first ILP system to learn answer set programs by encoding ILP problems
+as ASP programs and having an ASP solver find the hypothesis. Its successor ILASP ~\cite{}, is an ILP system capable of inducing hypotheses expressed as answer set programs
+too.  The algorithm exhaustively searches the space of possible clauses to find one that
+is consistent with all examples and background knowledge. To make this search feasible, it restricts the learning only target predicate(s).
+
+XHAIL ~\cite{} is another ILP system capable of learning non-monotonic logic programs. It
+heavily incorporates abductive logic programming to search for hypotheses. It uses a similar
+language-bias as ILASP does, and thus suffers from the limitations similar to ILASP. It also
+does not support the notion of inducing answer set programs from partial answer sets.
 
 
 \subsection{Nonmonotonic Rule Learning under OWA}
-There are several important challenges preventing us from using the off-the-shelf nonmonotonic
-ILP algorithms. First, the target predicates can not be easily identified, since
+The exiting nonmonotonic ILP algorithms can not be directly used on KGs for several reasons:
+
+ First, the target predicates can not be easily identified, since
 we do not know which parts of the considered KG need to be completed. A standard
 way of addressing this issue would be just to learn rules for all the different predicate
 names occurring in the KG. Unfortunately, this is unfeasible in our case given the huge
