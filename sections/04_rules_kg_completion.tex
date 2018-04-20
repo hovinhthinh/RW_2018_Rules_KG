@@ -95,9 +95,16 @@ where $\textit{rel-supp}(head)$ is the relative support of the head measured by:
 \begin{align*}
 \textit{rel-supp}(head, \cG) = \frac{|\{(h, t) \mid head(h,t) \in \cG\}|}{|\{h \mid \exists t':head(h,t') \in \cG\}| \times |\{t \mid \exists h': head(h',t) \in \cG\}|}
 \end{align*}
+\subsubsection{PCA Confidence.} Proposed by AMIE \cite{amie}, this measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
+\[\forall o' : p(s,o') \in \cG^i \Rightarrow p(s,o') \in \cG\]
+Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. Formally, PCA confidence is defined as follows:
+\[conf_{pca}(r,\cG) = \frac{supp(r,\cG)}{pr-supp(r,\cG)}\]
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, soft confidence is also tailored to work under Open World Assumption, measured by:
 \[conf_{st}(p(s,o) \leftarrow B) = \frac{sup(p(s,o) \leftarrow B)}{sup(B) - \sum_{e \in U}P(e,p)} \]
-where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity \textit{type} information \cite{rdf2rules}. Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p)$ in the unknown part of the rule.
+where $U$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p)$ is the probability of entity $e$ having relation $p$, which is approximated by using entity \textit{type} information \cite{rdf2rules}:
+\[P(e,p)  = max_{t \in T_e}\frac{|Inst_p(t)|}{|Inst(t)|}{}\]
+Here, $T_e$ contains all $type$ of entity $e$, $Inst(t)$ contains all entities having type $t$, and $Inst_p(t)$ is similar to $Inst(t)$, but restricts to only entities that have relation $p$.
+Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p)$ in the unknown part of the rule.
 \subsubsection{Completeness-aware Rule Measures.}  
 \input{figures/kg2}
 
@@ -145,7 +152,6 @@ the directional metric, using a weighting factor $\beta \in [0..1]$. With standa
 \mi{weighted\_dm}(r)=\beta \cdot \mi{conf}(r) + (1-\beta) \cdot \mi{dm}(r) 
 \end{align*}
 \end{itemize}
-\thi{end here}
 %%Recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused on the task of extracting such cardinality information from text.We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) has two apparent shortcomings: First,  it only counts as counterexamples those %objects pairs $(x,y)$ for which at least one $h(x,y')$ %other facts 
 %%with the head predicate $\mi{h}$ 
 %%holds is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where the important ones are added instantly, while others much slower or even possibly never. 
