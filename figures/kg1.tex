@@ -1,9 +1,5 @@
 \begin{figure}[t]
-\begin{center}
-%\includegraphics[width=.8\textwidth]{figures/fam_grad}
-
-%%%%%% New KG %%%%%%%
-
+\centering
 \begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
   thick,main node/.style={font=\bfseries}]
 
@@ -53,29 +49,7 @@
     (15) edge node [right=-6pt] {is} (14)    
     (4) edge node [right=-15pt] {hasFriend} (13)
              ;
-%  \path[every node/.style={color=teal,fill=white,font=\small}]
-%    (1) edge node [right=-20pt] {worksAt} (7)
-%    (2) edge node [right=-15pt] {worksAt} (7)
-%    (4) edge node [right=-30pt] {educatedAt} (7)
-%    (2) edge node [right=-10pt] {hasChild} (4)
-%    (2) edge node [left=-20pt] {hasChild} (5)
-%    (1) edge[bend left=20] node [right=-20pt] {hasChild} (4)
-%    (4) edge[bend left=20] node [left=-20pt] {hasFather} (1)
-%    (1) edge[bend right=20] node [right=-20pt] {hasChild} (3)
-%    (3) edge[bend right=20] node [right=-20pt] {hasFather} (1)
-%    (2) edge node [left=-20pt] {educatedAt} (8)
-%    (5) edge[bend left=20] node [left=-10pt] {educatedAt} (8)
-%    (5) edge[bend right=20] node [right=-10pt,pos=0.4] {worksAt} (8)
-%    (6) edge node [right=-5pt] {hasFather} (1)
-%    (3) edge[bend right=20] node [right=-10pt,pos=0.55] {hasSibling} (6)
-%    (6) edge[bend right=20] node [left=-10pt,pos=0.65] {hasSibling} (3)
-%    (6) edge[bend left=20] node [above=-10pt] {worksAt} (7)
-%    (6) edge[bend right=5] node [below=-10pt] {educatedAt} (7)
-%    (4) edge node [right=-20pt] {hasSibling} (5)
-%    ;
 \end{tikzpicture}
-
 \caption{Rule mining for KG completion and KG cleaning.}
 \label{rdf}
-\end{center}
 \end{figure}
