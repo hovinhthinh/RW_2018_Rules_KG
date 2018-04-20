@@ -31,20 +31,19 @@ XHAIL~\cite{XHAIL} uses a hybrid algorithm combining abduction, deduction, and i
 
 
 \subsection{Nonmonotonic Rule Learning under OWA}
-The exiting nonmonotonic ILP algorithms can not be directly used on KGs for several reasons:
-
- First, the target predicates can not be easily identified, since
-we do not know which parts of the considered KG need to be completed. A standard
-way of addressing this issue would be just to learn rules for all the different predicate
-names occurring in the KG. Unfortunately, this is unfeasible in our case given the huge
-size of KGs. Second, the negative examples are not available, and they can not be easily
-obtained from, e.g., domain experts due to - once again - the huge size of KGs. Third,
+The traditional nonmonotonic inductive and abductive algorithms cannot be directly used on KGs for several reasons:
+First, they are designed to work under CWA; thus, negative examples are assumed to exist or can be safely inferred. However, real-life KGs follows OWA and the negative examples are not available. Moreover, they cannot be obtained from, e.g., domain experts due to the huge size of KGs.
+Second, they cannot scale enough to handle the huge size of the KGs~\cite{Shakerin2018}. 
+ Third, defining target predicates for learning is not feasible as
+it is not known which parts of the considered KG need to be completed. Still learning rules for all predicates appearing in the KG unfeasible due to the huge
+size of KGs. Finally,
 the definition of a language bias turns out to be cumbersome since the schema of the
 KG is usually not available.
 
 
 
- In~\cite{gad2016} first learn a set of Horn rules, which subsequently can be revised by
+
+In~\cite{gad2016} first learn a set of Horn rules, which subsequently can be revised by
 adding negated atoms to their bodies in order to account for exceptions. However, the
 proposed approach applies only to a flattened representation of a KG containing just
 unary facts
