@@ -79,14 +79,25 @@ EWS is then constructed from the relations distinguishing the abnormal set from 
 \item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
 \end{itemize}
 
-By following these constraints, $EWS(r,\cG,\mathcal{X})$ will contain all possible exceptions to be added to $r$ at variables of $\mathcal{X}$ such that the exception is witnessed with the abnormal substitutions but not the normal ones.
+By following these constraints, $EWS(r,\cG,\mathcal{X})$ will contain all possible exceptions to be added to $r$ with respect to variables of $\mathcal{X}$ such that the exception is witnessed with the abnormal substitutions but not the normal ones.
 
 
 \begin{example}
 Recalling $\cG_1$ and $r_1$, the exceptions witness sets for both variable $X$ and $Y$ are $EWS(r_1,\cG_1,\{X\}) = \{artist\}$ and $EWS(r_1,\cG_1,\{Y\}) = \{researcher\}$, respectively.
 \qed
 \end{example}
- \gad{stopped here! details to be added}
+For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ containing all of its exception candidates. 
+%\[EWS(r,\cG)=\bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\] 
+
+For the third and forth steps, instead of creating all possible revisions then searching for the optimum revision $R_{NM}$, a local approach is proposed to pick the best revision for each rule $r \in R_H$. Several exception scoring functions have been proposed to select the best revision locally:
+\begin{itemize}
+\item \textbf{Naive}: It is the direct way for choosing the revision using only some standard measure such as confidence or conviction.
+\item \textbf{PM}: Intuitively, the idea behind it is to rank candidate revisions based on its extension with predictions produced by other rules in $R_H$; hence, ensuring a cross-talk between the rules.
+\item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materialize the rules of $\cR_{H}$ with higher quality than the current rule.
+\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited  from the rules used to generate them. 
+\end{itemize}
+
+ %\gad{stopped here! details to be added}
  
 
 
@@ -122,17 +133,17 @@ Recalling $\cG_1$ and $r_1$, the exceptions witness sets for both variable $X$ a
 %\[EWS(r,\cG) = \bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\]
 
 %\item 
-For each rule $r \in \cR_H$, we now have $EWS(r,\cG)$ containing all of its exception candidates. The final step is to rank these exceptions based on some scoring function and select the one with the highest score to build the rule with exception $r'$ in $\cR_{NM}$. At this point, several exception scoring functions have been proposed by RUMIS \cite{rumis}.
-%Let $r_i^j$ be the nonmonotonic rule built from $r_i \in \cR_H$ by adding $j$-th exception of $EWS(r_i,\cG)$, the introduced exception scoring functions are as follows:
-\begin{itemize}
-\item \textbf{Naive (N)}: is the simplest scoring function, which choosing the exception with the highest value of some standard rule measure $rm$. RUMIS system uses conviction as the rule measure $rm$.
-\item \textbf{PM}: invoke the novel concept of \textit{partial materialization}. The idea behind it is to rank candidate exceptions not based on $\cG$ as in Naive, but rather on its
-extension with predictions produced by other rules in $\cR_H$, thus ensuring a crosstalk between the rules.
-\item \textbf{OPM}: stands for \textit{ordered partial materialization}. This exception scoring function is similar to \textbf{PM}, but also takes into account the order of rules in $\cR_{H}$, which is defined based on some rule measure (e.g. \textit{r-supp} in RUMIS).
-
-\thi {Should I describe the 3 ranking measures in more detail?}
-\end{itemize}
-%\end{enumerate}
+%For each rule $r \in \cR_H$, we now have $EWS(r,\cG)$ containing all of its exception candidates. The final step is to rank these exceptions based on some scoring function and select the one with the highest score to build the rule with exception $r'$ in $\cR_{NM}$. At this point, several exception scoring functions have been proposed by RUMIS \cite{rumis}.
+%%Let $r_i^j$ be the nonmonotonic rule built from $r_i \in \cR_H$ by adding $j$-th exception of $EWS(r_i,\cG)$, the introduced exception scoring functions are as follows:
+%\begin{itemize}
+%\item \textbf{Naive (N)}: is the simplest scoring function, which choosing the exception with the highest value of some standard rule measure $rm$. RUMIS system uses conviction as the rule measure $rm$.
+%\item \textbf{PM}: invoke the novel concept of \textit{partial materialization}. The idea behind it is to rank candidate exceptions not based on $\cG$ as in Naive, but rather on its
+%extension with predictions produced by other rules in $\cR_H$, thus ensuring a crosstalk between the rules.
+%\item \textbf{OPM}: stands for \textit{ordered partial materialization}. This exception scoring function is similar to \textbf{PM}, but also takes into account the order of rules in $\cR_{H}$, which is defined based on some rule measure (e.g. \textit{r-supp} in RUMIS).
+%
+%\thi {Should I describe the 3 ranking measures in more detail?}
+%\end{itemize}
+%%\end{enumerate}
 
 
 
