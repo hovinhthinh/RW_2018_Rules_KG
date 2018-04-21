@@ -124,8 +124,6 @@ Based on these numbers, we have $conv(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \fr
 \qed
 \end{example}
 \subsubsection{Completeness-aware Rule Measures.}  
-\input{figures/kg2}
-
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it is even available on the Web
 in the form of Cardinality Statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
 one. Since such existential information is beneficial not only for guided rule learning but also for increasing the scope of KGs and estimating their recall.
@@ -148,6 +146,7 @@ predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, co
 \end{align*}
 Using these indicators, a class of completeness-aware rules measures have been proposed by CARL as follows:
 \begin{itemize}
+\input{figures/kg2}
 \item \textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as follows:
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
