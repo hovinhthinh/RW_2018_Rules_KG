@@ -8,15 +8,15 @@
   \node[main node] (3) [right=3cm of 2] {john};
   \node[main node] (4) [right=2.5cm of 3] {kate};  
   \node[main node] (5) [below right=1cm and 0.5cm of 1] {berlin};  
-  \node[main node] (11) [right=1.5cm of 5] {researcher};  
-  \node[main node] (6) [above right=0.3cm and 1.5cm of 5] {metropolitan};  
+  \node[main node] (11) [right=1.5cm of 5] {\textcolor{red}{researcher}};  
+  \node[main node] (6) [above right=0.3cm and 1.5cm of 5] {\textcolor{red}{metropolitan}};  
   \node[main node] (7) [right=5cm of 5] {chicago};  
   \node[main node] (9) [below=2.3cm of 1] {bob};  
   \node[main node] (10) [right=2.5cm of 9] {alice};  
   \node[main node] (12) [right=1.6cm of 10] {dave};  
   \node[main node] (8) [right=2.5cm of 12] {clara};  
   \node[main node] (13) [right=6.5cm of 10] {li};  
-  \node[main node] (14) [below=1.3cm of 9] {artist};  
+  \node[main node] (14) [below=1.3cm of 9] {\textcolor{red}{artist}};  
   \node[main node] (15) [right=2.4cm of 14] {mat};  
   \node[main node] (17) [right=3cm of 15] {sue};  
   \node[main node] (18) [right=2.5cm of 17] {beijing};  
@@ -41,12 +41,12 @@
     (15) edge node [right=-18pt] {livesIn} (16)
     (13) edge node [right=-15pt] {livesIn} (18)    
     (17) edge node [right=-18pt] {livesIn} (18)
-    (5) edge node [right=-8pt] {isA} (6)
-    (7) edge node [right=-8pt] {isA} (6)    
-    (10) edge node [right=-8pt] {isA} (11)
-    (12) edge node [right=-8pt] {isA} (11)    
-    (9) edge node [right=-8pt] {isA} (14)
-    (15) edge node [right=-8pt] {isA} (14)    
+    (5) edge node [right=-8pt] {\textcolor{red}{isA}} (6)
+    (7) edge node [right=-8pt] {\textcolor{red}{isA}} (6)    
+    (10) edge node [right=-8pt] {\textcolor{red}{isA}} (11)
+    (12) edge node [right=-8pt] {\textcolor{red}{isA}} (11)    
+    (9) edge node [right=-8pt] {\textcolor{red}{isA}} (14)
+    (15) edge node [right=-8pt] {\textcolor{red}{isA}} (14)    
     (4) edge node [right=-20pt] {hasFriend} (13)
              ;
 \end{tikzpicture}
