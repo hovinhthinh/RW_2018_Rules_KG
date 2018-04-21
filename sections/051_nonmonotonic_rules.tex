@@ -56,34 +56,53 @@ In order to estimate the conflict between the predictions of the rules, they int
 
 Figure~\ref{fig:iswc_process} shows the rule revision steps as described by~\cite{gad2016} (and similarly RUMIS). 
 
-
 First, Horn rules are extracted from the KG. In the case of~\cite{gad2016}, the KG is first projected from the binary relations into unary one by introducing new predicates that combines the original predicate and the class of the object part (aka propositionalization). For example, given facts $\mi{isMarriedTo(bob, alice)}$ and $\mi{researcher(alice)}$, the first can be projected into $\mi{isMarriedTo\_researcher(bob)}$. Using the class of the object instead of the instances allows learning patterns. A traditional item set mining approach to obtain the Horn rules $R_H$ from the projected KG. RUMIS takes as input a rule set learned by using any positive rule mining system such as ~\cite{amie,op,rdf2rules}.  
 
+Second, in order to construct the exception witness set (EWS), for each rule $r$ the normal and abnormal  sets are defined: the normal set is the set of the substitutions of the variables $\mathcal{V}$ with the entities such that satisfy both the head and the body of the rule $r$, while the abnormal set contains the  substitutions for which the rule body is satisfied but not the head.
 
-
-
- \gad{stopped here! details to be added}
-
-\leanparagraph{RUMIS} RUMIS starts with a set of \textit{closed} Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of nonmonotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
-%\begin{enumerate}
-%\item
- First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, the normal substitutions and abnormal substitutions are respectively extracted as follows:
+Formally, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, the normal and abnormal sets are respectively defined as follows:
 \begin{itemize}
 \item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$
 \item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$\\
 where $\theta: \mathcal{V} \rightarrow \cC$.
 \end{itemize}
-Informally, the normal and abnormal substitutions stand for the substitutions of variables $\mathcal{V}$ with the entities such that the rule $r$ holds (both the head and the body hold) and does not hold (only the body holds) in $\cG$, correspondingly.
+
 \begin{example}
-Consider the KG $\cG_1$ and $r_1$ as before, we have $NS(r_1,\cG_1)=\{\theta_1, \theta_2 ,\theta_3\}$, where $\theta_1 = \{X/brad, Y/ann, Z/berlin\}$, $\theta_2 = \{X/john, Y/kate, Z/chicago\}$ and $\theta_3 = \{X/sue, Y/li, Z/beijing\}$. Similarly, $ABS(r_1,\cG_1)=\{\{X/bob, Y/alice, Z/berlin\},$ $\{X/clara, Y/dave, Z/chicago\},$ $\{X/mat, Y/lucy, Z/amsterdam\}\}$.
+Consider the KG $\cG_1$ and $r_1$ as before, the normal set for $r_1$ is $NS(r_1,\cG_1)=\{\theta_1, \theta_2 ,\theta_3\}$, where $\theta_1 = \{X/brad, Y/ann, Z/berlin\}$,\\  $\theta_2 = \{X/john, Y/kate, Z/chicago\}$ and $\theta_3 = \{X/sue, Y/li, Z/beijing\}$.\\ and the abnormal set, $ABS(r_1,\cG_1)=\{\theta_4,\theta_5, \theta_6\}$, \\such that $\theta_4=\{X/bob, Y/alice, Z/berlin\}$,  $\theta_5=\{X/clara, Y/dave, Z/chicago\}$, and $\theta_6=\{X/mat, Y/lucy, Z/amsterdam\}$.
 \qed
 \end{example}
-%\item 
+
+ \gad{stopped here! details to be added}
+ 
 Second, based on the (ab)normal substitutions, let $\mathcal{X} \subseteq \mathcal{V}$, we compute the Exception Witness Set (EWS) for each $r \in \cR_H$, which is a maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ s.t.:
 \begin{itemize}
 \item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
 \item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
 \end{itemize}
+
+
+
+%
+%\leanparagraph{RUMIS} RUMIS starts with a set of \textit{closed} Horn rules $\cR_H$, which can be learned by using any positive rules mining systems \cite{amie,op,rdf2rules}, and then finds the single best exception for each Horn rule $r \in \cR_H$ to obtain a revised set of nonmonotonic rules $\cR_{NM}$ such that the difference between $\cG^i$ and $\cG^i_{R_{NM}}$ is minimized. Below is the overview of how RUMIS revises the ruleset $\cR_H$ to achieve $\cR_{NM}$.
+%\begin{enumerate}
+%\item
+% First, for each rule $r \in \cR_H$, let $\mathcal{V}$ be the set of variables of $r$, the normal substitutions and abnormal substitutions are respectively extracted as follows:
+%\begin{itemize}
+%\item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$
+%\item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$\\
+%where $\theta: \mathcal{V} \rightarrow \cC$.
+%\end{itemize}
+%Informally, the normal and abnormal substitutions stand for the substitutions of variables $\mathcal{V}$ with the entities such that the rule $r$ holds (both the head and the body hold) and does not hold (only the body holds) in $\cG$, correspondingly.
+%\begin{example}
+%Consider the KG $\cG_1$ and $r_1$ as before, we have $NS(r_1,\cG_1)=\{\theta_1, \theta_2 ,\theta_3\}$, where $\theta_1 = \{X/brad, Y/ann, Z/berlin\}$, $\theta_2 = \{X/john, Y/kate, Z/chicago\}$ and $\theta_3 = \{X/sue, Y/li, Z/beijing\}$. Similarly, $ABS(r_1,\cG_1)=\{\{X/bob, Y/alice, Z/berlin\},$ $\{X/clara, Y/dave, Z/chicago\},$ $\{X/mat, Y/lucy, Z/amsterdam\}\}$.
+%\qed
+%\end{example}
+%\item 
+%Second, based on the (ab)normal substitutions, let $\mathcal{X} \subseteq \mathcal{V}$, we compute the Exception Witness Set (EWS) for each $r \in \cR_H$, which is a maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ s.t.:
+%\begin{itemize}
+%\item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
+%\item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
+%\end{itemize}
 Intuitively, $\mathcal{X}$ is set containing of either 1 or 2 variables of $\mathcal{V}$ corresponding to the usage of unary or binary exception. While the first condition ensures that the exception does affect the abnormal substitutions of the rule, the second condition ensures that it does not affect the rule's normal substitutions part. In other words, $EWS(r,\cG,\mathcal{X})$ contains all possible exceptions to be added to $r$ at variables of $\mathcal{X}$, such that the addition of the exception should result in the rule $r'$, satisfying $\textit{b-supp}(r', \cG) < \textit{b-supp}(r, \cG)$ and $\textit{r-supp}(r', \cG) = \textit{r-supp}(r, \cG)$. Intuitively, the application of exception should lead to the decrease of the body support, but not lead to the decrease of
 the rule support, i.e., exceptions should explain the absence of predictions expected to be in the graph rather then their presence.
 \begin{example}
