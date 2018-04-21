@@ -91,7 +91,7 @@ Modern web-scale knowledge bases such as YAGO or Freebase might contain hundreds
 
 The focus of the novel rule-mining algorithm OP\cite{op} is not at how to find the candidate rules in the knowledge graph, but rather at how to examine their quality. The rules construction in Ontological Pathfinding (OP) algorithm relies on the relational pathfinding method \cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including KG partitioning, joining and pruning strategies. 
 \subsection{Rule Evaluation}
-Most of state-of-the-art positive rule mining systems are different from each other at the rule metric that they introduce to quantify rule's quality and how to exploit it in learning rules. Basically, we can plug different rule metrics into these mining systems to work under different situations. For instance, standard confidence $conf$ works under the Closed World Assumption. Apart from that, there also exist other measures introduced to quantify the quality of rules (see \cite{metrics-summary}). Some of them are listed below. Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and consider the example rules $r_1$, $r_2$, and KG $\cG_1$ of Figure \ref{rdf}, we have:
+Most of state-of-the-art positive rule mining systems are different from each other at the rule metric that they introduce to quantify rule's quality and how to exploit it in learning rules. Basically, we can plug different rule metrics into these mining systems to work under different situations. For instance, standard confidence $conf$ works under the Closed World Assumption. Apart from that, there also exist other measures introduced to quantify the quality of rules (see \cite{metrics-summary}). Some of them are listed below. Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 \subsubsection{PCA Confidence.} Proposed by AMIE \cite{amie}, this measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 \[\forall o' : p(s,o') \in \cG^i \implies p(s,o') \in \cG\]
 Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. Formally, \textit{PCA confidence} is defined as follows:
@@ -109,6 +109,9 @@ where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured 
 \begin{align*}
 \textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)*(\#Y:\exists X:h(X,Y)\in \cG)}
 \end{align*}
+\begin{example}
+We have $\textit{rel-supp}(livesIn, \cG_1) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$
+\end{example}
 
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, \textit{soft confidence} is also tailored to work under Open World Assumption, measured by:
 \[conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U}P(e,p,\cG)} \]
