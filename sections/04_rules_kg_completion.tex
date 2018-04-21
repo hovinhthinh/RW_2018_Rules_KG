@@ -68,15 +68,19 @@ In AMIE, rule is treated as a sequence of atoms, where the first atom is the hea
 %\caption{AMIE's mining algorithm.}
 %\label{algor:amie}
 %\end{algorithm}
-These mining operators are then applied to extract rules from KGs. The algorithm maintains a queue consisting of rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
+These mining operators are then applied to extract rules from KGs. The algorithm maintains a queue consisting of intermediate rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
 Checking for outputting is the process of collecting rule statistics (e.g. \textit{support}, \textit{confidence}, \textit{head coverage}), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (e.g. \textit{confidence}). Secondly, the rules being outputted must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
 
 To computing rule statistics, we must find all instances of rule variable in the KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using an In-Memory Database \cite{amie}.
 
 \subsubsection{RDF2Rules.}
-While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by first extracting Frequent Predicate Cycles (FPCs) of some length $k$, which have the following form:
-\[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ..., p_k^{d_k}, x_1)\]
-where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. Then, rules are extracted from the FPC by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule $j$-th is generated from the FPC as follows:
+While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting Frequent Predicate Cycles (FPCs) of some length $k$, which have the following form:
+\[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ...,x_k, p_k^{d_k}, x_1)\]
+where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. To extract FPCs, the algorithm mines first the Frequent Predicate Paths (FPPs) having form of:
+\[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ...,x_k, p_k^{d_k}, x_{k+1})\]
+FPPs of length $k$ could be mined recursively based on FPPs of length $k-1$. FPCs are then created from FPPs by merging the last variable $x_{k+1}$ with the first variable $x_1$.
+
+After mining FPCs, rules are extracted from the FPCs by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule $j$-th is generated from the FPC as follows:
 \[r_j: p_j^{d_j}(x_j,x_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
 
 Moreover, RDF2Rules is also capable of generating rules with $type$ information. The above generated rules are without \textit{type} information. To achieve this, each extracted FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, since the rules extraction strictly relies on FPCs.
