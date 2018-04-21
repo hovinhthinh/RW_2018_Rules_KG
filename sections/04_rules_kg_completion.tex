@@ -17,7 +17,7 @@ Rule learning approaches can be characterized along several dimensions.
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-In this work we focus on approaches that rely on \emph{relational association rule learning} and \emph{theory revision} techniques for extraction of \emph{Horn} and \emph{nonmonotonic rules} respectively from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts.
+In this work we focus on approaches that rely on \emph{relational association rule learning} and \emph{theory revision} techniques for extraction of \emph{Horn} and \emph{nonmonotonic rules}\thi{do we deal with exception in this exception?} respectively from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts.
 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
 
@@ -85,7 +85,8 @@ After mining FPCs, rules are extracted from the FPCs by choosing a predicate as 
 
 Moreover, RDF2Rules is also capable of generating rules with $type$ information. The above generated rules are without \textit{type} information. To achieve this, each extracted FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, since the rules extraction strictly relies on FPCs.
 
-\subsubsection{OP (Ontological Pathfinding).} 
+\subsubsection{OP (Ontological Pathfinding).}
+\thi{i think we should remove this section and just add citation}.
 Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG. Most of state-of-the-art rule mining systems parallelize only the construction of the rules, while the quality of the rules are determined by a single thread.
 Modern web-scale knowledge bases such as YAGO or Freebase might contain hundreds million of entities and billions of facts between them, Hence, it is impossible to store these KGs in a single machine. As a result, these rule mining systems either cannot scale to this size to determine the rules' quality, or they have to assign this task to some third-party system such as SQL, SPARQL \cite{amie}, which might be inefficient.
 
