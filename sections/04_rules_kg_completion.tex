@@ -119,7 +119,7 @@ where $U_r$ is the set of entities that previously have no relations of $p$, but
 Here, $T_{e,\cG}$ contains all $type$ of entity $e$, $Inst(t, \cG)$ contains all entities of type $t$, and $Inst_p(t, \cG)$ is similar to $Inst(t, \cG)$, but restricts to only entities that have relation $p$.
 Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p, \cG)$ in the unknown part of the rule.
 \begin{example}
-We have $U_{r_1} = {lucy, dave}$, $U_{r_2} = {lucy}$. Moreover, $P(dave,livesIn,\cG_1) = \frac{1}{2}$ since $dave$ has only 1 type $researcher$, in which there are totally 2 researchers ($dave$, $alice$) but only $alice$'s living place is known to $\cG_1$ ($amsterdam$). In contrast, $P(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
+Consider KG $\cG_1$, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $P(dave,livesIn,\cG_1) = \frac{1}{2}$ since $dave$ has only 1 type $researcher$, in which there are totally 2 researchers ($dave$, $alice$) but only $alice$'s living place is known to $\cG_1$ ($amsterdam$). In contrast, $P(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
 Based on these numbers, we have $conv(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conv(r_2,\cG_1) = \frac{3}{4-0} = \frac{3}{4}$.
 \qed
 \end{example}
