@@ -99,7 +99,7 @@ Intuitively, if the KG contains some $p$-object of $s$, then it also contains al
 \mi{conf_{pca}}(r, \cG) := \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
 \]
 \begin{example}
-We have $conf_{pca}(r_1,\cG_1) = \frac{3}{4}$, since we do not know any place where $lucy$ and $dave$ live. Similarly, $conf_{pca}(r_2),\cG_1) = \frac{3}{3}$.
+We have $conf_{pca}(r_1,\cG_1) = \frac{3}{4}$, since we do not know any place where $lucy$ and $dave$ live. Similarly, $conf_{pca}(r_2),\cG_1) = \frac{3}{3}$.\qed
 \end{example}
 \subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
 \begin{align*}
@@ -110,9 +110,8 @@ where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured 
 \textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)*(\#Y:\exists X:h(X,Y)\in \cG)}
 \end{align*}
 \begin{example}
-We have $\textit{rel-supp}(livesIn, \cG_1) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$
+We have $\textit{rel-supp}(livesIn, \cG_1) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
 \end{example}
-
 \subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, \textit{soft confidence} is also tailored to work under Open World Assumption, measured by:
 \[conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}P(e,p,\cG)} \]
 where $U_r$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p,\cG)$ is the probability of entity $e$ having relation $p$ in $\cG$, which is approximated by using entity \textit{type} information \cite{rdf2rules}:
@@ -122,6 +121,7 @@ Intuitively, soft confidence is designed to avoid the underfitting of standard c
 \begin{example}
 We have $U_{r_1} = {lucy, dave}$, $U_{r_2} = {lucy}$. Moreover, $P(dave,livesIn,\cG_1) = \frac{1}{2}$ since $dave$ has only 1 type $researcher$, in which there are totally 2 researchers ($dave$, $alice$) but only $alice$'s living place is known to $\cG_1$ ($amsterdam$). In contrast, $P(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
 Based on these numbers, we have $conv(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conv(r_2,\cG_1) = \frac{3}{4-0} = \frac{3}{4}$.
+\qed
 \end{example}
 \subsubsection{Completeness-aware Rule Measures.}  
 \input{figures/kg2}
@@ -152,6 +152,23 @@ Using these indicators, a class of completeness-aware rules measures have been p
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
+\begin{example}
+Consider the KG $\cG_2$ in Figure \ref{fig:fam_grad}
+and the following cardinality statements for it:\\
++ $\mi{num(hC,john,\cG^i_2)}\!=\!\mi{num(hC,mary,\cG^i_2)}\!=3$; $\mi{num(hC,alice,\cG^i_2)}\!=\!1$; $\mi{num(hC,carol,\cG^i_2)}\!=\!\mi{num(hC,dave,\cG^i_2)}\!=\!0$;\\
++ $\mi{num(hS,alice,\cG^i_2)}\!=\!\mi{num(hS,carol,\cG^i_2)}\!=\!\mi{num(hS,dave,\cG^i_2)}\!=\!2$;\\ $\mi{num(hS,bob,\cG^i_2)}\!=\!3$;\\
+where $hC$, $hS$ stand for $hasChild$ and $hasSibling$, correspondingly. We then have:\\
++ $\mi{miss(hC,mary,\cG_2)}\!=\!\mi{miss(hC,john,\cG_2)}\!=\!\mi{miss(hC,alice,\cG_2)}\!=\!1$;\\ $\mi{miss(hC,carol,\cG_2)}\!=\!\mi{miss(hC,dave,\cG_2)}\!=\!0$;\\
++ $\mi{miss(hS,bob,\cG_2)}\!=\mi{miss(hS,carol,\cG_2)}\!=\!2$;\\$\mi{miss(hS,alice,\cG_2)}\!=\!\mi{miss(hS,dave,\cG_2)}\!=\!1$;
+Also consider the following two extracted rules: 
+\vspace{-\topsep}
+\begin{align*}
+-\ r_3 &: hasChild(X,Y) \leftarrow worksAt(X,Z), educatedAt(Y,Z)\\
+-\ r_4 &: hasSibling(X,Z) \leftarrow hasFather(X,Y), hasChild(Y,Z)
+\end{align*}
+We get $\mi{conf_{comp}(r_3, \cG_2)}=\frac{2}{6}$ and $\mi{conf_{comp}(r_4, \cG_2)}=\frac{1}{2}$.
+\qed
+\end{example}
 \item \textbf{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure rule quality based on their predictions in complete and incomplete KG parts:
 \begin{align*}
 \mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
@@ -159,6 +176,10 @@ Using these indicators, a class of completeness-aware rules measures have been p
 \end{align*}
 Intuitively, rules having high precision are rules that predict few facts in complete parts, while rules having high recall are rules that predict many facts in incomplete ones. Rule scoring could also be based on any weighted combination of these two metrics.
 %The \emph{recall measure} is similar to classical support measures, but now expresses how many facts on KG parts known to be incomplete, are generated by the rule (the more the better). The \emph{precision measure}, in turn, assesses how many of the generated facts are definitely wrong, namely those in complete parts (the more of these, the worse the rule). In fact, this is an upper bound on the precision, as the other facts cannot be evaluated.
+\begin{example}
+We have $\mi{npi(r_3, \cG_2)}\!=\!2$, $\mi{npc(r_3, \cG_2)}\!=\!4$, while $\mi{npi(r_4,\cG_2)}\!=\!4$, $\mi{npc(r_4,\cG_2)}\!=\!1$, resulting in $\mi{precision_{comp}(r_3,\cG_2)}\!=\!0.5$, $\mi{recall_{comp}(r_3,\cG_2)}\!\approx\!0.67$,and $\mi{precision_{comp}(r_4,\cG_2)}\!\approx\!0.83$, $\mi{recall_{comp}(r_4,\cG_2)}\!\approx\!0.67$.
+\qed
+\end{example}
 \item \textbf{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Hence, \emph{directional metric} is proposed following this intuition by measuring the proportion between predictions in complete and incomplete parts:
 \begin{align*}
 \mi{dm}(r,\cG) := \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
@@ -289,8 +310,8 @@ the directional metric, using a weighting factor $\beta \in [0..1]$. With standa
 %$\mi{conf_{comp}(r_1)}=\frac{2}{6}$ %{5}$ 
 %and $\mi{conf_{comp}(r_2)}=\frac{1}{2}$, resulting in the desired rule ordering,  which is not achieved by %is in contrast to 
 %existing measures. %while the %previously introduced 
-%%The existing %ranking 
-%%metrics result in an incorrect rule ordering 
+%The existing %ranking 
+%metrics result in an incorrect rule ordering 
 %%(see Ex.~\ref{ex:conf} and~\ref{ex:conf_pca}).
 %\qed
 %%%%%% OLD EXAMPLE %%%%%
