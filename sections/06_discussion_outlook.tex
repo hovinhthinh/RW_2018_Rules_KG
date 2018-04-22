@@ -12,7 +12,17 @@ In this tutorial, we discussed the different approaches for rule induction and r
 Despite the advances in rule learning, the existing methods still learn limited formats for rules, \eg closed rules, with even restrictive language bias. Additionally, they are still prone to KG incompleteness and not being able to determine the possible gaps in the data under OWA. These challenges lead to the generation of uninteresting and noisy rules. Follows some possible directions to overcome such challenges. 
 
 
-\leanparagraph{Rule Learning with External Sources}  While the rule construction methods may vary for the various approaches ~\cite{amie,op,rdf2rules}, the result quality heavily depends on the utilized evaluation metric. Various rule measures have been introduced. Nevertheless, most of them are computed based on only the given graph, and cover only a small subset of local patterns in the KG, thus might wrongly estimate the quality of extracted rules since real-world KGs are usually highly incomplete.
+\leanparagraph{Rule Learning with External Sources}  One of the main difference between the existing approaches is the rule evaluation metric which affects the quality of the resulting rule set heavily. However,  existing measures only consider the given KG in their computation, and cover a small subset of the local patterns as well. Other missing facts are not counted, therefore, the estimated quality of rules might be inaccurate.
+
+One promising direction is to consider pieces of evidence from other external resources while estimating the quality of the rules as shown in Figure~\ref{fig:discussion_overview}. This external resource can either be a human expert giving feedback about the correctness of the rule or its predictions similar to~\cite{Dzyuba2017}, a community voting via crowd-sourcing, or a fact-checking over textual resources such as Defacto~\cite{defacto} or FactChecker~\cite{factchecker}. In addition, external KG meta-data could give some information about the existence of certain types of facts within the KG (as in CARL~\cite{carl}).
+
+An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations with the propose of estimating the likelihood of unseen facts. Recently, several models have been proposed, while many of them achieved reasonable results quality~\cite{Wang2017}, yet their predictions are not interpretable~\cite{Shakerin2018}. Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
+
+\subsubsection{Learning Various Rule Forms}
+In the KG completion problem, as mentioned, most of the rule mining approaches only mine $closed$ rules. Nevertheless, other form of rules might be also interesting. For example, rules with disjunction (e.g. $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$), rules with quantifier (e.g. $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$). Even though these kinds of rule do not directly make predictions on the knowledge graph since we do not know exactly which facts of the head are true, they might give us some useful constraints about the knowledge graph.
+
+
+
 
 %\section{Discussion and Outlook}
 %\label{sec:discussion_outlook}
