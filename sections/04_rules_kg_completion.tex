@@ -2,7 +2,7 @@
 \label{sec:rules_kg_completion}
 In this section we first describe the possible learning tasks that could be performed over KGs and then dwell into the details of the relational association rule learning from incomplete KGs. 
 \subsection{Rule Learning Tasks}
-Rule learning is an important subfield of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret that, e.g., a regression model or trained neural network.
+Rule learning is an important subfield of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
 First-order learning approaches are also referred to as \emph{relational data mining (RDM)}, \emph{relational learning
 (RL)} or \emph{inductive logic programming (ILP)}, as the patterns they discover are expressed in
@@ -10,24 +10,39 @@ relational formalisms of first-order logic.
 
 Rule learning approaches can be characterized along several dimensions. 
 \begin{itemize}
-\item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (i.e., so-called positive and negative examples respectively)
+\item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
 \item \emph{type of the output knowledge}, e.g., Horn rules, nonmonotonic rules, description logic class descriptions, class inclusions of various expressivity, etc.
 \item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
 \item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-In this work we focus on approaches that rely on \emph{relational association rule learning} and \emph{theory revision} techniques for extraction of \emph{Horn} and \emph{nonmonotonic rules}\thi{do we deal with exception in this exception?} respectively from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts.
+In this work we focus on approaches that rely on \emph{relational association rule learning} and \emph{theory revision} techniques for extraction of \emph{Horn} and \emph{nonmonotonic rules}\thi{do we deal with exception in this exception?} \ds{not sure that I got your question. what do you mean by ``exception in this exception''?} respectively from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts.
 
-Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). In the following we adapt basic notions in relational association rule mining to our case of interest.
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
+
 The standard relational rule learning techniques usually proceed in two 
-steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG and transform them into the form of rules, rule evaluation phases deals with measuring rule quality from some scoring function computed based on rule statistics in the KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate ones. Below, we summarize some general techniques that have been introduced from the literature of the mentioned rule learning steps.
+steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
+%and transform them into the form of rules, 
+rule evaluation phase deals with measuring rule quality %from 
+using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 \subsection{Rule Construction}
-Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
-association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
+% Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
+% association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
 
-Hence, in this section, we briefly summarize some of these state-of-the-art rule mining systems, which combine rule learning and reasoning for knowledge graph completion under OWA. Most of these systems only extract rules that are \emph{closed}, where every variable appears at least twice. Some examples of such mining systems are AMIE \cite{amie}, OP, \cite{op} and RDF2Rules \cite{rdf2rules}.
+In this section, we briefly summarize some of the state-of-the-art methods %rule mining systems, 
+for rule construction, most of which % which combine rule learning and reasoning for knowledge graph completion under OWA.
+%Most of these systems only 
+extract so-called \emph{closed} rules,
+%that are \emph{closed}, 
+i.e., rules, in which every variable appears at least twice. 
+
+\begin{example}
+\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
+\end{example}
+
+The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, OP, \cite{op} and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE.}
 AMIE \cite{amie} is a state-of-the-art positive rule mining system in the context of OWA. 
 %Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
@@ -37,9 +52,9 @@ AMIE \cite{amie} is a state-of-the-art positive rule mining system in the contex
 %This measure is then exploited by AMIE to mine positive rules using its introduced algorithm. 
 In AMIE, rule is treated as a sequence of atoms, where the first atom is the head of the rule, and other atoms are the body of the rule. Mining operators are introduced to extend the sequences of atoms to explore the rules' search space as follows:
 \begin{itemize}
-\item \textit{Add Dangling Atom}: This operator adds a positive atom to the rule. One of the two arguments of the atom should be a fresh new variable. The other argument is a shared variable, which appears in some other atom of the rule.
-\item \textit{Add Instantiated Atom}: This operator adds a positive atom to the rule, in which one argument of the atom is constant (entity) and the other argument is a shared variable with the rule.
-\item \textit{Add Closing Atom}: This operator adds a positive atom to the rule, in which both arguments of the atom are shared variables with the rule.
+\item \textit{Add dangling atom}: This operator adds a positive atom to the rule. One of the two arguments of the atom should be a fresh new variable. The other argument is a shared variable, which appears in some other atom of the rule.
+\item \textit{Add instantiated atom}: This operator adds a positive atom to the rule, in which one argument of the atom is constant (entity) and the other argument is a shared variable with the rule.
+\item \textit{Add closing atom}: This operator adds a positive atom to the rule, in which both arguments of the atom are shared variables with the rule.
 \end{itemize}
 %\begin{algorithm}[t]
 %\DontPrintSemicolon
@@ -73,7 +88,7 @@ In AMIE, rule is treated as a sequence of atoms, where the first atom is the hea
 These mining operators are then applied to extract rules from KGs. The algorithm maintains a queue consisting of intermediate rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
 Checking for outputting is the process of collecting rule statistics (e.g. \textit{support}, \textit{confidence}), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (e.g. \textit{confidence}). Secondly, the rules being outputted must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
 
-To computing rule statistics, we must find all instances of rule variable in the KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using an In-Memory Database \cite{amie}.
+To compute the rule's statistics, we must find all instantiations of variables in a rule in the given KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using in-memory database techniques \cite{amie}.
 
 \subsubsection{RDF2Rules.}
 While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting Frequent Predicate Cycles (FPCs) of some length $k$, which have the following form:
