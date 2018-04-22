@@ -2,8 +2,8 @@
 \label{sec:reasoning}
 In this section we briefly introduce logic programs (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and relational association rules \cite{DBLP:conf/esf/GoethalsB02}.
 
-\subsection{Logic Programs} Logic programs consist of a set of rules. Informally, a rule is an if-then expression, whose  if-part may contain several conditions, some possibly with
-negation, which all have to hold, while the then-part has a single atom that has to hold whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules.
+\subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose  if-part may contain several conditions, some possibly with
+negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
 
 
 % Logic rules have been introduced and used in the context of declarative programming. A set of rules are called logical program. There are several types of logical programs (as explained in~\cite{DBLP:books/sp/Lloyd87}), in this tutorial, we are interested in \textit{Horn} and \textit{Nonmonotonic} Logic Programs.
@@ -23,6 +23,11 @@ where $H$ is a standard first-order atom of the form $a(\vec{X})$, $B$ is a conj
 The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side as its body $\mi{body(r)}$. The the positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
 \emph{Horn} if $\mi{body^-}(r)=\emptyset$.
 
+\begin{example}
+Consider $r_2$ from Section~\ref{sec:intro}. We have that $\mi{head(r)}=\{livesIn(Y,Z)\}$, while $\mi{body^+(r)=\{isMarriedTo(X,Y), livesIn(X,Z)\}}$, and moreover,\\ $\mi{body^-(r)=\{not\;researcher(Y)\}}$. \qed
+\end{example}
+
+
 % such that $\vec{X}$, $Y_i$  are vectors of variables and constants with lengths $n$ and $m_i$ respectively. 
  
 %$H$ is also known as the rule head and denoted as $\mi{Head(r)}$, $B$ as the positive part of the rule body $\mi{Body^+}(r)$; while, the negated part of the body ($\naf E$) is denoted as $\mi{Body^-}(r)$. 
@@ -37,7 +42,15 @@ The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{hea
 %\gad{I commented out the details of answer set semantics (\ie grounding and more)}
 
 A logic program $P$ is \emph{ground} if it consists of only ground rules, i.e. rules without
-variables. Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. 
+variables. 
+
+\begin{example}
+For instance, a possible grounding of the rule $\mi{r_2}$ is given as follows $\mi{livesIn(dave,chicago)\leftarrow livesIn(clara,chicago),isMarriedTo(clara,dave),}$\\$
+\phantom{livesIn(dave,chicago)\leftarrow}\naf\mi{\;researcher(dave)}$. \qed
+\end{example}
+
+Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. 
+
 
 \begin{definition}
 The \emph{Herbrand universe}  $\mi{HU(P)}$ is the set of all constants occurring in $\mi{P}$, i.e.  $\mi{HU(P)}=\cC$. The \emph{Herbrand universe} is used to generate all possible ground atoms that can be formed with predicates in $\mathbf{P}$, which is known as the \emph{Herbrand base} $\mi{HB(P)}$. Any subset of $\mi{HB(P)}$ is considered as a \emph{Herbrand interpretation}. By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
@@ -63,7 +76,7 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X$ with $\m
 \end{example}
 %\normalsize
 
-The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning from incomplete information.
+The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
 \subsection{Association Rules}
 %\leanparagraph{ mining} 
 An association rule is a rule where certain properties of the data in the body of
