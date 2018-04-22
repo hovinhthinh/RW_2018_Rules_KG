@@ -7,7 +7,7 @@ If $r_1$ is applied on KG shown in Figure~\ref{rdf}, it will predict the incorre
 
 In contrast, nonmonotonic rules are capable of capturing the patterns for which it may be inaccurate to predict some facts (\ie exceptional cases); thus, preventing such predictions. For example, if $r_1$ can be adapted into a nonmontonic form to handle the cases where married couples may not live together, according to the KG in Figure~\ref{rdf}, that should be when one of them is a researcher; leading to new rule:
 \[r'_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{marriedTo(X,Y)},\ \mi{livesIn(X,Z)}, \naf \mi{researcher(Y)}\]
-When the revised rule $r'_1$ is applied on the KG, it will not predict $\mi{livesIn(alice,berline)}$. 
+Applying rule $r'_1$ on the KG, it will not predict $\mi{livesIn(alice,berline)}$. 
 
 In this section, we are discussing the different approaches for learning nonmonotonic rules from the data.
 
