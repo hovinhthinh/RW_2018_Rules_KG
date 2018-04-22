@@ -11,17 +11,17 @@ Knowledge Graphs (KGs) have been introduced in the Semantic Web community to cre
 %In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  is the set of constants (aka entities) appearing in $\cG$.  
 %\gad{could you please check this KG signature def?}\ds{please fix typos, otherwise it is ok}
 
-Formally, we assume countable sets $\cR$ of unary and binary predicate names and $\cC$ of constants. A knowledge graph $\cG$ is a finite set of groud atoms $a$ of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cP,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
+Formally, we assume countable sets $\cR$ of unary and binary predicate names and $\cC$ of constants. A knowledge graph $\cG$ is a finite set of ground atoms of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cR,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
 
-\begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, marriage %their 
-relations between them %to each other 
-and  their %places of 
-living places. For instance, the upper half encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan''. 
+\begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, marriage and friendship %their 
+relations between them as well as %to each other 
+their %places of 
+living places and professions. For instance, the upper half encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan'', which is
 %while her brother John lives in Chicago with his wife Kate. Moreover, both Berlin and Chicago are metropolitans'', which %would also 
-This knowledge is % also 
-represented by the following set of FOL facts $\mi{\{hasBrother(ann, john), livesIn(ann, berlin)}$, $\mi{livesIn(brad, berlin)}$, $\mi{marriedTo(brad, ann)}$
+%This knowledge is % also 
+represented by the FOL facts $\mi{\{hasBrother(ann, john),}$$\mi{ livesIn(ann, berlin)}$, \\$\mi{livesIn(brad, berlin)}$, $\mi{metropolitan(berlin)}\}$, $\mi{marriedTo(brad, ann)}.$
 % $\mi{hasBrother(ann, john)}$, \\$\mi{livesIn(john, chicago)}$, $\mi{livesIn(kate, chicago)} \}$, $\mi{isMarriedTo(john, kate)}$,
-$\mi{metropolitan(berlin)}\}$. For the given KG snippet $\cG$ the set $\cR$ contains $\mi{livesIn,marriedTo,hasBrother,hasFriend,}$\\$\mi{researcher,metropolitan,artist}$, while the set $\cC$ comprises of the names of the people and the locations depicted on Figure~\ref{rdf}. \qed
+For the whole KG snippet $\cG$ the set $\cR$ contains $\mi{livesIn,marriedTo,hasBrother,hasFriend,}$\\$\mi{researcher,metropolitan,artist}$, while the set $\cC$ comprises of the names of people and  locations depicted on Figure~\ref{rdf}. \qed
 \end{example}
 %\begin{example}
 %The statement \textit{``Christopher Nolan is the director of the science fiction movie Interstellar, which won the Best Visual Effects Oscar"} will be represented in several SPO triples:\\
