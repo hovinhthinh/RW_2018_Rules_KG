@@ -17,20 +17,42 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory, e.g., \cite{foil,golem,quickfoil}. To give an idea of how such a learning task looks like, let us consider the following example \cite{DBLP:journals/jlp/MuggletonR94}.
+The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory, e.g., \cite{foil,golem,quickfoil}. 
 
 \begin{example}
-Suppose that you posess information about some of the relationships between people in your family, and know that your grandfather is the father of one of your parents.
-However, you do not know what the relationship $\mi{hasParent}$ actually means. 
+Suppose that you posess information about some of the relationships between people in your family and their genders.
+However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
 You might have the following beliefs, i.e., background knowledge.
-$B=\{\mi{grandfather(X,Y) \leftarrow has\_father(X,Z), has\_parent(Z,Y)\\
-father(henry, jane). \\
-mother(june, john). \\
-mother(june, alice). }\}$
+\smallskip
+
+{\small \leftline{$B = \left\{
+            \renewcommand{\arraystretch}{1.1}
+            \begin{array}{@{\,}l@{~~}l@{}}
+              \mbox{(1) } \mi{parent (john, mary)};
+               \mbox{(2) }\mi{male(john)};
+              \mbox{(3) }\mi{parent (david, steve)};\\
+              \mbox{(4) }\mi{ male(david)};
+              \mbox{(5) }\mi{parent (kathy, ellen)};
+              \mbox{(6) }\mi{ female (kathy)};
+            \end{array}%
+            \!\right\}$}}
+\smallskip
+
+Moreover, you are given the following positive and negative examples.
+\smallskip
+
+\noindent $\mi{E^+=\{fatherOf(john, mary), fatherOf(david, steve)\}}$\\
+$\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
+
+
+
+One of the possible hypothesis that can be induced from the above knowledge that reflects the meaning of the $\mi{fatherOf}$ relation is given as follows:
+$\mi{fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. \qed
 \end{example}
 
-However, there are several important obstacles that prevent one from
-employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem. First, the target predicates can
+While a siginficant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge, there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem. 
+
+First, the target predicates ($\mi{fatherOf}$ from the aboive example) can
 not be easily identified, since we do not know which parts of the considered KG need to
 be completed. A standard way of addressing this issue would be just to learn rules for all
 the different predicate names occurring in the KG. Unfortunately, this is unfeasible in
