@@ -59,11 +59,12 @@ In this section, we briefly summarize some of the state-of-the-art methods %rule
 for rule construction, most of which % which combine rule learning and reasoning for knowledge graph completion under OWA.
 %Most of these systems only 
 extract so-called \emph{closed} rules,
-%that are \emph{closed}, 
-i.e., rules, in which every variable appears at least twice. 
+i.e., rules, in which every variable appears at least twice. Restricting to closed rules is imposed to ensure predicting full facts not just its existence~\cite{amie}.
 
 \begin{example}
-\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
+%\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
+Given KG in Figure~\ref{rdf}, a non-closed rule learned from this graph can be:
+\[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which stats that if someone is married then he/she should live in some place. The rule cannot infer the exact location unlike rule $r_1$ which specifies his living location based on the spouse.
 \end{example}
 
 The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
