@@ -19,12 +19,15 @@ One promising direction is to consider pieces of evidence from other external re
 An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations with the propose of estimating the likelihood of unseen facts. Recently, several models have been proposed, while many of them achieved reasonable results quality~\cite{Wang2017}, yet their predictions are not interpretable~\cite{Shakerin2018}. Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
 
 \leanparagraph{Learning Other Rule Forms}
-Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, other rule forms such as rules with disjunction (\eg $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$) or existential rules (\eg $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$) can encode more interesting patterns. Even though these rules may not directly infer new facts, they can be used as guidance for the information retrieval approaches.
+Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, other rule forms such as rules with disjunction (\eg $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$) or rules with existential quantifier (\eg $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$) can encode more interesting patterns. Even though these rules may not directly infer new facts, they can be used as guidance for the information retrieval approaches.
 
 
 \leanparagraph{Learning Temporal-aware Rules} Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contains the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which are sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over these data is still not well studied.
 
 
+\leanparagraph{Learning Hybrid Rules} The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
+\[\mi{participatedIn(X,Y)} \leftarrow \mi{playsFor(X,Z)}, \mi{competes(Z,Y)},\ \naf injured(X,Y)\]
+The rule encodes that a player participates in a championship if he plays for a competing team unless he was injured during the championship. Learning the positive part of the rule can be easily done over the KG, yet the last one is more common to find in the text. 
 
 
 
