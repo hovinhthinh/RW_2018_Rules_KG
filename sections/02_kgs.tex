@@ -46,14 +46,13 @@ All approaches for KG construction can be roughly classified into two major grou
 Automatic population of KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other techniques gave rise to such KGs as YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. % More eager approaches 
 There are also projects %propose 
 devoted to the extraction of facts from unstructured resources using natural language processing and machine learning methods. %resulting in KGs such as  
-For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs} shows examples of several popular KGs and their statistics. %can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). 
+For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs} shows examples of some KGs and their statistics. %can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). 
 
 %\gad{should we speak about the sizes and scalability of existing approaches}\ds{reporting statistics is enough}
 
-While the existing KGs contain millions of facts, they are still far from being complete, and therefore treated under the open world assumption, i.e., facts not present in them are treated as unknown rather then false. For example, given the KG in Figure~\ref{rdf} we cannot say whether $\mi{livesIn(dave,chicago)}$ is true or false. This is opposed to the closed world assumption made in databases, under which $\mi{\neg livesIn(dave,chicago)}$ would be inferred from the given data.
+While the existing KGs contain millions of facts, they are still far from being complete, and therefore they are treated under the open world assumption, i.e., facts not present in KGs are assumed to be unknown rather then false. For example, given the KG in Figure~\ref{rdf} we cannot say whether $\mi{livesIn(dave,chicago)}$ is true or false. This is opposed to the closed world assumption made in databases, under which $\mi{\neg livesIn(dave,chicago)}$ would be inferred from the given data.
 
-Along with completeness, the quality of KGs can  be %is normally 
-measured also along several other dimensions such as size and correctness.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs and their quality.
+Obviously the more facts the KGs cover from a given domain on which they are focused, the better. However, along with completeness, there are also other parameters that reflect their quality. These include the size and correctness of the given facts.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs and their quality.
 
 % Both manually and automatically constructed KGs are unfortunately still far from modeling the real world in two aspects: (i) they are still \textit{incomplete} with relatively \textit{low coverage} for the existing real-world entities and the possible inter-entities relationships. (ii) they have \textit{inaccurate} facts resulting from the extraction errors and the heuristic methods applied while construction as well.  
 
@@ -65,6 +64,7 @@ measured also along several other dimensions such as size and correctness.  We r
 
 %To study the incompleteness of KGs, we assume the existence of an ideal graph $\cG^i$ containing a snapshot of the current world; hence, we define the incompleteness of knowledge graphs as:
 
+The problems of KG completion and cleaning are one of the central ones. In this tutorial we primarily focus on rule based techniques for KG completion.
 Suppose we had an \emph{ideal} KG $\cG^i$ that contains all correct and true facts in the world that reflect the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
 
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
