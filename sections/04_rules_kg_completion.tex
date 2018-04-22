@@ -188,16 +188,16 @@ The ranking metrics from datamining such as support and confidence (see, e.g., \
 
 \begin{example}
 For instance, consider a KG in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families.
-The heavily biased rule $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ mentioned in Section~\ref{sec:intro} can be mined from it along with a reasonable rule $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, stating that people with the same father are likely siblings. We have that $\mi{conf(\mi{r_1'})}=\frac{2}{8}$, while
+The heavily biased rule from Section~\ref{sec:intro}: $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ can be mined from it along with a good one $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, stating that people with the same father are likely siblings. The standard rule measures such as confidence reflect a counterintuitive rule preference. Indeed, we have $\mi{conf(\mi{r_1'})}=\frac{2}{8}$, while
  %we have that 
-$\mi{conf(\mi{r_2'})}=\frac{1}{6}$, reflecting counterintuitive rule preference. \qed
+$\mi{conf(\mi{r_2'})}=\frac{1}{6}$. \qed
 \end{example}
 
  % For instance, standard confidence $conf$ works under the Closed World Assumption.
 % Apart from that, there also exist other measures introduced to quantify the quality of rules (see
 %). 
-\input{figures/kg2}
-Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
+% \input{figures/kg2}
+% Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 \subsubsection{PCA Confidence.} Proposed by AMIE \cite{amie}, this measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 \[\forall o' : p(s,o') \in \cG^i \implies p(s,o') \in \cG\]
 Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. Formally, \textit{PCA confidence} is defined as follows:
