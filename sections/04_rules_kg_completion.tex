@@ -5,8 +5,9 @@ In this section we first describe the possible learning tasks that could be perf
 \label{sec:rules_learning_tasks}
 Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Hereby symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
-First-order learning approaches are also referred to as \emph{relational data mining (RDM)}, \emph{relational learning
-(RL)} or \emph{inductive logic programming (ILP)}, as the patterns they discover are expressed in
+First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
+%(RL)} or
+ \emph{inductive logic programming (ILP)}, since the patterns they discover are expressed in
 relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
 
 Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}: 
@@ -59,8 +60,8 @@ not be easily identified, since we do not know which parts of the considered KG 
  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
  given the huge size of KGs. Second, the negative examples are not available,
  and they can not be easily obtained from, e.g., domain experts due to - once again
- - the huge size of KGs. A natural solution to cope with this issue is to learn rules
-from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
+ - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
+% from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
 To overcome the above obstacles, it turns out to be appropriate to treat
 the KG completion problem as an unsupervised relational learning task \cite{amie}.
