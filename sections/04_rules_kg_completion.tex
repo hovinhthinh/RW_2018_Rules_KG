@@ -20,7 +20,7 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory, e.g., \cite{foil,golem,quickfoil}. 
 
 \begin{example}
-Suppose that you posess information about some of the relationships between people in your family and their genders.
+Suppose that you posses information about some of the relationships between people in your family and their genders.
 However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
 You might have the following beliefs, i.e., background knowledge.
 \smallskip
@@ -50,9 +50,9 @@ One of the possible hypothesis that can be induced from the above knowledge that
 $\mi{fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. \qed
 \end{example}
 
-While a siginficant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge exemplified above, there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem. 
+While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge exemplified above, there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem. 
 
- First, the target predicates ($\mi{fatherOf}$ from the aboive example) can
+ First, the target predicates ($\mi{fatherOf}$ from the above example) can
  not be easily identified, since we do not know which parts of the considered KG need to
  be completed. A standard way of addressing this issue would be just to learn rules for all
  the different predicate names occurring in the KG. Unfortunately, this is unfeasible in
