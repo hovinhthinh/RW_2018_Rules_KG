@@ -1,6 +1,6 @@
 \section{Rules and Reasoning}
 \label{sec:reasoning}
-In this section we briefly review concepts from logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and describe the notion of relational association rules \cite{warmer}.
+In this section we briefly review concepts of logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and relational association rules \cite{warmer}.
 
 \subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
 negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
@@ -24,7 +24,7 @@ The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{hea
 \emph{Horn} if $\mi{body^-}(r)=\emptyset$.
 
 \begin{example}
-Consider $\mi{r_2}$ from Section~\ref{sec:intro}. We have that $\mi{head(r)}=\{livesIn(Y,Z)\}$, while $\mi{body^+(r)=\{isMarriedTo(X,Y), livesIn(X,Z)\}}$, and moreover,\\ $\mi{body^-(r)=\{not\;researcher(Y)\}}$. \qed
+Consider $\mi{r_2}$ from Section~\ref{sec:intro}. We have that $\mi{head(r_2)}=\{livesIn(Y,Z)\}$, while $\mi{body^+(r_2)=\{isMarriedTo(X,Y), livesIn(X,Z)\}}$, and moreover it holds that, $\mi{body^-(r_2)=\{not\;researcher(Y)\}}$. \qed
 \end{example}
 
 
@@ -52,11 +52,14 @@ For instance, a possible grounding of the rule $\mi{r_2}$ is given as follows $\
 Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. 
 
 
-\begin{definition}
-The \emph{Herbrand universe}  $\mi{HU(P)}$ is the set of all constants occurring in $\mi{P}$, i.e.  $\mi{HU(P)}=\cC$. The \emph{Herbrand universe} is used to generate all possible ground atoms that can be formed with predicates in $\mathbf{P}$, which is known as the \emph{Herbrand base} $\mi{HB(P)}$. Any subset of $\mi{HB(P)}$ is considered as a \emph{Herbrand interpretation}. By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
+\begin{definition}[Herbrand Universe, Base, Interpretation]
+A \emph{Herbrand universe}  $\mi{HU(P)}$ is a set of all constants occurring in the given program $\mi{P}$. A \emph{Herbrand base}  $\mi{HB(P)}$ is a set of all possible ground atoms that can be formed with predicates and constants appearing inam $P$. A \emph{Herbrand interpretation} is any subset of $\mi{HB(P)}$.
 \end{definition}
 
-An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} \cite{GL1988} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
+ By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
+\begin{definition}[Gelfond-Lifschitz reduct, answer set]
+An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
+\end{definition}
 %
 \begin{example}
 Consider the program \\
