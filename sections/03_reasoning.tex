@@ -98,6 +98,9 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
 \subsection{Association Rules}
 %\leanparagraph{ mining} 
+
+
+
 An association rule is a rule where certain properties of the data in the body of
 the rule are related to other properties in its head. For an example of an association rule, consider a
 database containing transactional data from a store selling computer equipment.
@@ -134,6 +137,7 @@ For example, from the above $Q(X,Y,Z)$ and
 Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1=>Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. For example, $Q=>Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
 
 A large number of various measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. % The latter is accepted to be appropriate for estimating the actual implication of the rule at hand, and is thus particularly attractive for predictive purposes.
+
 For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$ and a KG $\cG$, the \emph{standard confidence} (or \textit{confidence}) is given by:
 \vspace{-.26cm}
 \begin{align*}
@@ -176,4 +180,3 @@ Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$
 %  i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
 % Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cA_{\cR}\in AS(\cR \cup \cA)$. 
 % \end{definition}
-
