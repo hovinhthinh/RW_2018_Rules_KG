@@ -3,7 +3,7 @@
 In this section we first describe the possible learning tasks that could be performed over KGs and then dwell into the details of the relational association rule learning from incomplete KGs. 
 \subsection{Rule Learning Tasks}
 \label{sec:rules_learning_tasks}
-Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
+Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Hereby symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
 First-order learning approaches are also referred to as \emph{relational data mining (RDM)}, \emph{relational learning
 (RL)} or \emph{inductive logic programming (ILP)}, as the patterns they discover are expressed in
@@ -21,7 +21,7 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
 
 \begin{example}
-Suppose that you posses information about some of the relationships between people in your family and their genders.
+Suppose that you possess information about some of the relationships between people in your family and their genders.
 However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
 You might have the following beliefs, i.e., background knowledge.
 \smallskip
@@ -53,11 +53,7 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 
 While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
 
- First, the target predicates ($\mi{fatherOf}$ from the above example) can
- not be easily identified, since we do not know which parts of the considered KG need to
- be completed. A standard way of addressing this issue would be just to learn rules for all
- the different predicate names occurring in the KG. Unfortunately, this is unfeasible
- given the huge size of KGs. Second, the negative examples are not available,
+ First, the target predicates ($\mi{fatherOf}$ from the above example) cannot be easily identified, since we do not know which parts of the considered KG need to be completed. A standard way of addressing this issue would be just to learn rules for all the different predicate names occurring in the KG. Unfortunately, this is unfeasible given the huge size of KGs. Second, the negative examples are not available,
  and they can not be easily obtained from, e.g., domain experts due to - once again
  - the huge size of KGs. A natural solution to cope with this issue is to learn rules
 from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
@@ -67,15 +63,13 @@ the KG completion problem as an unsupervised relational learning task \cite{amie
 %Third, the definition of a language bias turns out to be
 % cumbersome since the schema of the KG is usually not available.
 
-Therefore, in the rest of this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. %treated under OWA. % Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
-Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules % . Association rules in the relational format have been subject of intensive research in ILP 
-(see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
+Therefore, in the rest of this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules
+(see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction).% In the following we adapt basic notions in relational association rule mining to our case of interest.
 
-The standard relational rule learning techniques usually proceed in two 
-steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
-%and transform them into the form of rules, 
-rule evaluation phase deals with measuring rule quality %from 
-using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
+The standard relational rule learning techniques usually proceed in two steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
+rule evaluation phase deals with measuring rule quality 
+using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 \subsection{Rule Construction}
 % Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
