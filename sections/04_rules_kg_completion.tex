@@ -184,7 +184,16 @@ differ from each other with respect to the employed %at the rule %metric
 %that they introduce to quantify 
 rule ranking function. % quality and how to exploit it in learning rules. 
 %Basically, we can plug different rule metrics into these mining systems to work under different situations.
-The ranking metrics from datamining such as support and confidence (see, e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{sec:reasoning} have been designed for datasets that operate primarily under the CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.  % For instance, standard confidence $conf$ works under the Closed World Assumption.
+The ranking metrics from datamining such as support and confidence (see, e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{sec:reasoning} have been designed for datasets that operate primarily under the CWA, and they can be counterintuitive for the KGs, in which facts are largely missing. 
+
+\begin{example}
+For instance, consider a KG in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families.
+The heavily biased rule $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ mentioned in Section~\ref{sec:intro} can be mined from it along with a reasonable rule $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, stating that people with the same father are likely siblings. We have that $\mi{conf(\mi{r_1'})}=\frac{2}{8}$, while
+ %we have that 
+$\mi{conf(\mi{r_2'})}=\frac{1}{6}$, reflecting counterintuitive rule preference. \qed
+\end{example}
+
+ % For instance, standard confidence $conf$ works under the Closed World Assumption.
 % Apart from that, there also exist other measures introduced to quantify the quality of rules (see
 %). 
 \input{figures/kg2}
@@ -243,7 +252,7 @@ predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, co
 \end{align*}
 Using these indicators, a class of completeness-aware rules measures have been proposed by CARL as follows:
 \begin{itemize}
-\input{figures/kg2}
+% \input{figures/kg2}
 \item \textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as follows:
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
