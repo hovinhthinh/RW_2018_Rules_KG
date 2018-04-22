@@ -67,7 +67,8 @@ the KG completion problem as an unsupervised relational learning task \cite{amie
 % cumbersome since the schema of the KG is usually not available.
 
 Therefore, in the rest of this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. %treated under OWA. % Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
-Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
+Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules % . Association rules in the relational format have been subject of intensive research in ILP 
+(see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
 The standard relational rule learning techniques usually proceed in two 
 steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
@@ -79,16 +80,20 @@ using some scoring function computed based on the rule statistics over the given
 % Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 % association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
 
-In this section, we briefly summarize some of the state-of-the-art methods %rule mining systems, 
+We now briefly summarize some of the state-of-the-art methods %rule mining systems, 
 for rule construction, most of which % which combine rule learning and reasoning for knowledge graph completion under OWA.
 %Most of these systems only 
 extract so-called \emph{closed} rules,
-i.e., rules, in which every variable appears at least twice. Restricting to closed rules is imposed to ensure predicting full facts not just its existence~\cite{amie}.
+i.e., rules, in which every variable appears at least twice. Restriction to closed rules % is imposed to 
+ensures the actual prediction  of a fact by a rule, but not just its existence~\cite{amie}.
 
 \begin{example}
 %\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
-Given KG in Figure~\ref{rdf}, a non-closed rule learned from this graph can be:
-\[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which stats that if someone is married then he/she should live in some place. The rule cannot infer the exact location unlike rule $r_1$ which specifies his living location based on the spouse.
+An example of non-closed rule learned from the KG in Figure~\ref{rdf} is % , a non-closed rule learned from this graph can be:
+\[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
+%then he/she should 
+live in some place. Unlike $r_1$, this rule cannot infer the exact living place of a person of interest is thus less interesting. \qed% for the KG completion. %location 
+%which specifies his living location based on the spouse.
 \end{example}
 
 The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
