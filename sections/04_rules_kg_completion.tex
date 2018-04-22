@@ -55,18 +55,18 @@ While a significant amount of research has been devoted to the problem of induci
  First, the target predicates ($\mi{fatherOf}$ from the above example) can
  not be easily identified, since we do not know which parts of the considered KG need to
  be completed. A standard way of addressing this issue would be just to learn rules for all
- the different predicate names occurring in the KG. Unfortunately, this is unfeasible in
- our case given the huge size of KGs. Second, the negative examples are not available,
+ the different predicate names occurring in the KG. Unfortunately, this is unfeasible
+ given the huge size of KGs. Second, the negative examples are not available,
  and they can not be easily obtained from, e.g., domain experts due to - once again
  - the huge size of KGs. A natural solution to cope with this issue is to learn rules
-from positive examples only; however the respective techniques seem to be not effective on large datasets.
+from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
-To overcome the obstacles mentioned above, it turns out to be appropriate to treat
+To overcome the above obstacles, it turns out to be appropriate to treat
 the KG completion problem as an unsupervised relational learning task \cite{amie}.
 %Third, the definition of a language bias turns out to be
 % cumbersome since the schema of the KG is usually not available.
 
-In this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
+Therefore, in the rest of this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
