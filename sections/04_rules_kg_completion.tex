@@ -11,13 +11,13 @@ relational formalisms of first-order logic.
 Rule learning approaches can be characterized along several dimensions. 
 \begin{itemize}
 \item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
-\item \emph{type of the output knowledge}, e.g., Horn rules, nonmonotonic rules, description logic class descriptions, class inclusions of various expressivity, etc.
+\item \emph{type of the output knowledge}, e.g., Horn rules, description logic class descriptions, class inclusions of various expressivity, etc.
 \item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
 \item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-In this work we focus on approaches that rely on \emph{relational association rule learning} and \emph{theory revision} techniques for extraction of \emph{Horn} and \emph{nonmonotonic rules}\thi{do we deal with exception in this section?} \ds{not sure that I got your question. what do you mean by ``exception in this section''?}\thi{sorry I typed incorrectly, I mean we consider exception only in section 5, not this section.} respectively from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts.
+In this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
