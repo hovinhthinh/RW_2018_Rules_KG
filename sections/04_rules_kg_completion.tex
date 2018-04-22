@@ -6,7 +6,7 @@ Rule learning is an important subfield of machine learning research area, which 
 
 First-order learning approaches are also referred to as \emph{relational data mining (RDM)}, \emph{relational learning
 (RL)} or \emph{inductive logic programming (ILP)}, as the patterns they discover are expressed in
-relational formalisms of first-order logic.
+relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
 
 Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}. 
 \begin{itemize}
@@ -17,7 +17,25 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-In this section we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
+The setting that has been most extensively studied in the context of inductive logic programming concerns the extractio of a hypothesis in a certain language from a set of positive and negative examples and a logical background theory. 
+
+\begin{example}
+
+\end{example}
+
+However, there are several important obstacles that prevent one from
+employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem. First, the target predicates can
+not be easily identified, since we do not know which parts of the considered KG need to
+be completed. A standard way of addressing this issue would be just to learn rules for all
+the different predicate names occurring in the KG. Unfortunately, this is unfeasible in
+our case given the huge size of KGs. Second, the negative examples are not available,
+and they can not be easily obtained from, e.g., domain experts due to - once again
+- the huge size of KGs. A natural solution to cope with this issue is to learn rules
+from positive examples only. Third, the definition of a language bias turns out to be
+cumbersome since the schema of the KG is usually not available.
+In this tutorial we are primarily interested in learning rules from knowledge graphs for extracting interesting implications from the data and automatic KG completion.
+
+In this section we aredescribe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs treated under OWA. Moreover, we discuss exploitation of additional \emph{background knowledge} in the form of constraints on the missing edge counts. Then in Section~\ref{sec:nmrulelearn} we provide an overview of techniques for learning nonmonotonic rules.
 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules. Association rules in the relational format have been subject of intensive research in ILP (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
