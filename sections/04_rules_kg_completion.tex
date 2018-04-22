@@ -42,7 +42,8 @@ i.e., rules, in which every variable appears at least twice.
 \ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
 \end{example}
 
-The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, OP, \cite{op} and RDF2Rules \cite{rdf2rules}.
+The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
+and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE.}
 AMIE \cite{amie} is a state-of-the-art positive rule mining system in the context of OWA. 
 %Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
@@ -91,23 +92,23 @@ Checking for outputting is the process of collecting rule statistics (e.g. \text
 To compute the rule's statistics, we must find all instantiations of variables in a rule in the given KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using in-memory database techniques \cite{amie}.
 
 \subsubsection{RDF2Rules.}
-While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting Frequent Predicate Cycles (FPCs) of some length $k$, which have the following form:
+While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
+a certain length $k$, which have the following form:
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ...,x_k, p_k^{d_k}, x_1)\]
-where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. To extract FPCs, the algorithm mines first the Frequent Predicate Paths (FPPs) having form of:
+where, $x_i$s are variables to be appeared in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ state the direction of these predicates. To extract FPCs, the algorithm mines first the \emph{frequent predicate paths} (FPPs) of the form:
 \[\theta = (x_1, p_1^{d_1}, x_2, p_2^{d_2}, ...,x_k, p_k^{d_k}, x_{k+1})\]
-FPPs of length $k$ could be mined recursively based on FPPs of length $k-1$. FPCs are then created from FPPs by merging the last variable $x_{k+1}$ with the first variable $x_1$.
+FPPs of length $k$ could be mined recursively based on FPPs of length $k-1$. FPCs are then created from FPPs by merging the last variable $x_{k+1}$ with the first one $x_1$.
 
-After mining FPCs, rules are extracted from the FPCs by choosing a predicate as the head, and other predicates into the body of the rule. Formally, rule $j$-th is generated from the FPC as follows:
+After mining FPCs, rules are extracted from the FPCs by choosing one %a 
+predicate to be in the 
+%as 
+the head, and collecting others into the rule's  body. 
+%of the rule. 
+Formally, the  $j$-th rule is generated from the FPC as follows:
 \[r_j: p_j^{d_j}(x_j,x_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(x_i,x_{i+1}) \]
 
 Moreover, RDF2Rules is also capable of generating rules with $type$ information. The above generated rules are without \textit{type} information. To achieve this, each extracted FPC will be enhanced with frequent types of variables. These information could be then added to the body of each generated rule. Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, since the rules extraction strictly relies on FPCs.
 
-\subsubsection{OP (Ontological Pathfinding).}
-\thi{i think we should remove this section and just add citation}.
-Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG. Most of state-of-the-art rule mining systems parallelize only the construction of the rules, while the quality of the rules are determined by a single thread.
-Modern web-scale knowledge bases such as YAGO or Freebase might contain hundreds million of entities and billions of facts between them, Hence, it is impossible to store these KGs in a single machine. As a result, these rule mining systems either cannot scale to this size to determine the rules' quality, or they have to assign this task to some third-party system such as SQL, SPARQL \cite{amie}, which might be inefficient.
-
-The focus of the novel rule-mining algorithm OP\cite{op} is not at how to find the candidate rules in the knowledge graph, but rather at how to examine their quality. The rules construction in Ontological Pathfinding (OP) algorithm relies on the relational pathfinding method \cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including KG partitioning, joining and pruning strategies. 
 \subsection{Rule Evaluation}
 Most of state-of-the-art positive rule mining systems are different from each other at the rule metric that they introduce to quantify rule's quality and how to exploit it in learning rules. Basically, we can plug different rule metrics into these mining systems to work under different situations. For instance, standard confidence $conf$ works under the Closed World Assumption. Apart from that, there also exist other measures introduced to quantify the quality of rules (see \cite{metrics-summary}). Some of them are listed below. Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 \subsubsection{PCA Confidence.} Proposed by AMIE \cite{amie}, this measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
@@ -210,6 +211,30 @@ the directional metric, using a weighting factor $\beta \in [0..1]$. Formally:
 We have $\mi{dm(r_3,\cG_2)}\approx 0.33$ and $\mi{dm(r_4,\cG_2)}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_3,conf,\cG_2)} \approx 0.29$ and $\mi{weighted\_dm(r_4,conf,\cG_2)} \approx 0.48$. \qed
 \end{example}
 \end{itemize}
+
+%\subsubsection{OP (Ontological Pathfinding).}
+\subsubsection{Optimized Rule Evaluation}
+\thi{i think we should remove this section and just add citation}.\ds{shifted this part to rule evaluation}
+% Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG.
+Most of state-of-the-art rule mining systems parallelize only the rule construction phase, while the quality of the rules are determined in a single thread. Modern web-scale knowledge bases such as YAGO or Freebase %might 
+contain %hundreds million of entities and 
+billions of facts, thus  
+%between them, Hence, 
+it is often impossible to store these KGs in a single machine. Therefore, % these rule mining systems either cannot scale to this size to
+%the process of determine the rules' 
+the rule quality estimation %, or they have to assign this task 
+is usually delegated to some third-party database management system.
+In practice this might not always be effective. % such as SQL, SPARQL \cite{amie}, which might not always be effective.
+
+Several works target the issue of optimizing the rule evaluation stage. For example, the focus of a recent % the novel 
+ \emph{ontology path finding} (OP) \cite{op} algorithm is % not at how to find the candidate rules in the knowledge graph, but rather at
+% how to 
+the efficient examination of the rule's quality. The rule construction step of OP algorithm relies on the relational pathfinding method \cite{DBLP:conf/aaai/RichardsM92}. The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}. After candidate rules are constructed, their quality is determined via a sequences of parallelization and optimization methods including KG partitioning, joining and pruning strategies.
+
+\ds{Maybe we could insert other optimized evaluation methods here?} 
+
+
+
 %%Recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused on the task of extracting such cardinality information from text.We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) has two apparent shortcomings: First,  it only counts as counterexamples those %objects pairs $(x,y)$ for which at least one $h(x,y')$ %other facts 
 %%with the head predicate $\mi{h}$ 
 %%holds is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where the important ones are added instantly, while others much slower or even possibly never. 
