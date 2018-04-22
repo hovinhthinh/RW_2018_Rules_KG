@@ -2,7 +2,7 @@
 \label{sec:kgs}
 
 % \subsection{Graph-based Representation}
-Knowledge Graphs (KGs) have been introduced in the Semantic Web community to create the ``Web of data'' that can be readable by machines. They represent interlinked collections of factual information, and  are often encoded using the RDF data model \cite{rdf2004}. This data model represents the content of the graph with a set of triples of the form $\tuple{\mi{subject\;predicate\;object}}$ corresponding to positive unary and binary first-order logic (FOL) facts.  % are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them.
+Knowledge Graphs (KGs) have been introduced in the Semantic Web community to create the ``Web of data'' that can be readable by machines. They represent interlinked collections of factual information, and  are often encoded using the RDF data model \cite{rdf2004}. This data model represents the content of a graph with a set of triples of the form $\tuple{\mi{subject\;predicate\;object}}$ corresponding to positive unary and binary first-order logic (FOL) facts.  % are large collections of information modeled in the form of entities (such as people, organizations, or places) and the relationships between them.
 %KGs %were 
 %is
 %can be . % This was pushed forward by introducing the W3C Resource Description Framework (RDF)~\cite{rdf2004}.
@@ -11,12 +11,12 @@ Knowledge Graphs (KGs) have been introduced in the Semantic Web community to cre
 %In various literature, for simplicity KGs are represented as sets of triples in the form of $\tuple{subject, predicate, object}$ (SPO triples, for short). Alternatively, others adopt a factual representation for which a KG $\cG$ is defined over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$, where $\cR$ is the set of binary predicates (aka relations) and $\cC$  is the set of constants (aka entities) appearing in $\cG$.  
 %\gad{could you please check this KG signature def?}\ds{please fix typos, otherwise it is ok}
 
-Formally, we assume countable sets $\cR$ of unary and binary predicate names and $\cC$ of constants. A knowledge graph $\cG$ is a finite set of groud atoms $a$ of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
+Formally, we assume countable sets $\cR$ of unary and binary predicate names and $\cC$ of constants. A knowledge graph $\cG$ is a finite set of groud atoms $a$ of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cP,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
 
 \begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, marriage %their 
 relations between them %to each other 
 and  their %places of 
-living places. For instance, the upper half encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan.''. 
+living places. For instance, the upper half encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan''. 
 %while her brother John lives in Chicago with his wife Kate. Moreover, both Berlin and Chicago are metropolitans'', which %would also 
 This knowledge is % also 
 represented by the following set of FOL facts $\mi{\{hasBrother(ann, john), livesIn(ann, berlin)}$, $\mi{livesIn(brad, berlin)}$, $\mi{marriedTo(brad, ann)}$
@@ -42,9 +42,9 @@ $\mi{metropolitan(berlin)}\}$. For the given KG snippet $\cG$ the set $\cR$ cont
 \input{tables/kg_sizes}
 All approaches for KG construction can be roughly classified into two major groups: manual and (semi-)automatic. The examples of KGs constructed manually include, e.g., WordNet~\cite{wordnet} which has been created by a group of experts or Freebase~\cite{Freebase} and Wikidata~\cite{wikidata} constructed collaboratively by volunteers. 
 Automatic population of KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other techniques gave rise to such KGs as YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. % More eager approaches 
-There is also a line of projects %propose 
+There are also projects %propose 
 devoted to the extraction of facts from unstructured resources using natural language processing and machine learning methods. %resulting in KGs such as  
-For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs}, shows examples for several popular KGs and their statistics. %can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). 
+For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs} shows examples of several popular KGs and their statistics. %can be found in~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17}). 
 
 %\gad{should we speak about the sizes and scalability of existing approaches}\ds{reporting statistics is enough}
 
