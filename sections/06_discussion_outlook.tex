@@ -18,8 +18,12 @@ One promising direction is to consider pieces of evidence from other external re
 
 An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations with the propose of estimating the likelihood of unseen facts. Recently, several models have been proposed, while many of them achieved reasonable results quality~\cite{Wang2017}, yet their predictions are not interpretable~\cite{Shakerin2018}. Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
 
-\subsubsection{Learning Various Rule Forms}
-In the KG completion problem, as mentioned, most of the rule mining approaches only mine $closed$ rules. Nevertheless, other form of rules might be also interesting. For example, rules with disjunction (e.g. $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$), rules with quantifier (e.g. $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$). Even though these kinds of rule do not directly make predictions on the knowledge graph since we do not know exactly which facts of the head are true, they might give us some useful constraints about the knowledge graph.
+\leanparagraph{Learning Other Rule Forms}
+Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, other rule forms such as rules with disjunction (\eg $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$) or existential rules (\eg $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$) can encode more interesting patterns. Even though these rules may not directly infer new facts, they can be used as guidance for the information retrieval approaches.
+
+
+\leanparagraph{Learning Temporal-aware Rules} Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contains the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which are sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over these data is still not well studied.
+
 
 
 
