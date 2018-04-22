@@ -17,12 +17,16 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory, e.g., \cite{foil,golem,quickfoil}. To give an idea of how such a learning task looks like, let us consider the following example \cite{}.
+The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory, e.g., \cite{foil,golem,quickfoil}. To give an idea of how such a learning task looks like, let us consider the following example \cite{DBLP:journals/jlp/MuggletonR94}.
 
 \begin{example}
 Suppose that you posess information about some of the relationships between people in your family, and know that your grandfather is the father of one of your parents.
 However, you do not know what the relationship $\mi{hasParent}$ actually means. 
- You might have the following beliefs.
+You might have the following beliefs, i.e., background knowledge.
+$B=\{\mi{grandfather(X,Y) \leftarrow has\_father(X,Z), has\_parent(Z,Y)\\
+father(henry, jane). \\
+mother(june, john). \\
+mother(june, alice). }\}$
 \end{example}
 
 However, there are several important obstacles that prevent one from
