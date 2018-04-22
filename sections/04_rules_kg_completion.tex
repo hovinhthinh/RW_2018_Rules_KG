@@ -187,7 +187,7 @@ rule ranking function. % quality and how to exploit it in learning rules.
 The ranking metrics from datamining such as support and confidence (see, e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{sec:reasoning} have been designed for datasets that operate primarily under the CWA, and they can be counterintuitive for the KGs, in which facts are largely missing. 
 
 \begin{example}
-For instance, consider a KG in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families.
+For instance, consider a KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families.
 The heavily biased rule from Section~\ref{sec:intro}: $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ can be mined from it along with a good one $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, stating that people with the same father are likely siblings. The standard rule measures such as confidence reflect a counterintuitive rule preference. Indeed, we have $\mi{conf(\mi{r_1'})}=\frac{2}{8}$, while
  %we have that 
 $\mi{conf(\mi{r_2'})}=\frac{1}{6}$. \qed
