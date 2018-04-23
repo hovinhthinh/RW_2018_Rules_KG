@@ -30,7 +30,8 @@ We classify the techniques into three major groups: learning from positive and n
 
 %These methods rely on CWA and focus on describing a dataset at hand where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
 
-\leanparagraph{Learning from answer sets} In~\cite{DBLP:journals/tocl/Sakama05} %proposed 
+%\leanparagraph{Learning from answer sets} 
+In~\cite{DBLP:journals/tocl/Sakama05} %proposed 
 one of the earlierst methods for learning nonmonotobic logic programs from answer sets has been proposed. %an approach %algorithms to induce a categorical logic program % given an answer set in the background knowledge and either positive or negative examples. In particular,
 More specifically, given a single answer set, the authors of \cite{DBLP:journals/tocl/Sakama05} induce a program that has this answer set as a stable model. In~\cite{Sakama2009}, the approach has been extended to learn from multiple answer sets. % by introducing brave induction, where the answer sets of the learned hypothesis and the background knowledge cover the positive examples. 
 This approach accepts only one positive example, i.e.,  a conjunction of atoms, while totally dismissing the negative ones. ILASP ~\cite{ILASP_system}, induces the hypothesis from multiple positive examples using brave induction, while it ensures that the negative examples are cautiously entailed (i.e. negative examples are excluded from all answer sets). The algorithm exhaustively searches the space of possible clauses to find one that is consistent with all examples and background knowledge. To make this search feasible, it restricts the learning only to the target predicate(s). 
@@ -38,9 +39,8 @@ This approach accepts only one positive example, i.e.,  a conjunction of atoms, 
 
 
 %\leanparagraph{Abductive learning approaches} 
-DROPS~\cite{CorapiRL10} maps the ILP problem into an abductive learning task. The authors followed it with ASPAL~\cite{ASPAL} which reduces the learning problem into the problem of answer set computation by providing the dedicated encoding. 
-%ILP problems as ASP programs and exploits ASP solver to find the hypothesis via abductive search. 
-
+DROPS~\cite{CorapiRL10} and its successor ASPAL~\cite{ASPAL} map the ILP problem into an abductive learning task. %  which reduces the learning problem into the problem of answer set computation by providing the dedicated encoding. 
+% %ILP problems as ASP programs and exploits ASP solver to find the hypothesis via abductive search.
 XHAIL~\cite{XHAIL} uses a hybrid algorithm combining abduction, deduction and induction steps to generate the hypothesis. The system takes a background theory, a set of examples (both positive and negative), and user-defined predicate declarations to constrain the search space as input and returns as an output a set of hypotheses that entail the examples with respect to the background theory. To that end, XHAIL still suffers from the same infeasible search space problem facing ILASP~\cite{Sakama2009}. An enhanced version of XHAIL that resolves scalability issues has been introduced in~\cite{XHAIL_extended} 
 
 % \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
