@@ -168,16 +168,16 @@ Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$
 %The conviction of the above rule $\mi{r1}$ is $\mi{conv(r1,\cG)}=\dfrac{1-0.3}{1-0.5}=1.4$\qed
 %\end{example}
 
-\subsection{Reasoning over KGs} Rule-based reasoning is used for KGs refinement to solve the inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. KG completion is one of the main reasoning tasks performed on the KG that is concerned with predicting the missing facts in the KG using the rules and currently existing facts. More formally, 
+\subsection{Reasoning over KGs} Rule-based reasoning is used for KGs refinement to solve their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. KG completion is one of the main reasoning tasks performed on the KG that is concerned with predicting the missing facts in the KG using the rules and currently existing facts. More formally, 
 
 
- \begin{definition}[Rule-based KG completion]\label{def:def:kgcomp} Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cG}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules %mined from $\cG$,
- i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
+ \begin{definition}[Rule-based KG completion]\label{def:def:kgcomp} Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cG}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules 
+ i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. 
  Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cG_{\cR}\in AS(\cR \cup \cA)$. 
  \end{definition}
  
  \begin{example}
- 
+ Given the KG in Figure~\ref{rdf} as $\cG$ and rule $r_2$ from Section~\ref{sec:intro}, let us assume the rule set $\cR=\{r_2\}$; thus, the completion of $\cG$ would be $\cG_{\cR}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. Not that, predictions such as $\mi{livesIn(alice, berlin)}$ and $\mi{livesIn(dave, chicago)}$ are not part of the answer set (since they both are researchers); and hence, they do not belong to the complete graph $\cG_{\cR}$ .
  \end{example}
 
 % \leanparagraph{KG cleaning}
