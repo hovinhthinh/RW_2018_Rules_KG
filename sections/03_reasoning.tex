@@ -168,16 +168,21 @@ Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$
 %The conviction of the above rule $\mi{r1}$ is $\mi{conv(r1,\cG)}=\dfrac{1-0.3}{1-0.5}=1.4$\qed
 %\end{example}
 
-\subsection{Reasoning over KGs} Rule-based reasoning is used for KGs refinement to solve their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. KG completion is one of the main reasoning tasks performed on the KG that is concerned with predicting the missing facts in the KG using the rules and currently existing facts. More formally, 
+\subsection{Reasoning over KGs} Rule-based reasoning is used for KGs refinement to address the probles of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. 
+%KG completion is one of the main reasoning tasks performed on the KG that is concerned with predicting the missing facts in the KG using the rules and currently existing facts. More formally, 
+The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
+that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+More formally,
 
-
-
- \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. % $\Sigma_{P}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$
- Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{\cR}\in AS(P \cup \cG)$. 
+ \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. % $\Sigma_{P}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$
+ Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
  \end{definition}
  
+We now illustrate the introduced notion by the following example.
  \begin{example}
- Given the KG in Figure~\ref{rdf} as $\cG$ and rule $r_2$ from Section~\ref{sec:intro}, let us assume the rule set $P=\{r_2\}$; thus, the completion of $\cG$ would be $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. Not that, predictions such as $\mi{livesIn(alice, berlin)}$ and $\mi{livesIn(dave, chicago)}$ are not part of the answer set (since they both are researchers); and hence, they do not belong to the complete graph $\cG_{P}$ .
+ Given the KG in Figure~\ref{rdf} as $\cG$ and the rule set $R=\{r_2\}$, where $r_2$ is from Section~\ref{sec:intro}% , consider the rule set $P=\{r_2\}$.  would be
+ we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed % Not that, predictions such as $\mi{livesIn(alice, berlin)}$ and $\mi{livesIn(dave, chicago)}$ are not part of the answer set (since they both are researchers); and hence, they do not belong to the complete graph $\cG_{P}$ 
+ .
  \end{example}
 
 % \leanparagraph{KG cleaning}
