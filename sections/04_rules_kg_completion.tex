@@ -198,6 +198,18 @@ $\mi{conf(\mi{r_2'})}=\frac{1}{6}$. \qed
 %). 
  \input{figures/kg2}
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
+
+\subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
+\begin{align*}
+\textit{conv}(r,\cG) & := \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
+\end{align*}
+where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
+\begin{align*}
+\textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)\times(\#Y:\exists X:h(X,Y)\in \cG)}
+\end{align*}
+\begin{example}
+We have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
+\end{example}
 \subsubsection{PCA Confidence.} In \cite{amie} a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
@@ -215,47 +227,40 @@ the PCA confidence is defined as
 \mi{conf_{pca}}(r, \cG) := \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
 \]
 \begin{example}
-For the KG in Figure~\ref{rdf} we have $conf_{pca}(r_1,\cG) = \frac{3}{4}$, since we do not know any place where $lucy$ and $dave$ live. Similarly, $conf_{pca}(r_2,\cG) = \frac{3}{3}$.
-Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime}, we have that $\mi{conf_{pca}(r_1',\cG') = \dfrac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
+For the KG in Figure~\ref{rdf} we have $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any place where $\mi{lucy}$ and $\mi{dave}$ live. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
+Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
 to have any children in the KG, four existing body substitutions are not counted in the
-denominator. Meanwhile, we have $\mi{conf_{pca}(r_2) = \dfrac{1}{6}}$, since all people that are predicted
-to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
+denominator. Meanwhile, we have $\mi{conf_{pca}(r_2) = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
 \qed
 \end{example}
-\subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
-\begin{align*}
-\textit{conv}(r,\cG) & := \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
-\end{align*}
-where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
-\begin{align*}
-\textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)\times(\#Y:\exists X:h(X,Y)\in \cG)}
-\end{align*}
-\begin{example}
-We have $\textit{rel-supp}(livesIn, \cG_1) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG_1) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
-\end{example}
-\subsubsection{Soft Confidence.} Introduced by RDF2Rules \cite{rdf2rules}, \textit{soft confidence} is also tailored to work under Open World Assumption, measured by:
-\[conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}P(e,p,\cG)} \]
-where $U_r$ is the set of entities that previously have no relations of $p$, but have new predicted relations of $p$ by the rule, and $P(e,p,\cG)$ is the probability of entity $e$ having relation $p$ in $\cG$, approximated  using entity \textit{type} information \cite{rdf2rules}:
-\[P(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}\]
+
+\subsubsection{Soft Confidence.} Soft confidence measure introduced in \cite{rdf2rules}, is also designed to work under the Open World Assumption:
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}Pr(e,p,\cG)}} \]
+where $U_r$ is the set of entities that % previously
+originally had no outgoing %relations of 
+$p$-link, but have new $p$-edges predicted by the rule given, and $Pr(e,p,\cG)$ is the probability of the entity $e$ having relation $p$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}:
+\[\mi{P(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}}\]
 Here, $T_{e,\cG}$ contains all $type$ of entity $e$, $Inst(t, \cG)$ contains all entities of type $t$, and $Inst_p(t, \cG)$ is similar to $Inst(t, \cG)$, but restricts to only entities that have relation $p$.
 Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p, \cG)$ in the unknown part of the rule.
 \begin{example}
-Consider KG $\cG_1$, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $P(dave,livesIn,\cG_1) = \frac{1}{2}$ since $dave$ has only 1 type $researcher$, in which there are totally 2 researchers ($dave$, $alice$) but only $alice$'s living place is known to $\cG_1$ ($amsterdam$). In contrast, $P(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
-Based on these numbers, we have $conv(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conv(r_2,\cG_1) = \frac{3}{4-0} = \frac{3}{4}$.
+Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $Pr(dave,livesIn,\cG) = \frac{1}{2}$, since $dave$ has only 1 type $researcher$, and in total the KG stores 
+%there are totally 
+2 researchers ($dave$, $alice$) but only $alice$'s living place ($amsterdam$) is known to $\cG$. In contrast, $Pr(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
+Based on these numbers, we have $conf_{st}(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG_1) = \frac{3}{4-0} = \frac{3}{4}$.
 \qed
 \end{example}
 \subsubsection{Completeness-aware Rule Measures.}  
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it is even available on the Web
-in the form of Cardinality Statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad’s child, we could be aiming at extracting rules that predict the missing
-one. Since such existential information is beneficial not only for guided rule learning but also for increasing the scope of KGs and estimating their recall.
+in the form of cardinality statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing
+one.
 
-Thus, recent work CARL \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data.
+Thus, the recent work CARL \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data.
 
-Overall, for a given fact $\tuple{john, hasChild, mary}$, CARL takes into account the following two numerical statements: the number of (1) children of $john$ and (2) incoming edges to $mary$, which in practice can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}. Since template (2) could be rewritten as the instances of the template (1) through the inverse relations, these meta-data statements could be formalized as follows:
-\[\mi{num}(p,s, \cG^i) = \# o : p(s,o) \in \cG^i\]
-indicating the total number of objects $o$ for a given subject $s$ and predicate $p$. Based on this, the number of missing objects $o$ in the available graph $\cG$ can be retrieved:
+Overall, for a given fact $\mi{hasChild(john,  mary)}$, CARL takes into account the following two numerical statements: the number of (1) children of $john$ and (2) incoming $\mi{hasChild}$ edges to $mary$, which in practice can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}. Since template (2) could be rewritten as the instances of the template (1) through the inverse relations, these meta-data statements are formalized as follows:
+\[\mi{num}(p,s, \cG) = \# o : p(s,o) \in \cG^i\]
+indicating the total number of objects $o$ for a given subject $s$ and predicate $p$. Based on this, the number of missing objects $o$ in the available KG $\cG$ can be conveniently  retrieved:
 \[\mi{miss}(p,s,\cG) = \mi{num(p,s,\cG^i)} - \#o : p(s,o) \in \cG\]
-Given a KG and its related cardinality statements of the above form, CARL defines two indicators for each given rule, reflecting the number of new 
+Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
 predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, complete ($\mi{npc(r)}$) KG parts:
 \begin{align*}
 \mi{npi}(r, \cG) = \sum_X min(\#Y: h(X,Y)\in \cG_r\backslash \cG, \mi{miss}(h,X,\cG))
@@ -270,24 +275,24 @@ Using these indicators, a class of completeness-aware rules measures have been p
 % \input{figures/kg2}
 %\item 
 
-\noindent \textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as follows:
+\noindent -\textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
 \begin{example}
-Consider the KG $\cG'$ in Figure \ref{fig:fam_grad}
-and the following cardinality statements for it:\\
+Consider $\cG'$ in Figure \ref{fig:fam_grad}
+and cardinality statements for it:\\
 $\mi{num(hC,john,\cG'^i)}\!=\!\mi{num(hC,mary,\cG'^i)}\!=3$; $\mi{num(hC,alice,\cG'^i)}\!=\!1$; \\
 $\mi{num(hC,carol,\cG'^i)}\!=\!\mi{num(hC,dave,\cG'^i)}\!=\!0$;\\
 $\mi{num(hS,alice,\cG'^i)}\!=\!\mi{num(hS,carol,\cG'^i)}\!=\!\mi{num(hS,dave,\cG'^i)}\!=\!2$;\\ 
 $\mi{num(hS,bob,\cG'^i)}\!=\!3$;\\
-where $hC$, $hS$ stand for $hasChild$ and $hasSibling$, correspondingly. We have:\\
+where $hC$, $hS$ stand for $hasChild$ and $hasSibling$, respectively. We have:\\
 $\mi{miss(hC,mary,\cG')}\!=\!\mi{miss(hC,john,\cG')}\!=\!\mi{miss(hC,alice,\cG')}\!=\!1$;\\ 
 $\mi{miss(hC,carol,\cG')}\!=\!\mi{miss(hC,dave,\cG')}\!=\!0$;\\
 $\mi{miss(hS,bob,\cG')}\!=\mi{miss(hS,carol,\cG')}\!=\!2$;\\
 $\mi{miss(hS,alice,\cG')}\!=\!\mi{miss(hS,dave,\cG')}\!=\!1$;\\
 %Also consider the following two extracted rules: 
-For the rules $r_1'$ and $r_2'$ introduced above we have
+For the rules $r_1'$ and $r_2'$ from Example~\ref{ex:rulesforgprime} we have
 % \vspace{-\topsep}
 % \begin{align*}
 % -\ r_3 &: hasChild(X,Y) \leftarrow worksAt(X,Z), educatedAt(Y,Z)\\
@@ -298,7 +303,7 @@ For the rules $r_1'$ and $r_2'$ introduced above we have
 \end{example}
 %\item
 
-\noindent \textbf{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure rule quality based on their predictions in complete and incomplete KG parts:
+\noindent -\textbf{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure rule quality based on their predictions in complete and incomplete KG parts:
 \begin{align*}
 \mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
 \mi{recall_{comp}}(r,\cG)=\frac{\mi{npi}(r,\cG)}{\sum_X \mathit{miss}(h,X,\cG)}
@@ -311,7 +316,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 \end{example}
 %\item 
 
-\noindent\textbf{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Hence, \emph{directional metric} is proposed following this intuition by measuring the proportion between predictions in complete and incomplete parts:
+\noindent -\textbf{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Hence, \emph{directional metric} is proposed following this intuition by measuring the proportion between predictions in complete and incomplete parts:
 \begin{align*}
 \mi{dm}(r,\cG) := \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
 \end{align*}
