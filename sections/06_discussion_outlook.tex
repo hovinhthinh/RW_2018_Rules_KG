@@ -37,6 +37,7 @@ with disjunction (\eg $male(X) \vee female(X) \leftarrow person(X)$) or rules wi
 % Even though these
 While rules with existential variables in the head may not directly infer new facts, they may reflect surprising patterns in the data and, moreover,  can be used as a guidance for the information retrieval approaches.
 
+Rules that reflect correlations between edge counts in KGs such as ``If you have two siblings then you parents are likely to have 3 children'' have been studied in \cite{carl}. Inducing more general rules, reflecting mathematical functions one edge counts is still an open problem, which due to the large search space of possible hypothesis is far from trivial.
 
 % \leanparagraph{Learning temporal rules} 
 % Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contain the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which is sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over this data is still not well studied.
