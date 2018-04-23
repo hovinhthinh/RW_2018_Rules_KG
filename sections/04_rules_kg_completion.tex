@@ -303,10 +303,10 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This can be done by multiplying predictions made in complete parts by a certain factor. This leads to the consideration of the weighted combination of a existing association rule measure $rm$, e.g., standard confidence or conviction, and 
 the directional metric, using a weighting factor $\beta \in [0..1]$. Formally:
 \begin{align*}
-\mi{weighted\_dm}(r,rm,\cG)=\beta \cdot \mi{rm}(r,\cG) + (1-\beta) \cdot \mi{dm}(r,\cG) 
+\mi{weighted\_dm}(r,\cG)=\beta \cdot \mi{rm}(r,\cG) + (1-\beta) \cdot \mi{dm}(r,\cG) 
 \end{align*}
 \begin{example}
-We have $\mi{dm(r_3,\cG_2)}\approx 0.33$ and $\mi{dm(r_4,\cG_2)}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_3,conf,\cG_2)} \approx 0.29$ and $\mi{weighted\_dm(r_4,conf,\cG_2)} \approx 0.48$. \qed
+We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',conf,\cG')} \approx 0.48$. \qed
 \end{example}
 %\end{itemize}
 
