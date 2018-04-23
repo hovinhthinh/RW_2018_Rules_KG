@@ -62,7 +62,7 @@ Along with KGs themselves, additional background knowledge could be used for bet
 
 Even when meaningful, Horn rules, where all predicates in the rule's body are positive such as $\mi{r_1}$ might not always be sufficiently expressive to capture KG patterns accurately, as they cannot handle exceptions, which often appear in practice. 
 For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} results in the facts $\mi{livesIn(alice,berlin)}$, $\mi{livesIn(dave,chicago)}$ and $\mi{livesIn(lucy,amsterdam)}$. Observe that the first two facts might be suspected to be wrong. Indeed, both $\mi{alice}$ and $\mi{dave}$ are researchers, and the rule $\mi{r_1}$ could be suspected to have researcher as a potential exception resulting in its more accurate version given as $\mi{r_2:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{marriedTo(X,Y),livesIn(X,Z), not\;researcher(Y)}$.
-Exception handling has been faced in inductive logic programming (ILP) by learning nonmonotonic logic programs, i.e., programs with negations from databases (e.g., \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,R08}), and recently also studied in the context of KGs \cite{gad2016,rumis}.
+Exception handling has been faced in inductive logic programming (ILP) by learning nonmonotonic logic programs, i.e., programs with negations from databases (e.g., \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL}), and recently also studied in the context of KGs \cite{gad2016,rumis}.
 
 
 The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interrelation and applications for KGs. 
