@@ -168,14 +168,19 @@ Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$
 %The conviction of the above rule $\mi{r1}$ is $\mi{conv(r1,\cG)}=\dfrac{1-0.3}{1-0.5}=1.4$\qed
 %\end{example}
 
-% \subsection{Rule-based Reasoning tasks over KGs} Logical programs are used for KGs refinement. It has two main tasks that solves the shortcomings of existing KGs, namely, inaccuracy and incompleteness, through \textit{KG cleaning} and \textit{KG completion} tasks respectively.
+\subsection{Reasoning over KGs} Rule-based reasoning is used for KGs refinement to solve the inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. KG completion is one of the main reasoning tasks performed on the KG that is concerned with predicting the missing facts in the KG using the rules and currently existing facts. More formally, 
+
+
+ \begin{definition}[Rule-based KG completion]\label{def:def:kgcomp} Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cG}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules %mined from $\cG$,
+ i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
+ Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cG_{\cR}\in AS(\cR \cup \cA)$. 
+ \end{definition}
+ 
+ \begin{example}
+ 
+ \end{example}
 
 % \leanparagraph{KG cleaning}
 
 % \leanparagraph{KG completion} In this task rules are used to predict the missing facts in the KG based on the existing facts in the knowledge graph. This can be formally defined as:
 
-% \begin{definition}[Rule-based KG completion]\label{def:graphcompl}
-% Let $\cG$ be a KG and $\cA$ its factual representation over the signature $\Sigma_{\cA}=\tuple{\mathbf{C},\mathbf{R},\cC}$. Let, moreover, $\cR$ be a set of rules %mined from $\cG$,
-%  i.e. rules over the signature $\Sigma_{\cR}=\tuple{\mathbf{C}\cup \mathbf{R},\cC}$. % mined from $\cG$.
-% Then \emph{completion of $\cG$ (resp. $\cA$) \wrt\ $\cR$} is a graph $\cG_{\cR}$ constructed from any answer set $\cA_{\cR}\in AS(\cR \cup \cA)$. 
-% \end{definition}
