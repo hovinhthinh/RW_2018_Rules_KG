@@ -43,12 +43,13 @@ Rules that reflect correlations between edge counts in KGs such as ``If you have
 % Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contain the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which is sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over this data is still not well studied.
 Learning temporal rules and constraints such as ``You cannot graduate from the university before being born'' is another promissing future work direction. Deductive reasoning over temporal KGs has been recently considered in \cite{DBLP:conf/aaai/ChekolPSS17}; however the inductive setting has not yet been studied in full details to the best of our knowledge.
 
-\leanparagraph{Hybrid rule learning techniques} The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
+\leanparagraph{Hybrid rule learning techniques} Inducing rules from text by exploiting natural language processing (NLP) techniques has been studied in several works \ds{Insert citations}. Combining these linguistics-based methods with inductive rule learning from KGs has a great potential. Indeed, the number of predicates in most encyclopedic KGs is rather limited, since they are primarily extracted from Wikipedia; this prohibits the extraction of many interesting rule patterns such as ``\ds{TODO: insert. The previous rule about injured people has a negative flavor for being in the end of the article and it needs more motivation}''. %, like % where such non-standard facts as ``Einstein worked with Feynmen'' are rarely added. The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
 
-\begin{align*}
-\mi{participatedIn(X,Y)} \leftarrow & \mi{playsFor(X,Z)}, \mi{competes(Z,Y)},\\ & \naf injuredDuring(X,Y)
-\end{align*}
-The rule encodes that a player participates in a championship if he plays for a competing team unless he was injured during the championship. Learning the positive part of the rule can be easily done over the KG, yet the last one is more common to find in the text. 
+% \begin{align*}
+% \mi{participatedIn(X,Y)} \leftarrow & \mi{playsFor(X,Z)}, \mi{competes(Z,Y)},\\ & \naf injuredDuring(X,Y)
+% \end{align*}
+% \ds{would suggest to add a different rule here, this }
+% The rule encodes that a player participates in a championship if he plays for a competing team unless he was injured during the championship. Learning the positive part of the rule can be easily done over the KG, yet the last one is more common to find in the text. 
 
 
 
