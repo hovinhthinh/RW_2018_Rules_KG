@@ -14,22 +14,30 @@ While the problem of rule-based KG completion has recently gained an increasing 
 
 
 \leanparagraph{Rule Learning with External Sources}  % One of the main difference between the existing approaches is the rule evaluation metric which affects the quality of the resulting rule set heavily. However,  existing measures only consider the given KG in their computation, and cover a small subset of the local patterns as well. Other missing facts are not counted, therefore, the estimated quality of rules might be inaccurate.
-One promising direction is to consider pieces of evidence from other external resources while estimating the quality of the rules as shown in Figure~\ref{fig:discussion_overview}. This external resource can either be a human expert giving feedback about the correctness of %the 
+One promising direction is to consider pieces of evidence from other external resources while extracting the rules from KGs and estimating their quality %of the rules as shown in 
+(see Figure~\ref{fig:discussion_overview}). This external resource can be of a different nature ranginf from %either be 
+a human expert giving feedback about the correctness of %the 
 a given rule %or its predictions 
-similar to~\cite{Dzyuba2017}, %or a community voting via crowd-sourcing, 
-or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources to estimate its truthfulness %over textual resources such as 
-This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker}. % In addition, external KG meta-data could give some information about the existence of certain types of facts within the KG (as in CARL~\cite{carl}).
+as done in~\cite{Dzyuba2017} in the context of frequent intemset mining, %or a community voting via crowd-sourcing, 
+or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources for estimating its truthfulness %over textual resources such as 
+This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker} in the rule induction process. % In addition, external KG meta-data could give some information about the existence of certain types of facts within the KG (as in CARL~\cite{carl}).
 
-An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations with the propose of estimating the likelihood of unseen facts. Recently, several models have been proposed, while many of them achieved reasonable results quality~\cite{Wang2017}, yet their predictions are not interpretable~\cite{Shakerin2018}. Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
+ An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
+purpose of estimating the likelihood of unseen facts  % Recently, several models have been proposed, while many of them achieved reasonable results quality~
+(see \cite{Wang2017} for overview). However, %yet 
+the
+%ir 
+predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. % Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
+Interlinking these statistical methods with inductive rule learning is a promissing further direction.
 
-\leanparagraph{Learning Other Rule Forms}
+\leanparagraph{Learning rich rule forms}
 Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, other rule forms such as rules with disjunction (\eg $isMale(X) \vee isFemale(X) \leftarrow isPerson(X)$) or rules with existential quantifier (\eg $(\exists Y: playsInstrument(X, Y)) \leftarrow isMusician(X))$) can encode more interesting patterns. Even though these rules may not directly infer new facts, they can be used as guidance for the information retrieval approaches.
 
 
-\leanparagraph{Learning Temporal-aware Rules} Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contains the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which are sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over these data is still not well studied.
+\leanparagraph{Learning temporal rules} Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contains the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which are sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over these data is still not well studied.
 
 
-\leanparagraph{Learning Hybrid Rules} The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
+\leanparagraph{Learning hybrid rules} The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
 
 \begin{align*}
 \mi{participatedIn(X,Y)} \leftarrow & \mi{playsFor(X,Z)}, \mi{competes(Z,Y)},\\ & \naf injuredDuring(X,Y)
