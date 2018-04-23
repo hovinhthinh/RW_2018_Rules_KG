@@ -95,7 +95,8 @@ ensures the actual prediction  of a fact by a rule, but not just its existence~\
 %\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
 An example of non-closed rule learned from the KG in Figure~\ref{rdf} is:
 \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
-This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. Another example is:
+This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. \thi{I also added this rule, since the rule below is existential rule, which might be not enough}.
+Another example is:
 \[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
 %then he/she should 
 live in some place. Unlike $r_1$, this rule cannot infer the exact living place of a person of interest is thus less interesting. \qed% for the KG completion. %location 
