@@ -30,13 +30,14 @@ their correctness.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/sem
 
 
 The problems of KG completion and cleaning are %one of 
-among the central ones. Approaches for addressing these issues can be roughly divided into two groups: statistics-based, and logic-based. The firsts apply well-known techniques like tensor factorization, or neural-embedding-based models (see \cite{DBLP:journals/pieee/Nickel0TG16} for overview). The second group focuses more on logical rule learning \cite{ruleoverview}. In this tutorial, we primarily focus on rule-based techniques, and in particular their application for KG completion.
-Suppose we had an \emph{ideal} KG $\cG^i$ that contains all correct and true facts in the world that reflect the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
+among the central ones. Approaches for addressing them can be roughly divided into two groups: statistics-based, and logic-based. The firsts apply such techniques as tensor factorization, or neural-embedding-based models (see \cite{DBLP:journals/pieee/Nickel0TG16} for overview). The second group concentrates on logical rule learning \cite{ruleoverview}. In this tutorial, we primarily focus on rule-based techniques, and their application for the KG completion task. In the following, we assume that the given KG $\cG$ stores only a subset of all true facts.
+
+Suppose we had an \emph{ideal} KG $\cG^i$ that contains \emph{all} correct and true facts in the world reflecting the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
 
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
     $\Sigma_{\cG}=\Sigma_{\cG^i}$. We call $\cG$ the available
     graph and $\mathcal{G}^i$ the ideal graph.  \end{definition}
     
-Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) given the available data and possibly other external information sources by means of rules induced from the data.
+Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) by means of rules induced from the available KG and possibly other external information sources.
 
