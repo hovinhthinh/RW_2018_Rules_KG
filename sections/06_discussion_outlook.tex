@@ -13,22 +13,16 @@ While the problem of rule-based KG completion has recently gained an increasing 
 % Additionally, they are still prone to KG incompleteness and not being able to determine the possible gaps in the data under OWA. These challenges lead to the generation of uninteresting and noisy rules. Follows some possible directions to overcome such challenges. 
 
 
-\leanparagraph{Rule learning with external sources}  % One of the main difference between the existing approaches is the rule evaluation metric which affects the quality of the resulting rule set heavily. However,  existing measures only consider the given KG in their computation, and cover a small subset of the local patterns as well. Other missing facts are not counted, therefore, the estimated quality of rules might be inaccurate.
-One promising direction is to consider pieces of evidence from other external resources while extracting the rules from KGs and estimating their quality %of the rules as shown in 
+\leanparagraph{Rule learning with external sources} 
+One promising direction is to consider pieces of evidence from other external resources while extracting the rules from KGs and estimating their quality 
 (see Figure~\ref{fig:discussion_overview}). This external resource can be of a different nature ranginf from %either be 
-a human expert giving feedback about the correctness of %the 
-a given rule %or its predictions 
-as done in~\cite{Dzyuba2017} in the context of frequent intemset mining, %or a community voting via crowd-sourcing, 
-or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources for estimating its truthfulness %over textual resources such as 
-This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker} in the rule induction process. % In addition, external KG meta-data could give some information about the existence of certain types of facts within the KG (as in CARL~\cite{carl}).
+a human expert giving feedback about the correctness of a given rule as done in~\cite{Dzyuba2017} in the context of frequent itemset mining, or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources for estimating its truthfulness. This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker} in the rule induction process. 
 
- An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
-purpose of estimating the likelihood of unseen facts  % Recently, several models have been proposed, while many of them achieved reasonable results quality~
-(see \cite{Wang2017} for overview). However, %yet 
-the
-%ir 
-predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. % Furthermore, some of them allow integrating unstructured resources during the training phase. Utilizing such models in the rule learning process can achieve promising results.% as shown in~\cite{thinh_tr}.
-Interlinking these statistical methods with inductive rule learning is a promissing further direction.
+An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
+purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the
+predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. Interlinking these statistical methods with inductive rule learning is a promising further direction.
+
+\leanparagraph{Neural-based rule learning} Utilizing embedding models for rule learning is a new research direction that has recently gained attention \cite{DBLP:conf/nips/YangYC17,DBLP:journals/corr/YangYHGD14a}. Existing methods are purely statistics-based, i.e., they reduce the rule learning problem to algebraic operations on neural-embedding-based representations of a given KG.  \cite{DBLP:journals/corr/YangYHGD14a} constructs rules by modeling relation composition as multiplication or addition of two relation embeddings. The authors of \cite{DBLP:conf/nips/YangYC17} propose a differentiable system for learning models defined by sets of first-order rules that exploits a connection between inference and sparse matrix multiplication \cite{DBLP:journals/corr/Cohen16b}. However, existing approaches pose strong restrictions on target rule patterns, which often prohibit learning interesting rules, e.g. non-chain-like or exception-aware ones.
 
 \leanparagraph{Learning other rule forms}
 %Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, 
