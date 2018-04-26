@@ -1,35 +1,43 @@
 \section{Knowledge Graphs}
 \label{sec:kgs}
 
-Knowledge Graphs (KGs) have been introduced in the Semantic Web community to create the ``Web of data'' that can be readable by machines. They represent interlinked collections of factual information and are often encoded using the RDF data model \cite{rdf2004}. This data model represents the content of a graph with a set of triples of the form $\tuple{\mi{subject\;predicate\;object}}$ corresponding to positive unary and binary first-order logic (FOL) facts.  
+Knowledge Graphs (KGs) have been introduced in the Semantic Web community to create the ``Web of data'' that can be readable by machines. They represent interlinked collections of factual information, and are often encoded using the RDF data model \cite{rdf2004}. This data model represents the content of a graph with a set of triples of the form $\tuple{\mi{subject\;predicate\;object}}$ corresponding to positive unary and binary first-order logic (FOL) facts.  
 
-Formally, we assume countable sets $\cR$ of unary and binary predicate names and $\cC$ of constants. A knowledge graph $\cG$ is a finite set of ground atoms of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cR,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
+Formally, we assume countable sets $\cR$ of unary and binary predicate names (aka relations) and $\cC$ of constants (aka entities). A knowledge graph $\cG$ is a finite set of ground atoms of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cR,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
 
 \begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, marriage and friendship %their 
-relations between them as well as their living places and professions. For instance, the upper half encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan'', which is represented by the FOL facts $\mi{\{hasBrother(ann, john),}$$\mi{ livesIn(ann, berlin)}$, \\$\mi{livesIn(brad, berlin)}$, $\mi{metropolitan(berlin)}\}$, $\mi{marriedTo(brad, ann)}.$
-For the whole KG snippet $\cG$ the set $\cR$ contains $\mi{livesIn,marriedTo,hasBrother,hasFriend,}$\\$\mi{researcher,metropolitan,artist}$, while the set $\cC$ comprises of the names of people and  locations depicted on Figure~\ref{rdf}. \qed
+relations among them as well as their living places and professions. For instance, the upper left part encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan'' represented by the FOL facts $\mi{\{hasBrother(ann, john),}$$\mi{ livesIn(ann, berlin)}$, \\$\mi{livesIn(brad, berlin)}$, $\mi{metropolitan(berlin)}\}$, $\mi{marriedTo(brad, ann)}.$
+% For the whole KG snippet $\cG$ t
+The set $\cR$ of relations appearing in the given KG contains $\mi{livesIn,marriedTo,hasBrother,}$\\$\mi{hasFriend,researcher,metropolitan,artist}$, while the set $\cC$ of constants comprises of the names of people and locations depicted on Figure~\ref{rdf}. \qed
 \end{example}
 
 \input{tables/kg_sizes}
 
 All approaches for KG construction can be roughly classified into two major groups: manual and (semi-)automatic. The examples of KGs constructed manually include, e.g., WordNet~\cite{wordnet} which has been created by a group of experts or Freebase~\cite{Freebase} and Wikidata~\cite{wikidata} constructed collaboratively by volunteers. 
-Automatic population of KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other techniques gave rise to such KGs as YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. 
+Automatic population of KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other techniques gave rise to, e.g., YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. 
 There are also projects 
 devoted to the extraction of facts from unstructured resources using natural language processing and machine learning methods.  
 For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs} shows examples of some KGs and their statistics.
 
 While the existing KGs contain millions of facts, they are still far from being complete, and therefore they are treated under the open world assumption, i.e., facts not present in KGs are assumed to be unknown rather than false. For example, given the KG in Figure~\ref{rdf} we cannot say whether $\mi{livesIn(dave,chicago)}$ is true or false. This is opposed to the closed world assumption made in databases, under which $\mi{\neg livesIn(dave,chicago)}$ would be inferred from the given data.
 
-Obviously, the more facts the KGs cover from a given domain on which they are focused, the better. However, along with completeness, there are also other parameters that reflect their quality. These include the size and correctness of the given facts.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs and their quality.
+Obviously, the more facts the KGs cover from a %given 
+domain  of their focus, %on which they are focused, 
+the better. Along with completeness, there are also other important aspects reflecting KGs' quality %. These 
+including the number of facts %size and 
+and %as well as 
+their correctness.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs.
 
 
-The problems of KG completion and cleaning are one of the central ones. In this tutorial, we primarily focus on rule-based techniques for KG completion.
-Suppose we had an \emph{ideal} KG $\cG^i$ that contains all correct and true facts in the world that reflect the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
+The problems of KG completion and cleaning are %one of 
+among the central ones. Approaches for addressing them can be roughly divided into two groups: statistics-based, and logic-based. The firsts apply such techniques as tensor factorization, or neural-embedding-based models (see \cite{DBLP:journals/pieee/Nickel0TG16} for overview). The second group concentrates on logical rule learning \cite{ruleoverview}. In this tutorial, we primarily focus on rule-based techniques, and their application for the KG completion task. In the following, we assume that the given KG $\cG$ stores only a subset of all true facts.
+
+Suppose we had an \emph{ideal} KG $\cG^i$ that contains \emph{all} correct and true facts in the world reflecting the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
 
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
     $\Sigma_{\cG}=\Sigma_{\cG^i}$. We call $\cG$ the available
     graph and $\mathcal{G}^i$ the ideal graph.  \end{definition}
     
-Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) given the available data and possibly other external information sources by means of rules induced from the data.
+Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) by means of rules induced from the available KG and possibly other external information sources.
 
