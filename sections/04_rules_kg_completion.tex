@@ -333,7 +333,7 @@ the directional metric, using a certain dedicated weighting factor $\beta \in [0
 We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',\cG')} \approx 0.48$. \qed
 \end{example}
 
-\subsubsection{RC Confidence.} Another further proposal for KG-based rule measure has been done in \cite{DBLP:conf/www/ZupancD18}, which attempts to make use of information about the positive and unlabeled data. This rule measure directly estimate the precision of a rule as follows:
+\subsubsection{RC Confidence.} Another further proposal for KG-based rule measure has been done in \cite{DBLP:conf/www/ZupancD18}, which attempts to make use of information about the positive and unlabeled data. This rule measure directly estimates the precision of a rule as follows:
 \[
 conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
 \]
