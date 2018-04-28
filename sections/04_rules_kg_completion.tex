@@ -333,7 +333,15 @@ the directional metric, using a certain dedicated weighting factor $\beta \in [0
 We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',\cG')} \approx 0.48$. \qed
 \end{example}
 
-Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
+\subsubsection{RC Confidence.} Another further proposal for KG-based rule measure has been done in \cite{DBLP:conf/www/ZupancD18}, which attempts to make use of information about the positive and unlabeled data. This rule measure directly estimate the precision of a rule as follows:
+\[
+conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
+\]
+The key different between $conf_{rc}$ and $conf$ is at the set $UP(r,\cG)$, which is the set of correctly predicted facts (unknown positive) by $r$ on $\cG$. Note that standard confidence $conf$ assumes this set to be empty due to the Closed World Assumption. Since computing the real value of $UP(r,\cG)$ is impossible, \textit{RC confidence} approximates it by making the Relationship between Coverage assumption ($rc$), stating that the proportion of positive examples covered by a rule is the same for both the labeled and unlabeled examples \cite {DBLP:conf/www/ZupancD18}. Formally:
+\[rc(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\#(X,Y):H \in \cG} = \frac{|UP(r,\cG)|}{|UP(H, \cG)|}\]
+where $UP(H, \cG)$ is the set of unknown positive facts of $\cG$ having the head predicate. The estimated size of $UP(r,\cG)$ can be derived if $rc(r,\cG)$ and $UP(H, \cG)$ are known. Here, computing $rc$ is straightforward based on $\cG$. Meanwhile, $UP(H, \cG)$ is approximated by making use of partial completeness assumption and relations' (inverse) functionality. For more details, see \cite{DBLP:conf/www/ZupancD18}.
+%Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
+
 %\end{itemize}
 
 %\subsubsection{OP (Ontological Pathfinding).}
