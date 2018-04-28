@@ -260,7 +260,7 @@ one.
 Thus, the recent work CARL \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data.
 
 Overall, for a given fact $\mi{hasChild(john,  mary)}$, CARL takes into account the following two numerical statements: the number of (1) children of $john$ and (2) incoming $\mi{hasChild}$ edges to $mary$, which in practice can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}. Since template (2) could be rewritten as the instances of the template (1) through the inverse relations, these meta-data statements are formalized as follows:
-\[\mi{num}(p,s, \cG) = \# o : p(s,o) \in \cG^i\]
+\[\mi{num}(p,s, \cG^i) = \# o : p(s,o) \in \cG^i\]
 indicating the total number of objects $o$ for a given subject $s$ and predicate $p$. Based on this, the number of missing objects $o$ in the available KG $\cG$ can be conveniently  retrieved:
 \[\mi{miss}(p,s,\cG) = \mi{num(p,s,\cG^i)} - \#o : p(s,o) \in \cG\]
 Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
