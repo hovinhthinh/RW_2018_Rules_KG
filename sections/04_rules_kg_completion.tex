@@ -49,7 +49,7 @@ $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models B^+}$ and $\mi{H \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
 \end{example}
 
 While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
