@@ -1,87 +1,173 @@
 \section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
-In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
-\subsection{Rule Learning Tasks}
+% In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
+% \subsection{Rule Learning Tasks}
 
-\input{tables/ilp_overview}
+% \input{tables/ilp_overview}
 
-\label{sec:rules_learning_tasks}
-Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
+% \label{sec:rules_learning_tasks}
+% Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
-First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
-%(RL)} or
- \emph{inductive logic programming (ILP)}, since the patterns they discover are expressed in
-relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
+% First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
+% %(RL)} or
+%  \emph{inductive logic programming (ILP)}, since the patterns they discover are expressed in
+% relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
 
-Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}: 
-\begin{itemize}
-\item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
-\item \emph{type of the output knowledge}, e.g., Horn rules, description logic class descriptions, class inclusions of various expressivity, etc.
-\item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
-\item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
-\item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
-\end{itemize}
+% Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}: 
+% \begin{itemize}
+% \item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
+% \item \emph{type of the output knowledge}, e.g., Horn rules, description logic class descriptions, class inclusions of various expressivity, etc.
+% \item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
+% \item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
+% \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
+% \end{itemize}
 
-The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
+% The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
 
-\begin{example}
-Suppose that you possess information about some of the relationships between people in your family and their genders.
-However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
-You might have the following beliefs, i.e., background knowledge.
-\smallskip
+% \begin{example}
+% Suppose that you possess information about some of the relationships between people in your family and their genders.
+% However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
+% You might have the following beliefs, i.e., background knowledge.
+% \smallskip
 
-{\leftline{$B = \left\{
-            \renewcommand{\arraystretch}{1.1}
-            \begin{array}{@{\,}l@{~~}l@{}}
-              \mbox{(1) } \mi{parent (john, mary)};
-               \mbox{(2) }\mi{male(john)};
-              \mbox{(3) }\mi{parent (david, steve)};\\
-              \mbox{(4) }\mi{ male(david)};
-              \mbox{(5) }\mi{parent (kathy, ellen)};
-              \mbox{(6) }\mi{ female (kathy)};
-            \end{array}%
-            \!\right\}$}}
-\smallskip
+% {\leftline{$B = \left\{
+%             \renewcommand{\arraystretch}{1.1}
+%             \begin{array}{@{\,}l@{~~}l@{}}
+%               \mbox{(1) } \mi{parent (john, mary)};
+%                \mbox{(2) }\mi{male(john)};
+%               \mbox{(3) }\mi{parent (david, steve)};\\
+%               \mbox{(4) }\mi{ male(david)};
+%               \mbox{(5) }\mi{parent (kathy, ellen)};
+%               \mbox{(6) }\mi{ female (kathy)};
+%             \end{array}%
+%             \!\right\}$}}
+% \smallskip
 
-Moreover, you are given the following positive and negative examples.
-\smallskip
+% Moreover, you are given the following positive and negative examples.
+% \smallskip
 
-\noindent $\mi{E^+=\{fatherOf(john, mary), fatherOf(david, steve)\}}$\\
-$\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
+% \noindent $\mi{E^+=\{fatherOf(john, mary), fatherOf(david, steve)\}}$\\
+% $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 
 
-One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
-\end{example}
+% One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
+% $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
+% \end{example}
 
-While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
+% While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
 
-First, the target predicates ($\mi{fatherOf}$ from the above example) can
-not be easily identified, since we do not know which parts of the considered KG need to
- be completed. A standard way of addressing this issue would be just to learn rules for all
- the different predicate names occurring in the KG. Unfortunately, this is unfeasible
- given the huge size of KGs. Second, the negative examples are not available,
- and they can not be easily obtained from, e.g., domain experts due to - once again
- - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
-% from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
+% First, the target predicates ($\mi{fatherOf}$ from the above example) can
+% not be easily identified, since we do not know which parts of the considered KG need to
+%  be completed. A standard way of addressing this issue would be just to learn rules for all
+%  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
+%  given the huge size of KGs. Second, the negative examples are not available,
+%  and they can not be easily obtained from, e.g., domain experts due to - once again
+%  - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
+% % from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
-To overcome the above obstacles, it turns out to be appropriate to treat
-the KG completion problem as an unsupervised relational learning task \cite{amie}.
-In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to
-infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
+% To overcome the above obstacles, it turns out to be appropriate to treat
+% the KG completion problem as an unsupervised relational learning task \cite{amie}.
+% In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to
+% infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
 %Third, the definition of a language bias turns out to be
 % cumbersome since the schema of the KG is usually not available.
 
-In the rest of this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
+%In the rest of 
+
+In this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules
 (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
-The standard relational rule learning techniques usually proceed in two 
+First, we describe the relational association rules and how they are traditionally evaluated under CWA. Then, we describe the standard relational rule learning techniques, which usually proceed in two 
 steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
 %and transform them into the form of rules, 
 rule evaluation phase deals with measuring rule quality %from 
 using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
+
+
+
+\subsection{Association Rules}
+%\leanparagraph{ mining} 
+
+An association rule is a rule where certain properties of the data in the body of
+the rule are related to other properties in its head. For an example of an association rule, consider a
+database containing transactional data from a store selling computer equipment.
+From this data the association rule stating that 70\% of the customers
+buying a laptop also buy a docking station. The knowledge that such rule reflects 
+can assist in planning store layout or to decide which customers are likely to respond to an
+offer.
+
+Traditionally, the discovery of association rules  has been performed on data stored in a single table.
+Recently, however, many methods for mining relational, i.e., graph-based data have been
+proposed (see Section~\ref{sec:rules_kg_completion} for details). 
+
+The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption \cite{warmer}. 
+
+\begin{definition}[Conjunctive Query]
+A \emph{conjunctive query} $Q$ over a knowledge graph $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of } Q \text{ on } \cG\}$.
+\end{definition}
+
+The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}. 
+
+\begin{example}
+The support of the query
+\begin{equation}\mi{Q(X,Y,Z):-marriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\end{equation}
+over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$.
+\end{example} 
+Formally, an \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
+
+For example, from the above $Q(X,Y,Z)$ and
+\begin{equation}Q'(X,Y,Z):-\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
+\end{equation} we can construct the rule $Q => Q'$. 
+ 
+
+Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1=>Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. For example, $Q=>Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
+
+A large number of various measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. 
+
+For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$ and a KG $\cG$, the \emph{standard confidence} (or \textit{confidence}) is given as:\vspace{-.26cm}
+\begin{align*}
+conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
+\end{align*}
+where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
+\begin{align*}
+\textit{r-supp}(r,\cG) &= \#(X,Y): H \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG\\
+\textit{b-supp}(r,\cG) &= \#(X,Y):\exists \vec{Z}\; B\in \cG, E \not \in \cG
+\end{align*}
+\begin{example}
+Consider the example rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
+Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$.\qed
+\end{example}
+
+\leanparagraph{ILP for Nonmonotonic Rule Learning}
+While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus mostly on the extraction of Horn logic programs from the data, learning programs with negation has been also tackled in several works % mainly in the three major Several approaches  introduced to extend Horn ILP into richer nonmonotonic logic formalisms such as
+~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. % Once ILP programs are extended to nonmonotonic programs, they are interpreted under the answer set semantics explained in Section~\ref{sec:reasoning}~\cite{Shakerin2018}.
+
+In this section we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
+We classify the techniques into three major groups: learning from positive and negative examples, learning from entailmenmt and learning from full or partial interpretations (or answer sets).
+
+%These methods rely on CWA and focus on describing a dataset at hand where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
+
+%\leanparagraph{Learning from answer sets} 
+In~\cite{DBLP:journals/tocl/Sakama05} %proposed 
+one of the earlierst methods for learning nonmonotobic logic programs from answer sets has been proposed. %an approach %algorithms to induce a categorical logic program % given an answer set in the background knowledge and either positive or negative examples. In particular,
+More specifically, given a single answer set, the authors of \cite{DBLP:journals/tocl/Sakama05} induce a program that has this answer set as a stable model. In~\cite{Sakama2009}, the approach has been extended to learn from multiple answer sets. % by introducing brave induction, where the answer sets of the learned hypothesis and the background knowledge cover the positive examples. 
+This approach accepts only one positive example, i.e.,  a conjunction of atoms, while totally dismissing the negative ones. ILASP ~\cite{ILASP_system}, induces the hypothesis from multiple positive examples using brave induction, while it ensures that the negative examples are cautiously entailed (i.e. negative examples are excluded from all answer sets). The algorithm exhaustively searches the space of possible clauses to find one that is consistent with all examples and background knowledge. To make this search feasible, it restricts the learning only to the target predicate(s). 
+%Cautious induction, the counterpart of brave induction, is also too restricted as it can only induce atoms in the intersection of all stable models~\cite{Shakerin2018}.
+
+
+%\leanparagraph{Abductive learning approaches} 
+DROPS~\cite{CorapiRL10} and its successor ASPAL~\cite{ASPAL} map the ILP problem into an abductive learning task. %  which reduces the learning problem into the problem of answer set computation by providing the dedicated encoding. 
+% %ILP problems as ASP programs and exploits ASP solver to find the hypothesis via abductive search.
+XHAIL~\cite{XHAIL} uses a hybrid algorithm combining abduction, deduction and induction steps to generate the hypothesis. The system takes a background theory, a set of examples (both positive and negative), and user-defined predicate declarations to constrain the search space as input and returns as an output a set of hypotheses that entail the examples with respect to the background theory. To that end, XHAIL still suffers from the same infeasible search space problem facing ILASP~\cite{Sakama2009}. An enhanced version of XHAIL that resolves scalability issues has been introduced in~\cite{XHAIL_extended} 
+
+% \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
+% \gad{If we have time we can add the example of XHAIL steps from~\cite{XHAIL_extended}}
+
+
+
 
 \subsection{Rule Construction}
 % Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
@@ -125,39 +211,7 @@ Refinement of a rule relies on the following set of mining operators used to ext
 \item \textit{add closing atom}:  add a positive atom with both of its arguments being shared variables.
 
 \end{itemize}
-%\begin{algorithm}[t]
-%\DontPrintSemicolon
-%$queue\leftarrow \langle[]\rangle$\\
-%Execute in parallel:\\
-%\While{$\neg$queue.isEmpty()}{    
-%    \textit{rule $\leftarrow$ queue.dequeue()}\\
-%%    \tcc{Computes rule statistics and output if necessary.}
-%    \If{rule.isClosed()}{
-%        \eIf{rule is not pruned for outputting}{
-%            output($rule$)
-%        }{
-%            continue while loop
-%        }
-%    }
-%%    \tcc{Applies operators to explore more new rules.}
-%    \ForEach{operator o}{
-%        \ForEach{newRule $\in$ o(rule)}{
-%%            \If{newRule.hasGoodFormat()}{
-%%                \tcc{Check whether there exists some version of the rule in queue.}
-%                \If{newRule $\notin$ queue}{ 
-%                    \textit{queue.enqueue(newRule)}
-%%               }
-%            }
-%        }
-%    }    
-%}
-%\caption{AMIE's mining algorithm.}
-%\label{algor:amie}
-%\end{algorithm}
-% These mining operators are then applied to extract rules from KGs. The algorithm maintains a queue consisting of intermediate rules to be processed. At the beginning, the queue contains only an empty rule. At each step, one rule is taken from the head of the queue, then being checked for outputting. Then, mining operators are applied to explore new more rules.
-% Checking for outputting is the process of collecting rule statistics (e.g. \textit{support}, \textit{confidence}), and then checking whether these metrics pass some defined threshold. Apart from that, the expansion of rules must meet the other two requirements: the increasing of rule quality, and the language bias. In particular, firstly, adding an atom into the rule must increase its quality (e.g. \textit{confidence}). Secondly, the rules being outputted must be \textit{closed} and number of atoms of the rule does not exceed some threshold.
 
-% To compute the rule's statistics, we must find all instantiations of variables in a rule in the given KG. Several options have been proposed depending on how the KGs are stored: either by using SQL, SPARQL or using in-memory database techniques \cite{amie}.
 The implementation of AMIE employs a variety of techniques from the database community, which allow it to achieve high scalability.
 
 \subsubsection{RDF2Rules.}

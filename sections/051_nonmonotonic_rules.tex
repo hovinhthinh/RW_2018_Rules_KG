@@ -1,54 +1,20 @@
 \section{Nonmonotonic Rule Learning}\label{sec:nmrulelearn}
 
-So far %Previously 
-we have considered %described 
+So far 
+we have considered 
 approaches that learn Horn rules. However,  Horn rules are not sufficiently expressive for representing incomplete human knowledge, and they are inadequate for capturing
 exceptions. Thus, the rules extracted from the existing KGs can potentially %they %herefore, they 
-%may 
-predict erroneous facts as illustrated in Section~\ref{sec:intro}. % . For example, recalling $r_1$:
-% \[r_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{marriedTo(X,Y)},\ \mi{livesIn(X,Z)} \]
-% If $r_1$ is applied on KG shown in Figure~\ref{rdf}, it will predict the incorrect fact $\mi{livesIn(alice,berlin)}$, which contradicts the exiting fact $\mi{livesIn(alice, amsterdam)}$. 
-
-% In contrast, nonmonotonic rules are capable of capturing the patterns for which it may be inaccurate to predict some facts (\ie exceptional cases); thus, preventing such predictions. For example, if $r_1$ can be adapted into a nonmontonic form to handle the cases where married couples may not live together, according to the KG in Figure~\ref{rdf}, that should be when one of them is a researcher; leading to new rule:
-% \[r'_1 : \mi{livesIn(Y,Z)} \leftarrow \mi{marriedTo(X,Y)},\ \mi{livesIn(X,Z)}, \naf \mi{researcher(Y)}\]
-% Applying rule $r'_1$ on the KG, it will not predict $\mi{livesIn(alice,berline)}$. 
+predict erroneous facts as illustrated in Section~\ref{sec:intro}. 
 
 In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from complete and incomplete data. 
 
-%we first %are 
-%discuss the existing nonmonotonic rule learning techniques, that have been studied in the area of ILP and then provide an overview of possible extensions of these techniques to KGs.
-
-%different approaches for learning nonmonotonic rules from the data.
-
-
-\subsection{Traditional Nonmonotonic Rule Learning}
-While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus mostly on the extraction of Horn logic programs from the data, learning programs with negation has been also tackled in several works % mainly in the three major Several approaches  introduced to extend Horn ILP into richer nonmonotonic logic formalisms such as
-~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. % Once ILP programs are extended to nonmonotonic programs, they are interpreted under the answer set semantics explained in Section~\ref{sec:reasoning}~\cite{Shakerin2018}.
-
-In this section we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
-We classify the techniques into three major groups: learning from positive and negative examples, learning from entailmenmt and learning from full or partial interpretations (or answer sets).
-
-%These methods rely on CWA and focus on describing a dataset at hand where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   
-
-%\leanparagraph{Learning from answer sets} 
-In~\cite{DBLP:journals/tocl/Sakama05} %proposed 
-one of the earlierst methods for learning nonmonotobic logic programs from answer sets has been proposed. %an approach %algorithms to induce a categorical logic program % given an answer set in the background knowledge and either positive or negative examples. In particular,
-More specifically, given a single answer set, the authors of \cite{DBLP:journals/tocl/Sakama05} induce a program that has this answer set as a stable model. In~\cite{Sakama2009}, the approach has been extended to learn from multiple answer sets. % by introducing brave induction, where the answer sets of the learned hypothesis and the background knowledge cover the positive examples. 
-This approach accepts only one positive example, i.e.,  a conjunction of atoms, while totally dismissing the negative ones. ILASP ~\cite{ILASP_system}, induces the hypothesis from multiple positive examples using brave induction, while it ensures that the negative examples are cautiously entailed (i.e. negative examples are excluded from all answer sets). The algorithm exhaustively searches the space of possible clauses to find one that is consistent with all examples and background knowledge. To make this search feasible, it restricts the learning only to the target predicate(s). 
-%Cautious induction, the counterpart of brave induction, is also too restricted as it can only induce atoms in the intersection of all stable models~\cite{Shakerin2018}.
-
-
-%\leanparagraph{Abductive learning approaches} 
-DROPS~\cite{CorapiRL10} and its successor ASPAL~\cite{ASPAL} map the ILP problem into an abductive learning task. %  which reduces the learning problem into the problem of answer set computation by providing the dedicated encoding. 
-% %ILP problems as ASP programs and exploits ASP solver to find the hypothesis via abductive search.
-XHAIL~\cite{XHAIL} uses a hybrid algorithm combining abduction, deduction and induction steps to generate the hypothesis. The system takes a background theory, a set of examples (both positive and negative), and user-defined predicate declarations to constrain the search space as input and returns as an output a set of hypotheses that entail the examples with respect to the background theory. To that end, XHAIL still suffers from the same infeasible search space problem facing ILASP~\cite{Sakama2009}. An enhanced version of XHAIL that resolves scalability issues has been introduced in~\cite{XHAIL_extended} 
-
-% \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
-% \gad{If we have time we can add the example of XHAIL steps from~\cite{XHAIL_extended}}
 
 
 
-\subsection{Nonmonotonic Rule Learning over Knowledge Graphs}
+
+
+
+%\subsection{Nonmonotonic Rule Learning over Knowledge Graphs}
 \begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{figures/overview_new}

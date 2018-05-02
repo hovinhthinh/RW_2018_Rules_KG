@@ -1,0 +1,157 @@
+\section{Rules and Reasoning}
+\label{sec:reasoning}
+In this section we briefly review concepts of logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and relational association rules \cite{warmer}.
+
+\subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
+negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
+
+
+\begin{definition}[Rule] A \emph{rule} $r$ is an expression of the form
+\begin{equation}
+H\leftarrow B, \naf\ E
+\end{equation}
+where $H$ is a standard first-order atom of the form $a(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $\naf\ E$ %with slight abuse of notation, 
+ is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either constants or variables whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
+% . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
+\end{definition}
+
+The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
+\emph{Horn} if $\mi{body^-}(r)=\emptyset$.
+
+\begin{example}
+Consider $\mi{r_2}$ from Section~\ref{sec:intro}. We have that $\mi{head(r_2)}=\{livesIn(Y,Z)\}$, while $\mi{body^+(r_2)=\{isMarriedTo(X,Y), livesIn(X,Z)\}}$, and moreover it holds that, $\mi{body^-(r_2)=\{not\;researcher(Y)\}}$. \qed
+\end{example}
+
+
+
+
+A logic program $P$ is \emph{ground} if it consists of only ground rules, i.e. rules without
+variables. 
+
+\begin{example}
+For instance, a possible grounding of the rule $\mi{r_2}$ is given as follows $\mi{livesIn(dave,chicago)\leftarrow livesIn(clara,chicago),isMarriedTo(clara,dave),}$\\$
+\phantom{livesIn(dave,chicago)\leftarrow}\naf\mi{\;researcher(dave)}$. \qed
+\end{example}
+
+Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substituting variables with constants in all possible ways. 
+
+
+\begin{definition}[Herbrand Universe, Base, Interpretation]
+A \emph{Herbrand universe}  $\mi{HU(P)}$ is a set of all constants occurring in the given program $\mi{P}$. A \emph{Herbrand base}  $\mi{HB(P)}$ is a set of all possible ground atoms that can be formed with predicates and constants appearing inam $P$. A \emph{Herbrand interpretation} is any subset of $\mi{HB(P)}$.
+\end{definition}
+
+ By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
+\begin{definition}[Gelfond-Lifschitz reduct, answer set]
+An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
+\end{definition}
+
+\begin{example}\label{ex:as}
+Consider the program \\
+{\small \leftline{$P = \left\{
+            \renewcommand{\arraystretch}{1.1}
+            \begin{array}{@{\,}l@{~~}l@{}}
+              \mbox{(1) }\mi{livesIn(brad,berlin)};\;\mbox{(2) }\mi{isMarriedTo(brad,ann)};\\
+              \mbox{(3) } \mi{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(X,Z),  \naf\ researcher(Y)}\\
+            \end{array}%
+            \!\right\}$}}
+            
+\normalsize
+{\smallskip
+
+\noindent            
+The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with $\mi{brad, \,ann}$ and $\mi{berlin}$ respectively. For $I{=}\{${\small$\mi{isMarriedTo(brad{,}ann){,}livesIn(ann{,}berlin)},\\ \mi{livesIn(brad,berlin)}$}$\}$, the GL-reduct $P^I$ of $P$ contains $\mi{livesIn(ann,berlin)}\leftarrow \mi{livesIn(brad,berlin),isMarriedTo(brad,ann)}$ and the facts (1), (2). As $I$ is a minimal model of $P^I$, it holds that $I$ is an answer set of $P$.}\qed
+\end{example}
+\normalsize
+
+The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
+
+
+
+\subsection{Inductive Rule Learning}
+
+In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
+
+\input{tables/ilp_overview}
+
+\label{sec:rules_learning_tasks}
+Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
+
+First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
+%(RL)} or
+ \emph{inductive logic programming (ILP)}, since the patterns they discover are expressed in
+relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
+
+Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}: 
+\begin{itemize}
+\item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
+\item \emph{type of the output knowledge}, e.g., Horn rules, description logic class descriptions, class inclusions of various expressivity, etc.
+\item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
+\item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
+\item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
+\end{itemize}
+
+The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
+
+\begin{example}
+Suppose that you possess information about some of the relationships between people in your family and their genders.
+However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
+You might have the following beliefs, i.e., background knowledge.
+\smallskip
+
+{\leftline{$B = \left\{
+            \renewcommand{\arraystretch}{1.1}
+            \begin{array}{@{\,}l@{~~}l@{}}
+              \mbox{(1) } \mi{parent (john, mary)};
+               \mbox{(2) }\mi{male(john)};
+              \mbox{(3) }\mi{parent (david, steve)};\\
+              \mbox{(4) }\mi{ male(david)};
+              \mbox{(5) }\mi{parent (kathy, ellen)};
+              \mbox{(6) }\mi{ female (kathy)};
+            \end{array}%
+            \!\right\}$}}
+\smallskip
+
+Moreover, you are given the following positive and negative examples.
+\smallskip
+
+\noindent $\mi{E^+=\{fatherOf(john, mary), fatherOf(david, steve)\}}$\\
+$\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
+
+
+
+One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
+\end{example}
+
+
+
+
+
+\subsection{Rule-based Knowledge Graph Completion} 
+\gad{should that remain here or to be moved?}
+Rule-based reasoning is used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. 
+The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
+that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+More formally,
+
+ \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
+ Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
+ \end{definition}
+ 
+We now illustrate the introduced notion by the following example.
+ \begin{example}
+ Given the KG in Figure~\ref{rdf} as $\cG$ and the rule set $R=\{r_2\}$, where $r_2$ is from Section~\ref{sec:intro} 
+ we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
+ \end{example}
+
+\gad{the following was at the end of ILP}
+ While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
+
+First, the target predicates ($\mi{fatherOf}$ from the above example) can
+not be easily identified, since we do not know which parts of the considered KG need to
+ be completed. A standard way of addressing this issue would be just to learn rules for all
+ the different predicate names occurring in the KG. Unfortunately, this is unfeasible
+ given the huge size of KGs. Second, the negative examples are not available,
+ and they can not be easily obtained from, e.g., domain experts due to - once again
+ - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
+% from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
