@@ -9,12 +9,6 @@ predict erroneous facts as illustrated in Section~\ref{sec:intro}.
 In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from complete and incomplete data. 
 
 
-
-
-
-
-
-%\subsection{Nonmonotonic Rule Learning over Knowledge Graphs}
 \begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{figures/overview_new}
@@ -22,18 +16,11 @@ In this section, we provide an overview of approaches for nonmonotonic rule lear
 \label{fig:iswc_process}
 \end{figure}
 
-As illustrated earlier in Section~\ref{sec:rules_learning_tasks}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs.
-%for several reasons:
-%First, they are designed to work under CWA such that the negative examples are assumed to exist or can be safely inferred. However, real-life KGs follows OWA and the negative examples are not available. Furthermore, they cannot be obtained from, e.g., domain experts due to the huge size of KGs.
-%Second, they cannot scale enough to handle the huge size of the KGs~\cite{Shakerin2018}. 
-%Third, restricting the search for some predefined target predicates for learning is not practical because
-%it is not known which parts of the KG need to be completed. Still learning rules for all predicates appearing in the KG unfeasible due to the huge
-%size of KGs. Finally,
-%the definition of a language bias turns out to be cumbersome since the schema of the
-%KG is usually not available.
-So, recently \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. Both \cite{gad2016} and RUMIS try to learn exceptions from a learned rules set % in the KG 
-by revising % the set of Horn rules $R_H$ extracted from the KG
+As illustrated earlier in Section~\ref{sec:rules_learning_tasks}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs. So, recently \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. Both %\cite{gad2016} and RUMIS try to 
+%learn exceptions from a learned rules set % in the KG 
+%by revising % the set of Horn rules $R_H$ extracted from the KG
 % into a nonmonotonic set $R_{MN}$ by
+learn exceptions starting with a learned Horn rules set and revise it by  
 adding at most one negated atom to each rule at a time. The revision is constructed such that the average quality of the Horn rule set is maximized, while the conflict among the predictions of the rules are minimized. To estimate this conflict ratio, the negative predictions are materialized. To this end, % herefore,
 % they introduce 
 the notion of an auxiliary rule for a given rule $r:H \leftarrow B, \naf E$ has been introduced as follows: % , concretely, for a rule 
@@ -73,14 +60,20 @@ Recalling $\cG_1$ and $r_1$, the exceptions witness sets for both variable $X$ a
 For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ containing all of its exception candidates. 
 %\[EWS(r,\cG)=\bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\] 
 
-For the third and fourth steps, instead of creating all possible revisions then searching for the optimum revision $R_{NM}$, a local approach is proposed to pick the best revision for each rule $r \in R_H$. Several exception scoring functions have been proposed to select the best revision locally:
+For the third and fourth steps in Figure~\ref{fig:iswc_process}, instead of creating all possible revisions then searching for the optimum revision $R_{NM}$, a local approach is proposed to pick the best revision for each rule $r \in R_H$. Several exception scoring functions have been proposed to select the best revision locally:
 \begin{itemize}
 \item \textbf{Naive}: It is the direct way of choosing the revision using only some standard measure such as confidence or conviction.
-\item \textbf{PM}: Intuitively, the idea behind it is to rank candidate revisions based on its extension with predictions produced by other rules in $R_H$; hence, ensuring a cross-talk between the rules.
+\item \textbf{PM}: Intuitively, the idea behind the \textit{partial materialization} is to rank candidate revisions based on its extension with predictions produced by other rules in $R_H$ (\ie partially materialized); hence, ensuring a cross-talk between the rules.
 \item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materialize the rules of $\cR_{H}$ with higher quality than the current rule.
-\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. 
+\item \textbf{OPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. 
 \end{itemize}
-\ds{TODO: add pointers to probabilistic programming and its applications for OWPM}
+
+
+Addressing the rule learning over weighted data has also been studied under probabilistic ILP, where given a set of probabilistic examples for grounded atoms
+and a target predicate $H$, the task is to learn rules for predicting probabilities of 
+atoms for $H$~\cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}.  
+Nevertheless, applying these techniques to our setting requires a full materialization of the probability function,
+which quickly grows to sizes that ILP methods cannot handle. \gad{should this stay here or should we move it to section 3?}
  %\gad{stopped here! details to be added}
  
 
