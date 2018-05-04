@@ -123,8 +123,6 @@ Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$
 \subsection{Inductive Rule Learning}
 In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
 
-\input{tables/ilp_overview}
-
 \label{sec:rules_learning_tasks}
 Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
@@ -176,6 +174,8 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 \end{example}
 
 \subsection{Traditional ILP for Rule Learning}
+\input{tables/ilp_overview}
+
 \thi{... briefly talk about some traditional ILP horn systems, such as GOLEM LINUS, .. possilbly classify them }
 \leanparagraph{ILP for Nonmonotonic Rule Learning}
 While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus mostly on the extraction of Horn logic programs from the data, learning programs with negation has been also tackled in several works % mainly in the three major Several approaches  introduced to extend Horn ILP into richer nonmonotonic logic formalisms such as

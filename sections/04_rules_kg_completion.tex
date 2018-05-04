@@ -90,6 +90,8 @@ using some scoring function computed based on the rule statistics over the given
 % \gad{If we have time we can add the example of XHAIL steps from~\cite{XHAIL_extended}}
 
 \subsection{Rule-based Knowledge Graph Completion} 
+\gad{should that remain here or to be moved?}
+\thi{I moved this to section 4, since it should go with the rule learning for KG completion.}
 Rule-based reasoning is used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. 
 The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
 that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
@@ -106,6 +108,7 @@ We now illustrate the introduced notion by the following example.
  \end{example}
 
 \gad{the following was at the end of ILP}
+\thi{this part should be here to describe why not using traditional ILP approach for this task}
  While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
 
 First, the target predicates ($\mi{fatherOf}$ from the above example) can
@@ -117,7 +120,7 @@ not be easily identified, since we do not know which parts of the considered KG 
  - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
 % from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
-
+\thi{here describe the unsupervised approach under OWA.}
 \subsection{Rule Construction}
 % Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
 % association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
