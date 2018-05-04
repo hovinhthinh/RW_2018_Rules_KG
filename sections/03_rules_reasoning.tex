@@ -67,7 +67,7 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
 
 \subsection{Rule Learning Task}
-In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
+%In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
 
 \label{sec:rules_learning_tasks}
 Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
@@ -87,9 +87,11 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \end{itemize}
 
 \subsection{Traditional ILP Approach for Rule Learning}
+\label{subsec:ilp}
 The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
 
 \begin{example}
+\label{ex:ilp}
 Suppose that you possess information about some of the relationships between people in your family and their genders.
 However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
 You might have the following beliefs, i.e., background knowledge.
@@ -123,8 +125,7 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 
 While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus mostly on the extraction of Horn logic programs from the data, learning programs with negation has been also tackled in several works % mainly in the three major Several approaches  introduced to extend Horn ILP into richer nonmonotonic logic formalisms such as
 ~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. % Once ILP programs are extended to nonmonotonic programs, they are interpreted under the answer set semantics explained in Section~\ref{sec:reasoning}~\cite{Shakerin2018}.
-
-In this section we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
+Now, we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
 We classify the techniques into three major groups: learning from positive and negative examples, learning from entailmenmt and learning from full or partial interpretations (or answer sets).
 
 %These methods rely on CWA and focus on describing a dataset at hand where both positive and negative examples (\ie true and false facts respectively) are known, or can be safely determined.   

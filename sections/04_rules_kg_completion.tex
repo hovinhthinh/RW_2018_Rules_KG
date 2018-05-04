@@ -74,7 +74,7 @@
 % cumbersome since the schema of the KG is usually not available.
 
 %In the rest of 
-Rule-based reasoning is used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. 
+Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
 The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
 that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
 More formally,
@@ -83,15 +83,15 @@ More formally,
  Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
  \end{definition}
  
-We now illustrate the introduced notion by the following example.
+%We now illustrate the introduced notion by the following example.
  \begin{example}
  Given the KG in Figure~\ref{rdf} as $\cG$ and the rule set $R=\{r_2\}$, where $r_2$ is from Section~\ref{sec:intro} 
  we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
  \end{example}
 
- While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
+ While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified in section \ref{subsec:ilp}), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
 
-First, the target predicates ($\mi{fatherOf}$ from the above example) can
+First, the target predicates (e.g. $\mi{fatherOf}$ from the example \ref{ex:ilp}) can
 not be easily identified, since we do not know which parts of the considered KG need to
  be completed. A standard way of addressing this issue would be just to learn rules for all
  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
@@ -100,6 +100,8 @@ not be easily identified, since we do not know which parts of the considered KG 
  - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
 % from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
+To overcome the above obstacles, it turns out to be appropriate to treat the KG completion problem as an unsupervised relational learning task \cite{amie}.
+% In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
 In this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules
 (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
@@ -108,7 +110,9 @@ First, we describe the relational association rules and how they are traditional
 steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
 %and transform them into the form of rules, 
 rule evaluation phase deals with measuring rule quality %from 
-using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
+using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates.
+Below, we go into detail discussion of each section.
+% Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 
 % \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
