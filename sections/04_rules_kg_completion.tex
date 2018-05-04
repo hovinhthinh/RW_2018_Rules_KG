@@ -86,67 +86,36 @@ rule evaluation phase deals with measuring rule quality %from
 using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates. Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 
-
-\subsection{Association Rules}
-%\leanparagraph{ mining} 
-
-An association rule is a rule where certain properties of the data in the body of
-the rule are related to other properties in its head. For an example of an association rule, consider a
-database containing transactional data from a store selling computer equipment.
-From this data the association rule stating that 70\% of the customers
-buying a laptop also buy a docking station. The knowledge that such rule reflects 
-can assist in planning store layout or to decide which customers are likely to respond to an
-offer.
-
-Traditionally, the discovery of association rules  has been performed on data stored in a single table.
-Recently, however, many methods for mining relational, i.e., graph-based data have been
-proposed (see Section~\ref{sec:rules_kg_completion} for details). 
-
-The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption \cite{warmer}. 
-
-\begin{definition}[Conjunctive Query]
-A \emph{conjunctive query} $Q$ over a knowledge graph $\cG$ is of the form $Q(\vec{X}):-p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG):=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of } Q \text{ on } \cG\}$.
-\end{definition}
-
-The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}. 
-
-\begin{example}
-The support of the query
-\begin{equation}\mi{Q(X,Y,Z):-marriedTo(X,Y),\, }\mi{livesIn(X,Z)}
-\end{equation}
-over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$.
-\end{example} 
-Formally, an \emph{association rule} is of the form $Q_1 => Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
-
-For example, from the above $Q(X,Y,Z)$ and
-\begin{equation}Q'(X,Y,Z):-\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
-\end{equation} we can construct the rule $Q => Q'$. 
- 
-
-Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1=>Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. For example, $Q=>Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
-
-A large number of various measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. 
-
-For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$ and a KG $\cG$, the \emph{standard confidence} (or \textit{confidence}) is given as:\vspace{-.26cm}
-\begin{align*}
-conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
-\end{align*}
-where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
-\begin{align*}
-\textit{r-supp}(r,\cG) &= \#(X,Y): H \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG\\
-\textit{b-supp}(r,\cG) &= \#(X,Y):\exists \vec{Z}\; B\in \cG, E \not \in \cG
-\end{align*}
-\begin{example}
-Consider the example rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
-Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$.\qed
-\end{example}
-
-
-
 % \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
 % \gad{If we have time we can add the example of XHAIL steps from~\cite{XHAIL_extended}}
 
+\subsection{Rule-based Knowledge Graph Completion} 
+Rule-based reasoning is used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}. 
+The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
+that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+More formally,
 
+ \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
+ Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
+ \end{definition}
+ 
+We now illustrate the introduced notion by the following example.
+ \begin{example}
+ Given the KG in Figure~\ref{rdf} as $\cG$ and the rule set $R=\{r_2\}$, where $r_2$ is from Section~\ref{sec:intro} 
+ we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
+ \end{example}
+
+\gad{the following was at the end of ILP}
+ While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
+
+First, the target predicates ($\mi{fatherOf}$ from the above example) can
+not be easily identified, since we do not know which parts of the considered KG need to
+ be completed. A standard way of addressing this issue would be just to learn rules for all
+ the different predicate names occurring in the KG. Unfortunately, this is unfeasible
+ given the huge size of KGs. Second, the negative examples are not available,
+ and they can not be easily obtained from, e.g., domain experts due to - once again
+ - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
+% from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
 
 \subsection{Rule Construction}
