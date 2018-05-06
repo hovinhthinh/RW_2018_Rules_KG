@@ -75,7 +75,7 @@
 
 %In the rest of 
 Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
-The goal of automatic rule-based completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
+The goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
 that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
 More formally,
 
@@ -120,6 +120,7 @@ Below, we go into detail discussion of each section.
 
 
 \subsection{Association Rules}
+\label{subsec:assoc_rule}
 An association rule is a rule where certain properties of the data in the body of
 the rule are related to other properties in its head. For an example of an association rule, consider a
 database containing transactional data from a store selling computer equipment.
@@ -130,7 +131,7 @@ offer.
 
 Traditionally, the discovery of association rules  has been performed on data stored in a single table.
 Recently, however, many methods for mining relational, i.e., graph-based data have been
-proposed (see Section~\ref{sec:rules_kg_completion} for details). 
+proposed.% (see Section~\ref{sec:rules_kg_completion} for details). 
 
 The notion of multirelational association rules is heavily based on frequent conjunctive queries and query subsumption \cite{warmer}. 
 
@@ -184,12 +185,12 @@ ensures the actual prediction  of a fact by a rule, but not just its existence~\
 
 \begin{example}
 %\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
-An example of non-closed rule learned from the KG in Figure~\ref{rdf} is:
+The two example rules $r_1$ and $r_2$ are \textit{closed}. An example of \textit{non-closed} rule learned from the KG in Figure~\ref{rdf} is:
 \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
 This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. Another example is:
 \[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
 %then he/she should 
-live in some place. Unlike $r_1$, this rule cannot infer the exact living place of a person of interest is thus less interesting. \qed% for the KG completion. %location 
+live in some place. This rule cannot infer the exact living place of a person of interest is thus less interesting. \qed% for the KG completion. %location 
 %which specifies his living location based on the spouse.
 \end{example}
 
@@ -245,7 +246,7 @@ differ from each other with respect to the employed %at the rule %metric
 %that they introduce to quantify 
 rule ranking function. % quality and how to exploit it in learning rules. 
 %Basically, we can plug different rule metrics into these mining systems to work under different situations.
-The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{sec:reasoning} have been designed for datasets treated under CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
+The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{subsec:assoc_rule} have been designed for datasets treated under CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
 
 \begin{example}\label{ex:rulesforgprime}
 For instance, consider a KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families. 
@@ -255,8 +256,7 @@ $\mi{conf(\mi{r_2'})}=\frac{1}{6}$. \qed
 \end{example}
 
  % For instance, standard confidence $conf$ works under the Closed World Assumption.
-% Apart from that, there also exist other measures introduced to quantify the quality of rules (see
-%). 
+ There also exist other measures introduced to quantify the quality of rules. Some of them are described below. 
  \input{figures/kg2}
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 
