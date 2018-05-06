@@ -6,17 +6,16 @@ approaches that learn Horn rules. However,  Horn rules are not sufficiently expr
 exceptions. Thus, the rules extracted from the existing KGs can potentially %they %herefore, they 
 predict erroneous facts as illustrated in Section~\ref{sec:intro}. 
 
-In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from complete and incomplete data. 
-
+In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from incomplete data. 
 
 \begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{figures/overview_new}
-\caption{Rule revision process by~\cite{gad2016,rumis}}
+\caption{Rule revision process by~\cite{gad2016,rumis}.}
 \label{fig:iswc_process}
 \end{figure}
 
-As illustrated earlier in Section~\ref{sec:rules_learning_tasks}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs. So, recently \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. Both %\cite{gad2016} and RUMIS try to 
+As illustrated earlier in Section~\ref{subsec:ilp}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs. So, recently \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. Both %\cite{gad2016} and RUMIS try to 
 %learn exceptions from a learned rules set % in the KG 
 %by revising % the set of Horn rules $R_H$ extracted from the KG
 % into a nonmonotonic set $R_{MN}$ by
