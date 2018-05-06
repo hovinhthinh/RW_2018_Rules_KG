@@ -120,12 +120,13 @@ One of the possible hypothesis that can be induced from the above knowledge refl
 $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
 \end{example}
 
-Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could assign them based on some following characteristics \cite{Boytcheva2007OverviewOI}:
+Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could assign them based on some following characteristics \cite{Boytcheva2007OverviewOI,R8146692}:
 \begin{itemize}
 \item \emph{incremental-ness}, demonstrates how the examples are processed to the ILP system. In incremental ILP, examples are provided one by one to the learning system continuously. In contrast, non-incremental ILP systems (or empirical ILP systems) require all examples to be available at the beginning and they cannot be changed to change afterwards.
 \item \emph{interactiveness}, indicates the ability to ask questions to an oracle, which is usually the user, for the intended interpretation of an example or clause. 
-\item \emph{single/multiple target predicate learning}, most popular ILP systems focus on learning a single target predicate. Even though multiple predicate ILP learning algorithms are more powerful, they are harder and less efficient.
-\item \emph{theory revision}, denotes the possibility of background theory modification. Most ILP systems allowing theory revision are also incremental and be able to learn multiple predicate. Even though changes in the background $B$ are allowed, they should be minimized.
+\item \emph{single/multiple predicate learning}, most popular ILP systems focus on learning a single target predicate, where positive/negative examples are of the same relation. Even though multiple predicate ILP learning algorithms are more powerful, they are harder and less efficient.
+\item \emph{noise-handling}, denotes the ability of ILP systems to deal with real-life
+imperfect data, including noise. Even though data incorrectness is allowed, it should not be significant.
 \end{itemize}
 
 \input{tables/ilp_overview}
