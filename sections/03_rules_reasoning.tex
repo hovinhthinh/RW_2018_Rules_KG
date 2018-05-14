@@ -12,7 +12,7 @@ negation. The then-part has a single atom that has to hold, whenever the if-part
 H\leftarrow B, \naf\ E
 \end{equation}
 where $H$ is a standard first-order atom of the form $a(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $\naf\ E$ %with slight abuse of notation, 
- is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either constants or variables whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
+ is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
 % . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
 \end{definition}
 
@@ -41,10 +41,26 @@ Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substitut
 A \emph{Herbrand universe}  $\mi{HU(P)}$ is a set of all constants occurring in the given program $\mi{P}$. A \emph{Herbrand base}  $\mi{HB(P)}$ is a set of all possible ground atoms that can be formed with predicates and constants appearing in $P$. A \emph{Herbrand interpretation} is any subset of $\mi{HB(P)}$.
 \end{definition}
 
- By $\mi{MM(P)}$ we denote the set-inclusion minimal Herbrand interpretation of a ground positive program $P$.
+
+\begin{definition}[Satisfaction, Model] An interpretation I satisfies
+\begin{itemize}
+\item a ground atom a, denoted $I \models a$, if $a \in I$,
+\item a negated ground atom $\mi{not\; a}$, denoted $I \models \mi{not\; a}$ if $I \not \models a$,
+\item  a conjunction $b_1,\dotsc,b_n$ of ground literals, denoted $I \models b_1,\dotsc,b_n$, if for
+each $i\in \{1,\dotsc, n\}$ it holds that $I \models b_i$,
+\item a ground rule $r$, denoted $I \models r$ if $I \models \mi{body(r)}$ implies $I \models \mi{head(r)}$, i.e., if all literals in the body hold then the literal in the head also holds.
+\end{itemize}
+\end{definition}
+
+An interpretation $I$ is a \emph{model} of a ground program $P$, if $I \models r$ for each rule
+$r \in P$. A model $I$ is \emph{minimal} if there is no other model $I' \subset I$.
+By $\mi{MM(P)}$ we denote the set-inclusion minimal model of a ground positive program $P$.
+
 \begin{definition}[Gelfond-Lifschitz reduct, answer set]
 An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
 \end{definition}
+
+
 
 \begin{example}\label{ex:as}
 Consider the program \\
@@ -117,16 +133,23 @@ Moreover, you are given the following positive and negative examples.
 $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
 \end{example}
 
-Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could classify them based on some following characteristics \cite{Boytcheva2007OverviewOI,R8146692}:
+Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could classify them based on %some 
+the following characteristics \cite{Boytcheva2007OverviewOI,R8146692}:
 \begin{itemize}
-\item \emph{incremental-ness}, demonstrates how the examples are processed to the ILP system. In incremental ILP, examples are provided one by one to the learning system continuously. In contrast, non-incremental ILP systems (or empirical ILP systems) require all examples to be available at the beginning and they cannot be changed afterwards.
-\item \emph{interactiveness}, indicates the ability to ask questions to an oracle, which is usually the user, for the intended interpretation of an example or clause. 
-\item \emph{single/multiple predicate learning}, most popular ILP systems focus on learning a single target predicate, where positive/negative examples are of the same relation. Even though multiple predicate ILP learning algorithms are more powerful, they are harder and less efficient.
-\item \emph{noise-handling}, denotes the ability of ILP systems to deal with real-life
-imperfect data, including noise. Even though data incorrectness is allowed, it should not be significant.
+\item \emph{incrementalness} %demonstrates 
+reflects how the examples are processed by %to 
+the ILP system. In the incremental ILP setting, examples are provided continuously one by one. In contrast, non-incremental ILP systems %(or empirical ILP systems) 
+require all examples to be available at once at the beginning of the learning process. % and they cannot be changed afterwards.
+\item \emph{interactiveness} indicates the %ability 
+possibility to ask questions to an external oracle during the learning process. The oracle is  typically represented by a human domain expert. 
+% the user, for the intended interpretation of an example or clause. 
+\item \emph{single vs multiple predicate learning} reflects the number of target predicates in question during the rule extraction. % popular ILP systems focus on learning a single target predicate, where positive/negative examples are of the same relation. Even though multiple predicate ILP learning algorithms are more powerful, they are harder and less efficient.
+\item \emph{noise-handling ability} %denotes 
+indicates whether an ILP system is capable of %to 
+dealing with real-life imperfect data, including noise. %Even though data incorrectness is allowed, it should not be significant.
 \end{itemize}
 
 \input{tables/ilp_overview}
