@@ -3,7 +3,7 @@
 In this section we briefly review concepts of logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and their usage in deductive and inductive reasoning.
 %relational association rules \cite{warmer}.
 
-\subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
+\subsection{Logic Programs and Deductive Reasoning} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
 negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
 
 
@@ -66,7 +66,7 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with
 
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
 
-\subsection{Rule Learning Task}
+\subsection{Inductive Reasoning Tasks}
 %In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
 
 \label{sec:rules_learning_tasks}
@@ -86,7 +86,7 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-\subsection{Overview of Traditional ILP for Rule Learning}
+\subsubsection{Learning from Positive and Negative Examples}
 \label{subsec:ilp}
 The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
 
