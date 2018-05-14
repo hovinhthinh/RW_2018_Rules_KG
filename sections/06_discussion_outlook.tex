@@ -13,11 +13,10 @@ While the problem of rule-based KG completion has recently gained an increasing 
 % Additionally, they are still prone to KG incompleteness and not being able to determine the possible gaps in the data under OWA. These challenges lead to the generation of uninteresting and noisy rules. Follows some possible directions to overcome such challenges. 
 
 
-\leanparagraph{Learning rules over probabilistic data} Addressing the rule learning over weighted data has been studied under probabilistic ILP, where given a set of probabilistic examples for grounded atoms
-and a target predicate $H$, the task is to learn rules for predicting probabilities of 
-atoms for $H$~\cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}.  
-Nevertheless, applying these techniques to our setting requires a full materialization of the probability function,
-which quickly grows to sizes that ILP methods cannot handle. Modeling the KG as uncertain data source and learn rules over weighted triples should reduce the effect of inaccurate facts in the KG; resulting in rules with better prediction accuracy.   
+\leanparagraph{Learning rules over probabilistic data} KG automatic and semi-automatic construction leads to inaccurate instances. Nevertheless, existing rule learning approaches over KG model the KG as set of certain triples; leading to less accurate rules, and hence, predictions. Modeling the KG as uncertain data source and learn rules over weighted triples should reduce the effect of inaccurate facts in the KG Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
+~\cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}.  
+However, applying these techniques to our setting requires a full materialization of the probability function,
+which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches has not yet been studied well under the scale of real-life KGs.
 
 
 \leanparagraph{Rule learning with external sources} 
