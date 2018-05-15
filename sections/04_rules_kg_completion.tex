@@ -262,7 +262,7 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 
 \subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
 \begin{align*}
-\textit{conv}(r,\cG) & := \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
+\textit{conv}(r,\cG) & = \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
 \end{align*}
 where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
 \begin{align*}
@@ -285,7 +285,7 @@ Formally,
 the PCA confidence is defined as
 
 \[
-\mi{conf_{pca}}(r, \cG) := \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
+\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
 \]
 \begin{example}
 For the KG in Figure~\ref{rdf} we have $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any place where $\mi{lucy}$ and $\mi{dave}$ live. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
@@ -300,9 +300,9 @@ denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, sin
 where $U_r$ is the set of entities that % previously
 originally had no outgoing %relations of 
 $p$-link, but have new $p$-edges predicted by the rule given, and $Pr(e,p,\cG)$ is the probability of the entity $e$ having relation $p$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}:
-\[\mi{P(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}}\]
+\[\mi{Pr(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}}\]
 Here, $T_{e,\cG}$ contains all $type$ of entity $e$, $Inst(t, \cG)$ contains all entities of type $t$, and $Inst_p(t, \cG)$ is similar to $Inst(t, \cG)$, but restricts to only entities that have relation $p$.
-Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $P(e,p, \cG)$ in the unknown part of the rule.
+Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $Pr(e,p, \cG)$ in the unknown part of the rule.
 \begin{example}
 Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $Pr(dave,livesIn,\cG) = \frac{1}{2}$, since $dave$ has only 1 type $researcher$, and in total the KG stores 
 %there are totally 
@@ -338,7 +338,7 @@ Using these indicators, a class of completeness-aware rules measures have been p
 
 \noindent -\textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
 \begin{align*}
-\mi{conf_{comp}}(r,\cG) := \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
+\mi{conf_{comp}}(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
 \begin{example}
 Consider $\cG'$ in Figure \ref{fig:fam_grad}
@@ -379,7 +379,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 
 \noindent -\textbf{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
 \begin{align*}
-\mi{dm}(r,\cG) := \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
+\mi{dm}(r,\cG) = \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
 \end{align*}
 Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This is done via a % leads to the consideration of the
 combining any existing association rule measure $rm$, e.g., standard confidence or conviction, with 
