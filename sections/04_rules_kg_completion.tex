@@ -306,8 +306,8 @@ Intuitively, soft confidence is designed to avoid the underfitting of standard c
 \begin{example}
 Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $Pr(dave,livesIn,\cG) = \frac{1}{2}$, since $dave$ has only 1 type $researcher$, and in total the KG stores 
 %there are totally 
-2 researchers ($dave$, $alice$) but only $alice$'s living place ($amsterdam$) is known to $\cG$. In contrast, $Pr(lucy,livesIn,\cG_1) = 0$ because $lucy$ has no $type$ information.
-Based on these numbers, we have $conf_{st}(r_1,\cG_1) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG_1) = \frac{3}{4-0} = \frac{3}{4}$.
+2 researchers ($dave$, $alice$) but only $alice$'s living place ($amsterdam$) is known to $\cG$. In contrast, $Pr(lucy,livesIn,\cG) = 0$ because $lucy$ has no $type$ information.
+Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
 \qed
 \end{example}
 \subsubsection{Completeness-aware Rule Measures.}  
