@@ -1,9 +1,10 @@
 \section{Rules and Reasoning}
 \label{sec:reasoning}
-In this section we briefly review concepts of logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) and their usage in deductive and inductive reasoning.
+In this section we briefly review concepts of rules, logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) as well as %their usage in 
+deductive and inductive reasoning.
 %relational association rules \cite{warmer}.
 
-\subsection{Logic Programs and Deductive Reasoning} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
+\subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
 negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
 
 
@@ -41,8 +42,9 @@ Ground instantiation $Gr(P)$ of a nonground program $P$ is obtained by substitut
 A \emph{Herbrand universe}  $\mi{HU(P)}$ is a set of all constants occurring in the given program $\mi{P}$. A \emph{Herbrand base}  $\mi{HB(P)}$ is a set of all possible ground atoms that can be formed with predicates and constants appearing in $P$. A \emph{Herbrand interpretation} is any subset of $\mi{HB(P)}$.
 \end{definition}
 
+We now formally define the satisfaction relation.
 
-\begin{definition}[Satisfaction, Model] An interpretation I satisfies
+\begin{definition}[Satisfaction, Model] An interpretation $I$ satisfies
 \begin{itemize}
 \item a ground atom a, denoted $I \models a$, if $a \in I$,
 \item a negated ground atom $\mi{not\; a}$, denoted $I \models \mi{not\; a}$ if $I \not \models a$,
@@ -80,13 +82,19 @@ The ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with
 \end{example}
 \normalsize
 
-The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense reasoning over incomplete information.
+Apart from the model computation, another important task concerns deciding whether a given atom $a$ is entailed from the program $P$ denoted by $P \models a$. Typically, one distinguishes between brave and cautios entailment. We say that an atom $a$ is cautiously entailed from a program $P$ ($P \models_c a$) if $a$ is present in all answer sets of $P$. Conversely, an atom $a$ is bravely entailed from a program $P$ ($P \models_b a$) if it is present in at least one answer set of $P$.
+
+The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense deductive reasoning over incomplete information.
+
+
 
 \subsection{Inductive Reasoning Tasks}
 %In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
-
 \label{sec:rules_learning_tasks}
-Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
+
+So far we have focused on the logic programs and their semantics. We now discuss the possible tasks related to the problem of automatic induction of logic programs and other logical theories from data, which is commonly referred to as rule learning. 
+
+Broadly speaking, rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, one means methods that employ some kind of description language in which the learned knowledge is expressed. % One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
 
 First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
 %(RL)} or
@@ -102,9 +110,12 @@ Rule learning approaches can be characterized along several dimensions \cite{DBL
 \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
 \end{itemize}
 
-\subsubsection{Learning from Positive and Negative Examples}
-\label{subsec:ilp}
-The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
+Probably the most widely-studied rule learning setting, which lies in the heart of inductive logic programming concerns the extraction of logic rules from a set of positive and negative examples and a logical background theory~\cite{foil,golem,quickfoil}.
+
+% \subsubsection{Learning from Positive and Negative Examples}
+% \label{subsec:ilp}
+% The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g.,
+To get an idea of how exactly this classical ILP task, consider the following example.
 
 \begin{example}
 \label{ex:ilp}
@@ -133,7 +144,7 @@ Moreover, you are given the following positive and negative examples.
 $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis\footnote{Since positive programs have only a single answer set, the brave entailment conincides with the cautious one here, nad thus the subscript is omitted.}.  \qed
 \end{example}
 
 Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could classify them based on %some 
