@@ -144,7 +144,7 @@ Moreover, you are given the following positive and negative examples.
 $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis\footnote{Since positive programs have only a single answer set, the brave entailment conincides with the cautious one here, nad thus the subscript is omitted.}.  \qed
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis\footnote{Since positive programs have only one answer set, the brave entailment coincides with cautious here, and thus the respective subscript is omitted.}.  \qed
 \end{example}
 
 Table \ref{tab:ilp} provides classifications of some traditional ILP systems that have been introduced in the literature to solve the above supervised learning task. In particular, we could classify them based on %some 
@@ -152,7 +152,7 @@ the following characteristics \cite{Boytcheva2007OverviewOI,R8146692}:
 \begin{itemize}
 \item \emph{incrementalness} %demonstrates 
 reflects how the examples are processed by %to 
-the ILP system. In the incremental ILP setting, examples are provided continuously one by one. In contrast, non-incremental ILP systems %(or empirical ILP systems) 
+the learning system. In the incremental ILP setting, examples are provided continuously one by one. In contrast, non-incremental ILP systems %(or empirical ILP systems) 
 require all examples to be available at once at the beginning of the learning process. % and they cannot be changed afterwards.
 \item \emph{interactiveness} indicates the %ability 
 possibility to ask questions to an external oracle during the learning process. The oracle is  typically represented by a human domain expert. 
