@@ -37,7 +37,7 @@ predictions produced by such approaches are not interpretable~\cite{Shakerin2018
 Inducing rules of  advanced forms, e.g., %other rule forms such as 
 rules with disjunction (\eg $hasBrother(X,Y) \vee hasSister(X,Y) \leftarrow hasSibling(X,Y)$, or $livesIn(X, north\_korean) \vee livesIn(south\_korean) \leftarrow speaks(X, korean) $), or rules with existential quantifiers in the head (\eg $\exists Y: playsInstrument(X, Y) \leftarrow$ $musician(X),bandMember(X,Z)$) is an interesting topic to study. Several recent works on mining keys in KGs \cite{vickey,DBLP:conf/www/LajusS18} and detecting mandatory relations are relevant, but they do not directly address the mentioned rule forms. A combination of techniques from relational rule learning \cite{DBLP:books/daglib/0021868} and propositionalization approaches \cite{propos} can be made use of, yet it is unclear how to detect KG parts that are worth propositionalizing; the details are to be explored. % can encode more interesting patterns
 % Even though these
-While rules with existential variables in the head may not directly infer new facts, they may reflect interesting patterns in the data and, moreover, can be used as a guidance for the information retrieval approaches and crowd-sourcing.
+While rules with ex,istential variables in the head may not directly infer new facts, they may reflect interesting patterns in the data and, moreover, can be used as a guidance for the information retrieval approaches and crowd-sourcing.
 
 Rules that reflect correlations between edge counts in KGs such as \emph{``If you have two siblings then you parents are likely to have 3 children''} have been studied in \cite{carl}. Inducing more general rules, reflecting mathematical functions one edge counts is still an open problem, which due to the large search space of possible hypothesis is far from trivial.
 
@@ -45,7 +45,8 @@ Rules that reflect correlations between edge counts in KGs such as \emph{``If yo
 % Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contain the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which is sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over this data is still not well studied.
 Learning temporal rules and constraints such as \emph{``You cannot graduate from a university before being born''} is another promising future work direction. Deductive reasoning over temporal KGs has been recently considered in \cite{DBLP:conf/aaai/ChekolPSS17}; however, the inductive setting has not yet been studied in full details to the best of our knowledge.
 
-\leanparagraph{Hybrid rule learning techniques} Inducing rules from text by exploiting natural language processing (NLP) techniques has been studied in several works such as~\cite{Schoenmackers:2010,Gordon:2011}. Combining these %linguistics-based 
+%\leanparagraph{Hybrid rule learning techniques}
+ \leanparagraph{Extracting rules from text and KG} Inducing rules from text by exploiting natural language processing (NLP) techniques has been studied in several works such as~\cite{Schoenmr logical inference.kers:2010,Gordon:2011,dragoni2016}. These methods proposed early methods for converting text into logical for logical inference. Combining these %linguistics-based 
 text-based methods with inductive rule learning from KGs has a great potential% Indeed, 
  overcoming the restrictions imposed due to the limited number of predicates in most encyclopedic KGs. Hence, obtaining more interesting rules. %\gad{I am thinking of some example} 
 
