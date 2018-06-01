@@ -20,11 +20,9 @@ In other words, the goal of automatic rule-based KG completion is to learn a set
  we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
  \end{example}
 
-Since the source of the data from which one starts the rule extraction process is a KG, i.e., a set of facts over various relations, the closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations. However, in the latter, the CWA is typically adopted, which makes it not suitable for incomplete KGs.
+The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations. However, in the latter, the CWA is typically adopted, which makes it not suitable for incomplete KGs. Reusing the methods that induce logical theories from a set of positive and negative examples and background knowledge is likewise not possible due to the following important obstacles. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
 
-Reusing the methods that induce logical theories from a set of positive and negative examples and background knowledge is likewise not possible due to the following important obstacles. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
-
-First, the target predicates (e.g. $\mi{fatherOf}$ from the example \ref{ex:ilp}) can
+First, the target predicates (e.g. $\mi{fatherOf}$ from Example~\ref{ex:ilp}) can
 not be easily identified, since we do not know which parts of the considered KG need to
  be completed. A standard way of addressing this issue would be just to learn rules for all
  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
