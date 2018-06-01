@@ -112,12 +112,11 @@ In this section, we describe approaches that rely on \emph{relational associatio
 Association rule mining concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules
 (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
-First, we describe the relational association rules and how they are traditionally evaluated under CWA. Then, we describe the standard relational rule learning techniques, which usually proceed in two 
+First, we describe the relational association rules, and how they are traditionally evaluated under CWA. Then, we present the standard relational rule learning techniques, which usually proceed in two 
 steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
 %and transform them into the form of rules, 
 rule evaluation phase deals with measuring rule quality %from 
-using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the outputting rules, but also for pruning inappropriate rule candidates.
-Below, we go into detail discussion of each section.
+using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the final rules, but also for pruning out inappropriate rule candidates.
 % Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 
