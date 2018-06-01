@@ -56,17 +56,19 @@ the rule are related to other properties in its head. For an example of an assoc
 database containing transactional data from a store selling computer equipment.
 From this data one can extract the association rule stating that 70\% of the customers
 buying a laptop also buy a docking station. The knowledge that such rule reflects 
-can assist in planning store layout or to decide which customers are likely to respond to an
+can assist in planning store layout or deciding which customers are likely to respond to an
 offer.
 
 Traditionally, the discovery of association rules  has been performed on data stored in a single table.
 Recently, however, many methods for mining relational, i.e., graph-based data have been
-proposed.% (see Section~\ref{sec:rules_kg_completion} for details). 
+proposed \cite{DBLP:books/daglib/0021868}.
 
 The notion of multi-relational association rules is heavily based on frequent conjunctive queries and query subsumption \cite{warmer}. 
 
 \begin{definition}[Conjunctive Query]
-A \emph{conjunctive query} $Q$ over a knowledge graph $\cG$ is of the form $Q(\vec{X})\text{ :- }p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG)=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of } Q \text{ on } \cG\}$.
+A \emph{conjunctive query} $Q$ over $\cG$ is of the form $p_1(\mathbf{X_1}),\dotsc,p_m(\mathbf{X_m})$, where $X_i$ are symbolic variables or constants and $p_i \in \cR$ are unary or binary predicates. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG) = \{ (\nu(\mathbf{X_1}), \dotsc, \nu(\mathbf{X_m}) \mid \forall i: p_i(\nu(X_i), \nu(Y_i)) \in \cG \}$ where $\nu$ is a function that maps variables and constants to elements of $\mathcal{C}$.
+%The \emph{support} of $Q$ in $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}.
+% A \emph{conjunctive query} $Q$ over a knowledge graph $\cG$ is of the form $Q(\vec{X})\text{ :- }p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG)=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of } Q \text{ on } \cG\}$.
 \end{definition}
 
 The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}. 
