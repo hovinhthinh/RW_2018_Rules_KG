@@ -18,7 +18,7 @@ The majority of existing rule learning approaches over knowledge graphs model KG
 Extending the existing techniques to more advanced rule forms and %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
 ~\cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}.  
 However, exploiting these techniques in our setting requires a full materialization of the probability function,
-which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches in real-life real-life KGs has only been studied in limited literature such as~\cite{DeRaedt:2015}.
+which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches for real-life KGs has only been studied in limited literature such as~\cite{DeRaedt:2015}, keeping a wide room for improvements.
 
 
 \leanparagraph{Rule learning with external sources} 
@@ -26,9 +26,9 @@ One promising direction is to consider pieces of evidence from other external re
 (see Figure~\ref{fig:discussion_overview}). This external resource can be of a different nature ranging from %either be 
 a human expert giving feedback about the correctness of a given rule as done in~\cite{Dzyuba2017} in the context of frequent itemset mining, or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources for estimating its truthfulness. This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker} in the rule induction process. 
 
-An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
-purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the
-predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. Interlinking these statistical methods with inductive rule learning is a promising further direction.
+%An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
+%purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the
+%predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. Interlinking these statistical methods with inductive rule learning is a promising further direction.
 
 \leanparagraph{Neural-based rule learning} Utilizing embedding models for rule learning is a new research direction that has recently gained attention \cite{DBLP:conf/nips/YangYC17,DBLP:journals/corr/YangYHGD14a}. Existing methods are purely statistics-based, i.e., they reduce the rule learning problem to algebraic operations on neural-embedding-based representations of a given KG.  \cite{DBLP:journals/corr/YangYHGD14a} constructs rules by modeling relation composition as multiplication or addition of two relation embeddings. The authors of \cite{DBLP:conf/nips/YangYC17} propose a differentiable system for learning models defined by sets of first-order rules that exploits a connection between inference and sparse matrix multiplication \cite{DBLP:journals/corr/Cohen16b}. However, existing approaches pose strong restrictions on target rule patterns, which often prohibit learning interesting rules, e.g. non-chain-like or exception-aware ones.
 
