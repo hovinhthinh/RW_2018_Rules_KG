@@ -34,14 +34,14 @@ not be easily identified, since we do not know which parts of the considered KG 
 To overcome the above obstacles, it turns out to be appropriate to treat the KG completion problem as an unsupervised relational learning task \cite{amie}.
 % In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
 In this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
-These concerns the discovery of frequent patterns in a data set and the subsequent transformation of these patterns into rules
+These concern the discovery of frequent patterns from a data set and their subsequent transformation into rules
 (see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
 
 First, we describe the relational association rules, and how they are traditionally evaluated under CWA. Then, we present the standard relational rule learning techniques, which usually proceed in two 
-steps: rule construction and rule evaluation. While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
-%and transform them into the form of rules, 
-rule evaluation phase deals with measuring rule quality %from 
-using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the final rules, but also for pruning out inappropriate rule candidates.
+steps: rule construction and rule evaluation. % While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
+% %and transform them into the form of rules, 
+% rule evaluation phase deals with measuring rule quality %from 
+% using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the final rules, but also for pruning out inappropriate rule candidates.
 % Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
 
 
@@ -54,7 +54,7 @@ using some scoring function computed based on the rule statistics over the given
 An association rule is a rule where certain properties of the data in the body of
 the rule are related to other properties in its head. For an example of an association rule, consider a
 database containing transactional data from a store selling computer equipment.
-From this data the association rule stating that 70\% of the customers
+From this data one can extract the association rule stating that 70\% of the customers
 buying a laptop also buy a docking station. The knowledge that such rule reflects 
 can assist in planning store layout or to decide which customers are likely to respond to an
 offer.
