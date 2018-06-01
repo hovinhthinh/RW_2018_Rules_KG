@@ -5,7 +5,12 @@ predict erroneous facts as illustrated in Section~\ref{sec:intro}.
 
 In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from incomplete data. 
 
-As illustrated earlier in Section~\ref{sec:reasoning}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs. So, recently \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. Both %\cite{gad2016} and RUMIS try to 
+As illustrated earlier in Section~\ref{sec:reasoning}, the traditional nonmonotonic inductive and abductive algorithms cannot be directly adopted for real-life KGs. So, recently, two approaches have been developed to learn nonmontonic rules from KG. The key issue they target is estimating the negative examples and distinguishing the missing facts from the false. In the following, we describe these approaches.
+
+
+\subsection{Learning Consistent Rule set}
+\cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. 
+Both %\cite{gad2016} and RUMIS try to 
 %learn exceptions from a learned rules set % in the KG 
 %by revising % the set of Horn rules $R_H$ extracted from the KG
 % into a nonmonotonic set $R_{MN}$ by
@@ -62,6 +67,11 @@ For the third and fourth steps in Figure~\ref{fig:iswc_process}, instead of crea
 \item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materialize the rules of $\cR_{H}$ with higher quality than the current rule.
 \item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. Materializing facts with weights from the rules and exiting KG is the concern of probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
 \end{itemize}
+
+
+
+\subsection{Utilizing KG Embedding Models}
+
 
 
  %\gad{stopped here! details to be added}
