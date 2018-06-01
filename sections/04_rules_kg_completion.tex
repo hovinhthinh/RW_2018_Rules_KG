@@ -163,10 +163,8 @@ where, $X_i$s are variables to appear in the extracted rules, $p_i$s are predica
 \[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2}, ...,X_k, p_k^{d_k}, X_{k+1})\]
 of the length $k$, which are obtained recursively based on FPPs of the length $k-1$. 
 FPCs are then created from FPPs by merging the last variable $X_{k+1}$ with the first one $X_1$.
-
 After FPCs are mined, rules are extracted from them by choosing a single %a 
-predicate to be in    %as 
-the rule head, and collecting the rest into the rule's body. 
+predicate to be in the rule head, and collecting the rest into it's body. 
 %of the rule. 
 % Formally, the  $j$-th rule is generated from the FPC as follows:
 % \[r_j: p_j^{d_j}(X_j,X_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(X_i,X_{i+1}) \]
@@ -176,7 +174,7 @@ The unary predicates are added to the constructed rule at the final stage after 
 frequent types for FPCs corresponding to a given rule.
 % Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, s
 While RDF2Rules performs the rule extraction faster then AMIE due to an effective pruning strategy
-used in the process of mining FPCs, the supported rule patterns are also more restrictive. 
+used in the process of mining FPCs, the supported rule patterns are more restrictive. 
 
 \subsection{Rule Evaluation}
 Most of state-of-the-art KG-based positive rule mining systems %are different 
