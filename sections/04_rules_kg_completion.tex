@@ -1,13 +1,14 @@
 \section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rule hypothesis that perfectly satisfy the criterias from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+On the other hand, as discussed in Section~\ref{sec:kgs}, knowledge graphs are generally incomplete, i.e., they might miss some true facts, e.g., living places of scientists. Moreover, the real world is very complicated, and its exact representation often cannot be acquired. Thus, in the context of KGs, one normally aims at extracting certain regularities from the data, which are not universally correct, but when seen as rules predict many true facts. 
 
-As discussed in Section~\ref{sec:kgs}, the KGs are generally incomplete, i.e., they might miss facts over certain relations, e.g., living places of spouses of scientists. The goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in predictions, most of which are correct facts.
+Therefore, the goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in a good approximation of the ideal graph $\cG^i$. More formally,
 %a good approximation of the unknown ideal graph $\cG^i$, containing all possible facts that hold in the world. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
-The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rules that perfectly satisfy the criterias of Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
-On the other hand, the real world is very complicated, and its exact representation often cannot be acquired. Thus, in the context of KGs, one normally aims at extracting certain regularities from the data, might not neccessarily be perfectly correct, but when seen as rules produce many true facts.
+
 % Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
 
-Formally, the task of rule-based KG completion is defined as follows:
+%Formally, the task of rule-based KG completion is defined as follows:
 
  \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
  Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
