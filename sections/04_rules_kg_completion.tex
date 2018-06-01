@@ -77,16 +77,20 @@ The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the n
 The support of the query
 \begin{equation}\mi{Q(X,Y,Z)\text{ :- }marriedTo(X,Y),\, }\mi{livesIn(X,Z)}
 \end{equation}
-over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$.
+over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$. \qed
 \end{example} 
-Formally, an \emph{association rule} is of the form $Q_1\Rightarrow Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
 
-For example, from the above $Q(X,Y,Z)$ and
+\begin{definition}[Association Rule]
+An \emph{association rule} is of the form $Q_1\Rightarrow Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries, and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
+\end{definition}
+
+\begin{example}
+For instance, from the above $Q(X,Y,Z)$ and
 \begin{equation}Q'(X,Y,Z)\text{ :- }\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
-\end{equation} we can construct the rule $Q \Rightarrow Q'$. 
- 
+\end{equation} we can construct the association rule $Q \Rightarrow Q'$. \qed
+ \end{example}
 
-Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1 \Rightarrow Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets. For example, $Q \Rightarrow Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
+Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1 \Rightarrow Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets of atoms. For example, $Q \Rightarrow Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
 
 A large number of various measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. 
 
@@ -100,7 +104,7 @@ where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rul
 \textit{b-supp}(r,\cG) &= \#(X,Y):\exists \vec{Z}\; B\in \cG, E \not \in \cG
 \end{align*}
 \begin{example}
-Consider the example rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
+Consider the rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
 Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$.\qed
 \end{example}
 
@@ -118,21 +122,22 @@ ensures the actual prediction  of a fact by a rule, but not just its existence~\
 
 \begin{example}
 %\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
-The two example rules $r_1$ and $r_2$ are \textit{closed}. An example of \textit{non-closed} rule learned from the KG in Figure~\ref{rdf} is:
-\[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
-This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. Another example is:
+The above rules $r_1$ and $r_2$ are \textit{closed}. % An example of a \textit{non-closed} rule that can be learned from the KG in Figure~\ref{rdf} is:
+% \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
+% This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. 
+An example of a \emph{non-closed} rule is:
 \[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
 %then he/she should 
-live in some place. This rule cannot infer the exact living place of a person of interest is thus less interesting. \qed% for the KG completion. %location 
+live somehere. This rule cannot infer the exact living place of a person, but merely its existence, and thus is less interesting. \qed% for the KG completion. %location 
 %which specifies his living location based on the spouse.
 \end{example}
 
-The most prominent examples of systems that are specifically tailored towards inducing rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
+The most prominent examples of systems that are specifically tailored towards inducing Horn rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
 and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE.}
 AMIE \cite{amie} is a state-of-the-art Horn rule mining system.
 Apart from a KG, it expects from the user a support threshold and maximum
-rule length. In AMIE, rules are treated as sequences of atoms, where the first atom is the head, and subsequent atoms are the body of the rule. The algorithm maintains a queue of intermediate rules, which initially stores a single rule with an empty body for every KG relation. 
+rule length. In AMIE, rules are treated as sequences of atoms, where the first atom is the head, and subsequent atoms form the body of the rule. The algorithm maintains a queue of intermediate rules, which initially stores a single rule with an empty body for every KG relation. 
 Rules are removed from the queue and refined by adding literals to the body according to a language bias that specifies allowed rule forms (e.g., based on the user-provided rule length). The system then estimates the support of the rule, and if it exceeds the given threshold, the rule is output to the user and also added to the queue for
 possible further processing.
 %Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
@@ -151,23 +156,23 @@ Refinement of a rule relies on the following set of mining operators used to ext
 The implementation of AMIE employs a variety of techniques from the database community, which allow it to achieve high scalability.
 
 \subsubsection{RDF2Rules.}
-While AMIE mines one rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
+While AMIE mines a single rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
 a certain length $k$, which have the following form:
 \[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2},\dotsc, X_k, p_k^{d_k}, X_1)\]
-where, $X_i$s are variables to appear in the rules, $p_i$s are predicates between these variables, and $d_i$s $\in \{0,1\}$ reflect the direction of the edges in the KG labeled by the respective predicates. To extract FPCs, the algorithm first mines the \emph{frequent predicate paths} (FPPs) of the form:
+where, $X_i$s are variables to appear in the extracted rules, $p_i$s are predicates connecting these variables, and $d_i$s $\in \{0,1\}$ reflect the direction of the edges in the KG labeled by the respective predicates. To extract FPCs, the RDF2Rules algorithm first mines the \emph{frequent predicate paths} (FPPs) of the form:
 \[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2}, ...,X_k, p_k^{d_k}, X_{k+1})\]
-of length $k$, which could be mined recursively based on FPPs of length $k-1$. 
+of the length $k$, which are obtained recursively based on FPPs of the length $k-1$. 
 FPCs are then created from FPPs by merging the last variable $X_{k+1}$ with the first one $X_1$.
 
-After mining FPCs, rules are extracted from the FPCs by choosing one %a 
+After FPCs are mined, rules are extracted from them by choosing a single %a 
 predicate to be in    %as 
-the head, and collecting the rest into the rule's  body. 
+the rule head, and collecting the rest into the rule's body. 
 %of the rule. 
-Formally, the  $j$-th rule is generated from the FPC as follows:
-\[r_j: p_j^{d_j}(X_j,X_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(X_i,X_{i+1}) \]
+% Formally, the  $j$-th rule is generated from the FPC as follows:
+% \[r_j: p_j^{d_j}(X_j,X_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(X_i,X_{i+1}) \]
 
 RDF2Rules is capable of accounting for unary predicates (i.e., types of entities), which are neglected in AMIE for scalability reasons. % The above generated rules are without \textit{type} information.
-The unary predicates are added to the constructed rule at the last stage after analyzing the 
+The unary predicates are added to the constructed rule at the final stage after analyzing the 
 frequent types for FPCs corresponding to a given rule.
 % Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, s
 While RDF2Rules performs the rule extraction faster then AMIE due to an effective pruning strategy
