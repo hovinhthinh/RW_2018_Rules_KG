@@ -65,15 +65,16 @@ For the third and fourth steps in Figure~\ref{fig:iswc_process}, instead of crea
 \item \textbf{Naive}: It is the direct way of choosing the revision using only some standard measure such as confidence or conviction.
 \item \textbf{PM}: Intuitively, the idea behind the \textit{partial materialization} is to rank candidate revisions based on its extension with predictions produced by other rules in $R_H$ (\ie partially materialized); hence, ensuring a cross-talk between the rules.
 \item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materialize the rules of $\cR_{H}$ with higher quality than the current rule.
-\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. Materializing facts with weights from the rules and exiting KG is the concern of probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
+\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. Materializing facts with weights from the rules and exiting KG is the concern of probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015}.%or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
 \end{itemize}
 
 
 
 \subsection{Utilizing KG Embedding Models}
 
+An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. 
 
+RulES~\cite{thinh2018} established a framework to guide the construction of nonmontonic rules with these models. In particular, RulES iteratively construct rules over a KG and collect statistics from a precomputed embedding model allowing assessing the quality of (partially constructed) rule candidates.
 
- %\gad{stopped here! details to be added}
  
 
