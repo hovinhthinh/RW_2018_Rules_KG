@@ -161,7 +161,7 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 
 In an alternative setting, known as \emph{learning from interpretations} proposed in \cite{DBLP:journals/ai/RaedtD94}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $E$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $E$ is a minimal model of $\mi{Hyp} \cup B$.
 Formally, 
-\begin{definition}[Inductive learning from interpretations]
+\begin{definition}[Inductive learning from interpretations]\label{def:learnint}
 \begin{itemize}
 \item[] \textbf{Given:}
 \begin{itemize}
@@ -178,7 +178,7 @@ Formally,
 \end{itemize}
 \end{definition}
 
-Several variations of learning from interpretations task have been proposed including learning from answer sets \cite{DBLP:journals/tocl/Sakama05,DBLP:journals/ai/LawRB18}, where given possibly multiple partial interpretations, the goal is to find a logic program, which has extensions of (all of) the provided interpretations as answer sets.
+Several variations of learning from interpretations task have been studied including learning from answer sets \cite{DBLP:journals/tocl/Sakama05,DBLP:journals/ai/LawRB18}, where given possibly multiple partial interpretations, the goal is to find a logic program, which has extensions of (all of) the provided interpretations as answer sets.
 
 The ILP field has been actively developed within the past couple of decades, and extended along several dimensions.
 Todate, the main tasks considered in this area can be classified based on the following parameters \cite{DBLP:conf/semweb/SazonauS17,Boytcheva2007OverviewOI}.
@@ -230,9 +230,9 @@ Todate, the main tasks considered in this area can be classified based on the fo
 \item \emph{availability of an oracle}, e.g., involvement of a human expert in the loop
 \end{itemize}
 
-In Table~\ref{tab:ilp} we provide an overview of the most relevant for us existing inductive rule mining systems and their properties. 
-While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus on the extraction of Horn logic programs from the data, learning programs with negation has also been tackled in several works 
-~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. 
+An overview of some of the systems for Horn and nonmonotonic rule induction with their properties are presented in Table~\ref{tab:ilp}. 
+% While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus on the extraction of Horn logic programs from the data, learning programs with negation has also been tackled in several works 
+% ~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. 
 % Now, we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
 % We classify the techniques into three major groups: learning from positive and negative examples, learning from entailmenmt and learning from full or partial interpretations (or answer sets).
 

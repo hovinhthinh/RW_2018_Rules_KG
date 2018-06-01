@@ -74,11 +74,15 @@
 % cumbersome since the schema of the KG is usually not available.
 
 %In the rest of 
-Inspired by the pac-learning approach \cite{DBLP:journals/cacm/Valiant84} we present the vie w that the world is very complicated and there is no hope of acquiring an exact representation of it; our aim should be to acquire enough information with which to cope effecti vely in the world. In doing so we extract certain regularities from the world, and assume that in similar circumstances we can rely on these. 
-Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
 The goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such
-that their application results in a good approximation of $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
-More formally,
+that their application results in a good approximation of the unknown ideal graph $\cG^i$. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exact solutions, i.e., their goal is to extract a set of rules that strictly satisfies the criterias of Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+
+On the other hand, the real world is very complicated and it is often impossible to acquire its exact representation. Thus, in the context of KGs, one normally aims at extracting certain regularities from the data, assuming that under some circumstances one can rely on them; however, these might not neccessarily perfectly cover all of the provided examples. Since the source of the data from which one start is a KG, i.e., a set of facts over various relations, the closest ILP setting is learning from interpretations, but these are treated under OWA as opposed to the classical settings. 
+% Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
+
+We now formulate the task of rule-based KG completion,
 
  \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
  Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
