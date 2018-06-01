@@ -1,87 +1,13 @@
 \section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
-% In this section we first describe the possible learning tasks that could be performed over KGs and then overview the existing systems for relational association rule learning tailored towards incomplete KGs. 
-% \subsection{Rule Learning Tasks}
 
-% \input{tables/ilp_overview}
-
-% \label{sec:rules_learning_tasks}
-% Rule learning is an important sub-field of machine learning research area, which focuses on symbolic methods for intelligent data analysis. Here, by symbolic, we mean methods that employ some kind of description language in which the learned knowledge is expressed. One of the main attractions of rule induction is that the rules are much more transparent and easier to interpret than, e.g., a regression model or trained neural network.
-
-% First-order learning approaches are also referred to as %\emph{relational data mining (RDM)}, \emph{relational learning
-% %(RL)} or
-%  \emph{inductive logic programming (ILP)}, since the patterns they discover are expressed in
-% relational formalisms of first-order logic (see \cite{DBLP:books/daglib/0021868} for overview).
-
-% Rule learning approaches can be characterized along several dimensions \cite{DBLP:conf/semweb/SazonauS17}: 
-% \begin{itemize}
-% \item \emph{type of the data source}, e.g., KG, database, text, oracle (a domain expert), true and false facts over a certain target predicate (often referred to as positive and negative examples respectively)
-% \item \emph{type of the output knowledge}, e.g., Horn rules, description logic class descriptions, class inclusions of various expressivity, etc.
-% \item \emph{method used}, e.g., natural language processing, machine learning, association rule mining, theory revision, oracle-based exact learning techniques, etc.
-% \item \emph{data (in)completeness assumption}, e.g., OWA, CWA, partial completeness assumption, etc.
-% \item \emph{availability and type of background knowledge}, e.g., DL ontology, set of datalog rules.
-% \end{itemize}
-
-% The most prominent setting that has been extensively studied in the context of inductive logic programming concerns the extraction of a hypothesis in a certain language, given a set of positive and negative examples and a logical background theory in the form of a logic program, e.g., \cite{foil,golem,quickfoil}. To get an idea of this classical ILP task, consider the following example.
-
-% \begin{example}
-% Suppose that you possess information about some of the relationships between people in your family and their genders.
-% However, you do not know what the relationship $\mi{fatherOf}$ actually means. 
-% You might have the following beliefs, i.e., background knowledge.
-% \smallskip
-
-% {\leftline{$B = \left\{
-%             \renewcommand{\arraystretch}{1.1}
-%             \begin{array}{@{\,}l@{~~}l@{}}
-%               \mbox{(1) } \mi{parent (john, mary)};
-%                \mbox{(2) }\mi{male(john)};
-%               \mbox{(3) }\mi{parent (david, steve)};\\
-%               \mbox{(4) }\mi{ male(david)};
-%               \mbox{(5) }\mi{parent (kathy, ellen)};
-%               \mbox{(6) }\mi{ female (kathy)};
-%             \end{array}%
-%             \!\right\}$}}
-% \smallskip
-
-% Moreover, you are given the following positive and negative examples.
-% \smallskip
-
-% \noindent $\mi{E^+=\{fatherOf(john, mary), fatherOf(david, steve)\}}$\\
-% $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
-
-
-
-% One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-% $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with B it entails all of the positive example, none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$ and $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns the extraction of such hypothesis. \qed
-% \end{example}
-
-% While a significant amount of research has been devoted to the problem of inducing logical theories from a set of positive and negative examples and the background knowledge (as exemplified above), there are several important obstacles that prevent one from employing the off-the-shelf ILP algorithms for solving the rule-based KG completion problem from Definition~\ref{def:kgcomp}. 
-
-% First, the target predicates ($\mi{fatherOf}$ from the above example) can
-% not be easily identified, since we do not know which parts of the considered KG need to
-%  be completed. A standard way of addressing this issue would be just to learn rules for all
-%  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
-%  given the huge size of KGs. Second, the negative examples are not available,
-%  and they can not be easily obtained from, e.g., domain experts due to - once again
-%  - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
-% % from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
-
-% To overcome the above obstacles, it turns out to be appropriate to treat
-% the KG completion problem as an unsupervised relational learning task \cite{amie}.
-% In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to
-% infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
-%Third, the definition of a language bias turns out to be
-% cumbersome since the schema of the KG is usually not available.
-
-%In the rest of 
-As discussed in Section~\ref{sec:kgs}, the KGs are generally incomplete, i.e., they ight be missing facts over certain relations, e.g., living places of spouses of scientists. The goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application results in a good approximation of the unknown ideal graph $\cG^i$, containing all possible facts that hold in the world. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
-
-The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exact solutions, i.e., their goal is to extract a set of rules that strictly satisfies the criterias of Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
-
-On the other hand, the real world is very complicated and it is often impossible to acquire its exact representation. Thus, in the context of KGs, one normally aims at extracting certain regularities from the data, assuming that under some circumstances one can rely on them; however, these might not neccessarily perfectly correct. 
+As discussed in Section~\ref{sec:kgs}, the KGs are generally incomplete, i.e., they might miss facts over certain relations, e.g., living places of spouses of scientists. The goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in predictions, most of which are correct facts.
+%a good approximation of the unknown ideal graph $\cG^i$, containing all possible facts that hold in the world. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rules that perfectly satisfy the criterias of Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+On the other hand, the real world is very complicated, and its exact representation often cannot be acquired. Thus, in the context of KGs, one normally aims at extracting certain regularities from the data, might not neccessarily be perfectly correct, but when seen as rules produce many true facts.
 % Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
 
-We now formulate the task of rule-based KG completion,
+Formally, the task of rule-based KG completion is defined as follows:
 
  \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
  Then \emph{rule-based completion of $\cG$ (resp. $\cA$) \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
