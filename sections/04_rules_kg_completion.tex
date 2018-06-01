@@ -229,22 +229,22 @@ the PCA confidence is defined as
 \]
 \begin{example}
 Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
-to have any children in the KG, four existing body substitutions are not counted in the
+to have any children, four existing body substitutions are not counted in the
 denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
 
-For the KG in Figure~\ref{rdf} we have $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
+For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
 
 \qed
 \end{example}
 
-\subsubsection{Soft Confidence.} Soft confidence measure introduced in \cite{rdf2rules}, is also designed to work under the Open World Assumption:
-\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}Pr(e,p,\cG)}} \]
-where $U_r$ is the set of entities that % previously
-originally had no outgoing %relations of 
-$p$-link, but have new $p$-edges predicted by the rule given, and $Pr(e,p,\cG)$ is the probability of the entity $e$ having relation $p$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}:
-\[\mi{Pr(e,p,\cG)  = max_{t \in T_{e,\cG}}\frac{|Inst_p(t, \cG)|}{|Inst(t, \cG)|}{}}\]
-Here, $T_{e,\cG}$ contains all $type$ of entity $e$, $Inst(t, \cG)$ contains all entities of type $t$, and $Inst_p(t, \cG)$ is similar to $Inst(t, \cG)$, but restricts to only entities that have relation $p$.
-Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability of entities having the head predicate $Pr(e,p, \cG)$ in the unknown part of the rule.
+\subsubsection{Soft Confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U}Pr(e,h,\cG)}} \]
+where $U$ is the set of entities % previously
+that have no outgoing %relations of 
+$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having relation $h$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
+\[\mi{Pr(e,h,\cG)  = max_{c \in C_{e}}\frac{|Inst_h(c, \cG)|}{|Inst(c, \cG)|}{}}\]
+Here, $C_{e}$ contains all types of entity $e$, $Inst(c, \cG)$ stores all entities of the type $t$, and $Inst_h(c, \cG)$ is similar to $Inst(t, \cG)$, but restricts  only to entities that have some outgoing $h$-link.
+Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability  $Pr(e,p, \cG)$ of entities having the head predicate in the unknown part of the rule.
 \begin{example}
 Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $Pr(dave,livesIn,\cG) = \frac{1}{2}$, since $dave$ has only 1 type $researcher$, and in total the KG stores 
 %there are totally 
