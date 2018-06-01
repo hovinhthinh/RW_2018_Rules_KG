@@ -108,6 +108,18 @@ Consider the rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf},
 Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$.\qed
 \end{example}
 
+Another popular metrics, which is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary} is \emph{conviction}, defined as:
+\begin{align*}
+\textit{conv}(r,\cG) & = \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
+\end{align*}
+where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
+\begin{align*}
+\textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)\times(\#Y:\exists X:h(X,Y)\in \cG)}
+\end{align*}
+\begin{example}
+For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
+\end{example}
+
 \subsection{Rule Construction}
 \label{subsec:rule_const}
 % Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
@@ -126,7 +138,7 @@ The above rules $r_1$ and $r_2$ are \textit{closed}. % An example of a \textit{n
 % \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
 % This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. 
 An example of a \emph{non-closed} rule is:
-\[\exists Z \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
+\[\exists Z\; \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
 %then he/she should 
 live somehere. This rule cannot infer the exact living place of a person, but merely its existence, and thus is less interesting. \qed% for the KG completion. %location 
 %which specifies his living location based on the spouse.
@@ -193,22 +205,12 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 
  % For instance, standard confidence $conf$ works under the Closed World Assumption.
  Below we present some of other alternative measures, designed 
- to quantify the quality of rules extracted from incomplete data.
+ to quantify the quality of rules extracted specifically from incomplete data.
 % Some of them are described below. 
  \input{figures/kg2}
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 
-\subsubsection{Conviction.} \textit{Conviction} is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary}, which is given by:
-\begin{align*}
-\textit{conv}(r,\cG) & = \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
-\end{align*}
-where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
-\begin{align*}
-\textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)\times(\#Y:\exists X:h(X,Y)\in \cG)}
-\end{align*}
-\begin{example}
-For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
-\end{example}
+
 \subsubsection{PCA Confidence.} In \cite{amie} a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
@@ -226,10 +228,12 @@ the PCA confidence is defined as
 \mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
 \]
 \begin{example}
-For the KG in Figure~\ref{rdf} we have $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any place where $\mi{lucy}$ and $\mi{dave}$ live. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
-Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
+Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
 to have any children in the KG, four existing body substitutions are not counted in the
 denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
+
+For the KG in Figure~\ref{rdf} we have $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
+
 \qed
 \end{example}
 
