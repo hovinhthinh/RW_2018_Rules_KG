@@ -232,23 +232,21 @@ Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime}
 to have any children, four existing body substitutions are not counted in the
 denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
 
-For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
-
-\qed
+For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$. \qed
 \end{example}
 
 \subsubsection{Soft Confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
-\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U}Pr(e,h,\cG)}} \]
-where $U$ is the set of entities % previously
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}Pr(e,h,\cG)}} \]
+where $U_r$ is the set of entities % previously
 that have no outgoing %relations of 
 $h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having relation $h$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
 \[\mi{Pr(e,h,\cG)  = max_{c \in C_{e}}\frac{|Inst_h(c, \cG)|}{|Inst(c, \cG)|}{}}\]
-Here, $C_{e}$ contains all types of entity $e$, $Inst(c, \cG)$ stores all entities of the type $t$, and $Inst_h(c, \cG)$ is similar to $Inst(t, \cG)$, but restricts  only to entities that have some outgoing $h$-link.
+where $C_{e}$ contains all types of entity $e$, $\mi{Inst(c, \cG)}$ stores all entities of type $c$ in $\cG$, and $\mi{Inst_h(c, \cG)}$ contain only those entities from $Inst(c, \cG)$ that have some outgoing $h$-link.
 Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability  $Pr(e,p, \cG)$ of entities having the head predicate in the unknown part of the rule.
 \begin{example}
-Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{lucy, dave\}$, $U_{r_2} = \{lucy\}$. Moreover, $Pr(dave,livesIn,\cG) = \frac{1}{2}$, since $dave$ has only 1 type $researcher$, and in total the KG stores 
+Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{\mi{lucy, dave}\}$, $U_{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
 %there are totally 
-2 researchers ($dave$, $alice$) but only $alice$'s living place ($amsterdam$) is known to $\cG$. In contrast, $Pr(lucy,livesIn,\cG) = 0$ because $lucy$ has no $type$ information.
+2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$ because $\mi{lucy}$ has no $\mi{type}$ information.
 Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
 \qed
 \end{example}
@@ -257,11 +255,16 @@ In the solutions for the rule-based KG completion problem discussed so far, no e
 in the form of cardinality statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing
 one.
 
-Thus, the recent work CARL \cite{carl} focused on the improvements of rule scoring functions by making use of these extra (in-)completeness meta-data.
+Thus, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
 
-Overall, for a given fact $\mi{hasChild(john,  mary)}$, CARL takes into account the following two numerical statements: the number of (1) children of $john$ and (2) incoming $\mi{hasChild}$ edges to $mary$, which in practice can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}. Since template (2) could be rewritten as the instances of the template (1) through the inverse relations, these meta-data statements are formalized as follows:
-\[\mi{num}(p,s, \cG^i) = \# o : p(s,o) \in \cG^i\]
-indicating the total number of objects $o$ for a given subject $s$ and predicate $p$. Based on this, the number of missing objects $o$ in the available KG $\cG$ can be conveniently  retrieved:
+This (in)completeness meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{s}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{s}$ as the first argument: 
+\begin{equation}\label{eq:num}
+\mi{num}(p,s) := \# o : p(s,o) \in \cG^i 
+\end{equation}
+These cardinality statements can be obtained using web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
+It is possible to rewrite cardinalities on the number of subjects for given predicate and objects with such statements provided that inverse relations can be expressed in a KG.
+
+Naturally, the number of missing facts for a given $p$ and $s$ can be obtained as
 \[\mi{miss}(p,s,\cG) = \mi{num(p,s,\cG^i)} - \#o : p(s,o) \in \cG\]
 Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
 predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, complete ($\mi{npc(r)}$) KG parts:
@@ -273,7 +276,7 @@ predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, co
 \begin{align*}
 \mi{npc}(r, \cG) = \sum_X max(\#Y: h(X,Y)\in\cG_r\backslash \cG - \mi{miss}(h,X,\cG), 0)
 \end{align*}
-Using these indicators, a class of completeness-aware rules measures have been proposed by CARL as follows:
+Using these indicators, a class of completeness-aware rule measures have been defined, which we briefly present next.
 %\begin{itemize}
 % \input{figures/kg2}
 %\item 
