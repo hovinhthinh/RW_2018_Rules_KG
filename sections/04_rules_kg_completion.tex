@@ -1,6 +1,6 @@
 \section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
-The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rule hypothesis that perfectly satisfy the criterias from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rule hypothesis that perfectly satisfies the criteria from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
 On the other hand, as discussed in Section~\ref{sec:kgs}, knowledge graphs adopt the open world assumption, i.e., they might miss some true facts, such as living places of scientists. Moreover, the real world is very complicated, and its exact representation often cannot be acquired from the data, meaning that the task of inducing a perfect rule set from a KG is typically unfeasible. Therefore, in the context of KGs, one normally aims at extracting certain regularities from the data, which are not universally correct, but when seen as rules predict a sufficient portion of true facts. 
 
 In other words, the goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in a good approximation of the ideal graph $\cG^i$. More formally,
@@ -27,11 +27,12 @@ not be easily identified, since we do not know which parts of the considered KG 
  be completed. A standard way of addressing this issue would be just to learn rules for all
  the different predicate names occurring in the KG. Unfortunately, this is unfeasible
  given the huge size of KGs. Second, the negative examples are not available,
- and they can not be easily obtained from, e.g., domain experts due to - once again
+ and they cannot be easily obtained from, e.g., domain experts due to - once again
  - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
 % from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
 
-To overcome the above obstacles, it turns out to be appropriate to treat the KG completion problem as an unsupervised relational learning task \cite{amie}.
+To overcome the above obstacles, it %turns out to be 
+is more appropriate to treat the KG completion problem as an unsupervised relational learning task \cite{amie}.
 % In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
 In this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
 These concern the discovery of frequent patterns from a data set and their subsequent transformation into rules
