@@ -237,15 +237,16 @@ For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$,
 \end{example}
 
 \subsubsection{Soft Confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
-\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U_r}Pr(e,h,\cG)}} \]
-where $U_r$ is the set of entities % previously
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U^r}Pr(e,h,\cG)}} \]
+where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
-$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having relation $h$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
-\[\mi{Pr(e,h,\cG)  = max_{c \in C_{e}}\frac{|Inst_h(c, \cG)|}{|Inst(c, \cG)|}{}}\]
-where $C_{e}$ contains all types of entity $e$, $\mi{Inst(c, \cG)}$ stores all entities of type $c$ in $\cG$, and $\mi{Inst_h(c, \cG)}$ contain only those entities from $Inst(c, \cG)$ that have some outgoing $h$-link.
-Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by also taking into account the probability  $Pr(e,p, \cG)$ of entities having the head predicate in the unknown part of the rule.
+$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having the relation $h$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
+\[\mi{Pr(e,h,\cG)  = max_{t \in T_{e}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
+where $C_{e}=\{t\,|\,t(e)\in \cG\}$, $\mi{Inst(t, \cG)=\{e'\,|\,t(e')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{e'\in Inst(t,\cG)\,|\,h(e',e'')\in\cG\}}$.
+Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by accounting for the probability of entities having certain relations.
+%having the head predicate in the unknown part of the rule.
 \begin{example}
-Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U_{r_1} = \{\mi{lucy, dave}\}$, $U_{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
+Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$, $U^{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
 %there are totally 
 2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$ because $\mi{lucy}$ has no $\mi{type}$ information.
 Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
