@@ -6,12 +6,13 @@ predict erroneous facts as illustrated in Section~\ref{sec:intro}.
 In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete knowledge graphs. First, we describe a method that relies on cross talk between the extracted rules to guess the right exception candidates for them. Then we describe an approach thar exploits embedding-based methods for knowledge graph completion during rule construction.
 
 \subsection{Revision-based Method}
-Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{} (see Section~\ref{sec:rulereason}). However, most of the existing methods assume that the data from which the rules are extracted is complete.
+Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are extracted is complete.
 
-In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from  a KG preprocessed by translating binary facts (e.g., $\mi{livesIn(brad,berlin)}$) to unary ones (e.g., $\mi{livesInBerlin(brad)}$ or ) has been proposed, which is specifically tailored towards incomplete KGs. 
+In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
+It preprocesses a KG by translating all binary facts into unary ones applying a form of propositionalization thechnique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information). In \cite{rumis} the work has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
-More specifically, in these works the KG completion problem from Definition~\ref{def:kgcomp} is treated 
+In these works, KG completion problem from Definition~\ref{def:kgcomp} is treated 
 as a \emph{theory revision} task, where, given a KG and a set of (previously learned) Horn rules, the goal is to revise this set by adding exceptions, such that the obtained rules have higher predictive accuracy then the original ones. Since normally, the ideal graph $\cG^i$ is not available, in order to estimate the quality of a
 revised ruleset, two generic quality functions $q_{\mi{rm}}$ and
 $q_{\mi{conflict}}$ are devised, that take as input a ruleset $\cR$ and a KG $\cG$ and output a
@@ -30,8 +31,14 @@ and ii) replacing the head
 predicate $\mi{a}$ of $r$ %(e.g. $a$)
 with a newly introduced predicate $\mi{not\_a}$ which intuitively contains %will contain
 %all
-instances which are \emph{not} in $\mi{a}$. %the original head predicate (e.g. $not\_a$).
-Formally, we define $\mi{q_{conflict}}$ as follows
+instances which are \emph{not} in $\mi{a}$. 
+
+\begin{example} For the rule $r_2$ from Section~\ref{sec:intro}, the auxiliary rule looks as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it intuitively states that married people among whom one is a researcher normally do not live together. \qed
+\end{example}
+
+
+%the original head predicate (e.g. $not\_a$).
+Exploiting statistics of both given rule $r$ and its auxiliary version $\mi{r^{aux}}$, the measure $\mi{q_{conflict}}$ is defined:
 
 \begin{equation}
 \mi{q_{conflict}(\cR_{\mi{NM}},\cG)=\sum_{p\in pred(\cR^{\mi{aux}})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{\cR^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{\cR^{\mi{aux}}}|}}
@@ -87,24 +94,33 @@ ${q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
+Given huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding an approximate solution to the above problem has been proposed (see Figure~\ref{fig:iswc_process} for overview). 
 
-\leanparagraph{Unary rules} In~\cite{iswc2016}, this problem has been solved for rules with only unary
-atoms. To this end, the binary facts in the initial KG have been transformed to unary ones via a form of %initial Horn binary rules into unary ones via
-propositionalization \cite{propos}. The approach proceeds in four steps as illustrated in Figure~\ref{fig:iswc_process}.
-
+\begin{figure}[t]
+\centering
+\includegraphics[width=1\textwidth]{figures/overview_new}
+\caption{Rule revision method for nonmonotonic rule learning~\cite{gad2016,rumis}}
+\label{fig:iswc_process}
+\end{figure}
 \noindent \textbf{Step 1.} After mining Horn rules using an off-the-shelf algorithm (e.g.,
-FPGrowth~\cite{fpgrowth}, %but others like
-\cite{newrulemine} or \cite{amieplus}), %can also be applied)
+ \cite{amie}), %can also be applied)
  we compute for each rule the \emph{normal} and
 \emph{abnormal} instance sets, defined as
 
-\begin{definition}[$r$-(ab)normal instance set]
-Let $\cG$ be a KG and, moreover, let\\ $r:\,a(X){\leftarrow} b_1(X){,}\dotsc, b_k(X)$ be a Horn rule mined from it. Then
-\begin{itemize}
-\item $\mi{NS}(r,\cG){=}\{c\,|\,b_1(c),\dotsc,b_k(c), a(c){\in} \cG\}$ is an \emph{$r$-normal instance set};
-\item $\mi{ABS}(r,\cG){=}\{c\,|\,b_1(c),\dotsc, b_k(c){\in} \cA, a(c)\not \in \cG\}$ is an \emph{$r$-abnormal instance set}.
-\end{itemize}
+\begin{definition}[$r$-(ab)normal substitutions]\label{sec:rulelearn}
+Let $\cG$ be a KG, $\mi{r}$ a Horn rule mined from $\cG$, and let $\cV$ be a set of variables occurring in $r$. Then
+\begin{myitemize}
+\item $\mi{NS(r, \cG)=\{\theta\, |\, head(r)\theta,body(r)\theta \subseteq \cG\}}$ is an $\mi{r}$-normal set of substitutions;
+\item $\mi{ABS(r, \cG){=}\{\theta'\, |\, body(r)\theta' {\subseteq} \cG\,{,}\,head(r)\theta' {\not \in} \cG\}}$ is an $\mi{r}$-abnormal one, \\
+where $\theta,\theta':\cV \rightarrow \cC$.
+\end{myitemize} 
 \end{definition}
+
+\begin{example}\label{ex:abns}
+For $\cG$ from Fig.~\ref{rdf} and $\mi{r1}$ 
+we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/Brad,Y/Ann,Z/Berlin}\}$; similarly, the most right and bottom blue triangles in Fig.~\ref{rdf} refer to $\theta_2$ and $\theta_3$ resp., while the red ones represent $\mi{ABS(r1,\cG)}$.
+\end{example}
+ 
 
 % \begin{example}\label{ex:nab}
 % For $\cA$ from Table~\ref{tab:im} and the rule $r:\;\mi{livesInUS(X)}{\leftarrow}\mi{bornInUS(X)}$, $r$-normal and $r$-abnormal instance sets are given as $NS(r,\cA)=\{\mi{p1},\dotsc, \mi{p5}\}$ and $\mi{ABS}(r,\cA)=\{\mi{p6},\dotsc, \mi{p11}\}$ respectively.\qed
@@ -124,16 +140,24 @@ are defined as follows:
 %Table~\ref{tab:im} a possible reason for abnormality of $\{\mi{p8,p9,p10}\}$
 %could be their presence in the predicate $\mi{immigrant}$.
 
-\begin{definition}\label{def:ews}
-Let $\cG$ be a KG %$\cG$
-and %$r:a(X)\leftarrow b_1(X),..., b_k(X)$
-let $r$ be a Horn rule mined from $\cG$. An \emph{$r$-exception witness set} $\mi{EWS(r,\cG)=\{e_1,\dotsc, e_l\}}$ is a maximal set of predicates, such that % with the following properties:
-%\vspace{-.1cm}
-\begin{itemize}
-\item[(i)] $\mi{e_i(c')\in\cG}$ for some $c'\in \mi{ABS}(r,\cG)$, $1\leq i\leq l$ and
-\item[(ii)] $\mi{e_1(c),\dotsc, e_l(c)\not \in \cA}$ for all $\mi{c\in NS(r,\cG)}$.
-\end{itemize}
+
+\begin{definition}[Exception Witness Set (EWS)] \label{def:ews}
+Let $\cG$ be a KG, let $r$ be a rule mined from it, let $\cV$ be a set of variables occurring in $\mi{r}$ and $\vec{X}\subseteq \cV$. Exception witness set for $r$ \wrt\ $\cG$ and $\vec{X}$ is a maximal set of predicates $\mi{EWS(r,\cG,\vec{X})}=\{e_1,\dotsc,e_k\}$, s.t.
+\begin{myitemize}
+\item $\mi{e_i}(\vec{X}\theta_j)\in \cG$ for some $\theta_j\in \mi{ABS(r,\cG)}$, $1 \leq i\leq k$ and
+\item $\mi{e_1}(\vec{X}\theta'),\dotsc,\mi{e_k}(\vec{X}\theta')\not \in \cG$ for all $\theta' \in \mi{NS(r,\cG)}$.
+\end{myitemize}
 \end{definition}
+
+\begin{example}
+For $\cG$ in Fig.~\ref{rdf} and $\mi{r1}$ 
+we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
+ $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ lived in cities different from $\mi{berlin}$ and $\mi{chicago}$ resp., then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. 
+\end{example}
+In general when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
+For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. Furthermore, combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to QHTR problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
+
+
 
 % We illustrate the notion of exception witness candidates by the example.
 %Intuitively, $r$-exception witness set explains $r$-abnormality of some instances from $\mi{ABS}(r,\cA)$.
@@ -167,7 +191,7 @@ $r^j_i$, we introduce four special ranking functions: a naive one and three more
 
     \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{\cR'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules, we store the highest weight. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ we keep predicted facts (i.e., derived by applying rules from $\cR'$) separately from the explicit facts (i.e., those in $\cG$), and infer new facts using only $\cG$.
 \end{itemize}As the missing facts are uknown, it is not possible to exactly estimate the predictive quality of a rule set, thus a number of heuristics is proposed.
-The approach combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil}, which is used to detect exceptions. More specifically, the proposed method proceeds in four steps as follows (see Figure~\ref{fig:iswc_process}).
+
 
 % \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. 
 % Both %\cite{gad2016} and RUMIS try to 
@@ -181,61 +205,55 @@ The approach combines standard relational association rule mining techniques wit
 % %, the auxiliary version is 
 % $r^{aux}:\mi{not\_H} \leftarrow B, E$ where $\mi{not\_H}$ is a fresh predicate indicating that $H$ will not be derived by this rule. The number of grounded pairs $\tuple{H,\mi{not\_H}}$ in the answer set generated by the rule set, the auxiliary rules and the KG indicates the degree of conflict.
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=1\textwidth]{figures/overview_new}
-\caption{Rule revision process by~\cite{gad2016,rumis}.}
-\label{fig:iswc_process}
-\end{figure}
 
 %Figure shows an overview of the rule revision steps. % 
-In the first step a set of Horn rules is extracted from a KG relying on any existing Horn rule extraction method, such as \cite{amie}.
-In the second step, for every Horn rule the \textit{normal} and \textit{abnormal} substitutions are determined, i.e., substitutions that satisfy (resp. do not satisfy) the considered rule.
-\begin{definition}[(Ab)normal substitutions]
-\begin{itemize}
-\item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$
-\item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$\\
-where $\theta: \mathcal{V} \rightarrow \cC$.
-\end{itemize}
-where $\mathcal{V}$ is the set of variables appearing in $r$. 
-\end{definition}
+% In the first step a set of Horn rules is extracted from a KG relying on any existing Horn rule extraction method, such as \cite{amie}.
+% In the second step, for every Horn rule the \textit{normal} and \textit{abnormal} substitutions are determined, i.e., substitutions that satisfy (resp. do not satisfy) the considered rule.
+% \begin{definition}[(Ab)normal substitutions]
+% \begin{itemize}
+% \item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$
+% \item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$\\
+% where $\theta: \mathcal{V} \rightarrow \cC$.
+% \end{itemize}
+% where $\mathcal{V}$ is the set of variables appearing in $r$. 
+% \end{definition}
 
-Relying on the above notions, the so-called \emph{exception witness sets} are computed, i.e., sets of predicates that are potentially involved in explaining why abnormal substitutions fail to follow the rule. Formally, these are defined as follows:
+% Relying on the above notions, the so-called \emph{exception witness sets} are computed, i.e., sets of predicates that are potentially involved in explaining why abnormal substitutions fail to follow the rule. Formally, these are defined as follows:
 
-\begin{definition}[Exception Witness Set]The Exception Witness Set (EWS) of $r$ with respect to the KG and a variavle $X\in V$ is the maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ such that:
-\begin{itemize}
-\item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
-\item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
-\end{itemize}
-\end{definition}
+% \begin{definition}[Exception Witness Set]The Exception Witness Set (EWS) of $r$ with respect to the KG and a variavle $X\in V$ is the maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ such that:
+% \begin{itemize}
+% \item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
+% \item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
+% \end{itemize}
+% \end{definition}
 
-Third, candidate rule revisions are constructed by adding to a rule body a single exception at a time. The quality measures for nonmonotonic rules are devised to quantify their strength w.r.t the KG. Importanly, the crosstalk between the rules through is considered via the novel \emph{partial materialization} technique instead of revising rules in isolation. Fourth, the rule revisions are ranked according to these measures to determine a ruleset that not only describes the data well but also shows a good predictive power by taking exceptions into account. 
-
-
-
-\begin{example}
-Consider the KG $\cG$ and $r_1$ from Figure~\ref{rdf} as before, the normal set for $r_1$ is $NS(r_1,\cG)=\{\theta_1, \theta_2 ,\theta_3\}$, where $\theta_1 = \{X/brad, Y/ann, Z/berlin\}$,\\  $\theta_2 = \{X/john, Y/kate, Z/chicago\}$ and $\theta_3 = \{X/sue, Y/li, Z/beijing\}$.\\ and the abnormal set, $ABS(r_1,\cG)=\{\theta_4,\theta_5, \theta_6\}$, \\such that $\theta_4=\{X/bob, Y/alice, Z/berlin\}$,  $\theta_5=\{X/clara, Y/dave, Z/chicago\}$, and $\theta_6=\{X/mat, Y/lucy, Z/amsterdam\}$.
-\qed
-\end{example}
+% Third, candidate rule revisions are constructed by adding to a rule body a single exception at a time. The quality measures for nonmonotonic rules are devised to quantify their strength w.r.t the KG. Importanly, the crosstalk between the rules through is considered via the novel \emph{partial materialization} technique instead of revising rules in isolation. Fourth, the rule revisions are ranked according to these measures to determine a ruleset that not only describes the data well but also shows a good predictive power by taking exceptions into account. 
 
 
 
-In the third step the exception witness sets (EWSs) are constructed. 
-\begin{example}
-Recalling $\cG$ and $r_1$, the exceptions witness sets for variables $X$ and $Y$ are $EWS(r_1,\cG,\{X\}) = \{artist\}$ and $EWS(r_1,\cG,\{Y\}) = \{researcher\}$, respectively.
-\qed
-\end{example}
-For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ containing all of its exception candidates. 
-%\[EWS(r,\cG)=\bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\] 
+% \begin{example}
+% Consider the KG $\cG$ and $r_1$ from Figure~\ref{rdf} as before, the normal set for $r_1$ is $NS(r_1,\cG)=\{\theta_1, \theta_2 ,\theta_3\}$, where $\theta_1 = \{X/brad, Y/ann, Z/berlin\}$,\\  $\theta_2 = \{X/john, Y/kate, Z/chicago\}$ and $\theta_3 = \{X/sue, Y/li, Z/beijing\}$.\\ and the abnormal set, $ABS(r_1,\cG)=\{\theta_4,\theta_5, \theta_6\}$, \\such that $\theta_4=\{X/bob, Y/alice, Z/berlin\}$,  $\theta_5=\{X/clara, Y/dave, Z/chicago\}$, and $\theta_6=\{X/mat, Y/lucy, Z/amsterdam\}$.
+% \qed
+% \end{example}
 
-After the exception witness sets are computed for every rule, the search for the best possible revision is performed relying on the following exception scoring functions:
-\begin{itemize}
-\item \textbf{Naive}: Choose the rule revision, with the best standard measure such as confidence or conviction.
-\item \textbf{PM}: Prior to selecting the best revision, apply all other rules that appear in a set with all of their exceptions incorporated. 
-\item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materializes the rules from $\cR_{H}$ that are of a higher quality then the given one.
-\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and those predicted by rules by assigning a weight to them, which is inherited from the rules used to generate them. For reasoning over weightet facts exiting % is the concern of 
-probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} could be used. %or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
-\end{itemize}
+
+
+% In the third step the exception witness sets (EWSs) are constructed. 
+% \begin{example}
+% Recalling $\cG$ and $r_1$, the exceptions witness sets for variables $X$ and $Y$ are $EWS(r_1,\cG,\{X\}) = \{artist\}$ and $EWS(r_1,\cG,\{Y\}) = \{researcher\}$, respectively.
+% \qed
+% \end{example}
+% For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ containing all of its exception candidates. 
+% %\[EWS(r,\cG)=\bigcup_{\forall\mathcal{X}\subseteq \mathcal{V}}EWS(r,\cG,\mathcal{X})\] 
+
+% After the exception witness sets are computed for every rule, the search for the best possible revision is performed relying on the following exception scoring functions:
+% \begin{itemize}
+% \item \textbf{Naive}: Choose the rule revision, with the best standard measure such as confidence or conviction.
+% \item \textbf{PM}: Prior to selecting the best revision, apply all other rules that appear in a set with all of their exceptions incorporated. 
+% \item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materializes the rules from $\cR_{H}$ that are of a higher quality then the given one.
+% \item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and those predicted by rules by assigning a weight to them, which is inherited from the rules used to generate them. For reasoning over weightet facts exiting % is the concern of 
+% probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} could be used. %or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
+% \end{itemize}
 
 
 
@@ -243,7 +261,7 @@ probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problo
   \begin{figure}[t]
 \centering
 \includegraphics[width=1\textwidth]{figures/rules_overview_H.pdf}
-\caption{RulES system.}
+\caption{Embedding-based method for nonmonotonic rule learning}
 \label{fig:system}
 \end{figure}
 
