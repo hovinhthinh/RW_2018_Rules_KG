@@ -212,13 +212,13 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 
 
-\subsubsection{PCA Confidence.} In \cite{amie} a completeness-aware rule scoring based
+\subsubsection{PCA Confidence.} In~\cite{amie} a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
 is Einstein’s child''), then all objects for that subject-predicate pair (Einstein’s children)
 are assumed to be known. PCA relies on a hypothesis that the data is usually
 added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
-all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. 
+all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
 Formally, 
 % measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 % \[\text{If }\forall o' : p(s,o') \in \cG^i \text{ then }p(s,o') \in \cG\]
@@ -243,7 +243,7 @@ that have no outgoing %relations of
 $h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
 \[\mi{Pr(e,h,\cG)  = max_{t \in T_{e}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
 where $T_{e}=\{t\,|\,t(e)\in \cG\}$, $\mi{Inst(t, \cG)=\{e'\,|\,t(e')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{e'\in Inst(t,\cG)\,|\,h(e',e'')\in\cG\}}$.
-Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by accounting for the probability of entities having certain relations.
+Intuitively, soft confidence is designed to avoid the under-fitting of standard confidence and over-fitting of PCA confidence by accounting for the probability of entities having certain relations.
 %having the head predicate in the unknown part of the rule.
 \begin{example}
 Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$, $U^{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
