@@ -12,26 +12,6 @@ In this tutorial, we have presented a brief overview of the current techniques f
 While the problem of rule-based KG completion has recently gained an increasing attention, several interesting research directions are still left unexplored. % Despite the advances in rule learning, the existing methods still learn limited formats for rules, \eg closed rules, with even restrictive language bias.
 % Additionally, they are still prone to KG incompleteness and not being able to determine the possible gaps in the data under OWA. These challenges lead to the generation of uninteresting and noisy rules. Follows some possible directions to overcome such challenges. 
 
-
-\leanparagraph{Learning rules over probabilistic data}  %Nevertheless, e
-The majority of existing rule learning approaches over knowledge graphs model KGs as sets of true triples thus totally ignoring possible inaccuracy of some of the facts that they encode. However, since KGs are normally automatically constructed from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all of the facts in the same way might naturally lead to problematic rules, which when applied could propagate faulty facts. While modeling the KG as an uncertain data source with attached weights on the facts and learning rules over them studied in the area of probabilistic ILP \cite{probilp} is an important research direction, which so far has been considered only within the problems of extracting rules of restricted form, e.g., without negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 
-Extending the existing techniques to more advanced rule forms and %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
-~\cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}.  
-However, exploiting these techniques in our setting requires a full materialization of the probability function,
-which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches for real-life KGs has only been studied in limited literature such as~\cite{DeRaedt:2015}, keeping a wide room for improvements.
-
-
-\leanparagraph{Rule learning with external sources} 
-One promising direction is to consider pieces of evidence from other external resources while extracting the rules from KGs and estimating their quality 
-(see Figure~\ref{fig:discussion_overview}). This external resource can be of a different nature ranging from %either be 
-a human expert giving feedback about the correctness of a given rule as done in~\cite{Dzyuba2017} in the context of frequent itemset mining, or a dedicated fact-checking engine that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ relies on the existing Web resources for estimating its truthfulness. This amounts to utilizing such automated fact-checking systems as Defacto~\cite{defacto} or FactChecker~\cite{factchecker} in the rule induction process. 
-
-%An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
-%purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the
-%predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. Interlinking these statistical methods with inductive rule learning is a promising further direction.
-
-\leanparagraph{Neural-based rule learning} Utilizing embedding models for rule learning is a new research direction that has recently gained attention \cite{DBLP:conf/nips/YangYC17,DBLP:journals/corr/YangYHGD14a}. Existing methods are purely statistics-based, i.e., they reduce the rule learning problem to algebraic operations on neural-embedding-based representations of a given KG.  \cite{DBLP:journals/corr/YangYHGD14a} constructs rules by modeling relation composition as multiplication or addition of two relation embeddings. The authors of \cite{DBLP:conf/nips/YangYC17} propose a differentiable system for learning models defined by sets of first-order rules that exploits a connection between inference and sparse matrix multiplication \cite{DBLP:journals/corr/Cohen16b}. However, existing approaches pose strong restrictions on target rule patterns, which often prohibit learning interesting rules, e.g. non-chain-like or exception-aware ones.
-
 \leanparagraph{Learning other rule forms}
 %Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, 
 Inducing rules of  advanced forms, e.g., %other rule forms such as 
@@ -44,6 +24,28 @@ Rules that reflect correlations between edge counts in KGs such as \emph{``If yo
 % \leanparagraph{Learning temporal rules} 
 % Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contain the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which is sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over this data is still not well studied.
 Learning temporal rules and constraints such as \emph{``You cannot graduate from a university before being born''} is another promising future work direction. Deductive reasoning over temporal KGs has been recently considered in \cite{DBLP:conf/aaai/ChekolPSS17}; however, the inductive setting has not yet been studied in full details to the best of our knowledge.
+
+\leanparagraph{Learning rules from probabilistic data}  %Nevertheless, e
+The majority of existing rule learning approaches over knowledge graphs model KGs as sets of true triples thus totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are normally automatically constructed from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which when applied could propagate faulty facts. 
+
+Learning rules from KGs treated as uncertain data sources has  been considered in \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}; however, these works neglect negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 
+Extending the techniques to more advanced rule forms is a promising future direction. %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
+% However, exploiting these techniques in our setting requires a full materialization of the probability function,
+% which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches for real-life KGs has only been studied in~\cite{DeRaedt:2015}, leaving a wide room for improvements.
+
+
+\leanparagraph{Rule learning with external sources} 
+Another interesting future direction is to consider pieces of evidence from other external sources while extracting the rules from KGs and estimating their quality 
+(see Figure~\ref{fig:discussion_overview}). These external sources can be of different nature ranging from %either be 
+a human expert giving feedback about the correctness of a given rule (similar as done in \cite{Dzyuba2017} for pattern mining), to dedicated fact-checking engines that given a fact, e.g., $\mi{bornIn(einstein,ulm)}$ rely on the Web documents to estimate its truthfulness (e.g., Defacto~\cite{defacto}, FactChecker~\cite{factchecker}). These external sources can be used to guide the rule learning process for extracting promising rules of high quality.
+%This amounts to utilizing such automated fact-checking systems as  in the rule induction process. 
+
+%An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
+%purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the
+%predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. Interlinking these statistical methods with inductive rule learning is a promising further direction.
+
+\leanparagraph{Neural-based rule learning} Utilizing embedding models for rule learning is a new research direction that has recently gained attention \cite{DBLP:conf/nips/YangYC17,DBLP:journals/corr/YangYHGD14a}. Existing methods are purely statistics-based, i.e., they reduce the rule learning problem to algebraic operations on neural-embedding-based representations of a given KG.  \cite{DBLP:journals/corr/YangYHGD14a} constructs rules by modeling relation composition as multiplication or addition of two relation embeddings. The authors of \cite{DBLP:conf/nips/YangYC17} propose a differentiable system for learning models defined by sets of first-order rules that exploits a connection between inference and sparse matrix multiplication \cite{DBLP:journals/corr/Cohen16b}. However, existing approaches pose strong restrictions on target rule patterns, which often prohibit learning interesting rules, e.g. non-chain-like or exception-aware ones.
+
 
 %\leanparagraph{Hybrid rule learning techniques}
  \leanparagraph{Extracting rules from text and KG} Extracting logic rules from text by exploiting natural language processing (NLP) techniques and textual entailment has been studied in several works such as~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016}. However, they only depend on the noisy information existing in the text. One way to overcome the noise while extracting rules from the text is to exploit KG facts while processing the text (\ie in form of semantic mark-up) as proposed in~\cite{Aitken2002}. More advanced techniques to combine 
