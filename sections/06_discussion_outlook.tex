@@ -17,7 +17,7 @@ While the problem of rule-based KG completion has recently gained an increasing 
 While the majority of available methods focus on extracting Horn or nonmonotonic rules, inducing rules of other forms, e.g., %other rule forms such as 
 disjunctive 
 %(\eg $hasBrother(X,Y) \vee hasSister(X,Y) \leftarrow hasSibling(X,Y)$, or $livesIn(X, north\_korean) \vee livesIn(south\_korean) \leftarrow speaks(X, korean) $),
-(e.g., \emph{``Having a sibling implies havinga sister or a brother'', ``Korean speakers are normally either from South or North Korea''})
+(e.g., \emph{``Having a sibling implies having a sister or a brother'', ``Korean speakers are normally either from South or North Korea''})
  or with existential quantifiers in the head (e.g., \emph{``Being a musicians in a band, implies  playing some musical instrument''}).
 %(\eg $\exists Y: playsInstrument(X, Y) \leftarrow$ $musician(X),bandMember(X,Z)$) is an interesting topic to study. 
 Several recent works on mining keys in KGs \cite{vickey,DBLP:conf/www/LajusS18}, detecting mandatory relations \cite{DBLP:conf/www/LajusS18} and learning SHACL constraints \cite{shacl} are relevant, but they do not directly address the mentioned rule forms. A combination of techniques from relational rule learning \cite{DBLP:books/daglib/0021868} and propositionalization approaches \cite{propos} can be utilized for learning rules with existentials, yet it is unclear how to detect KG parts that are worth propositionalizing and combine the outputs of both methods.  % can encode more interesting patterns
@@ -56,13 +56,13 @@ Another interesting research stream is to consider pieces of evidence from hybri
 %\leanparagraph{Hybrid rule learning techniques}
  \leanparagraph{Extracting rules jointly from KGs and text} While modern KGs are rich in facts and typically rather clean, they contain a limited set of encyclopedic relations. On the other hand, textual resources certainly cover a richer set of predicates (e.g., $\mi{gotAquintedWith}$, $\mi{celebratedWedding}$), but suffer from  noise. % Extracting logic rules from text using natural language processing (NLP) techniques and textual entailment has been studied in several works~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016}.  
 %these methods only depend on the noisy information that exists in the text. 
-A natural way to address the %One way to address this, is by  %overcome the noise while extracting rules is to ustilize 
+A natural way to address the %One way to address this, is by  %overcome the noise while extracting rules is to utilize 
 above issues is to combine 
 %utilizing KG facts %while processing the text 
 %jointly with textual sources (\ie in the form of a semantic mark-up) % as proposed in
 %. Development of methods that combine 
  %Combining these %linguistics-based 
-text-based rule extraction based on Natural Language Processing (NLP) and textual entailment techniques~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016} with inductive rule learning from KGs. This interesting research direction comes with many challenging due to the heterogenuity of the input sources.
+text-based rule extraction based on Natural Language Processing (NLP) and textual entailment techniques~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016} with inductive rule learning from KGs. This interesting research direction comes with many challenging due to the heterogeneity of the input sources.
   %has a great potential % Indeed,
 %has a great potential. %for overcoming the limited KG scope.
 %the restrictions imposed due to the limited number of predicates in most encyclopedic KGs. Hence, obtaining more interesting and accurate rules. 
