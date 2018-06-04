@@ -101,7 +101,7 @@ conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
 \end{align*}
 where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
 \begin{align*}
-\textit{r-supp}(r,\cG) &= \#(x,y): h(x,y) \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG\\
+\textit{r-supp}(r,\cG) &= \#(x,y): h(x,y) \in \cG, \exists \vec{z}\;B\in \cG,E \not \in \cG\\
 \textit{b-supp}(r,\cG) &= \#(x,y):\exists \vec{z}\; B\in \cG, E \not \in \cG
 \end{align*}
 \begin{example}
@@ -219,14 +219,14 @@ is Einstein’s child''), then all objects for that subject-predicate pair (Eins
 are assumed to be known. PCA relies on a hypothesis that the data is usually
 added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
 all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
-Formally, 
+The PCA confidence is defined as follows: 
 % measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 % \[\text{If }\forall o' : p(s,o') \in \cG^i \text{ then }p(s,o') \in \cG\]
 %Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. 
-the PCA confidence is defined as
+%the PCA confidence is defined as
 
 \[
-\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(X,Y): \exists \vec{Z}: B \in \cG, E \notin \cG  \wedge \exists Y': h(X,Y')\in \cG}
+\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(x,y): \exists \vec{z}: B \in \cG, E \not\in \cG  \wedge \exists y': h(x,y')\in \cG}
 \]
 \begin{example}
 Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
@@ -248,13 +248,13 @@ Intuitively, soft confidence is designed to avoid the under-fitting of standard 
 \begin{example}
 Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$, $U^{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
 %there are totally 
-2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$ because $\mi{lucy}$ has no $\mi{type}$ information.
+2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$, because $\mi{lucy}$ has no $\mi{type}$ information.
 Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
 \qed
 \end{example}
 
 \subsubsection{RC confidence} %Another rule measure, which similarly to completeness-aware measures 
-\cite{DBLP:conf/www/ZupancD18} proposed \emph{RC confidence} as an attempt to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule. %has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
+The authors of \cite{DBLP:conf/www/ZupancD18} have recently proposed the \emph{RC confidence} as an attempt to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule. %has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
 %The insight of \cite{DBLP:conf/www/ZupancD18} 
@@ -275,7 +275,7 @@ conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\
 %Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
 
 
-\subsubsection{Completeness-aware Rule Measures.}  
+\subsubsection{Completeness-aware Rule Measures}  
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
 
 Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
@@ -351,7 +351,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 \end{align*}
 Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This is done via a % leads to the consideration of the
 combining any existing association rule measure $rm$, e.g., standard confidence or conviction, with 
-the directional metric, using a certain dedicated weighting factor $\beta \in [0..1]$. Formally:
+the directional metric, using a certain dedicated weighting factor $\beta \in [0..1]$. Formally,
 \begin{align*}
 \mi{weighted\_dm}(r,\cG)=\beta \cdot \mi{rm}(r,\cG) + (1-\beta) \cdot \mi{dm}(r,\cG) 
 \end{align*}
