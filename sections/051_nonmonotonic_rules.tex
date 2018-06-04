@@ -190,7 +190,7 @@ $r^j_i$, we introduce four special ranking functions: a naive one and three more
 \smallskip
 
     \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{\cR'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules, we store the highest weight. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ we keep predicted facts (i.e., derived by applying rules from $\cR'$) separately from the explicit facts (i.e., those in $\cG$), and infer new facts using only $\cG$.
-\end{itemize}As the missing facts are uknown, it is not possible to exactly estimate the predictive quality of a rule set, thus a number of heuristics is proposed.
+\end{itemize}
 
 
 % \cite{gad2016} and its successor RUMIS~\cite{rumis} have been developed specifically to learn nonmonotonic rules from the large KGs, taking into account the OWA and the huge size of the KG. 
@@ -266,15 +266,15 @@ $r^j_i$, we introduce four special ranking functions: a naive one and three more
 \end{figure}
 
 
-An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the purpose of estimating the likelihood of unseen facts (see \cite{Wang2017} for overview). However, the predictions produced by such approaches are not interpretable~\cite{Shakerin2018}. 
+An alternative method for nonmonotonic rule induction from incomplete KGs is to try to construct an approximation of an ideal graph $\cG^i$ and treat it under CWA. The work \cite{thinh2018} proposes to construct such approximation by learning representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) for estimating the likelihood of unseen facts (see \cite{Wang2017} for overview of embedding-based methods for KG completion).
 
-RulES~\cite{thinh2018} established a framework to benefit from the advantages of these models while constructing nonmontonic rule sets. In particular, RulES iteratively construct rules over a KG and collect statistics from a precomputed embedding model allowing assessing the quality of (partially constructed) rule candidates. 
-
-To explain the core of RulES, let $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR_\cG,\cC_\cG)$. 
-A \emph{probabilistic KG} $\cP$ is a pair $\cP = (\cG,f)$ 
+The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models while constructing nonmontonic rule sets by iteratively constructing rules over a KG and collect statistics from a precomputed embedding model to prune out not promising rule candidates.
+% To explain the core of RulES, l
+Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR_\cG,\cC_\cG)$
+A \emph{probabilistic KG} $\cP = (\cG,f)$, 
 where $f:\cR_\cG\times \cC_\cG \times \cC_\cG\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq \theta $, where $\theta$ is a correctness threshold.
 
-The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which in that case relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
+The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
 \begin{align*}
 	\mu(r,\cP)= (1 - \lambda)\times \mu_1(r,\cG) + \lambda \times \mu_2(\cG_r,\cP).
 \end{align*}
@@ -286,11 +286,11 @@ $\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting fr
 	\mu_2(\cG_r,\cP) = (\Sigma_{a\in \cG_r\backslash \cG} f(a)) /
 				|\cG_r \backslash \cG|.
 \end{align*}
-  \gad{Not sure if we should add more here regarding $\mu_2$}
+  % \gad{Not sure if we should add more here regarding $\mu_2$}
 
 
 
-RulES takes as input a KG, possibly a text corpus, and a set of user specified parameters that are used to terminate rule construction.
+RulES takes as input a KG, possibly a text corpus, and a set of user-specified parameters that are used to terminate rule construction.
 These parameters include an embedding weight $\lambda$, 
 a minimum threshold 
 for $\mu_1$,  
@@ -298,12 +298,11 @@ a minimum rule support $\textit{r-supp}$
 and other \emph{rule-related} parameters such as a maximum number of positive %$\mi{max\_pos}$ 
 and negative 
 atoms allowed in $\mi{body(r)}$.
-The KG and text corpus are used to train the embedding model that in turn is used to construct the probabilistic function $f$.{}
-The rules $r$ are constructed in the iterative fashion, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met.
-In parallel with the construction of $r$ the quality $\mu(r)$ is computed.
+The KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$.
+The rules $r$ are computed similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. During the construction of a rule $r$, the quality $\mu(r)$ is computed, based on which a decision about the next action is made.
 
 Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
-The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for rules $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. Finally, the system produces a set of nonmontonic rules suitable for KG completion.
+The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmontonic rules suitable for KG completion.
 
 
 
