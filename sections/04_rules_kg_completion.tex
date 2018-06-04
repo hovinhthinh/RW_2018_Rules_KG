@@ -218,7 +218,7 @@ whenever at least one object for a given subject and a predicate is in a KG (e.g
 is Einstein’s child''), then all objects for that subject-predicate pair (Einstein’s children)
 are assumed to be known. PCA relies on a hypothesis that the data is usually
 added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
-all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness is questionable when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
+all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
 Formally, 
 % measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 % \[\text{If }\forall o' : p(s,o') \in \cG^i \text{ then }p(s,o') \in \cG\]
