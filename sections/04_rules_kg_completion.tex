@@ -226,31 +226,32 @@ The PCA confidence is defined as follows:
 %the PCA confidence is defined as
 
 \[
-\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(x,y): \exists \vec{z}: B \in \cG, E \not\in \cG  \wedge \exists y': h(x,y')\in \cG}
+\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(x,y): \exists \vec{z}: B \in \cG  \wedge \exists y': h(x,y')\in \cG}
 \]
 \begin{example}
 Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
 to have any children, four existing body substitutions are not counted in the
 denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
 
-For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$. \qed
+For the KG in Figure~\ref{rdf} and the earlier introduced rule $r_1$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. % Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
+\qed
 \end{example}
 
 \subsubsection{Soft confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
-\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U^r}Pr(e,h,\cG)}} \]
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{x \in U^r}Pr(x,h,\cG)}} \]
 where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
-$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
-\[\mi{Pr(e,h,\cG)  = max_{t \in T_{e}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
-where $T_{e}=\{t\,|\,t(e)\in \cG\}$, $\mi{Inst(t, \cG)=\{e'\,|\,t(e')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{e'\in Inst(t,\cG)\,|\,h(e',e'')\in\cG\}}$.
+$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(x,h,\cG)$ is the probability of the entity $x$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
+\[\mi{Pr(x,h,\cG)  = max_{t \in T_{x}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
+where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\,h(x',x'')\in\cG\}}$.
 Intuitively, soft confidence is designed to avoid the under-fitting of standard confidence and over-fitting of PCA confidence by accounting for the probability of entities having certain relations.
 %having the head predicate in the unknown part of the rule.
 \begin{example}
-Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$, $U^{r_2} = \{\mi{lucy}\}$. Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
+Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$. %, $U^{r_2} = \{\mi{lucy}\}$. 
+Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
 %there are totally 
-2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$, because $\mi{lucy}$ has no $\mi{type}$ information.
-Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$ and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
-\qed
+2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$, as $\mi{lucy}$ has no $\mi{type}$ information.
+Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$. \qed %and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
 \end{example}
 
 \subsubsection{RC confidence.} %Another rule measure, which similarly to completeness-aware measures 

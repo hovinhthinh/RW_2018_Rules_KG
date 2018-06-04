@@ -1,37 +1,39 @@
 \section{Nonmonotonic Rule Learning}\label{sec:nmrulelearn}
-So far we have considered approaches for learning Horn rules. However,  Horn rules are not sufficiently expressive for representing incomplete human knowledge, and they are inadequate for capturing
-exceptions. Thus, the rules extracted from the existing KGs can potentially %they %herefore, they 
-predict erroneous facts as illustrated in Section~\ref{sec:intro}. 
+So far we have considered approaches for constructing Horn rules. However,  these are not sufficiently expressive for representing incomplete human knowledge, and they are inadequate for capturing
+exceptions. Thus, Horn rules extracted from the existing KGs can potentially %they %herefore, they 
+predict erroneous facts as shown in Section~\ref{sec:intro}. 
 
-In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete knowledge graphs. First, we describe a method that relies on cross talk between the extracted rules to guess the right exception candidates for them. Then we describe an approach thar exploits embedding-based methods for knowledge graph completion during rule construction.
+In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete KGs. First, we describe a method that relies on cross-talk among the extracted rules to guess their exceptions~\cite{gad2016,rumis}. Then we describe an approach that exploits embedding-based methods for knowledge graph completion during rule construction~\cite{thinh2018}.
 
 \subsection{Revision-based Method}
 Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are extracted is complete.
 
 In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
-It preprocesses a KG by translating all binary facts into unary ones applying a form of propositionalization thechnique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information). In \cite{rumis} the work has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
+It preprocesses a KG by translating all binary facts into unary ones applying a form of propositionalization thechnique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information). In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
-In these works, KG completion problem from Definition~\ref{def:kgcomp} is treated 
-as a \emph{theory revision} task, where, given a KG and a set of (previously learned) Horn rules, the goal is to revise this set by adding exceptions, such that the obtained rules have higher predictive accuracy then the original ones. Since normally, the ideal graph $\cG^i$ is not available, in order to estimate the quality of a
+In these works, the KG completion problem from Definition~\ref{def:kgcomp} is treated 
+as a \emph{theory revision} task, where, given a KG and a set of (previously learned) Horn rules, the goal is to revise this set by adding exceptions, such that the obtained rules have higher predictive accuracy then the original ones. 
+
+Since normally, the ideal graph $\cG^i$ is not available, in order to estimate the quality of a
 revised ruleset, two generic quality functions $q_{\mi{rm}}$ and
-$q_{\mi{conflict}}$ are devised, that take as input a ruleset $\cR$ and a KG $\cG$ and output a
-real value, reflecting the suitability of $\cR$ for data prediction.  More
+$q_{\mi{conflict}}$ are devised, that take as input a ruleset $R$ and a KG $\cG$ and output a
+real value, reflecting the suitability of $R$ for data prediction.  More
 specifically, \begin{equation}q_{\mi{rm}} (R,\cG)=\dfrac{\sum_{r\in
-    \cR}rm(r,\cG)}{|\cR|}, \end{equation} where $\mi{rm}$ is some standard
+    \cR}rm(r,\cG)}{|R|}, \end{equation} where $\mi{rm}$ is some standard
 association rule measure \cite{Azevedo2007}. To measure $\mi{q_{conflict}}$ for
-$\cR$, an extended set of rules $\cR^{aux}$ is created, which contains each %every
-revised rule in $\cR$ %and
+$R$, an extended set of rules $R^{aux}$ is created, which contains each %every
+revised rule in $R$ %and
 together with %their
-its auxiliary version. For each rule $r$ in $\cR$,
+its auxiliary version. For each rule $r:\,h(X,Y)\leftarrow B,\naf\,E$ in $R$,
 its auxiliary version $r^{\mi{aux}}$ is constructed by: i) transforming $r$ into a Horn rule by
 removing %the negation
 $\naf$ from negated body atoms, %in the exception body atom,
 and ii) replacing the head
-predicate $\mi{a}$ of $r$ %(e.g. $a$)
-with a newly introduced predicate $\mi{not\_a}$ which intuitively contains %will contain
+predicate $\mi{h}$ of $r$ %(e.g. $a$)
+with a newly introduced predicate $\mi{not\_h}$ which intuitively contains %will contain
 %all
-instances which are \emph{not} in $\mi{a}$. 
+instances which are \emph{not} in $\mi{h}$. 
 
 \begin{example} For the rule $r_2$ from Section~\ref{sec:intro}, the auxiliary rule looks as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it intuitively states that married people among whom one is a researcher normally do not live together. \qed
 \end{example}
@@ -41,9 +43,9 @@ instances which are \emph{not} in $\mi{a}$.
 Exploiting statistics of both given rule $r$ and its auxiliary version $\mi{r^{aux}}$, the measure $\mi{q_{conflict}}$ is defined:
 
 \begin{equation}
-\mi{q_{conflict}(\cR_{\mi{NM}},\cG)=\sum_{p\in pred(\cR^{\mi{aux}})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{\cR^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{\cR^{\mi{aux}}}|}}
+\mi{q_{conflict}(R_{\mi{NM}},\cG)=\sum_{p\in pred(R^{\mi{aux}})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}}
 \end{equation}
-
+where $\mi{pred(R^{aux})}$ stores predicate appearing in $R$.
 %\noindent where $\mi{pred(\cR^{\mi{aux}})}$ is the set of predicates appearing in $\cR^{\mi{aux}}$.$q_{\mi{conflict}}=$% Given a potentially incomplete graph $\cG^a$ and a set of Horn rules $\cR_H$
 % mined from $\cG^a$, our goal is to add default negated atoms (exceptions) to the
 % rules in $\cR_{H}$ and obtain a revised ruleset $\cR_{\mi{NM}}$ such that the
@@ -76,12 +78,12 @@ Exploiting statistics of both given rule $r$ and its auxiliary version $\mi{r^{a
 %  $\cR_{\mi{NM}}$.
 
 Formally, the problem targeted in \cite{gad2016,rumis} is formulated as follows: Given a KG $\cG$,
-a set of nonground Horn rules $\cR_{\mi{H}}$ mined from $\cG$, and a quality
+a set of nonground Horn rules $R_{\mi{H}}$ mined from $\cG$, and a quality
 function $\mi{rm}$, %$q$
-find a set of rules $\cR_{\mi{NM}}$ obtained by
-adding negated atoms to $\mi{Body(r)}$ for some $r{\in} \cR_{H}$ s.t. (i)
-${q_{\mi{rm}}(\cR_{\mi{NM}},\cG)}$ is maximal, and (ii)
-${q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)}$ is minimal.
+find a set of rules $R_{\mi{NM}}$ obtained by
+adding negated atoms to $\mi{Body(r)}$ for some $r{\in} R_{H}$ s.t. (i)
+${q_{\mi{rm}}(R_{\mi{NM}},\cG)}$ is maximal, and (ii)
+${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 
 %More formally:\\ \\\noindent
 %\textbf{Problem:} quality-based Horn rule revision
@@ -104,8 +106,8 @@ Given huge size of KGs, finding the best possible revision is infeasible in prac
 \end{figure}
 \noindent \textbf{Step 1.} After mining Horn rules using an off-the-shelf algorithm (e.g.,
  \cite{amie}), %can also be applied)
- we compute for each rule the \emph{normal} and
-\emph{abnormal} instance sets, defined as
+ one computes for each rule the \emph{normal} and
+\emph{abnormal substitutions}, defined as
 
 \begin{definition}[$r$-(ab)normal substitutions]\label{sec:rulelearn}
 Let $\cG$ be a KG, $\mi{r}$ a Horn rule mined from $\cG$, and let $\cV$ be a set of variables occurring in $r$. Then
@@ -118,7 +120,7 @@ where $\theta,\theta':\cV \rightarrow \cC$.
 
 \begin{example}\label{ex:abns}
 For $\cG$ from Fig.~\ref{rdf} and $\mi{r1}$ 
-we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/Brad,Y/Ann,Z/Berlin}\}$; similarly, the most right and bottom blue triangles in Fig.~\ref{rdf} refer to $\theta_2$ and $\theta_3$ resp., while the red ones represent $\mi{ABS(r1,\cG)}$.
+we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/Brad,Y/Ann,Z/Berlin}\}$; similarly, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/lo,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
 \end{example}
  
 
@@ -127,12 +129,12 @@ we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\
 % \end{example}
 
 \noindent \textbf{Step 2.} Intuitively, if the given data was complete, then the $r$-normal
-and $r$-abnormal instance sets would exactly correspond to instances for which
+and $r$-abnormal substitutions would exactly correspond to instances for which
 the rule $r$ holds (resp. does not hold) in the real world. Since the KG is
 potentially incomplete, this is no longer the case and some r-abnormal instances
 might in fact be classified as such due to data incompleteness.  In order to
 distinguish the ``wrongly'' and ``correctly'' classified instances in the
-$r$-abnormal set, we construct \emph{exception witness sets} ($\mi{EWS}$), which
+$r$-abnormal set, one constructs \emph{exception witness sets} ($\mi{EWS}$), which
 are defined as follows:
 
 %and see whether we
@@ -155,7 +157,7 @@ we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
  $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ lived in cities different from $\mi{berlin}$ and $\mi{chicago}$ resp., then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. 
 \end{example}
 In general when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
-For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. Furthermore, combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to QHTR problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
+For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. Furthermore, combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
 
 
 
@@ -167,29 +169,28 @@ For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist.
 %     $\cA'{=}\cA\backslash\{\mi{p5}\}$ it holds that
 %     $\mi{EWS(r,\cA')}{=}\{\mi{immigrant,stateless}\}$.\qed \end{example}
 
-\noindent \textbf{Steps 3 and 4.} After $\mi{EWS}$s are computed for all rules in $\cR_H$, we use
-them to create potential revisions (Step 3), i.e., from every $\mi{e_j}\in \mi{EWS(r_i,\cG)}$ a revision $r^j_i$ of $r_i$ is constructed by adding a negated atom over $\mi{e_j}$ to the body of $r_i$. Finally, we determine a concrete
-revision for every rule, that will constitute a solution to our problem (Step 4). To find such globally best ruleset revision $\cR_{\mi{NM}}$ many candidate combinations have to be checked, which due to the large size of our $\cG$ and $\mi{EWS}$s might be too expensive. Therefore, instead %it is more reasonable to
-we incrementally build $\cR_{\mi{NM}}$ by considering every $r_i \in
-\cR_{H}$ and choosing the locally best revision $r^j_i$ %\in \cR_i$
+\noindent \textbf{Steps 3 and 4.} After $\mi{EWS}$s are computed for all rules in $R_H$, they are used
+ to create potential revisions (Step 3), i.e., from every $\mi{e_j}\in \mi{EWS(r_i,\cG)}$ a revision $r^j_i$ of $r_i$ is constructed by adding a negated atom over $\mi{e_j}$ to the body of $r_i$. Finally, a concrete revision for every rule is determined, that will constitute a solution to the above problem (Step 4). To find such globally best ruleset revision $R_{\mi{NM}}$ many candidate combinations have to be checked, which due to the large size of our $\cG$ and $\mi{EWS}$s might be too expensive. Therefore, instead %it is more reasonable to
+one incrementally builds $R_{\mi{NM}}$ by considering every $r_i \in
+R_{H}$ and choosing the locally best revision $r^j_i$ %\in R_i$
 for it.
 
 In order to select %the following locally-best
-$r^j_i$, we introduce four special ranking functions: a naive one and three more advanced functions, which exploit the novel concept of \emph{partial materialization} (\textbf{\em PM}). Intuitively, the idea behind it is to rank candidate revisions not based on $\cG$, but rather on its extension with predictions produced by other (selectively chosen) rules (grouped into a set $\cR'$), thus ensuring a cross-talk between the rules. We now describe the ranking functions in more details.
+$r^j_i$, four special ranking functions are introduced: a naive one and three more advanced functions, which exploit the concept of \emph{partial materialization} (\textbf{\em PM}). Intuitively, the idea behind it is to rank candidate revisions not based on $\cG$, but rather on its extension with predictions produced by other (selectively chosen) rules (grouped into a set $R'$), thus ensuring a cross-talk among the rules. We now describe the ranking functions in more details.
 
 \begin{itemize}
     \item {\textbf{\em Naive}} ranker is the most straightforward ranking function. It prefers the revision $\mi{r^j_i}$ with the highest value of $\mi{rm(r^j_{i},\cG)}$ among all revisions of $r_i$.
     \item {\textbf{\em PM}} ranking function prefers $\mi{r^j_i}$ with the highest value of
 \begin{equation}
 \label{pm}
-\dfrac{\mi{rm(r^j_i,\cG_{\cR'})+rm({r^j_i}^{aux},\cG_{\cR'})}}{2}
+\dfrac{\mi{rm(r^j_i,\cG_{R'})+rm({r^j_i}^{aux},\cG_{R'})}}{2}
 \end{equation}
- where $\cR'$ is the set of rules $r_k'$, which are rules from $\cR_H\backslash r_i$ with all exceptions from $\mi{EWS(r_k,\cG)}$ incorporated at once. Informally, $\cG_{\cR'}$ contains only facts that can be safely predicted by the rules from $\mi{\cR_H\backslash r_i}$, i.e., there is no evident reason (candidate exceptions) to neglect their prediction.
-%\mi{rm(r^i_j,\cG_{\cR'\backslash r^i})+rm(r^i_j^{\mi{aux}},\cG_{\cR'\backslash r^i})}{2}$, where $\cR'$ is $\cR_H$ with incorporated exceptions from $\mi{EWS(r_k,\cG)}$ for every $r_k\in \cR_H$ %TODO
-    \item {\textbf{\em OPM}} is similar to \textbf{{\em PM}}, but the selected ruleset $\cR'$ contains only those rules whose Horn version appears above the considered rule $r_i$ in the ruleset $\cR_H$, ordered (\textbf{\em O}) based on some chosen measure (e.g., the same as $\mi{rm}$). %TODO
+ where $R'$ is the set of rules $r_k'$, which are rules from $R_H\backslash r_i$ with all exceptions from $\mi{EWS(r_k,\cG)}$ incorporated at once. Informally, $\cG_{R'}$ contains only facts that can be safely predicted by the rules from $\mi{R_H\backslash r_i}$, i.e., there is no evident reason (candidate exceptions) to neglect their prediction.
+%\mi{rm(r^i_j,\cG_{R'\backslash r^i})+rm(r^i_j^{\mi{aux}},\cG_{R'\backslash r^i})}{2}$, where $R'$ is $R_H$ with incorporated exceptions from $\mi{EWS(r_k,\cG)}$ for every $r_k\in R_H$ %TODO
+    \item {\textbf{\em OPM}} is similar to \textbf{{\em PM}}, but the selected ruleset $R'$ contains only those rules whose Horn version appears above the considered rule $r_i$ in the ruleset $R_H$, ordered (\textbf{\em O}) based on some chosen measure (e.g., the same as $\mi{rm}$). %TODO
 \smallskip
 
-    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{\cR'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules, we store the highest weight. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ we keep predicted facts (i.e., derived by applying rules from $\cR'$) separately from the explicit facts (i.e., those in $\cG$), and infer new facts using only $\cG$.
+    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules, we store the highest weight. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ we keep predicted facts (i.e., derived by applying rules from $R'$) separately from the explicit facts (i.e., those in $\cG$), and infer new facts using only $\cG$.
 \end{itemize}
 
 
