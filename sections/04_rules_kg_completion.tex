@@ -240,9 +240,9 @@ For the KG in Figure~\ref{rdf} and the earlier introduced rules $r_1$ and $r_2$,
 \[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{e \in U^r}Pr(e,h,\cG)}} \]
 where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
-$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having the relation $h$ in $\cG$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
+$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(e,h,\cG)$ is the probability of the entity $e$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
 \[\mi{Pr(e,h,\cG)  = max_{t \in T_{e}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
-where $C_{e}=\{t\,|\,t(e)\in \cG\}$, $\mi{Inst(t, \cG)=\{e'\,|\,t(e')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{e'\in Inst(t,\cG)\,|\,h(e',e'')\in\cG\}}$.
+where $T_{e}=\{t\,|\,t(e)\in \cG\}$, $\mi{Inst(t, \cG)=\{e'\,|\,t(e')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{e'\in Inst(t,\cG)\,|\,h(e',e'')\in\cG\}}$.
 Intuitively, soft confidence is designed to avoid the underfitting of standard confidence and overfitting of PCA confidence by accounting for the probability of entities having certain relations.
 %having the head predicate in the unknown part of the rule.
 \begin{example}
@@ -253,11 +253,9 @@ Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = 
 \qed
 \end{example}
 \subsubsection{Completeness-aware Rule Measures.}  
-In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it is even available on the Web
-in the form of cardinality statements, e. g., Brad has three children or Mary is a citizen of two countries. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing
-one.
+In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
 
-Thus, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
+Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
 
 This (in)completeness meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{s}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{s}$ as the first argument: 
 \begin{equation}\label{eq:num}
@@ -338,18 +336,23 @@ the directional metric, using a certain dedicated weighting factor $\beta \in [0
 We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',\cG')} \approx 0.48$. \qed
 \end{example}
 
-\subsubsection{RC Confidence.} Another rule measures, which attempts to include information about the tuples not in the KG when evaluating the quality of a potential rule has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
+\subsubsection{RC confidence} Another rule measure, which similarly to completeness-aware measures attempts to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
-The insight of \cite{DBLP:conf/www/ZupancD18} is that for computing rule's confidence one does not neccessarily have to know which among rule predictions are true; just estimating ther number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage (RC) confidence}
+The insight of \cite{DBLP:conf/www/ZupancD18} is that for computing rule's confidence one does not neccessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;H\leftarrow B, \naf\ E$ with $H=h(X,Y)$ as follows
 
+\[\frac{\textit{r-supp}(r,\cG)}{\#(x,y):h(x,y) \in  \cG} = \frac{|UP(r,\cG)|}{\#(x,y):h(x,y) \in \cG^i\backslash \cG}\]
+where $UP(r,\cG)=\cG_r \cap \cG^i$ (assumed to be 0 in the case of standard confidence).
+Intuitively, this equation would hold if the instantiations of $r$ that appear in $\cG$ were selected completely at random \cite{DBLP:conf/kdd/ElkanN08} from the set of all true facts for $r$.
+
+
+To approximately determine the size of $UP(r,\cG)$ the authors rely on the proportion $\beta$ of all the unlabeled examples
+that are true in $\cG^i$, i.e., $UP(r,\cG)=\beta*\#(x,y):h(x,y)\not \in \cG$, and propose several ways for computing $\beta$ both empirically via sampling and theoretically based on properties of $\cG$.
+
+Finally, provided that there is a way to estimate $|UP(r,\cG)|$, we have the following formula for the \emph{rc-confidence}:
 \[
 conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
 \]
-where $UP(r,\cG)$ is the set of correctly predicted facts by $r$ outside $\cG$ (equal to 0 in the case of standard confidence).
-Since computing the real value of $UP(r,\cG)$ is impossible, \textit{RC confidence} approximates it by making 
-\[rc(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\#(X,Y):H \in \cG} = \frac{|UP(r,\cG)|}{|UP(H, \cG)|}\]
-where $UP(H, \cG)$ is the set of unknown positive facts of $\cG$ having the head predicate. The estimated size of $UP(r,\cG)$ can be derived if $rc(r,\cG)$ and $UP(H, \cG)$ are known. Here, computing $rc$ is straightforward based on $\cG$. Meanwhile, $UP(H, \cG)$ is approximated by making use of partial completeness assumption and relations' (inverse) functionality. For more details, see \cite{DBLP:conf/www/ZupancD18}.
 %Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
 
 %\end{itemize}
