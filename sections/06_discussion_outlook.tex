@@ -34,14 +34,16 @@ Learning temporal rules or constraints such as \emph{``A person cannot graduate 
 The majority of existing rule learning approaches over knowledge graphs model KGs as sets of true triples thus totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are normally automatically constructed from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which when applied could propagate faulty facts. 
 
 Learning rules from KGs treated as uncertain data sources has  been considered in \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}; however, these works neglect negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 
-Extending the techniques to more advanced rule forms is a promising future direction. %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
+Extending the techniques to more advanced rule forms is a promising future direction.
+
+Another recent ILP approach that accounts for noise has been proposed in \cite{sigmailp}; but it relies on CWA and neglects weights on the facts. %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
 % However, exploiting these techniques in our setting requires a full materialization of the probability function,
 % which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches for real-life KGs has only been studied in~\cite{DeRaedt:2015}, leaving a wide room for improvements.
 
 
 \leanparagraph{Rule learning with external sources} 
 Another interesting research stream is to consider pieces of evidence from hybrid external sources while inducing rules from KGs
-(see Figure~\ref{fig:discussion_overview}). Similar to \cite{DBLP:conf/rweb/EiterKRSW17}, where external functions are utilized during deductive reasoning, various heterogeneous information sources can be used to guide rule induction. These range from a human expert giving feedback about the correctness of a given rule (similar as done in \cite{Dzyuba2017} for pattern mining), to dedicated fact-checking engines (e.g., Defacto~\cite{defacto}, FactChecker~\cite{factchecker}) that given a fact (e.g., $\mi{bornIn(einstein,ulm)}$) rely on Web documents to estimate its truthfulness. 
+(see Figure~\ref{fig:discussion_overview}). Similar to \cite{DBLP:conf/rweb/EiterKRSW17}, where external functions are utilized during deductive reasoning, various heterogeneous information sources can be used to guide rule induction. These range from a human expert giving feedback about the correctness of a given rule (similar as done in \cite{Dzyuba2017} for pattern mining), to dedicated fact-checking engines (e.g., Defacto~\cite{defacto}, FactChecker~\cite{factchecker}) that given a fact such as $\mi{bornIn(einstein,ulm)}$ rely on Web documents to estimate its truthfulness. 
 %This amounts to utilizing such automated fact-checking systems as  in the rule induction process. 
 
 %An alternative relational learning method for KG completion is to learn representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) with the % propose
@@ -52,19 +54,33 @@ Another interesting research stream is to consider pieces of evidence from hybri
 
 
 %\leanparagraph{Hybrid rule learning techniques}
- \leanparagraph{Extracting rules from text and KG} Extracting logic rules from text by exploiting natural language processing (NLP) techniques and textual entailment has been studied in several works such as~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016}. However, they only depend on the noisy information existing in the text. One way to overcome the noise while extracting rules from the text is to exploit KG facts while processing the text (\ie in form of semantic mark-up) as proposed in~\cite{Aitken2002}. More advanced techniques to combine 
+ \leanparagraph{Extracting rules jointly from KGs and text} While modern KGs are rich in facts and typically rather clean, they contain a limited set of encyclopedic relations. On the other hand, textual resources certainly cover a richer set of predicates (e.g., $\mi{gotAquintedWith}$, $\mi{celebratedWedding}$), but suffer from  noise. % Extracting logic rules from text using natural language processing (NLP) techniques and textual entailment has been studied in several works~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016}.  
+%these methods only depend on the noisy information that exists in the text. 
+A natural way to address the %One way to address this, is by  %overcome the noise while extracting rules is to ustilize 
+above issues is to combine 
+%utilizing KG facts %while processing the text 
+%jointly with textual sources (\ie in the form of a semantic mark-up) % as proposed in
+%. Development of methods that combine 
  %Combining these %linguistics-based 
-text-based methods with inductive rule learning from KGs %has a great potential % Indeed,
-can have more potential  
- overcoming the restrictions imposed due to the limited number of predicates in most encyclopedic KGs. Hence, obtaining more interesting and accurate rules. For example, the rules learned from the KG only about the marriage relationship between two persons usually rely on the existence of $hasChild$ or $livesIn$ relation, to a common child or place respectively, in the KG.
+text-based rule extraction based on Natural Language Processing (NLP) and textual entailment techniques~\cite{Schoenmackers:2010,Gordon:2011,dragoni2016} with inductive rule learning from KGs. This interesting research direction comes with many challenging due to the heterogenuity of the input sources.
+  %has a great potential % Indeed,
+%has a great potential. %for overcoming the limited KG scope.
+%the restrictions imposed due to the limited number of predicates in most encyclopedic KGs. Hence, obtaining more interesting and accurate rules. 
+% For example, rules learned from a KG only about the marriage relationship between two persons usually rely on the existence of $hasChild$ or $livesIn$ relation, to a common child or place respectively, in the KG.
 
- \[ \mi{isMarriedTo(X,Y)} \leftarrow \mi{hasChild(X,Z),hasChild(X,Z)}\]
- \[\mi{isMarriedTo(X,Y)} \leftarrow \mi{livesIn(X,Z),livesIn(X,Z)}\]
-while these rules are statistically correct, yet they are not always accurate when used to predict new facts. Observing more information in text such as ``they celebrated their wedding in ...'' can increase the precision of the prediction.  This textual evidence can be induced in the rules using higher-arity predicates such as  
-\begin{align*}
- \mi{isMarriedTo(X,Y)} \leftarrow &\mi{hasChild(X,Z),hasChild(X,Z)},\\ &\mi{textEvidence(isMarriedTo,X,Y)}
-\end{align*}
-These textual evidences can be either a bag of words or a context correlated with the target predicate. Such direction has a good potential enhancing the quality of rules learned for predicting new facts.
+%  \[ \mi{isMarriedTo(X,Y)} \leftarrow \mi{hasChild(X,Z),hasChild(X,Z)}\]
+%  \[\mi{isMarriedTo(X,Y)} \leftarrow \mi{livesIn(X,Z),livesIn(X,Z)}\]
+% while these rules are statistically correct, they are not always accurate when used to predict new facts. Observing more information in text such as ``they celebrated their wedding in ...'' can increase the precision of the predictions. This textual evidence can be %induced in 
+% injected into the rules using higher-arity predicates such as  
+% \begin{align*}
+%  \mi{isMarriedTo(X,Y)} \leftarrow &\mi{hasChild(X,Z),hasChild(X,Z)},\\ &\mi{textEvidence(isMarriedTo,X,Y)}
+% \end{align*}
+% The textual evidences can be of various forms including %be either 
+% ``a bag of words'' or a context correlated with the target predicates.
+% Such 
+%The discussed research direction is promising %has a good potential 
+%for enhancing the predictive  quality of learned rules. 
+%for predicting new facts.
  %\gad{I am thinking of some example} 
 
  % is rather limited, since they are primarily extracted from Wikipedia; this prohibits the extraction of many interesting rule patterns such as ``\ds{TODO: insert. The previous rule about injured people has a negative flavor for being in the end of the article and it needs more motivation}''. %, like % where such non-standard facts as ``Einstein worked with Feynmen'' are rarely added. The number of predicates is limited in most of the KGs. Therefore, sometimes it is hard to learn interesting patterns from the KG only. In contrast, textual resources are rich with verbal phrases that indicate events or relations. However, learning the simplest rules from unstructured resources is challenging. Therefore, it worth investigating constructing hybrid rules that combine both resources.  For example, to learn a rule such as
