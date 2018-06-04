@@ -6,10 +6,11 @@ predict erroneous facts as illustrated in Section~\ref{sec:intro}.
 In this section, we provide an overview of approaches for nonmonotonic rule learning extraction from incomplete data. 
 
 \subsection{Revision-based Method}
-In \cite{DBLP:conf/semweb/Gad-ElrabSUW16,ilp2016} a revision-based approac for extracting exception-enriched (i.e., nonmonotonic)  rules from KGs has been proposed, which accounts for the KG incompleteness and their large size. 
+In \cite{gad2016,rumis} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic)  rules from KGs has been proposed, which accounts for the KG incompleteness and their large size. 
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
+
 More specifically, in these works the KG completion problem from Definition~\ref{def:kgcomp} is treated 
-as a \emph{theory revision} task, where, given a KG and a set of (previously learned) Horn rules, the goal is to revise this set to obtain a set of nonmonotonic rules, such that the revised ruleset is more accurate for link prediction than the original one. Essentially, one is interested in tackling a theory revision problem, in which, as possible revision operations, one is allowed to add only negated atoms to the antecedents of the rules. 
+as a \emph{theory revision} task, where, given a KG and a set of (previously learned) Horn rules, the goal is to revise this set to obtain a set of nonmonotonic rules with higher predictive accuracy then the original rule set. Essentially, one is interested in tackling a theory revision problem, where as possible revision operations, only addition of negated atoms to the antecedents of the rules is allowed. 
 
 This approach combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil}, which is used to detect exceptions. More specifically, the proposed method proceeds in four steps as follows (see Figure~\ref{fig:iswc_process}).
 
@@ -33,14 +34,25 @@ This approach combines standard relational association rule mining techniques wi
 \end{figure}
 
 %Figure shows an overview of the rule revision steps. % 
-The first step concerns the extraction of Horn rules from the KG relying on any existing Horn rule extraction method, such as \cite{amie}.
- In the second step, for every Horn rule the \textit{normal} and \textit{abnormal} substitutions are determined, i.e., substitutions that satisfy (resp. do not satisfy) the considered rule. Thi, the so-called \emph{exception witness sets} are computed, i.e., sets of predicates that are potentially involved in explaining why abnormal substitutions fail to follow the rule. Formally, the normal and abnormal sets are respectively defined as follows:
+In the first step a set of Horn rules is extracted from a KG relying on any existing Horn rule extraction method, such as \cite{amie}.
+In the second step, for every Horn rule the \textit{normal} and \textit{abnormal} substitutions are determined, i.e., substitutions that satisfy (resp. do not satisfy) the considered rule.
+\begin{definition}[(Ab)normal substitutions]
 \begin{itemize}
 \item $NS(r, \cG) = \{\theta \mid head(r)\theta, body(r)\theta \subseteq \cG\}$
 \item $ABS(r, \cG) = \{\theta \mid body(r)\theta \subseteq \cG , head(r)\theta \notin \cG\}$\\
 where $\theta: \mathcal{V} \rightarrow \cC$.
 \end{itemize}
 where $\mathcal{V}$ is the set of variables appearing in $r$. 
+\end{definition}
+
+Relying on the above notions, the so-called \emph{exception witness sets} are computed, i.e., sets of predicates that are potentially involved in explaining why abnormal substitutions fail to follow the rule. Formally, these are defined as follows:
+
+\begin{definition}[Exception Witness Set]The Exception Witness Set (EWS) of $r$ with respect to the KG and a variavle $X\in V$ is the maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ such that:
+\begin{itemize}
+\item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
+\item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
+\end{itemize}
+\end{definition}
 
 Third, candidate rule revisions are constructed by adding to a rule body a single exception at a time. The quality measures for nonmonotonic rules are devised to quantify their strength w.r.t the KG. Importanly, the crosstalk between the rules through is considered via the novel \emph{partial materialization} technique instead of revising rules in isolation. Fourth, the rule revisions are ranked according to these measures to determine a ruleset that not only describes the data well but also shows a good predictive power by taking exceptions into account. 
 
@@ -53,14 +65,9 @@ Consider the KG $\cG$ and $r_1$ from Figure~\ref{rdf} as before, the normal set 
 
 
 
-In the third step the exception witness sets (EWSs) are constructed. The Exception Witness Set (EWS) of $r$ with respect to the KG and a variavle $X\in V$ is the maximal set of predicates $EWS(r,\cG,\mathcal{X}) = \{p_1,...,p_k\}$ such that:
-\begin{itemize}
-\item $\forall i \in \{1,..,k\} : \exists \theta \in ABS(r, \cG)\ s.t.\ p_i(\mathcal{X}\theta) \in \cG$, and 
-\item $\forall \theta \in NS(r,\cG) :  p_1(\mathcal{X}\theta), ...,p_k(\mathcal{X}\theta) \notin \cG$
-\end{itemize}
-
+In the third step the exception witness sets (EWSs) are constructed. 
 \begin{example}
-Recalling $\cG$ and $r_1$, the exceptions witness sets for both variable $X$ and $Y$ are $EWS(r_1,\cG,\{X\}) = \{artist\}$ and $EWS(r_1,\cG,\{Y\}) = \{researcher\}$, respectively.
+Recalling $\cG$ and $r_1$, the exceptions witness sets for variables $X$ and $Y$ are $EWS(r_1,\cG,\{X\}) = \{artist\}$ and $EWS(r_1,\cG,\{Y\}) = \{researcher\}$, respectively.
 \qed
 \end{example}
 For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ containing all of its exception candidates. 
@@ -68,10 +75,11 @@ For each rule $r \in \cR_H$, the EWSs are collected in one set $EWS(r,\cG)$ cont
 
 After the exception witness sets are computed for every rule, the search for the best possible revision is performed relying on the following exception scoring functions:
 \begin{itemize}
-\item \textbf{Naive}: It is the direct way of choosing the revision using only some standard measure such as confidence or conviction.
-\item \textbf{PM}: Intuitively, the idea behind the \textit{partial materialization} is to rank candidate revisions based on its extension with predictions produced by other rules in $R_H$ (\ie partially materialized); hence, ensuring a cross-talk between the rules.
-\item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materialize the rules of $\cR_{H}$ with higher quality than the current rule.
-\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and the partial materialization facts by assigning a weight for the materialized facts inherited from the rules used to generate them. Materializing facts with weights from the rules and exiting KG is the concern of probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015}. %or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
+\item \textbf{Naive}: Choose the rule revision, with the best standard measure such as confidence or conviction.
+\item \textbf{PM}: Prior to selecting the best revision, apply all other rules that appear in a set with all of their exceptions incorporated. 
+\item \textbf{OPM}: The \textit{ordered partial materialization} is similar to \textbf{PM}, but only materializes the rules from $\cR_{H}$ that are of a higher quality then the given one.
+\item \textbf{OWPM}: The \textit{ordered weighted partial materialization} distinguishes between the original facts in the KG and those predicted by rules by assigning a weight to them, which is inherited from the rules used to generate them. For reasoning over weightet facts exiting % is the concern of 
+probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} could be used. %or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
 \end{itemize}
 
 
