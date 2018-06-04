@@ -253,7 +253,7 @@ Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = 
 \qed
 \end{example}
 
-\subsubsection{RC confidence} %Another rule measure, which similarly to completeness-aware measures 
+\subsubsection{RC confidence.} %Another rule measure, which similarly to completeness-aware measures 
 The authors of \cite{DBLP:conf/www/ZupancD18} have recently proposed the \emph{RC confidence} as an attempt to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule. %has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
@@ -266,55 +266,54 @@ Intuitively, this equation would hold if the instantiations of $r$ that appear i
 
 
 To approximately determine the size of $UP(r,\cG)$ the authors rely on the proportion $\beta$ of all the unlabeled examples
-that are true in $\cG^i$, i.e., $UP(r,\cG)=\beta*\#(x,y):h(x,y)\not \in \cG$, and propose several ways for computing $\beta$ both empirically via sampling and theoretically based on properties of $\cG$.
+that are true in $\cG^i$, i.e., $UP(r,\cG)=\beta*\#(x,y):h(x,y)\not \in \cG$, and propose several ways for calculating $\beta$ both empirically via sampling and theoretically based on properties of $\cG$.
 
-Finally, provided that there is a way to estimate $|UP(r,\cG)|$, we have the following formula for the \emph{rc-confidence}:
+Finally, provided that there is a way to estimate $|UP(r,\cG)|$, the following formula is used for computing the \emph{RC-confidence}:
 \[
 conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
 \]
 %Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
 
 
-\subsubsection{Completeness-aware Rule Measures}  
+%\subsubsection{Completeness-aware Rule Measures.}  
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
 
 Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
 
-This (in)completeness meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{s}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{s}$ as the first argument: 
+In particular, such meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
 \begin{equation}\label{eq:num}
-\mi{num}(p,s) := \# o : p(s,o) \in \cG^i 
+\mi{num}(p,x) := \# y : p(x,y) \in \cG^i 
 \end{equation}
 These cardinality statements can be obtained using web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
-It is possible to rewrite cardinalities on the number of subjects for given predicate and objects with such statements provided that inverse relations can be expressed in a KG.
-
-Naturally, the number of missing facts for a given $p$ and $s$ can be obtained as
-\[\mi{miss}(p,s,\cG) = \mi{num(p,s,\cG^i)} - \#o : p(s,o) \in \cG\]
+It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
+Naturally, the number of missing facts for a given $p$ and $x$ can be obtained as
+\[\mi{miss}(p,x,\cG) = \mi{num(p,x)} - \#y : p(x,y) \in \cG\]
 Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
-predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, complete ($\mi{npc(r)}$) KG parts:
+predictions made by $\mi{r}$ in incomplete ($\mi{npi}$) and, respectively, complete ($\mi{npc}$) KG parts:
 \begin{align*}
-\mi{npi}(r, \cG) = \sum_X min(\#Y: h(X,Y)\in \cG_r\backslash \cG, \mi{miss}(h,X,\cG))
+\mi{npi}(r, \cG) = \sum_x min(\#y: h(x,y)\in \cG_r\backslash \cG, \mi{miss}(h,x,\cG))
 \end{align*}
 \vspace{-\topsep}
 \vspace{-\topsep}
 \begin{align*}
-\mi{npc}(r, \cG) = \sum_X max(\#Y: h(X,Y)\in\cG_r\backslash \cG - \mi{miss}(h,X,\cG), 0)
+\mi{npc}(r, \cG) = \sum_x max(\#y: h(x,y)\in\cG_r\backslash \cG - \mi{miss}(h,x,\cG), 0)
 \end{align*}
-Using these indicators, a class of completeness-aware rule measures have been defined, which we briefly present next.
+Using these indicators, a class of \textbf{completeness-aware rule measures} have been defined in \cite{carl}, which we briefly present next.
 %\begin{itemize}
 % \input{figures/kg2}
 %\item 
 
-\noindent -\textbf{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
+\subsubsection{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
 \begin{example}
 Consider $\cG'$ in Figure \ref{fig:fam_grad}
 and cardinality statements for it:\\
-$\mi{num(hC,john,\cG'^i)}\!=\!\mi{num(hC,mary,\cG'^i)}\!=3$; $\mi{num(hC,alice,\cG'^i)}\!=\!1$; \\
-$\mi{num(hC,carol,\cG'^i)}\!=\!\mi{num(hC,dave,\cG'^i)}\!=\!0$;\\
-$\mi{num(hS,alice,\cG'^i)}\!=\!\mi{num(hS,carol,\cG'^i)}\!=\!\mi{num(hS,dave,\cG'^i)}\!=\!2$;\\ 
-$\mi{num(hS,bob,\cG'^i)}\!=\!3$;\\
+$\mi{num(hC,john)}\!=\!\mi{num(hC,mary)}\!=3$; $\mi{num(hC,alice)}\!=\!1$; \\
+$\mi{num(hC,carol)}\!=\!\mi{num(hC,dave)}\!=\!0$;\\
+$\mi{num(hS,alice)}\!=\!\mi{num(hS,carol)}\!=\!\mi{num(hS,dave)}\!=\!2$;\\ 
+$\mi{num(hS,bob)}\!=\!3$;\\
 where $hC$, $hS$ stand for $hasChild$ and $hasSibling$, respectively. We have:\\
 $\mi{miss(hC,mary,\cG')}\!=\!\mi{miss(hC,john,\cG')}\!=\!\mi{miss(hC,alice,\cG')}\!=\!1$;\\ 
 $\mi{miss(hC,carol,\cG')}\!=\!\mi{miss(hC,dave,\cG')}\!=\!0$;\\
@@ -332,7 +331,7 @@ For the rules $r_1'$ and $r_2'$ from Example~\ref{ex:rulesforgprime} we have
 \end{example}
 %\item
 
-\noindent -\textbf{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure the rule quality based on its predictions in complete and incomplete KG parts:
+\subsubsection{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure the rule quality based on its predictions in complete and incomplete KG parts:
 \begin{align*}
 \mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
 \mi{recall_{comp}}(r,\cG)=\frac{\mi{npi}(r,\cG)}{\sum_s \mathit{miss}(h,s,\cG)}
@@ -345,7 +344,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 \end{example}
 %\item 
 
-\noindent -\textbf{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
+\subsubsection{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
 \begin{align*}
 \mi{dm}(r,\cG) = \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
 \end{align*}
