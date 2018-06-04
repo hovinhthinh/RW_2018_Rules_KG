@@ -101,8 +101,8 @@ conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
 \end{align*}
 where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
 \begin{align*}
-\textit{r-supp}(r,\cG) &= \#(X,Y): H \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG\\
-\textit{b-supp}(r,\cG) &= \#(X,Y):\exists \vec{Z}\; B\in \cG, E \not \in \cG
+\textit{r-supp}(r,\cG) &= \#(x,y): h(x,y) \in \cG, \exists \vec{Z}\;B\in \cG,E \not \in \cG\\
+\textit{b-supp}(r,\cG) &= \#(x,y):\exists \vec{z}\; B\in \cG, E \not \in \cG
 \end{align*}
 \begin{example}
 Consider the rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
@@ -115,7 +115,7 @@ Another popular metrics, which is shown to guarantee the high predictive power \
 \end{align*}
 where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
 \begin{align*}
-\textit{rel-supp}(H, \cG) = \dfrac{\#(X,Y):h(X,Y)\in \cG}{(\#X:\exists Y:h(X,Y)\in \cG)\times(\#Y:\exists X:h(X,Y)\in \cG)}
+\textit{rel-supp}(H, \cG) = \dfrac{\#(x,y):h(x,y)\in \cG}{(\#x:\exists y:h(x,y)\in \cG)\times(\#y:\exists x:h(x,y)\in \cG)}
 \end{align*}
 \begin{example}
 For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
