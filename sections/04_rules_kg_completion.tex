@@ -335,22 +335,23 @@ the directional metric, using a certain dedicated weighting factor $\beta \in [0
 We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($rm = conf$), for $\beta=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',\cG')} \approx 0.48$. \qed
 \end{example}
 
-\subsubsection{RC Confidence} Another rule measure, which similarly to completeness-aware measures attempts to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
+\subsubsection{RC confidence} Another rule measure, which similarly to completeness-aware measures attempts to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
-The insight of \cite{DBLP:conf/www/ZupancD18} is that for computing rule's confidence one does not neccessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;H\leftarrow B, \naf\ e$ with $H=h(X,Y)$ as follows
+The insight of \cite{DBLP:conf/www/ZupancD18} is that for computing rule's confidence one does not neccessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;H\leftarrow B, \naf\ E$ with $H=h(X,Y)$ as follows
 
-\[\frac{\textit{r-supp}(r,\cG)}{\#(x,y):h(x,y) \in  \cG} = \frac{|UP(h,\cG)|}{\#(x,y):h(x,y) \in \cG^i\backslash \cG}\]
+\[\frac{\textit{r-supp}(r,\cG)}{\#(x,y):h(x,y) \in  \cG} = \frac{|UP(r,\cG)|}{\#(x,y):h(x,y) \in \cG^i\backslash \cG}\]
 where $UP(r,\cG)=\cG_r \cap \cG^i$ (assumed to be 0 in the case of standard confidence).
 Intuitively, this equation would hold if the instantiations of $r$ that appear in $\cG$ were selected completely at random \cite{DBLP:conf/kdd/ElkanN08} from the set of all true facts for $r$.
-Now provided that there is a way to estimate $|UP(r,\cG)|$, we have the following formula for the \emph{rc-confidence}:
 
+
+To approximately determine the size of $UP(r,\cG)$ the authors rely on the proportion $\beta$ of all the unlabeled examples
+that are true in $\cG^i$, i.e., $UP(r,\cG)=\beta*\#(x,y):h(x,y)\not \in \cG$, and propose several ways for computing $\beta$ both empirically via sampling and theoretically based on properties of $\cG$.
+
+Finally, provided that there is a way to estimate $|UP(r,\cG)|$, we have the following formula for the \emph{rc-confidence}:
 \[
 conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
 \]
-
-To approximately determine the size of $UP(r,\cG)$ in \cite{DBLP:conf/www/ZupancD18} the authors rely on the proportion $\beta$ of all the unlabeled examples
-that are true in $\cG^i$, i.e., $\beta=\dfrac{|UP(r,\cG)}{|U()|}$, and propose several ways of determining based only on $\cG$.
 %Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
 
 %\end{itemize}
