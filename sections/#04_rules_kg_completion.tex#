@@ -1,0 +1,826 @@
+\section{ Rule Learning for Knowledge Graph Completion}
+\label{sec:rules_kg_completion}
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under the closed world assumption and aim at exacting rule hypothesis that perfectly satisfies the criteria from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+On the other hand, as discussed in Section~\ref{sec:kgs}, knowledge graphs adopt the open world assumption, i.e., they might miss some true facts, such as living places of scientists. Moreover, the real world is very complicated, and its exact representation often cannot be acquired from the data, meaning that the task of inducing a perfect rule set from a KG is typically unfeasible. Therefore, in the context of KGs, one normally aims at extracting certain regularities from the data, which are not universally correct, but when seen as rules predict a sufficient portion of true facts. 
+
+In other words, the goal of automatic rule-based KG completion is to learn a set $P$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in a good approximation of the ideal graph $\cG^i$. More formally,
+%a good approximation of the unknown ideal graph $\cG^i$, containing all possible facts that hold in the world. Here, the application of $P$ on a graph $\cG$ refers to the computation of answer sets of $P\cup \cG$.
+
+% Rule-based reasoning is also used for KGs refinement to address the problems of their inaccuracy and incompleteness~\cite{DBLP:journals/semweb/Paulheim17}, which is our focus. 
+
+%Formally, the task of rule-based KG completion is defined as follows:
+
+ \begin{definition}[Rule-based KG completion]\label{def:kgcomp} Let $\cG$ be a KG  over the signature $\Sigma_{\cG}=\tuple{\cR,\cC}$. Let, moreover, $P$ be a set of rules with predicates from $\cR$. 
+ Then \emph{rule-based completion of $\cG$ \wrt\ $P$} is a graph $\cG_{P}$ constructed from any answer set $\cG_{P}\in AS(P \cup \cG)$. 
+ \end{definition}
+ 
+%We now illustrate the introduced notion by the following example.
+ \begin{example}
+ Given the KG in Figure~\ref{rdf} as $\cG$ and the rule set $P=\{r_2\}$, where $r_2$ is from Section~\ref{sec:intro} 
+ we have $\cG_{P}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
+ \end{example}
+
+The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations in Definition~\ref{def:learnint}. However, in the latter, the CWA is typically adopted, which makes it not suitable for incomplete KGs. Reusing the methods that induce logical theories from a set of positive and negative examples and background knowledge is likewise not possible due to the following important obstacles. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
+
+First, the target predicates (e.g. $\mi{fatherOf}$ from Example~\ref{ex:ilp}) can
+not be easily identified, since we do not know which parts of the considered KG need to
+ be completed. A standard way of addressing this issue would be just to learn rules for all
+ the different predicate names occurring in the KG. Unfortunately, this is unfeasible
+ given the huge size of KGs. Second, the negative examples are not available,
+ and they cannot be easily obtained from, e.g., domain experts due to - once again
+ - the huge size of KGs. % A natural solution to cope with this issue is to learn rules
+% from positive examples only \cite{DBLP:conf/ilp/Muggleton96}. 
+
+To overcome the above obstacles, it %turns out to be 
+is more appropriate to treat the KG completion problem as an unsupervised relational learning task \cite{amie}.
+% In fact, association rules in their original propositional form have been earlier applied to deduce missing types for entities in \cite{typeinduction} and to infer the KG schema in \cite{statisticalschema}. These works directly employ the famous Apriori algorithm for mining frequent itemsets from transaction databases.
+In this section, we describe approaches that rely on \emph{relational association rule learning} techniques for extraction of \emph{Horn rules} from incomplete KGs. 
+These concern the discovery of frequent patterns from a data set and their subsequent transformation into rules
+(see, e.g., \cite{DBLP:conf/ilp/DehaspeR97} as the seminal work in this direction). % In the following we adapt basic notions in relational association rule mining to our case of interest.
+
+First, we describe the relational association rules, and how they are traditionally evaluated under CWA. Then, we present the standard relational rule learning techniques, which usually proceed in two 
+steps: rule construction and rule evaluation. % While the main concern of the rule construction phase is how to mine frequent patterns from the KG, 
+% %and transform them into the form of rules, 
+% rule evaluation phase deals with measuring rule quality %from 
+% using some scoring function computed based on the rule statistics over the given KG. These statistics are used not only for ranking the final rules, but also for pruning out inappropriate rule candidates.
+% Below, we summarize some general techniques that have been introduced to tackle the mentioned rule learning steps.
+
+
+% \gad{I think adding examples for each system would not be informative and we may diverge from the relevant challenges }
+% \gad{If we have time we can add the example of XHAIL steps from~\cite{XHAIL_extended}}
+
+
+\subsection{Relational Association Rules}
+\label{subsec:assoc_rule}
+An association rule is a rule where certain properties of the data in the body of
+the rule are related to other properties in its head. For an example of an association rule, consider a
+database containing transactional data from a store selling computer equipment.
+From this data one can extract the association rule stating that 70\% of the customers
+buying a laptop also buy a docking station. The knowledge that such rule reflects 
+can assist in planning store layout or deciding which customers are likely to respond to an
+offer.
+
+Traditionally, the discovery of association rules  has been performed on data stored in a single table.
+Recently, however, many methods for mining relational, i.e., graph-based data have been
+proposed \cite{DBLP:books/daglib/0021868}.
+
+The notion of multi-relational association rules is heavily based on frequent conjunctive queries and query subsumption \cite{warmer}. 
+
+\begin{definition}[Conjunctive Query]
+A \emph{conjunctive query} $Q$ over $\cG$ is of the form $p_1(\mathbf{X_1}),\dotsc,p_m(\mathbf{X_m})$, where $X_i$ are symbolic variables or constants and $p_i \in \cR$ are unary or binary predicates. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG) = \{ (\nu(\mathbf{X_1}), \dotsc, \nu(\mathbf{X_m}) \mid \forall i: p_i(\nu(X_i), \nu(Y_i)) \in \cG \}$ where $\nu$ is a function that maps variables and constants to elements of $\mathcal{C}$.
+%The \emph{support} of $Q$ in $\cG$ is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}.
+% A \emph{conjunctive query} $Q$ over a knowledge graph $\cG$ is of the form $Q(\vec{X})\text{ :- }p_1(\vec{X1}),\dotsc,p_m(\vec{X_m})$. Its  right-hand side (i.e., body) is a finite set of possibly negated atomic formulas over $\cG$, while the left-hand side (i.e., head) is a tuple of variables occurring in the body. The \emph{answer} of $Q$ on $\cG$ is the set $Q(\cG)=\{f(\vec{Y})\,|\,\vec{Y}\,\text{  is the head of } Q \text{ and } f \text{ is a matching of } Q \text{ on } \cG\}$.
+\end{definition}
+
+The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the number of distinct tuples in the answer of $Q$ on $\cG$ \cite{DBLP:conf/ilp/DehaspeR97}. 
+
+\begin{example}
+The support of the query
+\begin{equation}\mi{Q(X,Y,Z)\text{ :- }marriedTo(X,Y),\, }\mi{livesIn(X,Z)}
+\end{equation}
+over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$. \qed
+\end{example} 
+
+\begin{definition}[Association Rule]
+An \emph{association rule} is of the form $Q_1\Rightarrow Q_2$, such that $Q_1$ and $Q_2$ are both conjunctive queries, and the body of $Q_1$ considered as a set of atoms is included in the body of $Q_2$,  i.e., $Q_1(\cG')\subseteq Q_2(\cG')$ for any possible KG $\cG'$. 
+\end{definition}
+
+\begin{example}
+For instance, from the above $Q(X,Y,Z)$ and
+\begin{equation}Q'(X,Y,Z)\text{ :- }\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
+\end{equation} we can construct the association rule $Q \Rightarrow Q'$. \qed
+ \end{example}
+
+Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1 \Rightarrow Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets of atoms. For example, $Q \Rightarrow Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
+
+A large number of various measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. 
+
+For $r:\;\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$ and a KG $\cG$, the \emph{standard confidence} (or \textit{confidence}) is given as:\vspace{-.26cm}
+\begin{align*}
+conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
+\end{align*}
+where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
+\begin{align*}
+\textit{r-supp}(r,\cG) &= \#(x,y): h(x,y) \in \cG, \exists \vec{z}\;B\in \cG,E \not \in \cG\\
+\textit{b-supp}(r,\cG) &= \#(x,y):\exists \vec{z}\; B\in \cG, E \not \in \cG
+\end{align*}
+\begin{example}
+Consider the rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
+Hence, $\mi{conf(r_1,\cG) = \frac{3}{6}}$ and $\mi{conf(r_2,\cG) = \frac{3}{4}}$.\qed
+\end{example}
+
+Another popular metrics, which is shown to guarantee the high predictive power \cite{Azevedo2007} by measuring the intensity of rule's implication \cite{metrics-summary} is \emph{conviction}, defined as:
+\begin{align*}
+\textit{conv}(r,\cG) & = \frac{1 - \textit{rel-supp}(H, \cG)}{1-\textit{conf}(r,\cG)}
+\end{align*}
+where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured by:
+\begin{align*}
+\textit{rel-supp}(H, \cG) = \dfrac{\#(x,y):h(x,y)\in \cG}{(\#x:\exists y:h(x,y)\in \cG)\times(\#y:\exists x:h(x,y)\in \cG)}
+\end{align*}
+\begin{example}
+For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
+\end{example}
+
+\subsection{Rule Construction}
+\label{subsec:rule_const}
+% Traditional rules learning systems in the context of Inductive Logic Programming (ILP) \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11} are either memory-expensive or requires the availability of negative examples, which is hard to get due to the large KG size. In contrast, other unsupervised relational 
+% association rule learning systems deduce logical rules from the KG by mining frequent patterns and casting them into implications. Most of the  existing methods tailored towards Open World Assumption (OWA) rely only on the available graph and exploit sophisticated rule measures \cite{amie,op,rumis}.
+
+We now briefly summarize some of the state-of-the-art methods %rule mining systems, 
+for rule construction, most of which % which combine rule learning and reasoning for knowledge graph completion under OWA.
+%Most of these systems only 
+extract so-called \emph{closed} rules,
+i.e., rules, in which every variable appears at least twice. Restriction to closed rules % is imposed to 
+ensures the actual prediction  of a fact by a rule, but not just its existence~\cite{amie}.
+
+\begin{example}
+%\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
+The above rules $r_1$ and $r_2$ are \textit{closed}. % An example of a \textit{non-closed} rule that can be learned from the KG in Figure~\ref{rdf} is:
+% \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
+% This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. 
+An example of a \emph{non-closed} rule is:
+\[\exists Z\; \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
+%then he/she should 
+live somehere. This rule cannot infer the exact living place of a person, but merely its existence, and thus is less interesting. \qed% for the KG completion. %location 
+%which specifies his living location based on the spouse.
+\end{example}
+
+The most prominent examples of systems that are specifically tailored towards inducing Horn rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
+and RDF2Rules \cite{rdf2rules}.
+\subsubsection{AMIE.}
+AMIE \cite{amie} is a state-of-the-art Horn rule mining system.
+Apart from a KG, it expects from the user a support threshold and maximum
+rule length. In AMIE, rules are treated as sequences of atoms, where the first atom is the head, and subsequent atoms form the body of the rule. The algorithm maintains a queue of intermediate rules, which initially stores a single rule with an empty body for every KG relation. 
+Rules are removed from the queue and refined by adding literals to the body according to a language bias that specifies allowed rule forms (e.g., based on the user-provided rule length). The system then estimates the support of the rule, and if it exceeds the given threshold, the rule is output to the user and also added to the queue for
+possible further processing.
+%Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
+%\[\forall o' : p(s,o') \in \cG^i \Rightarrow p(s,o') \in \cG\]
+%Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. Formally, PCA confidence is defined as follows:\thi{pca conf here}
+%\[conf_{pca}=.\]
+%This measure is then exploited by AMIE to mine positive rules using its introduced algorithm. 
+Refinement of a rule relies on the following set of mining operators used to extend the sequences of atoms in the rule body:
+\begin{itemize}
+\item \textit{add dangling atom}: add a new positive atom with one fresh variable, i.e., variable not appearing elsewhere in the rule;
+\item \textit{add instantiated atom}: add a positive atom with one argument being a constant and the other one being a shared variable, i.e., variable already present in another rule atom;
+\item \textit{add closing atom}:  add a positive atom with both of its arguments being shared variables.
+
+\end{itemize}
+
+The implementation of AMIE employs a variety of techniques from the database community, which allow it to achieve high scalability.
+
+\subsubsection{RDF2Rules.}
+While AMIE mines a single rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
+a certain length $k$, which have the following form:
+\[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2},\dotsc, X_k, p_k^{d_k}, X_1)\]
+where, $X_i$s are variables to appear in the extracted rules, $p_i$s are predicates connecting these variables, and $d_i$s $\in \{0,1\}$ reflect the direction of the edges in the KG labeled by the respective predicates. To extract FPCs, the RDF2Rules algorithm first mines the \emph{frequent predicate paths} (FPPs) of the form:
+\[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2}, ...,X_k, p_k^{d_k}, X_{k+1})\]
+of the length $k$, which are obtained recursively based on FPPs of the length $k-1$. 
+FPCs are then created from FPPs by merging the last variable $X_{k+1}$ with the first one $X_1$.
+After FPCs are mined, rules are extracted from them by choosing a single %a 
+predicate to be in the rule head, and collecting the rest into it's body. 
+%of the rule. 
+% Formally, the  $j$-th rule is generated from the FPC as follows:
+% \[r_j: p_j^{d_j}(X_j,X_{j+1}) \leftarrow \underset{i \in [1,k], i \ne j}{\bigwedge} p_i^{d_i}(X_i,X_{i+1}) \]
+
+RDF2Rules is capable of accounting for unary predicates (i.e., types of entities), which are neglected in AMIE for scalability reasons. % The above generated rules are without \textit{type} information.
+The unary predicates are added to the constructed rule at the final stage after analyzing the 
+frequent types for FPCs corresponding to a given rule.
+% Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, s
+While RDF2Rules performs the rule extraction faster then AMIE due to an effective pruning strategy
+used in the process of mining FPCs, the supported rule patterns are more restrictive. 
+
+\subsection{Rule Evaluation}
+Most of state-of-the-art KG-based positive rule mining systems %are different 
+differ from each other with respect to the employed %at the rule %metric 
+%that they introduce to quantify 
+rule ranking function. % quality and how to exploit it in learning rules. 
+%Basically, we can plug different rule metrics into these mining systems to work under different situations.
+The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{subsec:assoc_rule} have been designed for datasets treated under CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
+
+\begin{example}\label{ex:rulesforgprime}
+For instance, consider a KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families. 
+The heavily biased rule from Section~\ref{sec:intro}: $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ can be mined from it along with $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, which is an accurate rule stating that people with the same father are likely siblings. Since the graph is highly incomplete for the $\mi{hasSibling}$ relation, the standard rule measures such as confidence reflect a counterintuitive rule preference. Indeed, we have $\mi{conf(\mi{r_1',\cG'})}=\frac{2}{8}$, while
+ %we have that 
+$\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
+\end{example}
+
+ % For instance, standard confidence $conf$ works under the Closed World Assumption.
+ Below we present some of other alternative measures, designed 
+ to quantify the quality of rules extracted specifically from incomplete data.
+% Some of them are described below. 
+ \input{figures/kg2}
+% Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
+
+
+\subsubsection{PCA confidence.} In~\cite{amie} a completeness-aware rule scoring based
+on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
+whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
+is Einstein’s child''), then all objects for that subject-predicate pair (Einstein’s children)
+are assumed to be known. PCA relies on a hypothesis that the data is usually
+added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
+all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
+The PCA confidence is defined as follows: 
+% measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
+% \[\text{If }\forall o' : p(s,o') \in \cG^i \text{ then }p(s,o') \in \cG\]
+%Intuitively, if the KG contains some $p$-object of $s$, then it also contains all possible $p$-objects of $s$. 
+%the PCA confidence is defined as
+
+\[
+\mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(x,y): \exists \vec{z}: B \in \cG  \wedge \exists y': h(x,y')\in \cG}
+\]
+\begin{example}
+Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
+to have any children, four existing body substitutions are not counted in the
+denominator. Meanwhile, we have $\mi{conf_{pca}(r_2', \cG') = \frac{1}{6}}$, since all people that are predicted to have siblings by $\mi{r_2'}$ already have siblings in the available graph.
+
+For the KG in Figure~\ref{rdf} and the earlier introduced rule $r_1$, it holds that $\mi{conf_{pca}(r_1,\cG) = \frac{3}{4}}$, since we do not know any living places of $\mi{lucy}$ and $\mi{dave}$. % Similarly, $\mi{conf_{pca}(r_2,\cG) = \frac{3}{3}}$.
+\qed
+\end{example}
+
+\subsubsection{Soft confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
+\[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{x \in U^r}Pr(x,h,\cG)}} \]
+where $U^r$ is the set of entities % previously
+that have no outgoing %relations of 
+$h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(x,h,\cG)$ is the probability of the entity $x$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
+\[\mi{Pr(x,h,\cG)  = max_{t \in T_{x}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
+where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\,h(x',x'')\in\cG\}}$.
+Intuitively, soft confidence is designed to avoid the under-fitting of standard confidence and over-fitting of PCA confidence by accounting for the probability of entities having certain relations.
+%having the head predicate in the unknown part of the rule.
+\begin{example}
+Consider the KG $\cG$ from Figure~\ref{rdf}, we have $U^{r_1} = \{\mi{lucy, dave}\}$. %, $U^{r_2} = \{\mi{lucy}\}$. 
+Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 1 type $\mi{researcher}$, and in total the KG stores 
+%there are totally 
+2 researchers ($\mi{dave}$, $\mi{alice}$) but only $\mi{alice}$'s living place ($\mi{amsterdam}$) is known to $\cG$. In contrast, $Pr(\mi{lucy,livesIn,\cG}) = 0$, as $\mi{lucy}$ has no $\mi{type}$ information.
+Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$. \qed %and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
+\end{example}
+
+\subsubsection{RC confidence.} %Another rule measure, which similarly to completeness-aware measures 
+The authors of \cite{DBLP:conf/www/ZupancD18} have recently proposed the \emph{RC confidence} as an attempt to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule. %has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
+%The confidence of a rule is the fraction of facts predicted by the rule
+%that are either in the KG or are true but missing in the KG. 
+%The insight of \cite{DBLP:conf/www/ZupancD18} 
+The intuition behind \emph{RC confidence} is that for computing rule's confidence one does not necessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;H\leftarrow B, \naf\ E$ with $H=h(X,Y)$ as follows
+
+\[\frac{\textit{r-supp}(r,\cG)}{\#(x,y):h(x,y) \in  \cG} = \frac{|UP(r,\cG)|}{\#(x,y):h(x,y) \in \cG^i\backslash \cG}\]
+where $UP(r,\cG)=\cG_r \cap \cG^i$ (assumed to be 0 in the case of standard confidence).
+Intuitively, this equation would hold if the instantiations of $r$ that appear in $\cG$ were selected completely at random \cite{DBLP:conf/kdd/ElkanN08} from the set of all true facts for $r$.
+
+
+To approximately determine the size of $UP(r,\cG)$ the authors rely on the proportion $\beta$ of all the unlabeled examples
+that are true in $\cG^i$, i.e., $UP(r,\cG)=\beta*\#(x,y):h(x,y)\not \in \cG$, and propose several ways for calculating $\beta$ both empirically via sampling and theoretically based on properties of $\cG$.
+
+Finally, provided that there is a way to estimate $|UP(r,\cG)|$, the following formula is used for computing the \emph{RC-confidence}:
+\[
+conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\cG)}
+\]
+%Several further proposals for KG-based rule measures have been done in \cite{DBLP:conf/www/ZupancD18}, where relying on the theory behind learning from positive and unlabeled data, the introduced  metric attempts to make use of the information about the unlabeled data. 
+
+
+%\subsubsection{Completeness-aware Rule Measures.}  
+In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
+
+Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
+
+In particular, such meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
+\begin{equation}\label{eq:num}
+\mi{num}(p,x) := \# y : p(x,y) \in \cG^i 
+\end{equation}
+These cardinality statements can be obtained using web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
+It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
+Naturally, the number of missing facts for a given $p$ and $x$ can be obtained as
+\[\mi{miss}(p,x,\cG) = \mi{num(p,x)} - \#y : p(x,y) \in \cG\]
+Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
+predictions made by $\mi{r}$ in incomplete ($\mi{npi}$) and, respectively, complete ($\mi{npc}$) KG parts:
+\begin{align*}
+\mi{npi}(r, \cG) = \sum_x min(\#y: h(x,y)\in \cG_r\backslash \cG, \mi{miss}(h,x,\cG))
+\end{align*}
+\vspace{-\topsep}
+\vspace{-\topsep}
+\begin{align*}
+\mi{npc}(r, \cG) = \sum_x max(\#y: h(x,y)\in\cG_r\backslash \cG - \mi{miss}(h,x,\cG), 0)
+\end{align*}
+Using these indicators, a class of \textbf{completeness-aware rule measures} have been defined in \cite{carl}, which we briefly present next.
+%\begin{itemize}
+% \input{figures/kg2}
+%\item 
+
+\subsubsection{Completeness confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
+\begin{align*}
+\mi{conf_{comp}}(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
+\end{align*}
+\begin{example}
+Consider $\cG'$ in Figure \ref{fig:fam_grad}
+and cardinality statements for it:\\
+$\mi{num(hC,john)}\!=\!\mi{num(hC,mary)}\!=3$; $\mi{num(hC,alice)}\!=\!1$; \\
+$\mi{num(hC,carol)}\!=\!\mi{num(hC,dave)}\!=\!0$;\\
+$\mi{num(hS,alice)}\!=\!\mi{num(hS,carol)}\!=\!\mi{num(hS,dave)}\!=\!2$;\\ 
+$\mi{num(hS,bob)}\!=\!3$;\\
+where $hC$, $hS$ stand for $hasChild$ and $hasSibling$, respectively. We have:\\
+$\mi{miss(hC,mary,\cG')}\!=\!\mi{miss(hC,john,\cG')}\!=\!\mi{miss(hC,alice,\cG')}\!=\!1$;\\ 
+$\mi{miss(hC,carol,\cG')}\!=\!\mi{miss(hC,dave,\cG')}\!=\!0$;\\
+$\mi{miss(hS,bob,\cG')}\!=\mi{miss(hS,carol,\cG')}\!=\!2$;\\
+$\mi{miss(hS,alice,\cG')}\!=\!\mi{miss(hS,dave,\cG')}\!=\!1$;\\
+%Also consider the following two extracted rules: 
+For the rules $r_1'$ and $r_2'$ from Example~\ref{ex:rulesforgprime} we have
+% \vspace{-\topsep}
+% \begin{align*}
+% -\ r_3 &: hasChild(X,Y) \leftarrow worksAt(X,Z), educatedAt(Y,Z)\\
+% -\ r_4 &: hasSibling(X,Z) \leftarrow hasFather(X,Y), hasChild(Y,Z)
+% \end{align*}
+ $\mi{conf_{comp}(r_1', \cG')}=\frac{2}{6}$ and $\mi{conf_{comp}(r_2', \cG')}=\frac{1}{2}$, which establishes the desired rule ranking.
+\qed
+\end{example}
+%\item
+
+\subsubsection{Completeness precision and recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure the rule quality based on its predictions in complete and incomplete KG parts:
+\begin{align*}
+\mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
+\mi{recall_{comp}}(r,\cG)=\frac{\mi{npi}(r,\cG)}{\sum_s \mathit{miss}(h,x,\cG)}
+\end{align*}
+Intuitively, rules having high precision are rules that predict few facts in complete parts, while rules having high recall are rules that predict many facts in incomplete ones. Rule scoring could also be based on any weighted combination of these two metrics.
+%The \emph{recall measure} is similar to classical support measures, but now expresses how many facts on KG parts known to be incomplete, are generated by the rule (the more the better). The \emph{precision measure}, in turn, assesses how many of the generated facts are definitely wrong, namely those in complete parts (the more of these, the worse the rule). In fact, this is an upper bound on the precision, as the other facts cannot be evaluated.
+\begin{example}
+We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{npi(r_2',\cG')}\!=\!4$, $\mi{npc(r_2',\cG')}\!=\!1$, resulting in $\mi{precision_{comp}(r_1',\cG')}\!=\!0.5$, $\mi{recall_{comp}(r_1',\cG')}\!\approx\!0.67$, and $\mi{precision_{comp}(r_2',\cG')}\!\approx\!0.83$, $\mi{recall_{comp}(r_2',\cG')}\!\approx\!0.67$.
+\qed
+\end{example}
+%\item 
+
+\subsubsection{Directional metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
+\begin{align*}
+\mi{dm}(r,\cG) = \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
+\end{align*}
+Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This is done via a % leads to the consideration of the
+combining any existing association rule measure $rm$, e.g., standard confidence or conviction, with 
+the directional metric, using a certain dedicated weighting factor $\gamma \in [0..1]$. Formally,
+\begin{align*}
+\mi{weighted\_dm}(r,\cG)=\gamma \cdot \mi{rm}(r,\cG) + (1-\gamma) \cdot \mi{dm}(r,\cG) 
+\end{align*}
+\begin{example}
+We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weighted directional metric using standard confidence ($\mi{rm = conf}$), for $\gamma=0.5$, we get $\mi{weighted\_dm(r_1',\cG')} \approx 0.29$ and $\mi{weighted\_dm(r_2',\cG')} \approx 0.48$. \qed
+\end{example}
+
+
+%\end{itemize}
+
+%\subsubsection{OP (Ontological Pathfinding).}
+\subsubsection{Optimized rule evaluation.}
+% \thi{i think we should remove this section and just add citation}.\ds{shifted this part to rule evaluation}
+% Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG.
+Most of state-of-the-art rule mining systems parallelize only the rule construction phase, while the quality of the rules are determined in a single thread. Huge size of KGs such as YAGO or Freebase %might 
+%contain %hundreds million of entities and 
+% billions of facts, thus  
+%between them, Hence, 
+prohibits their storage on %it is often impossible to store these KGs in 
+a single machine. Therefore, % these rule mining systems either cannot scale to this size to
+%the process of determine the rules' 
+the rule quality estimation %, or they have to assign this task 
+is usually delegated to some third-party database management system.
+In practice this might not always be effective. % such as SQL, SPARQL \cite{amie}, which might not always be effective.
+
+The focus of a recent % the novel 
+ \emph{ontological pathfinding} (OP) \cite{op} algorithm is % not at how to find the candidate rules in the knowledge graph, but rather at
+% how to 
+the efficient examination of the rule's quality. % The rule construction step of OP algorithm relies on the relational pathfinding method . The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}.
+After candidate rules are constructed relying on a variation of \cite{DBLP:conf/aaai/RichardsM92}, their quality is determined via a sequences of parallelization and optimization methods including KG partitioning, joining and pruning strategies.
+
+%\ds{Maybe we could insert other optimized evaluation methods here?} 
+
+
+
+%%Recent works, e.g., \cite{cardinality-extraction-iswc-2016} focused on the task of extracting such cardinality information from text.We now discuss possible ways of making use of such information in rule scoring and ranking, which are core steps in association rule learning. A variety of measures for ranking rules have been proposed, with prominent ones being confidence, conviction and lift.  The existing (in-)completeness-aware rule measure in the KG context (the PCA confidence \cite{amie}) has two apparent shortcomings: First,  it only counts as counterexamples those %objects pairs $(x,y)$ for which at least one $h(x,y')$ %other facts 
+%%with the head predicate $\mi{h}$ 
+%%holds is in $\cG^a$ for some $\mi{y'}$ and a rule's head predicate $h$. This means it may incorrectly give high scores to rules predicting facts for very incomplete relations, e.g., \emph{place of baptism}. Second, it is not suited for data in non-functional relations that is not added in batches, such as awards, where the important ones are added instantly, while others much slower or even possibly never. 
+%
+%
+%%Before dwelling into the details of our approach we discuss the formal representation of such meta-data. 
+%
+%%\leanparagraph{Cardinality Statements}
+%%Overall, one can think of 6 different cardinality templates obtained by fixing subject, predicate or object in a triple and report the number of respective facts that hold in $\cG^i$. 
+%%The lattice of possible basic (in)completeness templates on the fact level is presented in Fig.~\ref{fig:cs} 
+%%on an example triple $\langle\mi{john\;hasChild\;mary}\rangle$. By fixing subject, predicate or object in a triple overall we obtain 6 different templates.
+% %statements for these templates 
+%% Ideally, we would be willing to possess and exploit numerical statements for all of these templates. For example,
+%E.g., for $\mi{\tuple{john\;hasChild\;mary}}$ we %can construct the following cardinality assertions: 
+%can count
+%(1) children of $\mi{john}$ %has $\mi{n}$ children; 
+%(2) edges from $\mi{john}$ to $\mi{mary}$; % there are $n$ edges; 
+%(3) incoming edges to $\mi{mary}$; % has $n$ incoming $\mi{hasChild}$ edges; 
+%(4) %there are $\mi{n}$ 
+%facts with $\mi{john}$ as a subject; (5) %there are $n$ 
+%facts over $\mi{hasChild}$ relation; (6) %there are $\mi{n}$ 
+%facts with $\mi{mary}$ as an object. 
+%
+%In practice, numerical statements for templates (1) and (3) can be obtained using web extraction techniques \cite{cardinality-extraction-iswc-2016}, from functional properties of relations or from crowd-sourcing. For other templates things get trickier; one might be able to learn  
+%them from the data or they could be defined by domain experts in topic-specific KGs. We leave this issue for future work, and focus here only on templates (1) and (3), which could be rewritten as the instances of the template (1) provided that inverse relations can be expressed in a KG. For instance, $\# s: \mi{hasChild}(s,\mi{john})=\# o: \mi{hasParent}(\mi{john},o)$ for the predicates $\mi{hasChild}$ and $\mi{hasParent}$, which are %in an 
+%inverses of one another. % relation. 
+%
+%We represent the (in)completeness meta-data using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, we define the partial function $num$ that takes as input a predicate $\mi{p}$ and a constant $\mi{s}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{s}$ as the first argument: 
+%
+%\begin{equation}\label{eq:num}
+%\mi{num}(p,s) := \# o : p(s,o) \in \cG^i 
+%\end{equation}
+%
+%Naturally, the number of missing facts for a given $p$ and $s$ can be obtained as
+%
+%\begin{equation}\label{eq:miss}
+%\mi{miss}(p,s) := \mi{num(p,s)} - \#o : p(s,o) \in \cG^a %\setminus \cG^a
+%\end{equation}
+%
+%\begin{example}
+%\label{ex:cardinality}
+%Consider the KG in Fig.~\ref{fig:fam_grad}.
+%%and the rules $\mi{r1}$ and $\mi{r_2}$ from Example~\ref{ex:conf},
+%%along with the following 
+%%The following 
+%and the following cardinality statements for it: %it might be available:
+%\vspace{-\topsep}
+%\begin{itemize}
+%\setlength{\parskip}{0pt}
+%\setlength{\itemsep}{0pt plus 1pt}
+%\item $\mi{num(hasChild,john)}\!=\!\mi{num(hasChild,mary)}\!=3$; $\mi{num(hasChild,alice)}\!=\!1$;\\  $\mi{num(hasChild,carol)}\!=\!\mi{num(hasChild,dave)}\!=\!0$;
+%\item $\mi{num(hasSibling,bob)}\!=\!3$;
+%      $\mi{num(hasSibling,alice)}\!=\!\mi{num(hasSibling,carol)}\!=\!\mi{num(hasSibling,dave)}\!=\!2$.
+%\end{itemize}
+%\vspace{-\topsep}
+%We then have:
+%\vspace{-\topsep}
+%\begin{itemize}
+%\setlength{\parskip}{0pt}
+%\setlength{\itemsep}{0pt plus 1pt}
+%\item $\mi{miss(hasChild,mary)}\!=\!\mi{miss(hasChild,john)}\!=\!\mi{miss(hasChild,alice)}\!=\!1$;\\
+%      $\mi{miss(hasChild,carol)}\!=\!\mi{miss(hasChild,dave)}\!=\!0$; 
+%\item $\mi{miss(hasSibling,bob)}\!=\mi{miss(hasSibling,carol)}\!=\!2$;\\ 
+%      $\mi{miss(hasSibling,alice)}\!=\!\mi{miss(hasSibling,dave)}\!=\!1$.\qed
+%\end{itemize}
+%\end{example}
+%
+%
+%We are now ready to 
+%define the \emph{completeness-aware rule scoring problem}.
+%%\begin{problem}[Completeness-aware rule scoring] 
+%Given a KG and a set of 
+%%(in-)-complete\-ness
+%cardinality statements, \emph{completeness-aware rule scoring} aims to score rules not only by their predictive power on the known KG, but also wrt.\ the number of wrongly predicted facts  
+%in complete areas and the number of newly predicted 
+%facts in known incomplete areas.
+%%\end{problem}
+%
+%In the following we discuss and compare  
+%three novel approaches for completeness-aware rule scoring. These are (i) the \emph{completeness confidence}, (ii) \emph{completeness precision} and \emph{recall}, 
+%and (iii) \emph{directional metric}.
+%Henceforth, all examples 
+%consider the KG in Fig.~\ref{fig:fam_grad}, 
+%rules from Ex.~\ref{ex:conf}, and cardinality statements  described in Ex.~\ref{ex:cardinality}.
+%
+%\leanparagraph{Completeness Confidence} In this work we propose to explicitly rely on incompleteness information in determining whether to consider an instance as a counterexample for a rule at hand or not.
+%
+%To do that, we first define two indicators for  a given rule $r: %\vec{H}
+%\mi{h(X,Y)}\leftarrow \vec{B}$, %with $\vec{H}=h(X,Y)$, 
+%reflecting the number of new 
+%predictions made by $\mi{r}$ in incomplete ($\mi{npi(r)}$) and, respectively, complete ($\mi{npc(r)}$) KG parts:
+%
+%
+%
+%\begin{equation}
+%\mi{npi}(r) := \sum_x min(\#y: h(x,y)\in \cG^a_r\backslash \cG^a, \mi{miss}(h,x))
+%\end{equation}
+%\vspace{-\topsep}
+%\begin{equation}
+%\mi{npc}(r) := \sum_x max(\#y: h(x,y)\in\cG^a_r\backslash \cG^a - \mi{miss}(h,x), 0)
+%\end{equation}
+%
+%Note that summation is done exactly over those entities for which $\mi{miss}$ is defined.
+%Exploiting these additional indicators 
+%for %a given 
+%$r:\,h(X,Y)\leftarrow \vec{B}$ we obtain the following \emph{completeness-aware confidence}:
+%
+%\begin{equation}\label{eq:comp_conf}
+%\mi{conf_{comp}}(r) := \frac{\mi{supp}(r)}{\mi{supp}(\vec{B}) - \mi{npi}(r)}
+%\end{equation}
+%
+%\begin{example}\label{ex:fam_grad}
+%\label{ex:conf_comp}
+%%Consider the KG in Fig.~\ref{fig:fam_grad}, rules $\mi{r1}$ and $\mi{r_2}$ from Example~\ref{ex:conf}, and cardinality statements mentioned in Example~\ref{ex:cardinality}.
+%Obviously, the rule $\mi{r_2}$ %is
+%should be preferred over $\mi{r_1}$. For our novel %This desired rule ranking is achieved by exploiting our novel 
+%completeness confidence, we get %giving 
+%$\mi{conf_{comp}(r_1)}=\frac{2}{6}$ %{5}$ 
+%and $\mi{conf_{comp}(r_2)}=\frac{1}{2}$, resulting in the desired rule ordering,  which is not achieved by %is in contrast to 
+%existing measures. %while the %previously introduced 
+%The existing %ranking 
+%metrics result in an incorrect rule ordering 
+%%(see Ex.~\ref{ex:conf} and~\ref{ex:conf_pca}).
+%\qed
+%%%%%% OLD EXAMPLE %%%%%
+%%\begin{example}\label{ex:fam_grad}
+%%Consider the KG in Fig.~\ref{fig:fam_grad} along with the following cardinality statements:\\ $\mi{num(hasChild,mary)=num(hasChild,john)=3,num(hasChild,alice)=0}.$ 
+%%Assume that the rules $\mi{r1}$ and $\mi{r_2}$ were mined from this KG.
+%
+%%\begin{itemize}
+%%\item $\mi{r_1:\,hasChild(X,Y)\leftarrow worksAt(X,Z),graduateOf(Y,Z)}$
+%%\item $\mi{r_2:\,hasChild(X,Y)\leftarrow hasParent(Y,X)}$;
+%%\end{itemize}
+%
+%%Obviously, rule $\mi{r_1}$ is preferred over $\mi{r_2}$. This desired rule ranking in achieved by exploiting our novel completeness confidence, while the previously introduced ranking metrics result in an incorrect rule ordering.
+%%\begin{itemize}
+%%\item $\mi{conf(r_1)=2/3,conf(r_2)=2/5}$
+%%\item $\mi{conf_{pca}(r_1)=1,conf_{pca}(r_2)=2/5}$
+%%\item $\mi{conf_{comp}(r_1)=1/3,conf_{comp}(r_2)=1}$ \qed
+%%\end{itemize}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%
+%\end{example}
+%
+%%The proposed metric generalizes %over 
+%Our completeness confidence generalizes both 
+%the standard %confidence 
+%and the PCA confidence:
+%
+%\begin{proposition}
+%For every KG $\cG$ and rule $r$ it holds that 
+%\begin{itemize}
+%\item[(i)] under the Closed World Assumption (CWA) $\mi{conf_{comp}(r)=conf(r)}$;
+%\item[(ii)] under the Partial Completeness Assumption (PCA) $\mi{conf_{comp}(r)=conf_{pca}(r)}$.
+%\end{itemize}
+%\end{proposition}
+%
+%\begin{proof}
+%\textbf{(i)} Under the CWA, it holds that for all $ p\in \mathbf{R},\,s\in \cC: \mi{miss}(p,s) = 0$. Thus, for all rules $r$, we have that $\mi{npi}(r) = 0$, and hence, $\mi{conf_{comp}(r)}=\mi{conf(r)}$.
+%\smallskip
+%
+%\noindent \textbf{(ii)} Under the PCA, it is assumed that for all $p\in \mathbf{R}$ and $s \in \cC$ it holds that 
+%$\mi{miss}(p,s) = 0$ if $\exists o: p(s,o)\in \cG^a$. We extend the PCA by assuming that $miss(p,s)=+\infty$ for KG parts for which cardinality statements are unavailable, which is a reasonable assumption given the overall incompleteness of the available KG, i.e., 
+%%and otherwise, 
+%$\mi{miss}(p,s) = +\infty$. 
+%%, since the number of missing facts is unrestricted. 
+%Hence, for all $r$ we have
+%$\mi{npi(r)=\sum_{x}predict(r,x)}$, where
+%
+%\begin{center}
+%$predict(r,x)=
+%\begin{cases}
+%0, \text{ if } \exists y: h(x,y)\in \cG^a\\
+%\#y: h(x,y) \in \cG^a_r\backslash \cG^a, \text{ if } \forall y': h(x,y')\not\in \cG^a\\
+%\end{cases}$
+%\end{center}
+%From this we get
+%
+%\begin{center}
+%$\mi{conf_{comp}(r)=\dfrac{supp(r)}{supp(\vec{B})-\sum_{x: \forall y': h(x,y')\not\in\cG^a}\#y: h(x,y)\in \cG^a_r\backslash \cG^a}}$
+%\end{center}
+%
+%The denominator of the latter formula counts all rule body and subtracts from them those, for which the head $h(x,y)$ is predicted and $\forall y':h(x,y')\not \in \cG^a$. Hence, we end up counting only  body substitutions with $h(x,y')\in \cG^a$ for at least  one $y'$, i.e., $\mi{\#(x,y):\exists \vec{Z}:\vec{B}\wedge \exists y': h(x,y')\in \cG^a}$, from which the result follows. \qed
+%
+%\end{proof}
+%
+%
+%
+%In other words, if %we assume that 
+%the graph is known to be fully complete, i.e., for all $p \in\cR,s\in\cC$ we have
+%$\mi{miss}(p,s)=0$ , then $\mi{conf_{comp}}$ is the same as the standard confidence. Similarly, if  $\mi{miss}(p,s)= 0$ for such $p,s$ pairs that at least one 
+%fact $p(s,\_)\in \cG^a$ exists and  $\mi{miss}(p,s) = +\infty$ for the rest,  
+%then $\mi{conf_{comp}}$ is the same as the PCA confidence.
+%
+%\leanparagraph{Completeness Precision and Recall} Further developing the idea of scoring rules based on their predictions in complete and incomplete KG parts, we propose to consider the notions of  \emph{completeness precision} and \emph{recall}\footnote{For brevity we skip the word "completeness" if clear from the context.} for rules defined in the spirit of information retrieval. Intuitively, rules having high precision are rules that predict few facts in complete parts, while rules having high recall are rules that predict many facts in incomplete ones. Rule scoring could then be based on any weighted combination of these two metrics.
+%
+%Formally, we define the precision and recall of a rule $\mi{r: h(X,Y)\leftarrow \vec{B}}$ as follows:
+%
+%\begin{equation}\label{eq:precision}
+%\mi{precision_{comp}}(r)=1-\frac{\mi{npc}(r)}{\mi{supp}(\vec{B})}
+%\end{equation}
+%
+%\begin{equation}\label{eq:recall}
+%\mi{recall_{comp}}(r)=\frac{\mi{npi}(r)}{\sum_s \mathit{miss}(h,s)}
+%\end{equation}
+%
+%The \emph{recall measure} is similar to classical support measures, but now expresses how many facts on KG parts known to be incomplete, are generated by the rule (the more the better). The \emph{precision measure}, in turn, assesses how many of the generated facts are definitely wrong, namely those in complete parts (the more of these, the worse the rule). In fact, this is an upper bound on the precision, as the other facts cannot be evaluated.
+%
+%\begin{example}
+%\label{ex:prec_recall}
+%%Consider the KG in Fig.~\ref{fig:fam_grad}, rules $\mi{r1}$ and $\mi{r_2}$ from Example~\ref{ex:conf}, and cardinality statements from Example~\ref{ex:cardinality}. 
+%It holds that $\mi{npi(r_1)}\!=\!2$, %1$, 
+%$\mi{npc(r_1)}\!=\!4$, %3$, 
+%while $\mi{npi(r_2)}\!=\!4$, $\mi{npc(r_2)}\!=\!1$, resulting in $\mi{precision_{comp}(r_1)}\!=\!0.5$, 
+%$\mi{recall_{comp}(r_1)}\!\approx\!0.67$, %0.5$, 
+%and $\mi{precision_{comp}(r_2)}\!\approx\!0.83$, $\mi{recall_{comp}(r_2)}\!\approx\!0.67$, which lead to the expected relative rule ordering. \qed
+%\end{example}
+%%%%%% OLD EXAMPLE %%%%%
+%%\begin{example}
+%%Consider the KG in Fig.~\ref{fig:fam_grad} and the rules $\mi{r_1}$ and $\mi{r_2}$ from Example~\ref{ex:conf}. It holds that $\mi{npi(r_2)=3}$, $\mi{npc(r_2)=0}$, while $\mi{npi(r_1)=0}$ and $\mi{npc(r_1)=1}$. From this we obtain $\mi{precision(r_2)=recall(r_2)=1}$, and $\mi{precision(r_1)=0}$, $\mi{recall(r_1)=0}$, leading to the expected relative rule ordering. \qed
+%%\end{example}
+%%%%%%%%%%%%%%%%%%%%%%%%
+%
+%\leanparagraph{Limitations}
+%While precision and recall are insightful when there are sufficiently many predictions made in (in-)complete %/incomplete 
+%parts, they fail when the number of (in-)completeness statements in comparison with the KG size is small. Consider, for instance, a rule that predicts 1000 new facts over $\mi{hasChild}$ relation, out of which 2 are in complete, and 2 are in incomplete parts, and 
+%overall 
+%1 million children are missing. 
+%%in total. 
+%This would imply a precision of 99.8\%, and a recall of 0.0002\%, both of which are 
+%not very informative.
+%
+%Therefore, next we propose to look at the difference between  
+%expected numbers of predictions in complete and incomplete parts, or simply at their ratio.
+%
+%\leanparagraph{Directional Bias} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. 
+%
+%\begin{example}
+%Suppose in total a given KG stores 1 million humans, and we know that 10,000 (1\%) of these are missing some children (incompleteness information), while we also know that 1000 of the persons are definitely complete for children (0.1\%). Let the set of rules mined from a KG predict 50,000 new facts for the $\mi{hasChild}$ relation. Assuming independence between predictions and (in)completeness statements, we would expect 1\% out of 50,000, i.e., 500 facts to be predicted in the incomplete areas and 0.1\%, i.e., 50 in the complete KG parts. If instead we find 1000 children predicted for people that are missing correspondingly many children, and 10 for people that are not missing these, the former deviates from the expected value by a factor of 2, and the latter by a factor of 5.
+%\end{example}
+%%
+%%
+%Following the intuition from the above example, we propose to look at the extent of the non-independence to quantify the (in)completeness-awareness of rule mining. Let us consider predictions made by rules in a given KG, where \textit{E(\#facts)} is the expected number of predictions and $\alpha=0..1$ is the weight given to completeness versus incompleteness. Then the directional coefficient of a rule $r$ is defined as follows:
+%
+%\begin{equation}\label{eq:direct_coef}
+%\mi{direct\_coef}(r) := \alpha \cdot \frac{E(\mi{npc}(r))}{\mi{npc}(r)} + (1-\alpha) \cdot \frac{\mi{npi}(r)}{E(\mi{npi}(r))}
+%\end{equation}
+%Unlike the other measures that range from 0 to 1, the directional coefficient takes values between 0 and infinity, where 1 is the default. If the ratio between the KG size and the size of the (in)complete parts is the same as the ratio between the %size of 
+%predictions in the (in)complete parts and their total number, i.e.,
+%%number of predictions, i.e., 
+%if the directional coefficient is 1, then the statements do not influence the rule at all.
+%The higher is the \emph{directional coefficient}, the more ``\emph{completeness-aware}'' the rules are.
+%
+%In practice, expected values might be difficult to compute, and statistical independence is a strong assumption. An alternative that does not require knowledge about expected values is to directly measure the proportion between predictions in complete and incomplete parts. We call this the \emph{directional metric}, which is computed as
+%%
+%\begin{equation}\label{eq:direct_metric}
+%\mi{direct\_metric}(r) := \frac{\mi{npi}(r)-\mi{npc}(r)}{2\cdot(\mi{npi}(r)+\mi{npc}(r))}+0.5\\
+%\end{equation}
+%%
+% The metric is based on the same ideas as the directional coefficient, but does not require knowledge about the expected number of predictions in complete/incomplete KG parts. It is designed to range between 0 and 1 again, thus allowing convenient weighting with other $[0, 1]$  measures.
+%The directional metric of a rule that predicts the same number of facts in incomplete as in complete parts is %, has a value of 
+%0.5, a rule that predicts twice as many facts in incomplete parts has a value of 0.66, and so on.
+%
+%Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts.
+%This can be done by multiplying predictions made in complete parts by a certain factor. We propose to consider the combination of a weighted existing association rule measure, 
+%e.g., confidence or conviction and 
+%the directional metric, %i.e.,
+%with the weighting factor  %is 
+%$\beta=0..1$. Using confidence, we obtain  
+%\begin{equation}\label{eq:direct_metric_score}
+%\mi{weighted\_dm}(r)=\beta \cdot \mi{conf}(r) + (1-\beta) \cdot \mi{direct\_metric}(r) 
+%\end{equation}
+%
+%
+%\begin{example}
+%We get $\mi{direct\_metric(r_1)}{\approx} 0.33$ and $\mi{direct\_metric(r_2)}{=}0.8$. %Furthermore, %assuming 
+%For $\beta=0.5$ and %standard 
+%confidence %from Ex.~\ref{ex:conf}, %we get 
+%$\mi{weighted\_dm(r_1)} \approx 0.29$ and $\mi{weighted\_dm(r_2)} \approx 0.48$. \qed
+%\end{example}
+%
+%\leanparagraph{Acquisition of Numerical Statements}
+%\label{sec:acquisition-numerical}
+%As we have shown, exploitation of numerical (in-)completeness statements is very beneficial for rule quality assessment. 
+%A natural question is where to acquire such statements from in real-world settings.  
+%Various works have shown that numerical 
+%assertions can be 
+%frequently found on the Web~\cite{rdfcomp}, %can be 
+%obtained via crowd-sourcing~\cite{DarariREN16}, text mining~\cite{paramita-acl-2017} or completeness rule mining~\cite{galarragapredicting}. 
+%We believe that mining %rules about 
+%numerical correlations concerning KG edges and then 
+%assembling %these 
+%them into rules %to rules about completeness, 
+%is a valuable and a %more 
+%modular approach to obtain further completeness information, which we sketch in what follows. 
+%
+%We start with an available KG $\cG^a$ and some statements of the form (\ref{eq:num}).
+%
+%
+%%\leanparagraph{Approach}
+%%We now sketch an approach for mining rules that can be applied to predict numerical restrictions on facts of a certain form using the available cardinality statements and the data in the KG as input. 
+%
+%\leanparagraph{Step 1} For every cardinality  $\mi{num(p,s)}=k$, we create the facts $p_{\leq k}(s)$ and $p_{\geq k}(s)$. For the pairs $p\in\mathbf{R},s\in\cC$  with no available cardinality statements we construct the facts $p_{\geq \# o: p(s,o)\in \cG^a}(s)$,  encoding that outgoing $p$-edges from $s$ might be %some facts over $p$ with $s$ being the first argument might be 
+%missing in $\cG^a$, as the graph is believed to be incomplete by default.
+%Here, $p_{card}$ with $\mi{card\in \{\leq \_, \geq \_\}}$ are fresh unary predicates not present in $\Sigma_{\cG^a}$, which describe (bounds on) the number of outgoing $p$-edges for a given constant. We store all constructed facts over $p_{\mi{card}}$ in %a temporary set 
+%$\cS$.
+% 
+%We then complete the domain of each $p_{\mi{card}}$ predicate as follows. For every $p_{\leq k}(s)\in \cS$, if $p_{\leq k'}(s')\in\cS$ for some $s'\in \cC$ and $k' > k$, we construct the rule $ p_{\leq k'}(X)\leftarrow p_{\leq k}(X).$ Similarly, for every $p_{\geq k}(s)\in\cS$, if $p_{\geq k'}(s')\in \cS$ where $k' < k$, we create $p_{\geq k'}(X)\leftarrow p_{\geq k}(X)$.
+%%introduced unary predicate 
+%The constructed rules are then applied to the facts in $\cS$ to obtain an extended set $\cG^{\mi{card}}$ of facts over $p_{\mi{card}}$. The latter step is crucial when using a rule mining system that is not doing arithmetic inferences (like $x>4$ implies $x>3$).
+%%by exhaustively applying the two rules %$p_{\geq k}(s) \leftarrow p_{\geq k+1}(s)$
+%%$p_{\geq k}(X) \leftarrow p_{\geq k'}(X)$ where $k < k'$
+%%and $p_{\leq k}(X)\leftarrow p_{\leq k'}(X)$ where $k > k'$.
+%%$p_{\leq k+1}(s) \leftarrow p_{\leq k}(s)$ 
+%%until saturation.
+%%This process materialize fully all "interesting" predicated: it is only interesting to consider $p_{\leq 0}$ and the predicates $p_{\leq k+1}$ such that $\{ x \mid p_{\leq k+1}(x) \} \neq \{ x \mid p_{\leq k}(x) \}$ because, if not, then $\{ x \mid p_{\leq k+1}(x) \} = \{ x \mid p_{\leq k}(x) \}$ and, so, does not brings any new information (as we obviously have $\{ x \mid p_{\leq k+1}(x) \} \subseteq \{ x \mid p_{\leq k}(x) \}$). The same idea holds for $(p_{\geq k})_{k \in \mathbb{N}}$.\tptcomment{Previous sentences updated}
+%%We denote the set of all such additional facts as $\cG^{\mi{card}}$.
+%
+%\leanparagraph{Step 2} We then use such a standard rule learning system, AMIE \cite{amie}, on $\cG^a \cup \cG^{\mi{card}}$ to mine rules like:
+% 
+%\vspace{-\topsep}
+%\small{
+% \begin{itemize}
+%%\begin{minipage}{0.3\linewidth}
+%\item[(1)] $\mi{p_{card}(X)\leftarrow p'_{card}(X)}$
+%\item[(2)] $\mi{p_{card}(X)\leftarrow p'_{card}(X), p''_{card}(X)}$
+%\item[(3)] $\mi{p_{card}(X)\leftarrow p'_{card}(X), r(X,Y)}$
+%%\end{minipage}
+%%\begin{minipage}{0.7\linewidth}
+%\item[(4)] $\mi{p_{card}(X)\leftarrow p'_{card}(X), r(X,Y)},\mi{p''_{card}(Y)}$
+%\item[(5)] $\mi{p_{card}(X)\leftarrow r(X,Y), p''_{card}(Y)}$
+%%\end{minipage}
+%\end{itemize}
+%}\normalsize
+%\vspace{-\topsep}
+%\noindent We rank the obtained %se 
+%rules based on confidence %based on standard %association 
+%%rule measures 
+%and select the top %$n$ rules 
+%ones into the set $\cR$.
+%
+%\leanparagraph{Step 3} Finally, in the last step we use the obtained ruleset $\cR$ to derive further numerical statements together with weights assigned to them. For that we compute $\cG'=\bigcup_{r\in \cR}\{\cG^{card}\cup\cG^{a}\}_{r}$. The weights of the statements are inherited from the rules that derived them. We then employ two simple heuristics: (i) Given multiple rules predicting the same fact, the highest weight for it is kept. We then post-process predictions made by different rules for the same subject-predicate pair as follows. 
+%(ii) If $p_{\leq k}(s),p_{\geq k'}(s)\in \cG'$ for $k'>k$, we remove from $\cG'$ predictions with the lowest weight thus resolving the conflict on the numerical bounds. %, and thus end up with a graph, in which none of the bounds on the number of edges represented by the dedicated facts contradict each other. 
+%
+%From the obtained graph we reconstruct cardinality statements as follows.
+%\vspace{-\topsep}
+%\begin{itemize}
+%\item Given $p_{\leq k}(s),\mi{p_{\geq k}(s)}\in \cG'$ with weights $w$ and $w'$ %assigned to them, 
+%we create a cardinality statement $\mi{num(p,s)=k}$ with the weight $min(w,w')$. % and add it to the set $\cS$. 
+%\item If $p_{\leq k}(s),p_{\geq k'}(s) \in \cG'$ for $k'<k$, then we set $k' \leq \mi{num(p,s)} \leq k$.
+%\item Among two facts $p_{\leq k}(s), p_{\leq k'}(s)$ (resp. $p_{\geq k}(s)$, $p_{\geq k'}(s)$) with $k<k'$ (resp. $k>k'$) the first ones are kept and represented similar to \ref{eq:num}. 
+%\end{itemize}
+%
+%Regular facts in $\cG'$ are similarly translated into their numerical representations.
+%%Note that we could end up with an infinite number of $p_{\leq k}$ unary predicates. But it is only interesting to consider $p_0$ and the predicates $p_{\leq k+1}$ such that $\{ x \mid p_{\leq k+1}(x) \} \neq \{ x \mid p_{\leq k}(x) \}$ because, if not, then $\{ x \mid p_{\leq k+1}(x) \} = \{ x \mid p_{\leq k}(x) \}$ and, so, does not brings any new information (as we obviously have $\{ x \mid p_{\leq k+1}(x) \} \subseteq \{ x \mid p_{\leq k}(x) \}$). The same idea holds for $(p_{\geq k})_{k \in \mathbb{N}}$.
+%
+%
+%%%%%% Old KG %%%%%
+%\iffalse
+%\scriptsize
+%\begin{table}[t]
+%\begin{center}
+%\renewcommand*{\arraystretch}{0.95}
+%\begin{tabular}{|l|l|l|l|}
+%\hline
+%&  $\mi{hasBrother_{\geq 1}}$ &$\mi{hasSister_{\geq 1}}$&
+%$\mi{hasSibling_{\geq 2}}$\\\hline
+%$\mi{ann}$ & $\checkmark$ &$\checkmark$ &$\checkmark$\\ \hline
+%$\mi{kate}$ & $\checkmark$ &$\checkmark$ &$\checkmark$\\ \hline
+%$\mi{lola}$ & $\checkmark$ &$\checkmark$ &$\checkmark$\\ \hline
+%$\mi{john}$ & $\checkmark$ &$\checkmark$ &\\ \hline
+%\end{tabular}
+%\caption{Meta-data from Example~\ref{ex:card}}
+%\label{tab:inc}
+%\end{center}
+%\end{table}
+%\normalsize
+%\fi
+%%%%%%%%%%%%%%%%%%%%
+%
+%%%%%% Old KG %%%%%
+%\iffalse
+%\begin{figure}[t]
+%\begin{center}
+%\includegraphics[width=.44\textwidth]{figures/fam}
+%\caption{Example KG: family}
+%\label{fig:fam}
+%\end{center}
+%\end{figure}
+%\fi
+%%%%%%%%%%%%%%%%%%%%
+%
+%%\simoncomment{This example may raise questions whether our language is good, as it would be better to learn parameterized rules such as c.parent.children=n $\rightarrow$ c.siblings=n-1, instead of c.parent.children=3 $\rightarrow$ c.siblings=2. Can we find another one?}
+%
+%\begin{example}
+%Consider the KG in Fig.~\ref{fig:fam_grad}
+%%and the rules $\mi{r1}$ and $\mi{r_2}$ from Example~\ref{ex:conf},
+%%along with the following 
+%%The following 
+%and the following cardinality statements for it: $\mi{num(hasChild,john)\!=\!num(hasSibling,bob)}\!=\!3$.  %construct
+%%We generate, between, others, 
+%Among others, $\cG^{\mi{card}}$ contains the facts:
+%%We generate the following graph with numerical facts 
+%%for $\mi{hasChild}$ and $\mi{hasSibling}$ relations and obtain % extended version of the graph: 
+%$%\cG^{\mi{card}}=\{
+%\mi{hasChild_{\geq 3}(john)},
+%\mi{hasSibling_{\geq 3}(bob)},
+%\mi{hasChild_{\geq 2}(mary)},
+%\mi{hasChild_{\geq 2}(john)},\\ 
+%\mi{hasSibling_{\geq 2}(bob)},
+%\mi{hasSibling_{\geq 1}(dave)}$, and
+%$\mi{hasSibling_{\geq 1}(alice)}$. %,\cdots\}$.
+%%On %this 
+%On the graph $\cG^a\cup \cG^{\mi{card}}$, the confidence of $\mi{hasSibling}_{\geq 2}(X)\,{\leftarrow}\, \mi{hasFather}(X, Y), \mi{hasChild}_{\geq 3}(Y)$ %has a confidence of 
+%is $\frac{1}{3}$ and
+%1 for
+%$\mi{hasSibling_{\geq 1}(X)\,{\leftarrow}\, hasFather(X, Y),hasChild_{\geq 3}(Y)}$. %has  %a 
+%%confidence of $1$.
+%\qed
+%\end{example}
+%
+%%  From $\mi{hasParent(john, alice)}, hasChild_{\leq 3}$ and the rule $\mi{r_1}$ we obtain\\ $\mi{hasSibling_{\leq 2}(john)}$ with confidence 2/3, while from the facts in Tab.~\ref{tab:inc} and $\mi{r_2}$ we get $\mi{hasSibling_{\geq 2}(john)}$ with confidence 3/4. Since the facts that we have derived do not contradict each other, we can assume that the exact number of siblings for $\mi{john}$ is 2 with the confidence $min(2/3, 3/4) = 2/3$.
+% 
+% 
+%%  The completeness knowledge from above would be encoded as $\mi{hasChild_{\leq 3}(tom)}$,\linebreak $\mi{hasChild_{\leq 3}(mary),  hasChild_{\leq 3}(alice)}$, $\mi{hasChild_{\geq 3}(tom), hasChild_{\geq 3}(mary)}$, $\mi{hasChild_{\geq 3}(alice)}$ and $\mi{hasSibling_{\geq 2}(pete)}$, $\mi{hasSibling_{\geq 2}(bob)}$. From this data we mine a rule of the form~(5):
+%% \begin{center}
+%% $\mi{r_1:\, hasSibling_{\leq 2}(X)\leftarrow hasParent(X,Y), hasChild_{\leq 3}(Y)}$
+%% \end{center}
+%%  stating that normally the number of persons siblings is at most 2 given that his parents have at most 3 children.
+%%\end{example}
+%
+% Ideally, provided that sufficiently many similar numerical correlations about %for different 
+% edge numbers %values 
+%are extracted, one can induce more general hypothesis involving arithmetic functions like the number of person's siblings is bounded by the number of his parents' children plus 1 or the sum of person's brothers and sisters equals the number of his siblings.  %However, that will require complex induction using mathematical functions, which 
+% We leave these more complex generalizations for future work. Similarly, the employed heuristic provide potential for more advanced voting/weighting schemes and inconsistency resolution in the case of conflicting cardinality assertions.
+%
