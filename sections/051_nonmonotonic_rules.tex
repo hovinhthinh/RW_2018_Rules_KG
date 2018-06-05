@@ -98,7 +98,7 @@ ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
-Given huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding exceptions has been proposed to find an approximate solution for the above problem (see Figure~\ref{fig:iswc_process} for overview). 
+Given huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding exceptions has been proposed to find an approximate solution to the above problem (see Figure~\ref{fig:iswc_process} for overview). 
 
 \begin{figure}[t]
 \centering
@@ -122,7 +122,7 @@ where $\theta,\theta':\cV \rightarrow \cC$.
 
 \begin{example}\label{ex:abns}
 For $\cG$ from Fig.~\ref{rdf} and $\mi{r1}$ 
-we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/Brad,Y/Ann,Z/Berlin}\}$; similarly, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/lo,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
+we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/brad,Y/ann,Z/berlin}\}$; similarly, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/li,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
 \end{example}
  
 
@@ -156,7 +156,9 @@ Let $\cG$ be a KG, let $r$ be a rule mined from it, let $\cV$ be a set of variab
 \begin{example}
 For $\cG$ in Fig.~\ref{rdf} and $\mi{r1}$ 
 we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
- $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ lived in cities different from $\mi{berlin}$ and $\mi{chicago}$ resp., then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. 
+ $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ did not live in %cities different from 
+%$\mi{berlin}$ and $\mi{chicago}$ resp., 
+metropolitans, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. 
 \end{example}
 In general when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
 For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. Furthermore, combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
@@ -172,8 +174,10 @@ For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist.
 %     $\mi{EWS(r,\cA')}{=}\{\mi{immigrant,stateless}\}$.\qed \end{example}
 
 \noindent \textbf{Steps 3 and 4.} After $\mi{EWS}$s are computed for all rules in $R_H$, they are used
- to create potential revisions (Step 3), i.e., from every $\mi{e_j}\in \mi{EWS(r_i,\cG)}$ a revision $r^j_i$ of $r_i$ is constructed by adding a negated atom over $\mi{e_j}$ to the body of $r_i$. Finally, a concrete revision for every rule is determined, that will constitute a solution to the above problem (Step 4). To find such globally best ruleset revision $R_{\mi{NM}}$ many candidate combinations have to be checked, which due to the large size of our $\cG$ and $\mi{EWS}$s might be too expensive. Therefore, instead %it is more reasonable to
-one incrementally builds $R_{\mi{NM}}$ by considering every $r_i \in
+ to create potential revisions (Step 3), i.e., from every $\mi{e_j}\in \mi{EWS(r_i,\cG)}$ a revision $r^j_i$ of $r_i$ is constructed by adding a negated atom over $\mi{e_j}$ to the body of $r_i$. Finally, a concrete revision for every rule is determined, %that will 
+which constitutes a solution to the above problem (Step 4). To find such globally best ruleset revision $R_{\mi{NM}}$ many candidate combinations have to be checked, which due to the large size of %our
+ $\cG$ and $\mi{EWS}$s might be too expensive. Thus, instead, $R_{\mi{NM}}$ %it is more reasonable to
+is incrementally built by considering every $r_i \in
 R_{H}$ and choosing the locally best revision $r^j_i$ %\in R_i$
 for it.
 
@@ -187,12 +191,16 @@ $r^j_i$, four special ranking functions are introduced: a naive one and three mo
 \label{pm}
 \dfrac{\mi{rm(r^j_i,\cG_{R'})+rm({r^j_i}^{aux},\cG_{R'})}}{2}
 \end{equation}
- where $R'$ is the set of rules $r_k'$, which are rules from $R_H\backslash r_i$ with all exceptions from $\mi{EWS(r_k,\cG)}$ incorporated at once. Informally, $\cG_{R'}$ contains only facts that can be safely predicted by the rules from $\mi{R_H\backslash r_i}$, i.e., there is no evident reason (candidate exceptions) to neglect their prediction.
+ where $R'$ is the set of rules $r_k'$, which are rules from $R_H\backslash r_i$ with all exceptions from $\mi{EWS(r_k,\cG)}$ incorporated at once. Informally, $\cG_{R'}$ contains only facts that can be safely predicted by the rules from $\mi{R_H\backslash r_i}$, i.e., there is no evident reason (candidate exceptions) to neglect their predictions.
 %\mi{rm(r^i_j,\cG_{R'\backslash r^i})+rm(r^i_j^{\mi{aux}},\cG_{R'\backslash r^i})}{2}$, where $R'$ is $R_H$ with incorporated exceptions from $\mi{EWS(r_k,\cG)}$ for every $r_k\in R_H$ %TODO
     \item {\textbf{\em OPM}} is similar to \textbf{{\em PM}}, but the selected ruleset $R'$ contains only those rules whose Horn version appears above the considered rule $r_i$ in the ruleset $R_H$, ordered (\textbf{\em O}) based on some chosen measure (e.g., the same as $\mi{rm}$). %TODO
 \smallskip
 
-    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules, we store the highest weight. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ we keep predicted facts (i.e., derived by applying rules from $R'$) separately from the explicit facts (i.e., those in $\cG$), and infer new facts using only $\cG$.
+    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
+new facts are inferred using only $\cG$.
+
+For reasoning over weighted facts exiting 
+probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problog2015} can be used.
 \end{itemize}
 
 
@@ -269,9 +277,10 @@ $r^j_i$, four special ranking functions are introduced: a naive one and three mo
 \end{figure}
 
 
-An alternative method for nonmonotonic rule induction from incomplete KGs is to try to construct an approximation of an ideal graph $\cG^i$ and treat it under CWA. The work \cite{thinh2018} proposes to construct such approximation by learning representations (i.e. embeddings) of entities and relations from a given KG possibly enriched with additional information sources (e.g., text) for estimating the likelihood of unseen facts (see \cite{Wang2017} for overview of embedding-based methods for KG completion).
+In the work RulES~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been peroposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of embedding-based methods for KG completion.
 
-The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models while constructing nonmonotonic rule sets by iteratively constructing rules over a KG and collect statistics from a precomputed embedding model to prune out not promising rule candidates.
+The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
+by iteratively inducing rules from a KG and collecting statistics about them from a precomputed embedding model to prune out not promising rule candidates.
 % To explain the core of RulES, l
 Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR_\cG,\cC_\cG)$
 A \emph{probabilistic KG} $\cP = (\cG,f)$, 
