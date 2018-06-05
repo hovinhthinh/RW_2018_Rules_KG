@@ -1,12 +1,5 @@
 \section{Discussion and Outlook}\label{sec:disc}
 
-\begin{figure}[t]
-\centering
-\includegraphics[width=8cm]{figures/discussion_overview}
-\caption{Rule learning with external sources.}
-\label{fig:discussion_overview}
-\end{figure}
-
 In this tutorial, we have presented a brief overview of the current techniques for rule induction from knowledge graphs and have demonstrated how reasoning over KGs using the learned rules  can be exploited for KG completion. % discussed the different approaches for rule induction and reasoning over real-life KGs. We briefly illustrated the common method for KG construction and the incompleteness and inaccuracy challenges they face. We also illustrated the difference between \textit{Horn} and  \textit{nonmonotonic} logic program and their connection to association rules. Later, we reviewed some of the existing systems for constructing Horn rules from KGs and the proposed rule evaluation measurements under OWA. Furthermore, we discussed the exiting inductive and abductive methods for learning nonmonotonic rules and their applicability over real-life KGs. Finally, we discussed rule revision approach RUMIS, which tries to capture exceptional cases to achieve accurate and consistent predictions. 
 
 While the problem of rule-based KG completion has recently gained an increasing attention, several interesting research directions are still left unexplored. % Despite the advances in rule learning, the existing methods still learn limited formats for rules, \eg closed rules, with even restrictive language bias.
@@ -39,6 +32,13 @@ Extending the techniques to more advanced rule forms is a promising future direc
 Another recent ILP approach that accounts for noise has been proposed in \cite{sigmailp}; but it relies on CWA and neglects weights on the facts. %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
 % However, exploiting these techniques in our setting requires a full materialization of the probability function,
 % which quickly grows to sizes that ILP methods cannot handle. Adapting probabilistic rule learning approaches for real-life KGs has only been studied in~\cite{DeRaedt:2015}, leaving a wide room for improvements.
+
+\begin{figure}[t]
+\centering
+\includegraphics[width=8cm]{figures/discussion_overview}
+\caption{Rule learning with external sources.}
+\label{fig:discussion_overview}
+\end{figure}
 
 
 \leanparagraph{Rule learning with external sources} 
