@@ -243,7 +243,7 @@ where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
 $h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(x,h,\cG)$ is the probability of the entity $x$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
 \[\mi{Pr(x,h,\cG)  = max_{t \in T_{x}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
-where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\,h(x',x'')\in\cG\}}$.
+where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\exists \,x'':h(x',x'')\in\cG\}}$.
 Intuitively, soft confidence is designed to avoid the under-fitting of standard confidence and over-fitting of PCA confidence by accounting for the probability of entities having certain relations.
 %having the head predicate in the unknown part of the rule.
 \begin{example}
