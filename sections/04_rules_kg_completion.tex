@@ -243,7 +243,7 @@ where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
 $h$-edges in $\cG$, but do have some in $\cG_r$, and $Pr(x,h,\cG)$ is the probability of the entity $x$ having the relation $h$, approximated using entity \textit{type} information \cite{rdf2rules}. More specifically,
 \[\mi{Pr(x,h,\cG)  = max_{t \in T_{x}}\frac{|Inst_h(t, \cG)|}{|Inst(t, \cG)|}{}}\]
-where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\,h(x',x'')\in\cG\}}$.
+where $T_{x}=\{t\,|\,t(x)\in \cG\}$, $\mi{Inst(t, \cG)=\{x'\,|\,t(x')\in \cG\}}$, and, moreover, \\$\mi{Inst_h(t, \cG)=\{x'\in Inst(t,\cG)\,|\exists \,x'':h(x',x'')\in\cG\}}$.
 Intuitively, soft confidence is designed to avoid the under-fitting of standard confidence and over-fitting of PCA confidence by accounting for the probability of entities having certain relations.
 %having the head predicate in the unknown part of the rule.
 \begin{example}
@@ -283,7 +283,7 @@ Based on this intuition, the recent work on completeness-aware rule learning (CA
 
 In particular, such meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
 \begin{equation}\label{eq:num}
-\mi{num}(p,x) := \# y : p(x,y) \in \cG^i 
+\mi{num}(p,x) = \# y : p(x,y) \in \cG^i 
 \end{equation}
 These cardinality statements can be obtained using web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
 It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
