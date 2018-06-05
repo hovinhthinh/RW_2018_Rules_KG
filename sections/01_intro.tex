@@ -13,7 +13,7 @@ place''}, and cast them in the form of Horn rules, such as:
 $\mi{r_1:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{marriedTo(X,Y),livesIn(X,Z)}$. 
 
 For the KG curation, this has two-fold benefits. First, since KGs operate under the open world
-assumption (OWA) (i.e., absent facts are treated as unknown rather than false),
+assumption (i.e., absent facts are treated as unknown rather than false),
 the rules can be used to derive additional facts such as missing living places. % For example, applying the rule
 % $\mi{r_1}$ mined from the graph in Figure~\ref{rdf}, the missing living places of Dave and Lucy can be deduced based on the data about their spouses.
 Second, rules can be used to eliminate erroneous facts in KGs. For example, assuming that $\mi{livesIn}$ is a functional relation, % Amsterdam as a 
