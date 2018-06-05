@@ -17,7 +17,7 @@ Several recent works on mining keys in KGs \cite{vickey,DBLP:conf/www/LajusS18},
 % Even though these
 % While rules with existential variables in the head may not directly infer new facts, they may reflect interesting patterns in the data and, moreover, can be used as a guidance for the information retrieval approaches and crowd-sourcing.
 
-Rules that reflect correlations between edge counts in KGs such as \emph{``If a person has two siblings then his/her parents are likely to have 3 children''} have been studied in \cite{carl}. Inducing more general rules, encoding complex mathematical functions on edge counts (e.g.,  \emph{``If a person has k siblings then his/her parents are likely to have k+1 children''}) and other numerical rules is still an open problem, which is particularly challenging due to large search space of possible hypothesis.
+Rules that reflect correlations between edge counts in KGs such as \emph{``If a person has two siblings then his/her parents are likely to have 3 children''} have been studied in \cite{carl}. Inducing more general rules, encoding mathematical functions on edge counts (e.g.,  \emph{``If a person has k siblings then his/her parents are likely to have k+1 children''}) and other numerical rules is still an open problem, which is particularly challenging due to large search space of possible hypothesis.
 
 % \leanparagraph{Learning temporal rules} 
 % Current approaches extract the rules from the directly stated entities and relations. More promising direction would be to learn patterns over more unstated relations such as temporal rules. For examples, KGs usually contain the dates of the events, \eg $\mi{dateOfbirth}$ or $happenedOn$ which is sparse data and requires arithmetic operator to make use of them, \eg $before(X,Y)$, $after(X,Y)$. Learning interesting rules over this data is still not well studied.
@@ -27,7 +27,7 @@ Learning temporal rules or constraints such as \emph{``A person cannot graduate 
 The majority of existing rule learning approaches over knowledge graphs model KGs as sets of true triples thus totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are normally automatically constructed from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which when applied could propagate faulty facts. 
 
 Learning rules from KGs treated as uncertain data sources has  been considered in \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}; however, these works neglect negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 
-Extending the techniques to more advanced rule forms is a promising future direction.
+Extending the techniques to more advanced rule forms is desired.
 
 Another recent ILP approach that accounts for noise has been proposed in \cite{sigmailp}; but it relies on CWA and neglects weights on the facts. %Addressing the rule learning over weighted data has been studied under probabilistic ILP%, where given a set of probabilistic examples for grounded atoms and a target predicate $H$, the task is to learn rules for predicting probabilities of atoms for $H$
 % However, exploiting these techniques in our setting requires a full materialization of the probability function,
