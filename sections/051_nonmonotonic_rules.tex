@@ -301,6 +301,7 @@ $\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting fr
   % \gad{Not sure if we should add more here regarding $\mu_2$}
 
 
+\gad{I merged the last paragraph describing the system overview with the steps here! it was redundant! Original text is commented at the end!}
 
 RulES takes as input a KG, possibly a text corpus, and a set of user-specified parameters that are used to terminate rule construction.
 These parameters include an embedding weight $\lambda$, 
@@ -310,15 +311,17 @@ a minimum rule support $\textit{r-supp}$
 and other \emph{rule-related} parameters such as a maximum number of positive %$\mi{max\_pos}$ 
 and negative 
 atoms allowed in $\mi{body(r)}$.
-The KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$.
-The rules $r$ are computed similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. The set of refinement operators from \cite{amie} is extended by the following two to support negations in rule bodies:
+As illustrated in the system overview of RuLES in Figure~\ref{fig:system_RulES}, the KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$. The \emph{Rule Learning} component 
+%The rules $r$ are computed 
+computes the rules
+similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. The set of refinement operators from \cite{amie} is extended by the following two to support negations in rule bodies:
 \begin{itemize}
 \item \emph{add an exception instantiated atom:} add a negated atom with one of its arguments
 being a constant, and the other one being a shared variable.
 \item \emph{add an exception closing atom:} add a binary negated atom to the rule with both of its
 arguments being shared variables or a unary negated atom with a shared variable.
 \end{itemize}
- During the construction of a rule $r$, the quality $\mu(r)$ is computed, based on which a decision about the next action is made.
+ During the construction of a rule $r$, the quality $\mu(r)$ is computed by the \emph{Rule Evaluation} component, based on which a decision about the next action is made.
 
 
 Note that by exploiting the embedding feedback, one can distinguish
@@ -326,12 +329,12 @@ exceptions from noise. Consider the rule $r_1$ stating that married people live 
 rule can have several possible exceptions, e.g., either one of the spouses is a researcher
 or he/she works at a company, which has headquarter in the US. Whenever the rule is
 enriched with an exception, naturally, the support of its body decreases, i.e., the size of
-$\cG_r$ goes down. Ideally, such negated atoms shoudld be added to its body, that the average quality of
+$\cG_r$ goes down. Ideally, such negated atoms should be added to its body, that the average quality of
 $\cG_r$ increases, as this will witness that by adding negated atoms to the rule we get rid of
-unlikely predictions.
+unlikely predictions. Finally as an output, the RulES produces a set of nonmonotonic rules suitable for KG completion.
 
-Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
-The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
+%Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
+%The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
 
 
 
@@ -339,6 +342,6 @@ The \emph{Rule Learning} block constructs rules over the input KG similar to rul
 \centering
 \includegraphics[width=1\textwidth]{figures/rules_overview_H.pdf}
 \caption{Embedding-based method for nonmonotonic rule learning.}
-\label{fig:system}
+\label{fig:system_RulES}
 \end{figure}
 
