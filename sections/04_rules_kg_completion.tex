@@ -212,7 +212,7 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 
 
-\subsubsection{PCA confidence.} In~\cite{amie} a completeness-aware rule scoring based
+\subsubsection{PCA Confidence.} In~\cite{amie} a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
 is Einstein’s child''), then all objects for that subject-predicate pair (Einstein’s children)
@@ -237,7 +237,7 @@ For the KG in Figure~\ref{rdf} and the earlier introduced rule $r_1$, it holds t
 \qed
 \end{example}
 
-\subsubsection{Soft confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
+\subsubsection{Soft Confidence.} \emph{Soft confidence} measure introduced in \cite{rdf2rules}, is also designed to work under OWA, and for a rule $r:\;h(X,Y)\leftarrow B, \naf \; E$ it is formally defined as follows:
 \[\mi{conf_{st}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\textit{b-supp}(r,\cG) - \sum_{x \in U^r}Pr(x,h,\cG)}} \]
 where $U^r$ is the set of entities % previously
 that have no outgoing %relations of 
@@ -254,7 +254,7 @@ Moreover, $\mi{Pr(dave,livesIn,\cG)} = \frac{1}{2}$, since $\mi{dave}$ has only 
 Based on these numbers, we have $conf_{st}(r_1,\cG) = \frac{3}{6-\frac{1}{2}} = \frac{6}{11}$. \qed %and $conf_{st}(r_2,\cG) = \frac{3}{4-0} = \frac{3}{4}$.
 \end{example}
 
-\subsubsection{RC confidence.} %Another rule measure, which similarly to completeness-aware measures 
+\subsubsection{RC Confidence.} %Another rule measure, which similarly to completeness-aware measures 
 The authors of \cite{DBLP:conf/www/ZupancD18} have recently proposed the \emph{RC confidence} as an attempt to rely on assumptions about the tuples not in the KG when evaluating the quality of a potential rule. %has been proposed in \cite{DBLP:conf/www/ZupancD18}. 
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
@@ -304,7 +304,7 @@ Using these indicators, a class of \textbf{completeness-aware rule measures} hav
 % \input{figures/kg2}
 %\item 
 
-\subsubsection{Completeness confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
+\subsubsection{Completeness Confidence.} First, incompleteness information is used to determine whether to consider an instance in the unknown part of the rule as a counterexample or not. Formally, the \emph{completeness confidence} is defined as:
 \begin{align*}
 \mi{conf_{comp}}(r,\cG) = \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG) - \mi{npi}(r,\cG)}
 \end{align*}
@@ -332,7 +332,7 @@ For the rules $r_1'$ and $r_2'$ from Example~\ref{ex:rulesforgprime} we have
 \end{example}
 %\item
 
-\subsubsection{Completeness precision and recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure the rule quality based on its predictions in complete and incomplete KG parts:
+\subsubsection{Completeness Precision and Recall.} In the spirit of information retrieval, the notions of \emph{completeness precision} and \emph{completeness recall} are defined to measure the rule quality based on its predictions in complete and incomplete KG parts:
 \begin{align*}
 \mi{precision_{comp}}(r,\cG)=1-\frac{\mi{npc}(r,\cG)}{\textit{b-supp}(r,\cG)},\;\;\;
 \mi{recall_{comp}}(r,\cG)=\frac{\mi{npi}(r,\cG)}{\sum_s \mathit{miss}(h,x,\cG)}
@@ -345,7 +345,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 \end{example}
 %\item 
 
-\subsubsection{Directional metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
+\subsubsection{Directional Metric.} If rule mining does make use of completeness information, and both do not exhibit any statistical bias, then intuitively the rule predictions and the (in)complete areas should be statistically independent. On the other hand, correlation between the two indicates that the rule-mining is \emph{(in)completeness-aware}. Following this intuition, the \emph{directional metric} has been proposed, which measures the proportion between predictions in complete and incomplete parts as follows:
 \begin{align*}
 \mi{dm}(r,\cG) = \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
 \end{align*}
@@ -363,7 +363,7 @@ We have $\mi{dm(r_1',\cG')}\approx 0.33$ and $\mi{dm(r_2',\cG')}=0.8$. With weig
 %\end{itemize}
 
 %\subsubsection{OP (Ontological Pathfinding).}
-\subsubsection{Optimized rule evaluation.}
+\subsubsection{Optimized Rule Evaluation.}
 % \thi{i think we should remove this section and just add citation}.\ds{shifted this part to rule evaluation}
 % Learning rules from knowledge graph consists of two phases: constructing the rules and examining their quality based on the KG.
 Most of state-of-the-art rule mining systems parallelize only the rule construction phase, while the quality of the rules are determined in a single thread. Huge size of KGs such as YAGO or Freebase %might 
