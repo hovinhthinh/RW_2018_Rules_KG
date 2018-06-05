@@ -3,13 +3,13 @@ So far we have considered approaches for constructing Horn rules. However,  thes
 exceptions. Thus, Horn rules extracted from the existing KGs can potentially %they %herefore, they 
 predict erroneous facts as shown in Section~\ref{sec:intro}. 
 
-In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete KGs. First, we describe a method that relies on cross-talk among the extracted rules to guess their exceptions~\cite{gad2016,rumis}. Then we describe an approach that exploits embedding-based methods for knowledge graph completion during rule construction~\cite{thinh2018}.
+In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete KGs. First, we describe a method that relies on cross-talk among the extracted rules to guess their exceptions~\cite{gad2016,rumis}. Then we present an approach that exploits embedding-based methods for knowledge graph completion during rule construction~\cite{thinh2018}.
 
 \subsection{Revision-based Method}
 Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are extracted is complete.
 
 In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
-It preprocesses a KG by translating all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information). In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
+It preprocesses a KG by translating all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract rules with negation. In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
 In these works, the KG completion problem from Definition~\ref{def:kgcomp} is treated 
@@ -20,32 +20,32 @@ revised ruleset, two generic quality functions $q_{\mi{rm}}$ and
 $q_{\mi{conflict}}$ are devised, that take as input a ruleset $R$ and a KG $\cG$ and output a
 real value, reflecting the suitability of $R$ for data prediction.  More
 specifically, \begin{equation}q_{\mi{rm}} (R,\cG)=\dfrac{\sum_{r\in
-    \cR}rm(r,\cG)}{|R|}, \end{equation} where $\mi{rm}$ is some standard
+    R}rm(r,\cG)}{|R|}, \end{equation} where $\mi{rm}$ is some standard
 association rule measure \cite{Azevedo2007}. To measure $\mi{q_{conflict}}$ for
-$R$, an extended set of rules $R^{aux}$ is created, which contains each %every
+$R$, an extended set of rules $R^{aux}$ is created, which contains every %every
 revised rule in $R$ %and
 together with %their
-its auxiliary version. For each rule $r:\,h(X,Y)\leftarrow B,\naf\,E$ in $R$,
+its auxiliary version. For a rule $r:\,h(X,Y)\leftarrow B,\naf\,E$ in $R$,
 its auxiliary version $r^{\mi{aux}}$ is constructed by: i) transforming $r$ into a Horn rule by
 removing %the negation
 $\naf$ from negated body atoms, %in the exception body atom,
 and ii) replacing the head
 predicate $\mi{h}$ of $r$ %(e.g. $a$)
-with a newly introduced predicate $\mi{not\_h}$ which intuitively contains %will contain
+with a newly introduced predicate $\mi{not\_h}$ which intuitively should contain %will contain
 %all
 instances which are \emph{not} in $\mi{h}$. 
 
-\begin{example} For the rule $r_2$ from Section~\ref{sec:intro}, the auxiliary rule looks as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it intuitively states that married people among whom one is a researcher normally do not live together. \qed
+\begin{example} For the rule $r_2$ from Section~\ref{sec:intro}, the auxiliary rule is as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it informally reflects that married people among whom one is a researcher often do not live together. \qed
 \end{example}
 
 
 %the original head predicate (e.g. $not\_a$).
-Exploiting statistics of both given rule $r$ and its auxiliary version $\mi{r^{aux}}$, the measure $\mi{q_{conflict}}$ is defined:
+Based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of exception-enriched rules $R_{\mi{NM}}$, the measure $\mi{q_{conflict}}$ is defined:
 
 \begin{equation}
-\mi{q_{conflict}(R_{\mi{NM}},\cG)=\sum_{p\in pred(R^{\mi{aux}})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}}
+\mi{q_{conflict}(R_{\mi{NM}},\cG)=\sum_{p\in pred(R_{NM})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R_{\mi{NM}}^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R_{\mi{NM}}^{\mi{aux}}}|}}
 \end{equation}
-where $\mi{pred(R^{aux})}$ stores predicate appearing in $R$.
+where $\mi{pred(R_{NM})}$ stores predicates appearing in $R_{\mi{NM}}$.
 %\noindent where $\mi{pred(\cR^{\mi{aux}})}$ is the set of predicates appearing in $\cR^{\mi{aux}}$.$q_{\mi{conflict}}=$% Given a potentially incomplete graph $\cG^a$ and a set of Horn rules $\cR_H$
 % mined from $\cG^a$, our goal is to add default negated atoms (exceptions) to the
 % rules in $\cR_{H}$ and obtain a revised ruleset $\cR_{\mi{NM}}$ such that the
@@ -77,13 +77,15 @@ where $\mi{pred(R^{aux})}$ stores predicate appearing in $R$.
 %  returns a real value that reflects the quality of the revised set
 %  $\cR_{\mi{NM}}$.
 
-Formally, the problem targeted in \cite{gad2016,rumis} is formulated as follows: Given a KG $\cG$,
+Formally, the problem targeted in \cite{gad2016,rumis} is formulated as follows: 
+\begin{definition}[Quality-based Horn Theory Revision] Given a KG $\cG$,
 a set of nonground Horn rules $R_{\mi{H}}$ mined from $\cG$, and a quality
 function $\mi{rm}$, %$q$
 find a set of rules $R_{\mi{NM}}$ obtained by
 adding negated atoms to $\mi{Body(r)}$ for some $r{\in} R_{H}$ s.t. (i)
 ${q_{\mi{rm}}(R_{\mi{NM}},\cG)}$ is maximal, and (ii)
 ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
+\end{definition}
 
 %More formally:\\ \\\noindent
 %\textbf{Problem:} quality-based Horn rule revision
@@ -96,7 +98,7 @@ ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
-Given huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding an approximate solution to the above problem has been proposed (see Figure~\ref{fig:iswc_process} for overview). 
+Given huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding exceptions has been proposed to find an approximate solution for the above problem (see Figure~\ref{fig:iswc_process} for overview). 
 
 \begin{figure}[t]
 \centering
