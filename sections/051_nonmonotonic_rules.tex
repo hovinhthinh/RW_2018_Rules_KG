@@ -277,9 +277,9 @@ probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problo
 
 
 
-In the work RulES (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
+In the work RuLES (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
 
-The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
+The RuLES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
 by iteratively inducing rules from a KG and collecting statistics about them from a precomputed embedding model to prune out not promising rule candidates.
 % To explain the core of RulES, l
 
@@ -287,7 +287,7 @@ Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR,\cC)$.
 A \emph{probabilistic KG} is a pair $\cP = (\cG,f)$, 
 where $f:\cR\times \cC \times \cC\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq ct $, where $ct$ is a correctness threshold.
 
-The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
+The goal of RuLES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
 \begin{align*}
 	\mu(r,\cP)= (1 - \lambda)\times \mu_1(r,\cG) + \lambda \times \mu_2(\cG_r,\cP).
 \end{align*}
@@ -303,7 +303,7 @@ $\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting fr
 
 \gad{I merged the last paragraph describing the system overview with the steps here! it was redundant! Original text is commented at the end!}
 
-RulES takes as input a KG, possibly a text corpus, and a set of user-specified parameters that are used to terminate rule construction.
+RuLES takes as input a KG, possibly a text corpus, and a set of user-specified parameters that are used to terminate rule construction.
 These parameters include an embedding weight $\lambda$, 
 a minimum threshold 
 for $\mu_1$,  
@@ -331,7 +331,7 @@ or he/she works at a company, which has headquarter in the US. Whenever the rule
 enriched with an exception, naturally, the support of its body decreases, i.e., the size of
 $\cG_r$ goes down. Ideally, such negated atoms should be added to its body, that the average quality of
 $\cG_r$ increases, as this will witness that by adding negated atoms to the rule we get rid of
-unlikely predictions. Finally as an output, the RulES produces a set of nonmonotonic rules suitable for KG completion.
+unlikely predictions. Finally as an output, the RuLES produces a set of nonmonotonic rules suitable for KG completion.
 
 %Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
 %The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
