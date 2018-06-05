@@ -25,9 +25,11 @@ specifically,
 \begin{equation}q_{\mi{rm}} (R,\cG)=\dfrac{\sum_{r\in
     R}rm(r,\cG)}{|R|}, \end{equation}
      where $\mi{rm}$ is some standard
-association rule measure \cite{Azevedo2007}. \gad{text updated here!} Conversely, $q_{\mi{conflict}}$ estimates the number of conflicting predictions that the rules in $R$ generate. To measure $\mi{q_{conflict}}$ for $R$,
- an extended set of rules $R^{aux}$ is created to materialize the predictions prevented by the negative part of each individual rule in $R$%, which
-. $R^{aux}$ contains every %every
+association rule measure \cite{Azevedo2007}. %\gad{text updated here!} 
+Conversely, $q_{\mi{conflict}}$ estimates the number of conflicting predictions that the rules in $R$ generate. To measure $\mi{q_{conflict}}$ for $R$,
+ an extended set of rules $R^{aux}$ is created, %to materialize predictions prevented by the negative part of each individual rule in $R$. %, which
+%$R^{aux}$ 
+which contains every %every
 revised rule in $R$ %and
 together with %their
 its auxiliary version. For a rule $r:\,h(X,Y)\leftarrow B,\naf\,E$ in $R$,
@@ -40,17 +42,19 @@ with a newly introduced predicate $\mi{not\_h}$ which intuitively should contain
 %all
 instances which are \emph{not} in $\mi{h}$. 
 
-\begin{example} For the rule $r_2$ from Section~\ref{sec:intro}, the auxiliary rule is as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it informally reflects that married people among whom one is a researcher often do not live together. \qed
+\begin{example} The auxiliary rule $r_2^{aux}$ for the rule $r_2$ from Section~\ref{sec:intro} is as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it informally reflects that married people among whom one is a researcher often do not live together. For $\mi{r_3:\,livesIn(X,Y)\leftarrow bornIn(X,Y),\naf\ immigrant(X)}$ we similarly have $\mi{r_3^{aux}:\,not\_livesIn(X,Y)\leftarrow bornIn(X,Y),immigrant(X)}$. If $R=\{r_1,r_2\}$ then $R^{aux}=\{r_1,r_1^{aux},r_2,r_2^{aux}\}$. 
+
+Intuitively, $q_{\mi{conflict}}(R,\cG)$ estimates the portion of conflicting predictions \\$\mi{livesIn(a,b),not\_livesIn(a,b)}$ made by the rules in $R^{aux}$. The hypothesis of \cite{gad2016,rumis} is that for a set $R$ of good rules with reasonable exceptions, the number of conflicting predictions produced by $R^{aux}$ is small.  \qed
 \end{example}
 
 
 %the original head predicate (e.g. $not\_a$).
-Based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of exception-enriched rules $R_{\mi{NM}}$, the measure $\mi{q_{conflict}}$ is defined:
+Formally, based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of exception-enriched rules $R$, the measure $\mi{q_{conflict}}$ is defined:
 
 \begin{equation}
-\mi{q_{conflict}(R_{\mi{NM}},\cG)=\sum_{p\in pred(R_{NM})} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R_{\mi{NM}}^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R_{\mi{NM}}^{\mi{aux}}}|}}
+\mi{q_{conflict}(R,\cG)=\sum_{p\in pred(R)} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}}
 \end{equation}
-where $\mi{pred(R_{NM})}$ stores predicates appearing in $R_{\mi{NM}}$.
+where $\mi{pred(R_{NM})}$ stores predicates appearing in $R$.
 %\noindent where $\mi{pred(\cR^{\mi{aux}})}$ is the set of predicates appearing in $\cR^{\mi{aux}}$.$q_{\mi{conflict}}=$% Given a potentially incomplete graph $\cG^a$ and a set of Horn rules $\cR_H$
 % mined from $\cG^a$, our goal is to add default negated atoms (exceptions) to the
 % rules in $\cR_{H}$ and obtain a revised ruleset $\cR_{\mi{NM}}$ such that the
@@ -103,7 +107,7 @@ ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
-Given huge size of KGs, finding the best possible revision is unfeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for finding exceptions has been proposed to find an approximate solution to the above problem (see Figure~\ref{fig:iswc_process} for overview). 
+Given huge size of KGs, finding the best possible revision is unfeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for computing exceptions has been proposed to find an approximate solution to the above problem (see Figure~\ref{fig:iswc_process} for overview). 
 
 \begin{figure}[t]
 \centering
@@ -301,7 +305,7 @@ $\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting fr
   % \gad{Not sure if we should add more here regarding $\mu_2$}
 
 
-\gad{I merged the last paragraph describing the system overview with the steps here! it was redundant! Original text is commented at the end!}
+%\gad{I merged the last paragraph describing the system overview with the steps here! it was redundant! Original text is commented at the end!}
 
 RuLES takes as input a KG, possibly a text corpus, and a set of user-specified parameters that are used to terminate rule construction.
 These parameters include an embedding weight $\lambda$, 
