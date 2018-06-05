@@ -82,7 +82,7 @@ Formally, the problem targeted in \cite{gad2016,rumis} is formulated as follows:
 a set of nonground Horn rules $R_{\mi{H}}$ mined from $\cG$, and a quality
 function $\mi{rm}$, %$q$
 find a set of rules $R_{\mi{NM}}$ obtained by
-adding negated atoms to $\mi{Body(r)}$ for some $r{\in} R_{H}$ s.t. (i)
+adding negated atoms to $\mi{body(r)}$ for some $r{\in} R_{H}$ s.t. (i)
 ${q_{\mi{rm}}(R_{\mi{NM}},\cG)}$ is maximal, and (ii)
 ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 \end{definition}
@@ -284,7 +284,7 @@ by iteratively inducing rules from a KG and collecting statistics about them fro
 % To explain the core of RulES, l
 
 Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR,\cC)$.
-A \emph{probabilistic KG} $\cP = (\cG,f)$, 
+A \emph{probabilistic KG} is a pair $\cP = (\cG,f)$, 
 where $f:\cR\times \cC \times \cC\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq \theta $, where $\theta$ is a correctness threshold.
 
 The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
