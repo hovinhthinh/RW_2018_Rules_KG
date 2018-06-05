@@ -171,9 +171,9 @@ The implementation of AMIE employs a variety of techniques from the database com
 \subsubsection{RDF2Rules.}
 While AMIE mines a single rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
 a certain length $k$, which have the following form:
-\[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2},\dotsc, X_k, p_k^{d_k}, X_1)\]
+\[ (X_1, p_1^{d_1}, X_2, p_2^{d_2},\dotsc, X_k, p_k^{d_k}, X_1)\]
 where, $X_i$s are variables to appear in the extracted rules, $p_i$s are predicates connecting these variables, and $d_i$s $\in \{0,1\}$ reflect the direction of the edges in the KG labeled by the respective predicates. To extract FPCs, the RDF2Rules algorithm first mines the \emph{frequent predicate paths} (FPPs) of the form:
-\[\theta = (X_1, p_1^{d_1}, X_2, p_2^{d_2}, ...,X_k, p_k^{d_k}, X_{k+1})\]
+\[(X_1, p_1^{d_1}, X_2, p_2^{d_2}, ...,X_k, p_k^{d_k}, X_{k+1})\]
 of the length $k$, which are obtained recursively based on FPPs of the length $k-1$. 
 FPCs are then created from FPPs by merging the last variable $X_{k+1}$ with the first one $X_1$.
 After FPCs are mined, rules are extracted from them by choosing a single %a 
