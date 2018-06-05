@@ -277,7 +277,7 @@ probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problo
 \end{figure}
 
 
-In the work RulES~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been peroposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of embedding-based methods for KG completion.
+In the work RulES (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
 
 The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
 by iteratively inducing rules from a KG and collecting statistics about them from a precomputed embedding model to prune out not promising rule candidates.
@@ -285,19 +285,18 @@ by iteratively inducing rules from a KG and collecting statistics about them fro
 
 Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR,\cC)$.
 A \emph{probabilistic KG} is a pair $\cP = (\cG,f)$, 
-where $f:\cR\times \cC \times \cC\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq \theta $, where $\theta$ is a correctness threshold.
+where $f:\cR\times \cC \times \cC\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq ct $, where $ct$ is a correctness threshold.
 
 The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
 \begin{align*}
 	\mu(r,\cP)= (1 - \lambda)\times \mu_1(r,\cG) + \lambda \times \mu_2(\cG_r,\cP).
 \end{align*}
 
-where $\lambda$ is a weight coefficient and $\mu_1$ is any classical quality measure of $r$ over $\cG$ such that $\mu_1: (r,\cG) \mapsto \alpha \in  [0,1]$ (\eg \textit{standard confidence} or \textit{PCA confidence}~\cite{amie}). 
+\noindent where $\lambda$ is a weight coefficient and $\mu_1$ is any classical quality measure of $r$ over $\cG$ such that $\mu_1: (r,\cG) \mapsto \alpha \in  [0,1]$ (\eg \textit{standard confidence} or \textit{PCA confidence}~\cite{amie}). 
 $\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting from executing rule $r$) based on $\cP$ such that
- $\mu_2{:}\, (\cG_r,\cP) \mapsto  \alpha \,{\in}\, [0,1]$. To this end, $\mu_2$ is defined as the average probability of the newly predicted facts in $\cG_r$, formally defined as:
+ $\mu_2{:}\, (\cG_r,\cP) \mapsto  \alpha \,{\in}\, [0,1]$. To this end, $\mu_2$ is defined as the average probability of the newly predicted facts in $\cG_r$: %, formally defined as:
 \begin{align*}
-	\mu_2(\cG_r,\cP) = (\Sigma_{a\in \cG_r\backslash \cG} f(a)) /
-				|\cG_r \backslash \cG|.
+	\mu_2(\cG_r,\cP) = \dfrac{\Sigma_{a\in \cG_r\backslash \cG} f(a)}{|\cG_r \backslash \cG|}.
 \end{align*}
   % \gad{Not sure if we should add more here regarding $\mu_2$}
 
@@ -312,7 +311,14 @@ and other \emph{rule-related} parameters such as a maximum number of positive %$
 and negative 
 atoms allowed in $\mi{body(r)}$.
 The KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$.
-The rules $r$ are computed similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. During the construction of a rule $r$, the quality $\mu(r)$ is computed, based on which a decision about the next action is made.
+The rules $r$ are computed similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. The set of refinement operators from \cite{amie} is extended by the following two to support negations in rule bodies:
+\begin{itemize}
+\item \emph{add an exception instantiated atom:} add a negated atom with one of its arguments
+being a constant, and the other one being a shared variable.
+\item \emph{add an exception closing atom:} add a binary negated atom to the rule with both of its
+arguments being shared variables or a unary negated atom with a shared variable.
+\end{itemize}
+ During the construction of a rule $r$, the quality $\mu(r)$ is computed, based on which a decision about the next action is made.
 
 Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
 The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
