@@ -19,12 +19,15 @@ as a \emph{theory revision} task, where, given a KG and a set of (previously lea
 
 Since normally, the ideal graph $\cG^i$ is not available, in order to estimate the quality of a
 revised ruleset, two generic quality functions $q_{\mi{rm}}$ and
-$q_{\mi{conflict}}$ are devised, that take as input a ruleset $R$ and a KG $\cG$ and output a
+$q_{\mi{conflict}}$ are devised, which both take as input a ruleset $R$ and a KG $\cG$ and output a
 real value, reflecting the suitability of $R$ for data prediction.  More
-specifically, \begin{equation}q_{\mi{rm}} (R,\cG)=\dfrac{\sum_{r\in
-    R}rm(r,\cG)}{|R|}, \end{equation} where $\mi{rm}$ is some standard
-association rule measure \cite{Azevedo2007}. Conversely, $q_{\mi{conflict}}$ estimates the number of conflicting predictions that the rules in $R$ generate. To measure $\mi{q_{conflict}}$ for
-$R$, an extended set of rules $R^{aux}$ is created, which contains every %every
+specifically, 
+\begin{equation}q_{\mi{rm}} (R,\cG)=\dfrac{\sum_{r\in
+    R}rm(r,\cG)}{|R|}, \end{equation}
+     where $\mi{rm}$ is some standard
+association rule measure \cite{Azevedo2007}. \gad{text updated here!} Conversely, $q_{\mi{conflict}}$ estimates the number of conflicting predictions that the rules in $R$ generate. To measure $\mi{q_{conflict}}$ for $R$,
+ an extended set of rules $R^{aux}$ is created to materialize the predictions prevented by the negative part of each individual rule in $R$%, which
+. $R^{aux}$ contains every %every
 revised rule in $R$ %and
 together with %their
 its auxiliary version. For a rule $r:\,h(X,Y)\leftarrow B,\naf\,E$ in $R$,
