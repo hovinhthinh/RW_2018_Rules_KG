@@ -283,7 +283,7 @@ Based on this intuition, the recent work on completeness-aware rule learning (CA
 
 In particular, such meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
 \begin{equation}\label{eq:num}
-\mi{num}(p,x) := \# y : p(x,y) \in \cG^i 
+\mi{num}(p,x) = \# y : p(x,y) \in \cG^i 
 \end{equation}
 These cardinality statements can be obtained using web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
 It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
