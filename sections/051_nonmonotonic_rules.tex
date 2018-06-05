@@ -269,12 +269,7 @@ probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problo
 
 
 \subsection{Method Guided by Embedding Models}
-  \begin{figure}[t]
-\centering
-\includegraphics[width=1\textwidth]{figures/rules_overview_H.pdf}
-\caption{Embedding-based method for nonmonotonic rule learning.}
-\label{fig:system}
-\end{figure}
+
 
 
 In the work RulES (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
@@ -319,6 +314,21 @@ being a constant, and the other one being a shared variable.
 arguments being shared variables or a unary negated atom with a shared variable.
 \end{itemize}
  During the construction of a rule $r$, the quality $\mu(r)$ is computed, based on which a decision about the next action is made.
+  \begin{figure}[t]
+\centering
+\includegraphics[width=1\textwidth]{figures/rules_overview_H.pdf}
+\caption{Embedding-based method for nonmonotonic rule learning.}
+\label{fig:system}
+\end{figure}
+
+Note that by exploiting the embedding feedback, one can distinguish
+exceptions from noise. Consider the rule $r_1$ stating that married people live together. This
+rule can have several possible exceptions, e.g., either one of the spouses is a researcher
+or he/she works at a company, which has headquarter in the US. Whenever the rule is
+enriched with an exception, naturally, the support of its body decreases, i.e., the size of
+$\cG_r$ goes down. Ideally, such negated atoms shoudld be added to its body, that the average quality of
+$\cG_r$ increases, as this will witness that by adding negated atoms to the rule we get rid of
+unlikely predictions.
 
 Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
 The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
