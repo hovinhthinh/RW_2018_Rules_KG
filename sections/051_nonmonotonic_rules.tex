@@ -277,14 +277,15 @@ probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problo
 \end{figure}
 
 
-In the work RulES~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been peroposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of embedding-based methods for KG completion.
+In the work RulES~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been peroposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of embedding-based methods for KG completion.
 
 The RulES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
 by iteratively inducing rules from a KG and collecting statistics about them from a precomputed embedding model to prune out not promising rule candidates.
 % To explain the core of RulES, l
-Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR_\cG,\cC_\cG)$
+
+Let  $\cG$ be a KG over the signature $\Sigma_{\cG}=(\cR,\cC)$.
 A \emph{probabilistic KG} $\cP = (\cG,f)$, 
-where $f:\cR_\cG\times \cC_\cG \times \cC_\cG\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq \theta $, where $\theta$ is a correctness threshold.
+where $f:\cR\times \cC \times \cC\rightarrow [0,1]$ is a probability function over the facts over $\Sigma_{\cG}$ such that for each atom $a \in \cG $ it holds that $f(a) \geq \theta $, where $\theta$ is a correctness threshold.
 
 The goal of RulES is to learn rules that not only describe the available graph $\cG$ well, but also predict highly probable facts based on the function $f$ which relies on embeddings of the KG. For that, it utilizes a hybrid rule quality function:
 \begin{align*}
