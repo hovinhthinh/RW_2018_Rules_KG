@@ -43,7 +43,7 @@ instances which are \emph{not} in $\mi{h}$.
 
 \begin{example} The auxiliary rule $r_2^{aux}$ for the rule $r_2$ from Section~\ref{sec:intro} is as follows $\mi{r_2^{aux}:\,not\_livesIn(Y,Z)\leftarrow marriedTo(X,Y),livesIn(X,Z),researcher(Y)}$, and it informally reflects that married people among whom one is a researcher often do not live together. For $\mi{r_3:\,livesIn(X,Y)\leftarrow bornIn(X,Y),\naf\ immigrant(X)}$ we similarly have $\mi{r_3^{aux}:\,not\_livesIn(X,Y)\leftarrow bornIn(X,Y),immigrant(X)}$. If $R=\{r_1,r_2\}$ then $R^{aux}=\{r_1,r_1^{aux},r_2,r_2^{aux}\}$. 
 
-Intuitively, $q_{\mi{conflict}}(R,\cG)$ estimates the portion of conflicting predictions \\$\mi{livesIn(a,b),not\_livesIn(a,b)}$ made by the rules in $R^{aux}$. The hypothesis of \cite{gad2016,rumis} is that for a set $R$ of good rules with reasonable exceptions, the number of conflicting predictions produced by $R^{aux}$ is small.  \qed
+Intuitively, $q_{\mi{conflict}}(R,\cG)$ estimates the portion of conflicting predictions \\$\mi{livesIn(s,o),not\_livesIn(s,o)}$ made by the rules in $R^{aux}$. The hypothesis of \cite{gad2016,rumis} is that for a set $R$ of good rules with reasonable exceptions, the number of conflicting predictions produced by $R^{aux}$ is small.  \qed
 \end{example}
 
 
@@ -106,7 +106,7 @@ ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
-Given huge size of KGs, finding the best possible revision is unfeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for computing exceptions has been proposed to find an approximate solution to the above problem (see Figure~\ref{fig:iswc_process} for overview). 
+Given huge size of KGs, finding the best possible revision is unfeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that computes an approximate solution to the above problem has been proposed  (see Figure~\ref{fig:iswc_process} for overview). It combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for computing exceptions. We now briefly discuss the steps of this approach.
 
 \begin{figure}[t]
 \centering
@@ -114,6 +114,8 @@ Given huge size of KGs, finding the best possible revision is unfeasible in prac
 \caption{Rule revision method for nonmonotonic rule learning~\cite{gad2016,rumis}.}
 \label{fig:iswc_process}
 \end{figure}
+\bigskip
+
 \noindent \textbf{Step 1.} After mining Horn rules using an off-the-shelf algorithm (e.g.,
  \cite{amie}), %can also be applied)
  one computes for each rule the \emph{normal} and
@@ -121,11 +123,11 @@ Given huge size of KGs, finding the best possible revision is unfeasible in prac
 
 \begin{definition}[$r$-(Ab)Normal Substitutions]\label{sec:rulelearn}
 Let $\cG$ be a KG, $\mi{r}$ a Horn rule mined from $\cG$, and let $\cV$ be a set of variables occurring in $r$. Then
-\begin{myitemize}
+\begin{itemize}
 \item $\mi{NS(r, \cG)=\{\theta\, |\, head(r)\theta,body(r)\theta \subseteq \cG\}}$ is an $\mi{r}$-normal set of substitutions;
-\item $\mi{ABS(r, \cG){=}\{\theta'\, |\, body(r)\theta' {\subseteq} \cG\,{,}\,head(r)\theta' {\not \in} \cG\}}$ is an $\mi{r}$-abnormal one, \\
+\item $\mi{ABS(r, \cG){=}\{\theta'\, |\, body(r)\theta' {\subseteq} \cG\,{,}\,head(r)\theta' {\not \in} \cG\}}$ is an $\mi{r}$-abnormal set of substitutions, 
 where $\theta,\theta':\cV \rightarrow \cC$.
-\end{myitemize} 
+\end{itemize} 
 \end{definition}
 
 \begin{example}\label{ex:abns}
@@ -155,10 +157,10 @@ are defined as follows:
 
 \begin{definition}[Exception Witness Set (EWS)] \label{def:ews}
 Let $\cG$ be a KG, let $r$ be a rule mined from it, let $\cV$ be a set of variables occurring in $\mi{r}$ and $\vec{X}\subseteq \cV$. Exception witness set for $r$ \wrt\ $\cG$ and $\vec{X}$ is a maximal set of predicates $\mi{EWS(r,\cG,\vec{X})}=\{e_1,\dotsc,e_k\}$, s.t.
-\begin{myitemize}
+\begin{itemize}
 \item $\mi{e_i}(\vec{X}\theta_j)\in \cG$ for some $\theta_j\in \mi{ABS(r,\cG)}$, $1 \leq i\leq k$ and
 \item $\mi{e_1}(\vec{X}\theta'),\dotsc,\mi{e_k}(\vec{X}\theta')\not \in \cG$ for all $\theta' \in \mi{NS(r,\cG)}$.
-\end{myitemize}
+\end{itemize}
 \end{definition}
 
 \begin{example}
@@ -166,10 +168,11 @@ For $\cG$ in Fig.~\ref{rdf} and $\mi{r1}$
 we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
  $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ did not live in %cities different from 
 %$\mi{berlin}$ and $\mi{chicago}$ resp., 
-metropolitans, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. 
+metropolitans, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. \qed
 \end{example}
-In general when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
-For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. Furthermore, combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
+In general, when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
+%For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. 
+Combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
 
 
 
@@ -207,8 +210,8 @@ $r^j_i$, four special ranking functions are introduced: a naive one and three mo
     \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
 new facts are inferred using only $\cG$.
 
-For reasoning over weighted facts exiting 
-probabilistic deductive reasoning tools such as ProbLog~\cite{problog2007,problog2015} can be used.
+For reasoning over weighted facts existing 
+probabilistic deductive tools such as ProbLog~\cite{problog2007,problog2015} can be used, but their exploitation is left for future work.
 \end{itemize}
 
 
@@ -296,7 +299,7 @@ The goal of RuLES is to learn rules that not only describe the available graph $
 \end{align*}
 
 \noindent where $\lambda$ is a weight coefficient and $\mu_1$ is any classical quality measure of $r$ over $\cG$ such that $\mu_1: (r,\cG) \mapsto \alpha \in  [0,1]$ (\eg \textit{standard confidence} or \textit{PCA confidence}~\cite{amie}). 
-$\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting from executing rule $r$) based on $\cP$ such that
+$\mu_2$ measures the quality of $\cG_r$ (\ie the extension of $\cG$ resulting from executing the rule $r$) based on $\cP$ such that
  $\mu_2{:}\, (\cG_r,\cP) \mapsto  \alpha \,{\in}\, [0,1]$. To this end, $\mu_2$ is defined as the average probability of the newly predicted facts in $\cG_r$: %, formally defined as:
 \begin{align*}
 	\mu_2(\cG_r,\cP) = \dfrac{\Sigma_{a\in \cG_r\backslash \cG} f(a)}{|\cG_r \backslash \cG|}.
@@ -325,7 +328,7 @@ being a constant, and the other one being a shared variable.
 arguments being shared variables or a unary negated atom with a shared variable.
 \end{itemize}
  During the construction of a rule $r$, the quality $\mu(r)$ is computed by the \emph{Rule Evaluation} component, based on which a decision about the next action is made.
-
+Finally as an output, the RuLES produces a set of nonmonotonic rules suitable for KG completion.
 
 Note that by exploiting the embedding feedback, one can distinguish
 exceptions from noise. Consider the rule $r_1$ stating that married people live together. This
@@ -334,7 +337,7 @@ or he/she works at a company, which has headquarter in the US. Whenever the rule
 enriched with an exception, naturally, the support of its body decreases, i.e., the size of
 $\cG_r$ goes down. Ideally, such negated atoms should be added to its body, that the average quality of
 $\cG_r$ increases, as this will witness that by adding negated atoms to the rule we get rid of
-unlikely predictions. Finally as an output, the RuLES produces a set of nonmonotonic rules suitable for KG completion.
+unlikely predictions. 
 
 %Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
 %The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.
