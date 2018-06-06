@@ -6,12 +6,11 @@ predict erroneous facts as shown in Section~\ref{sec:intro}.
 In this section, we provide an overview of approaches for learning nonmonotonic rules from large and incomplete KGs. First, we describe a method that relies on cross-talk among the extracted rules to guess their exceptions~\cite{gad2016,rumis}. Then we present an approach that exploits embedding-based methods for knowledge graph completion during rule construction~\cite{thinh2018}.
 
 \subsection{Revision-based Method}
-Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are extracted is complete.
+Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are induced is complete.
 
 In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
 It pre-processes a KG by %translating
-projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules. Later, these rules are augmented with 
-with negation atoms. In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
+projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules, which are then augmented with negated atoms. In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
 In these works, the KG completion problem from Definition~\ref{def:kgcomp} is treated 

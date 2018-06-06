@@ -259,7 +259,7 @@ The authors of \cite{DBLP:conf/www/ZupancD18} have recently proposed the \emph{R
 %The confidence of a rule is the fraction of facts predicted by the rule
 %that are either in the KG or are true but missing in the KG. 
 %The insight of \cite{DBLP:conf/www/ZupancD18} 
-The intuition behind \emph{RC confidence} is that for computing rule's confidence one does not necessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;H\leftarrow B, \naf\ E$ with $H=h(X,Y)$ as follows
+The intuition behind \emph{RC confidence} is that for computing rule's confidence one does not necessarily have to know which among rule predictions are true; just estimating their number is sufficient. The key assumption for such estimation is that the proportion of positive facts covered by a rule is the same for both true and unknown facts, which is reflected in the following \emph{relationship coverage} defined for $r:\;h(X,Y)\leftarrow B$ as follows
 
 \[\frac{\textit{r-supp}(r,\cG)}{\#(x,y):h(x,y) \in  \cG} = \frac{|UP(r,\cG)|}{\#(x,y):h(x,y) \in \cG^i\backslash \cG}\]
 where $UP(r,\cG)=\cG_r \cap \cG^i$ (assumed to be 0 in the case of standard confidence).
@@ -277,11 +277,12 @@ conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\
 
 
 %\subsubsection{Completeness-aware Rule Measures.}  
+\subsubsection{(In)completeness Metadata.}
 In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
 
-Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in-)completeness meta-data.
+Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in)completeness metadata.
 
-In particular, such meta-data is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
+In particular, such metadata is presented using cardinality statements by reporting (the numerical restriction on) the absolute number of facts over a certain relation in the ideal graph $\cG^i$. More specifically, the partial function $num$ is defined that takes as input a predicate $\mi{p}$ and an entity $\mi{x}$ and outputs a natural number corresponding to the number of facts in $\cG^i$ over $\mi{p}$ with $\mi{x}$ as the first argument: 
 \begin{equation}\label{eq:num}
 \mi{num}(p,x) = \# y : p(x,y) \in \cG^i 
 \end{equation}
@@ -289,7 +290,7 @@ These cardinality statements can be obtained using web extraction techniques~\ci
 It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
 Naturally, the number of missing facts for a given $p$ and $x$ can be obtained as
 \[\mi{miss}(p,x,\cG) = \mi{num(p,x)} - \#y : p(x,y) \in \cG\]
-Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r}$, reflecting the number of new 
+Given a KG and its related cardinality statements of the above form, CARL defines two indicators for a given rule $\mi{r:\,h(X,Y)\leftarrow B}$, reflecting the number of new 
 predictions made by $\mi{r}$ in incomplete ($\mi{npi}$) and, respectively, complete ($\mi{npc}$) KG parts:
 \begin{align*}
 \mi{npi}(r, \cG) = \sum_x min(\#y: h(x,y)\in \cG_r\backslash \cG, \mi{miss}(h,x,\cG))
@@ -349,7 +350,7 @@ We have $\mi{npi(r_1', \cG')}\!=\!2$, $\mi{npc(r_1', \cG')}\!=\!4$, while $\mi{n
 \begin{align*}
 \mi{dm}(r,\cG) = \frac{\mi{npi}(r,\cG)-\mi{npc}(r,\cG)}{2\cdot(\mi{npi}(r,\cG)+\mi{npc}(r,\cG))}+0.5
 \end{align*}
-Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This is done via a % leads to the consideration of the
+Since the real-world KGs are often highly incomplete, it might be reasonable to put more weight on predictions in complete parts. This is done via %a % leads to the consideration of the
 combining any existing association rule measure $rm$, e.g., standard confidence or conviction, with 
 the directional metric, using a certain dedicated weighting factor $\gamma \in [0..1]$. Formally,
 \begin{align*}
