@@ -13,7 +13,7 @@ negation. The then-part has a single atom that has to hold, whenever the if-part
 H\leftarrow B, \naf\ E
 \end{equation}
 where $H$ is a standard first-order atom of the form $h(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $\naf\ E$ %with slight abuse of notation, 
- is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $a,b_1,\ldots,b_n$ respectively.
+ is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc,\naf\, b_n(\vec{Y_{n}})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_n$ respectively.
 % . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
 \end{definition}
 
@@ -48,7 +48,7 @@ We now formally define the satisfaction relation.
 \begin{definition}[Satisfaction, Model] An interpretation $I$ satisfies
 \begin{itemize}
 \item a ground atom a, denoted $I \models a$, if $a \in I$,
-\item a negated ground atom $\mi{not\; a}$, denoted $I \models \mi{not\; a}$ if $I \not \models a$,
+\item a negated ground atom $\mi{not\; a}$, denoted $I \models \mi{not\; a}$, if $I \not \models a$,
 \item  a conjunction $b_1,\dotsc,b_n$ of ground literals, denoted $I \models b_1,\dotsc,b_n$, if for
 each $i\in \{1,\dotsc, n\}$ it holds that $I \models b_i$,
 \item a ground rule $r$, denoted $I \models r$ if $I \models \mi{body(r)}$ implies $I \models \mi{head(r)}$, i.e., if all literals in the body hold then the literal in the head also holds.
@@ -161,7 +161,8 @@ Moreover, you are given the following positive and negative examples.
 $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones, i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$. The classical ILP task concerns automatic extraction of such hypothesis. \qed
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones. % , i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$
+The classical ILP task concerns automatic extraction of such hypothesis. \qed
 \end{example}
 
 In an alternative setting, known as \emph{learning from interpretations} proposed in \cite{DBLP:journals/ai/RaedtD94}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $E$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $E$ is a minimal model of $\mi{Hyp} \cup B$.
