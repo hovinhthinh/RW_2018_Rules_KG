@@ -10,7 +10,7 @@ Exception handling has been traditionally faced in ILP by learning non-monotonic
 
 In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
 It pre-processes a KG by %translating
-projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules, which are then augmented with negated atoms. In \cite{rumis} the approach has been extended to KGs in their original binary form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
+projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules, which are then augmented with negated atoms. In \cite{rumis} the approach has been extended to KGs in their original relational form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
 In these works, the KG completion problem from Definition~\ref{def:kgcomp} is treated 
@@ -53,7 +53,7 @@ Formally, based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of e
 \begin{equation}
 \mi{q_{conflict}(R,\cG)=\sum_{p\in pred(R)} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}}
 \end{equation}
-where $\mi{pred(R_{NM})}$ stores predicates appearing in $R$.
+where $\mi{pred(R)}$ stores predicates appearing in $R$.
 %\noindent where $\mi{pred(\cR^{\mi{aux}})}$ is the set of predicates appearing in $\cR^{\mi{aux}}$.$q_{\mi{conflict}}=$% Given a potentially incomplete graph $\cG^a$ and a set of Horn rules $\cR_H$
 % mined from $\cG^a$, our goal is to add default negated atoms (exceptions) to the
 % rules in $\cR_{H}$ and obtain a revised ruleset $\cR_{\mi{NM}}$ such that the
