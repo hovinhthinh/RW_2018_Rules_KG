@@ -6,7 +6,7 @@ Knowledge Graphs (KGs) have been introduced in the Semantic Web community to cre
 Formally, we assume countable sets $\cR$ of unary and binary predicate names (aka relations) and $\cC$ of constants (aka entities). A knowledge graph $\cG$ is a finite set of ground atoms of the form $p(s,o)$ and $c(s)$ over $\cR \cup \cC$. With $\Sigma_{\cG}=\tuple{\cR,\cC}$, the signature of $\cG$, we denote elements of $\cR \cup \cC$ that occur in $\cG$.
 
 \begin{example} Figure~\ref{rdf} shows a snippet of a graph about people, family and friendship %their 
-relations among them as well as their living places and professions. For instance, the upper left part encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan'' represented by the FOL facts $\{\mi{hasBrother(ann, john),}$ $\mi{ livesIn(ann, berlin)}$, \\$\mi{livesIn(brad, berlin)}$, $\mi{metropolitan(berlin)}$, $\mi{marriedTo(brad, ann)}\}.$
+relations among them as well as their living places and professions. For instance, the upper left part encodes the information that ``Ann has a brother John, and lives with her husband Brad in Berlin, which is a metropolitan city'' represented by the FOL facts $\{\mi{hasBrother(ann, john),}$ $\mi{ livesIn(ann, berlin)}$, \\$\mi{livesIn(brad, berlin)}$, $\mi{metropolitan(berlin)}$, $\mi{marriedTo(brad, ann)}\}.$
 % For the whole KG snippet $\cG$ t
 The set $\cR$ of relations appearing in the given KG contains the predicates $\mi{livesIn,marriedTo,}$\\$\mi{hasBrother,hasFriend,researcher,metropolitan,artist}$, while the set $\cC$ of constants comprises of the names of people and locations depicted on Figure~\ref{rdf}. \qed
 \end{example}
@@ -37,7 +37,8 @@ Suppose we had an \emph{ideal} KG $\cG^i$ that contains \emph{all} correct and t
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
     $\Sigma_{\cG}=\Sigma_{\cG^i}$. We call $\cG$ the available
-    graph and $\mathcal{G}^i$ the ideal graph.  \end{definition}
+    graph and $\mathcal{G}^i$ the ideal graph, which is usually unknown.
+\end{definition}
     
 Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) by means of rules induced from the available KG and possibly other external information sources.
 
