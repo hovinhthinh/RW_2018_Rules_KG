@@ -322,10 +322,10 @@ As illustrated in the system overview of RuLES in Figure~\ref{fig:system_RulES},
 computes the rules
 similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. The set of refinement operators from \cite{amie} is extended by the following two to support negations in rule bodies:
 \begin{itemize}
-\item \emph{add an exception instantiated atom:} add a negated atom with one of its arguments
+\item \emph{add an exception instantiated atom:} add a binary negated atom with one of its arguments
 being a constant, and the other one being a shared variable.
 \item \emph{add an exception closing atom:} add a binary negated atom to the rule with both of its
-arguments being shared variables or a unary negated atom with a shared variable.
+arguments being shared variables.% or a unary negated atom with a shared variable.
 \end{itemize}
  During the construction of a rule $r$, the quality $\mu(r)$ is computed by the \emph{Rule Evaluation} component, based on which a decision about the next action is made.
 Finally as an output, the RuLES produces a set of nonmonotonic rules suitable for KG completion.
