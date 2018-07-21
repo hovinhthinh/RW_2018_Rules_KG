@@ -35,14 +35,14 @@ Moreover, different contributors find different facts interesting, e.g., Austria
 Along with completeness and absence of data bias, there are also other important aspects reflecting KGs' quality %. These 
 including %the number of facts %size and 
 %and %as well as 
-their correctness. Indeed, human contributors might bring their own opinion on the added factual statements (e.g., Catalonia being a part of Spain or an independent country), while automatically constructed KGs contain noisy facts, as information extraction methods are imperfect. We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs and their quality.
+their correctness. Regardless of the KG construction method, the resulting facts are rarely error-free. Indeed, in the case of manually constructed KGs human contributors might bring their own opinion on the added factual statements (e.g., Catalonia being a part of Spain or an independent country). On the other hand, automatically constructed KGs often contain noisy facts, since information extraction methods are imperfect. We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs and their quality.
 
 
 
 The problems of KG completion and cleaning are %one of 
 among the central ones. Approaches for addressing them can be roughly divided into two groups: statistics-based, and logic-based. The firsts apply such techniques as tensor factorization, or neural-embedding-based models (see \cite{DBLP:journals/pieee/Nickel0TG16} for overview). The second group concentrates on logical rule learning \cite{ruleoverview}. In this tutorial, we primarily focus on rule-based techniques, and their application for the KG completion task. In the following, we assume that the given KG $\cG$ stores only a subset of all true facts.
 
-Suppose we had an \emph{ideal} KG $\cG^i$ that contains \emph{all} correct and true facts in the world reflecting the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
+Suppose we had an \emph{ideal} KG $\cG^i$\footnote{With some abuse of notation the superscript $i$ stands of \emph{ideal}} that contains \emph{all} correct and true facts in the world reflecting the relations from $\cR$ that hold among the entities in $\cC$. The gap between $\cG$ and its ideal version $\cG^i$ is defined as follows \cite{rdfcomp}: 
 
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
