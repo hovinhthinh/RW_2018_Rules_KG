@@ -119,7 +119,7 @@ where $\textit{rel-supp}(H, \cG)$ is the relative support of the head, measured 
 \textit{rel-supp}(H, \cG) = \dfrac{\#(x,y):h(x,y)\in \cG}{(\#x:\exists y:h(x,y)\in \cG)\times(\#y:\exists x:h(x,y)\in \cG)}
 \end{align*}
 \begin{example}
-For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, so $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
+For the KG in Figure~\ref{rdf}, we have $\textit{rel-supp}(livesIn, \cG) = \frac{10}{10 \times 4} = \frac{1}{4}$, thus $conv(r_1,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{6}} = \frac{3}{2}$ and $conv(r_2,\cG) = \frac{1-\frac{1}{4}}{1-\frac{3}{4}} = 3$.\qed
 \end{example}
 
 \subsection{Rule Construction}
@@ -136,17 +136,17 @@ ensures the actual prediction  of a fact by a rule, but not just its existence~\
 
 \begin{example}
 %\ds{TODO: insert an example of a closed and a non-closed rule, say a few words, why closed rules make sense}
-The above rules $r_1$ and $r_2$ are \textit{closed}. % An example of a \textit{non-closed} rule that can be learned from the KG in Figure~\ref{rdf} is:
+The rules $r_1$ and $r_2$ from Section~\ref{sec:intro} are \textit{closed}. % An example of a \textit{non-closed} rule that can be learned from the KG in Figure~\ref{rdf} is:
 % \[\mi{metropolitan(Y)} \leftarrow \mi{livesIn(X,Y)} \]
 % This rule has confidence $conf = \frac{6}{10}$, saying that people only live in metropolitan, which is incorrect. 
 An example of a \emph{non-closed} rule is:
 \[\exists Z\; \mi{livesIn(Y,Z)} \leftarrow \mi{isMarriedTo(X,Y)} \]  which states that married people 
 %then he/she should 
-live somewhere. This rule cannot infer the exact living place of a person, but merely its existence, and thus is less interesting in this context. \qed% for the KG completion. %location 
+live somewhere. This rule cannot infer the exact living place of a person, but merely its existence, and thus it is less interesting in this context. \qed% for the KG completion. %location 
 %which specifies his living location based on the spouse.
 \end{example}
 
-The most prominent examples of systems that are specifically tailored towards inducing Horn rules from KGs are AMIE \cite{amie}, %OP, \cite{op} 
+The most prominent examples of systems that are specifically tailored towards inducing Horn rules from KGs are AMIE \cite{amie} %OP, \cite{op} 
 and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE.}
 AMIE \cite{amie} is a state-of-the-art Horn rule mining system.
