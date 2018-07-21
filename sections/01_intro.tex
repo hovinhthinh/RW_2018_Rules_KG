@@ -9,7 +9,7 @@ huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs)
 An important task over KGs is rule learning, which is relevant for a variety of applications ranging from knowledge graph curation (completion, error detection) \cite{DBLP:journals/semweb/Paulheim17} to data mining and semantic culturomics \cite{suchanek2014semantic}. Rules over KGs are of the form $\mi{head \leftarrow body}$, where $\mi{head}$ is a binary atom and $\mi{body}$ is a conjunction of (possibly negated) binary and unary atoms. 
 
 Traditionally, rule induction has been studied in the context of relational data mining in databases (see e.g., \cite{DBLP:books/daglib/0021868} for overview), and has recently been adapted to KGs (e.g., \cite{amie,op,rdf2rules}). The methods from this area can be used to identify prominent patterns from KGs, such as \emph{``Married people live in the same
-place''}, and cast them in the form of Horn rules, such as:
+place''}, and cast them in the form of Horn rules (i.e., rules with only positive atoms), such as:
 $\mi{r_1:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{marriedTo(X,Y),livesIn(X,Z)}$. 
 
 For the KG curation, this has two-fold benefits. First, since KGs operate under the open world
@@ -60,9 +60,9 @@ Along with KGs themselves, additional background knowledge could be used for bet
 %\end{center}
 %\end{figure}
 
-Horn rules are rules that contains only positive atoms in the rule's body such as $\mi{r_1}$. Even though these rules are meaningful, they might not always be sufficiently expressive to capture KG patterns accurately, as they cannot handle exceptions, which often appear in practice. 
+Horn rules such as $\mi{r_1}$, might not always be sufficiently expressive to capture KG patterns accurately. Indeed, these rules cannot handle exceptions, which often appear in practice. 
 %Even when meaningful, Horn rules, where all predicates in the rule's body are positive such as $\mi{r_1}$ might not always be sufficiently expressive to capture KG patterns accurately, as they cannot handle exceptions, which often appear in practice. 
-For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} results in the facts $\mi{livesIn(alice,berlin)}$, $\mi{livesIn(dave,chicago)}$ and $\mi{livesIn(lucy,amsterdam)}$. Observe that the first two facts might be suspected to be wrong. Indeed, both $\mi{alice}$ and $\mi{dave}$ are researchers, and the rule $\mi{r_1}$ could be suspected to have researcher as a potential exception resulting in its more accurate version given as $\mi{r_2:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{marriedTo(X,Y),livesIn(X,Z), not\;researcher(Y)}$.
+For instance, application of $\mi{r_1}$ mined from the KG in Figure~\ref{rdf} results in the facts $\mi{livesIn(alice,berlin)}$, $\mi{livesIn(dave,chicago)}$ and $\mi{livesIn(lucy,amsterdam)}$. Observe that the first two facts might be suspected to be wrong. Indeed, both $\mi{alice}$ and $\mi{dave}$ are researchers, and the rule $\mi{r_1}$ could have researcher as a potential exception resulting in its more accurate version given as $\mi{r_2:\;}\mi{livesIn(Y,Z)}\leftarrow \mi{marriedTo(X,Y),livesIn(X,Z), not\;researcher(Y)}$.
 Exception handling has been faced in inductive logic programming (ILP) by learning nonmonotonic logic programs, i.e., programs with negations from databases (e.g., \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL}), and recently also studied in the context of KGs \cite{gad2016,rumis}.
 
 
