@@ -12,11 +12,13 @@ negation. The then-part has a single atom that has to hold, whenever the if-part
 \begin{equation}
 H\leftarrow B, \naf\ E
 \end{equation}
-where $H$ is a standard first-order atom of the form $h(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $\naf\ E$ with slight abuse of notation
-is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc, \naf\, b_n(\vec{Y_n})$. Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_n$ respectively.
+where $H$ is a standard first-order atom of the form $h(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $E$ is an atom $b_{k+1}(\vec{Y_{k+1}})$.
+% is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc, \naf\, b_n(\vec{Y_n})$.
+Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{k+1}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_{k+1}$ respectively.
 % . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
 \end{definition}
 
+Note that we focus on rules with a single negated atom in this work for simplicity; in the general case, the negated part of the rule can be a conjunction of multiple negated atoms.
 The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
 \emph{Horn} if $\mi{body^-}(r)=\emptyset$.
 
@@ -125,7 +127,7 @@ is defined as follows:
 \item[] \textbf{Given:}
 \begin{itemize}
 \item Positive examples $E^+$ and negative examples $E^-$ over the target $n$-ary relation $p$, i.e. sets of facts;
-\item Background knowledge $T$, i.e. an extensive set of facts over various relations that can be used to induce the definition of $p$; 
+\item Background knowledge $T$, i.e. an extensive set of facts over various relations and possibly logical rules that can be used to induce the definition of $p$; 
 \item Syntactic restrictions on the definition of $p$.
 \end{itemize}
 \smallskip
@@ -176,7 +178,7 @@ Formally,
 \begin{itemize}
 \item[] \textbf{Given:}
 \begin{itemize}
-\item An interpretation $E$, i.e., a set of facts over various relations
+\item An interpretation $I$, i.e., a set of facts over various relations
 \item Background knowledge $T$
 \item Syntactic restrictions on the form of rules to be induced
 \end{itemize}
@@ -184,7 +186,7 @@ Formally,
 
 \item[] \textbf{Find:}
 \begin{itemize}
-\item A hypothesis $\mi{Hyp}$, such that $E$ is a minimal Herbrand model of $\mi{Hyp \cup T}$.
+\item A hypothesis $\mi{Hyp}$, such that $I$ is a minimal Herbrand model of $\mi{Hyp \cup T}$.
 \end{itemize}
 \end{itemize}
 \end{definition}
@@ -232,7 +234,7 @@ To date, the main tasks considered in the ILP area can be classified based on th
 %Along with the type of the input data used (e.g., examples, interpretations), there are several other parameters that distinguish the rule mining approaches : 
 \begin{itemize}
 \item \emph{type of the data source}, e.g., positive/negative examples, interpretations, text
-\item \emph{type of the output knowledge}, e.g., Horn/nonmonotonic rules over single or multiple predicates, description logic class descriptions, class inclusions, etc.
+\item \emph{type of the output knowledge}, e.g., Horn/nonmonotonic rules over single or multiple predicates, description logic (DL) class descriptions, class inclusions
 \item \emph{the way the data is given as input}, e.g., all data at once or incrementally
 \item \emph{availability of an oracle}, e.g., involvement of a human expert in the loop
 \item \emph{quality of the data source}, e.g., noisy or clean
@@ -242,7 +244,7 @@ To date, the main tasks considered in the ILP area can be classified based on th
 
 \end{itemize}
 
-An overview of some of the systems for Horn and nonmonotonic (NM) rule induction with their selected properties are presented in Table~\ref{tab:ilp}. 
+An overview of some of the systems for Horn and nonmonotonic (NM) rule induction with their selected properties is presented in Table~\ref{tab:ilp}. 
 % While the majority of approaches within inductive logic programming (see, e.g., \cite{DBLP:journals/cacm/GulwaniHKMSZ15,DBLP:journals/ml/MuggletonRPBFIS12} for overview) focus on the extraction of Horn logic programs from the data, learning programs with negation has also been tackled in several works 
 % ~\cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system}. 
 % Now, we provide an overview of the most relevant techniques from nonmonotonic rule learning that mainly differ with respect to the data that they take as an input.
