@@ -118,26 +118,25 @@ logic program (predicate definition) corresponding to a view
 that defines the target relation in terms of other relations
 that are given as background knowledge. 
 
-More formally, the classical inductive logic programming task of learning from positive and negative examples 
+More formally, the classical inductive logic programming task of learning from positive and negative examples (also known as learning from entailment)
 is defined as follows:
-\begin{definition}[Inductive Learning from Examples]\label{def:learnex}
+\begin{definition}[Inductive Learning from Examples \cite{DBLP:journals/ngc/Muggleton91}]\label{def:learnex}
 \begin{itemize}
 \item[] \textbf{Given:}
 \begin{itemize}
 \item Positive examples $E^+$ and negative examples $E^-$ over the target $n$-ary relation $p$, i.e. sets of facts;
-\item Background knowledge $B$, i.e. an extensive set of relations that can be used to induce the definition of $p$; 
+\item Background knowledge $T$, i.e. an extensive set of facts over various relations that can be used to induce the definition of $p$; 
 \item Syntactic restrictions on the definition of $p$.
 \end{itemize}
 \smallskip
 
 \item[] \textbf{Find:}
 \begin{itemize}
-\item A hypothesis $\mi{Hyp}$ that defines the target relation $p$, which is (i) \emph{complete}, i.e., $\forall e\in E^+$, it holds that $B \cup \mi{Hyp} \models e$, and (ii) \emph{consistent}, i.e., $\forall e' \in E^-$: $B \cup \mi{Hyp} \not \models e'$.
+\item A hypothesis $\mi{Hyp}$ that defines the target relation $p$, which is (i) \emph{complete}, i.e., $\forall e\in E^+$, it holds that $T \cup \mi{Hyp} \models e$, and (ii) \emph{consistent}, i.e., $\forall e' \in E^-$: $T \cup \mi{Hyp} \not \models e'$.
 \end{itemize}
 \end{itemize}
 \end{definition}
- This problem, introduced in \cite{DBLP:journals/ngc/Muggleton91}, is
- also often called \emph{learning from entailment}. 
+% This problem is also often called \emph{learning from entailment}. 
 
 
 \begin{example}
@@ -147,7 +146,7 @@ However, you do not know what the relationship $\mi{fatherOf}$ actually means.
 You might have the following beliefs, i.e., background knowledge.
 \smallskip
 
-{\leftline{$B = \left\{
+{\leftline{$T = \left\{
             \renewcommand{\arraystretch}{1.1}
             \begin{array}{@{\,}l@{~~}l@{}}
               \mbox{(1) } \mi{parent (john, mary)};
@@ -167,25 +166,25 @@ Moreover, you are given the following positive and negative examples.
 $\mi{E^-=\{fatherOf(kathy, ellen), fatherOf(john, steve)\}}$\\
 
 One of the possible hypothesis that can be induced from the above knowledge reflecting the meaning of the $\mi{fatherOf}$ relation is given as follows:\\
-$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $B$, and together with $B$ it entails all of the positive examples, and none of the negative ones. % , i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$
+$\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is consistent with the background theory $T$, and together with $T$ it entails all of the positive examples, and none of the negative ones. % , i.e., $\mi{Hyp \cup B \models E^+}$, $\mi{Hyp \cup B \not \models E^-}$
 The classical ILP task concerns automatic extraction of such hypothesis. \qed
 \end{example}
 
-In an alternative setting, known as \emph{learning from interpretations} proposed in \cite{DBLP:journals/ai/RaedtD94}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $E$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $E$ is a minimal model of $\mi{Hyp} \cup B$.
+In an alternative setting, known as \emph{learning from interpretations}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $I$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $I$ is a minimal model of $\mi{Hyp} \cup T$.
 Formally, 
-\begin{definition}[Inductive Learning from Interpretations]\label{def:learnint}
+\begin{definition}[Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}]\label{def:learnint}
 \begin{itemize}
 \item[] \textbf{Given:}
 \begin{itemize}
 \item An interpretation $E$, i.e., a set of facts over various relations
-\item Background knowledge $B$
+\item Background knowledge $T$
 \item Syntactic restrictions on the form of rules to be induced
 \end{itemize}
 \smallskip
 
 \item[] \textbf{Find:}
 \begin{itemize}
-\item A hypothesis $\mi{Hyp}$, such that $E$ is a minimal Herbrand model of $\mi{Hyp \cup B}$.
+\item A hypothesis $\mi{Hyp}$, such that $E$ is a minimal Herbrand model of $\mi{Hyp \cup T}$.
 \end{itemize}
 \end{itemize}
 \end{definition}
