@@ -19,14 +19,18 @@ There are also projects
 devoted to the extraction of facts from unstructured resources using natural language processing and machine learning methods.  
 For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to this category. Table~\ref{tab:kgs} shows examples of some KGs and their statistics.
 
-While the existing KGs contain millions of facts, they are still far from being complete, and therefore treated under the open world assumption (OWA), i.e., facts not present in KGs are assumed to be unknown rather than false. For example, given the KG in Figure~\ref{rdf} we cannot say whether $\mi{livesIn(dave,chicago)}$ is true or false. This is opposed to the closed world assumption (CWA) made in databases, under which $\mi{\neg livesIn(dave,chicago)}$ would be inferred. % from the given data.
+\subsection{Incompleteness, Bias and Noise of Knowledge Graphs}
+While the existing KGs contain millions of facts, they are still far from being complete, and therefore treated under the open world assumption (OWA), i.e., facts not present in KGs are assumed to be unknown rather than false. For example, given only Germany as the living place of Albert Einstein,  we cannot say whether $\mi{livedIn(einstein,us)}$ is true or false. This is opposed to the closed world assumption (CWA) made in databases, under which $\mi{\neg livedIn(einstein,us)}$ would be inferred. % from the given data.
+
+Apart from incompleteness, both manually and semi-automatically created KGs also suffer from the problem of bias in the data. Indeed,  manually created KGs such as Wikidata contain crowdsourced information. While leveraging crowdsourcing for KG construction, human curators from different countries add factual statements that they find interesting. Due to the difference in the population of contributors obviously facts about some countries are covered better than about others. For example, KGs typically store more facts about Austrians than Ghanians even though there are three times more inabitants in Ghana than in Austria. Moreover, different contributors find different facts interesting, e.g., Austrians would add detailed information about music composers, while Ghanians about their athletes.  This naturally leads to cultural bias in KGs. Likewise KGs that are semi-automatically extracted from Wikipedia infoboxes such as DBPedia and Yago higly depend on the pre-defined properties that these infoboxes contain \cite{DBLP:conf/www/LajusS18}. Given all that the information stored in modern KGs naturally turns out to be highly biased and not always representative. 
 
 Obviously, the more facts the KGs cover from a %given 
-domain  of their focus, %on which they are focused, 
-the better. Along with completeness, there are also other important aspects reflecting KGs' quality %. These 
+domain  of their focus, and the more representative these facts are, %on which they are focused, 
+the better. Along with completeness and absence of data bias, there are also other important aspects reflecting KGs' quality %. These 
 including %the number of facts %size and 
 %and %as well as 
 their correctness.  We refer the reader to~\cite{Nickel2015ARO,DBLP:journals/semweb/Paulheim17} for further discussions on the available KGs.
+
 
 
 The problems of KG completion and cleaning are %one of 
@@ -37,7 +41,7 @@ Suppose we had an \emph{ideal} KG $\cG^i$ that contains \emph{all} correct and t
 \begin{definition}[Incomplete Knowledge Graph] An incomplete KG is a pair
     $G = (\cG, \cG^i)$ of two KGs, where $\cG\subseteq \cG^i$ and
     $\Sigma_{\cG}=\Sigma_{\cG^i}$. We call $\cG$ the available
-    graph and $\mathcal{G}^i$ the ideal graph, which is usually unknown.
+    graph and $\mathcal{G}^i$ the ideal graph.
 \end{definition}
     
 Note that $\cG^i$ is an abstract construct, which is normally unavailable. Intuitively, \emph{rule-based KG completion task} concerns the reconstruction of the ideal KG (or its approximation) by means of rules induced from the available KG and possibly other external information sources.

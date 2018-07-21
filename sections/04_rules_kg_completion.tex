@@ -1,6 +1,8 @@
 \section{ Rule Learning for Knowledge Graph Completion}
 \label{sec:rules_kg_completion}
-The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} operate under CWA and aim at exacting rule hypotheses that perfectly satisfy the criteria from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
+The majority of the classical existing rule induction methods mentioned in Section~\ref{sec:reasoning} assume that the given data from which the rules are induced is complete and clean. In the context of automatically constructed KGs, this is unfortunately not the case. Indeed, modern KGs suffer greatly from the problems of incompleteness and bias. 
+
+operate under CWA and aim at exacting rule hypotheses that perfectly satisfy the criteria from Definition~\ref{def:learnex} or Definition~\ref{def:learnint}.
 On the other hand, as discussed in Section~\ref{sec:kgs}, knowledge graphs adopt OWA, i.e., they might miss some true facts, such as living places of scientists. Moreover, the real world is very complicated, and its exact representation often cannot be acquired from the data, meaning that the task of inducing a perfect rule set from a KG is typically unfeasible. Therefore, in the context of KGs, one normally aims at extracting certain regularities from the data, which are not universally correct, but when seen as rules predict a sufficient portion of true facts. 
 
 In other words, the goal of automatic rule-based KG completion is to learn a set $R$ of logic rules from the available graph $\cG$, such that their application on $\cG$ results in a good approximation of the ideal graph $\cG^i$. In that sense the problem of rule-based KG completion is closely related to the task of learning from (partial) interpretations (Definition~\ref{def:learnint}), where the graph $\cG$ plays a role of $E$.
