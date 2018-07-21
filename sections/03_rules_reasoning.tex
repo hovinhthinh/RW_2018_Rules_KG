@@ -59,11 +59,17 @@ An interpretation $I$ is a \emph{model} of a ground program $P$, if $I \models r
 $r \in P$. A model $I$ is \emph{minimal} if there is no other model $I' \subset I$.
 By $\mi{MM(P)}$ we denote the set-inclusion minimal model of a ground positive program $P$.
 
-\begin{definition}[Gelfond-Lifschitz Reduct, Answer Set]
-An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
+The classical definition of answer sets based on the Gelfond-Lifschitz reduct is given as follows.
+ \begin{definition}[Gelfond-Lifschitz Reduct \cite{GL1988}, Answer Set]
+ An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM}(P^I)$, where $P^I$ is the \emph{Gelfond-Lifschitz (GL) reduct} of $P$, obtained from $Gr(P)$ by removing (i) each rule $r$ such that $\mi{Body}^-(r) \cap I\neq\emptyset$, and (ii) all the negative atoms from the remaining rules. The set of answer sets of a program $P$ is denoted by $AS(P)$.
+ \end{definition}
+
+An alternative definition provided in \cite{FLP2011} relies on a different notion of the reduct, which might be more intuitive.
+For the class of programs considered in this work, the GL-reduct and FLP-reduct are equivalent.
+
+\begin{definition}[Faber-Leone-Pfeifer Reduct \cite{FLP2011}, Answer Set]
+An interpretation $I$ of $P$ is an answer set (or stable model) of $P$ iff $I \in \mi{MM(fP^I)}$, where $fP^I$ is the \emph{Faber-Leone-Pfeifer (FLP) reduct} of  $P$, obtained from $Gr(P)$ by keeping only rules $r$, whose bodies are satisfied by $I$, i.e., $fP^I = \{r \in P \,\mid\, r = H \leftarrow B, I \models B\}.$
 \end{definition}
-
-
 
 \begin{example}\label{ex:as}
 Consider the program \\
@@ -79,7 +85,7 @@ Consider the program \\
 {\smallskip
 
 \noindent            
-The relevant part of ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with $\mi{brad, \,ann}$ and $\mi{berlin}$ respectively. For $I=\{${\small$\mi{isMarriedTo(brad{,}ann){,}}$\\$\mi{livesIn(ann{,}berlin)},\mi{livesIn(brad,berlin)}$}$\}$, the GL-reduct $P^I$ of $P$ contains \\\small{$\mi{livesIn(ann,berlin)}\leftarrow \mi{livesIn(brad,berlin),isMarriedTo(brad,ann)}$} \normalsize{and the facts (1), (2). As $I$ is a minimal model of $P^I$, it holds that $I$ is an answer set of $P$.}}\qed
+The relevant part of ground instantiation $Gr(P)$ of $P$ is obtained by substituting $X,Y,Z$ with $\mi{brad, \,ann}$ and $\mi{berlin}$ respectively. For $I=\{${\small$\mi{isMarriedTo(brad{,}ann){,}}$\\$\mi{livesIn(ann{,}berlin)},\mi{livesIn(brad,berlin)}$}$\}$, both the GL-reduct $P^I$ (resp. the FLP-reduct $fP^I$) of $P$ contain \\\small{$\mi{livesIn(ann,berlin)}\leftarrow \mi{livesIn(brad,berlin),isMarriedTo(brad,ann)}$} \normalsize{and the facts (1), (2). As $I$ is a minimal model of $P^I$ (resp. $fP^I$), it holds that $I$ is an answer set of $P$.}}\qed
 \end{example}
 \normalsize
 
@@ -118,9 +124,9 @@ is defined as follows:
 \begin{itemize}
 \item[] \textbf{Given:}
 \begin{itemize}
-\item Positive examples $E^+$ and negative examples $E^-$ over target relation $p$
-\item Relations that can be used to induce the definition of $p$, i.e., background knowledge $B$
-\item Syntactic restrictions on the definition of $p$
+\item Positive examples $E^+$ and negative examples $E^-$ over the target $n$-ary relation $p$, i.e. sets of facts;
+\item Background knowledge $B$, i.e. an extensive set of relations that can be used to induce the definition of $p$; 
+\item Syntactic restrictions on the definition of $p$.
 \end{itemize}
 \smallskip
 
@@ -186,8 +192,8 @@ Formally,
 
 Several variations of learning from interpretations task have been studied including learning from answer sets \cite{DBLP:journals/tocl/Sakama05,DBLP:journals/ai/LawRB18}, where given possibly multiple partial interpretations, the goal is to find a logic program, which has extensions of (all of) the provided interpretations as answer sets.
 
-The ILP field has been actively developed within the past couple of decades, and extended along several dimensions.
-To date, the main tasks considered in this area can be classified based on the following parameters \cite{DBLP:conf/semweb/SazonauS17,Boytcheva2007OverviewOI}.
+%The ILP field has been actively developed within the past couple of decades, and extended along several dimensions.
+To date, the main tasks considered in the ILP area can be classified based on the following parameters \cite{DBLP:conf/semweb/SazonauS17,Boytcheva2007OverviewOI}.
  %many other settings have been proposed.
 
 
