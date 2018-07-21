@@ -131,8 +131,8 @@ where $\theta,\theta':\cV \rightarrow \cC$.
 \end{definition}
 
 \begin{example}\label{ex:abns}
-For $\cG$ from Fig.~\ref{rdf} and $\mi{r1}$ 
-we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/brad,Y/ann,Z/berlin}\}$; similarly, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/li,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
+For $\cG$ from Figure~\ref{rdf} and $\mi{r1}$ 
+we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/brad,Y/ann,Z/berlin}\}$, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/li,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
 \end{example}
  
 
@@ -164,11 +164,11 @@ Let $\cG$ be a KG, let $r$ be a rule mined from it, let $\cV$ be a set of variab
 \end{definition}
 
 \begin{example}
-For $\cG$ in Fig.~\ref{rdf} and $\mi{r1}$ 
+For $\cG$ in Figure~\ref{rdf} and $\mi{r1}$ 
 we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
  $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ did not live in %cities different from 
 %$\mi{berlin}$ and $\mi{chicago}$ resp., 
-metropolitans, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. \qed
+metropolitan cities, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. \qed
 \end{example}
 In general, when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
 %For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. 
@@ -277,6 +277,27 @@ probabilistic deductive tools such as ProbLog~\cite{problog2007,problog2015} can
 % probabilistic deductive reasoning tools such as Problog~\cite{problog2007,problog2015} could be used. %or DLV~\cite{dlv2006}.\gad{no sure about DLV citation}
 % \end{itemize}
 
+\begin{figure}[t]
+    \centering
+   
+    \vspace{-.2cm}
+    \begin{tabular}{l}
+ {\scriptsize
+        $\mi{r_1: writtenBy(X, Z)}  \leftarrow
+        \mi{hasPredecessor(X, Y)},\mi{writtenBy(Y, Z)},$ $ \textbf{not}$  $\mi{american\_film(X)} $}\\        
+       {\scriptsize 
+$\mi{r_2:  actedIn(X, Z)}  \leftarrow
+        \mi{isMarriedTo(X, Y)},\mi{directed(Y, Z)},$ $ \textbf{not}$  $\mi{silent\_film\_actor(X)} $} \\
+          {\scriptsize 
+$\mi{r_3:  isPoliticianOf(X, Z)}  \leftarrow
+        \mi{hasChild(X, Y)}{,}\mi{isPoliticianOf(Y, Z)}{,}$$ \textbf{not}$  $\mi{vicepresidentOfMexico(X)} $} \\
+ \end{tabular}     
+  \vspace{-.2cm}
+    \caption{Examples of the revised rules}
+ \label{fig:examplerules}
+ \vspace{-.6cm}
+\end{figure}
+\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} shows examples of revised rules obtained in \cite{rumis} by the described method. For example, $\mi{r_1}$ extracted from IMDB states that movie plot writers stay the same throughout the sequel unless a movie is American, while $\mi{r_2}$ reflects that spouses of movie directors often appear on the cast with the exception of actors from of old silent movies. Finally, the rule $\mi{r_3}$ learned from YAGO says that ancestors of politicians are also politicians in the same country with the exception of Mexican vice-presidents.
 
 
 \subsection{Method Guided by Embedding Models}
@@ -351,3 +372,24 @@ unlikely predictions.
 \label{fig:system_RulES}
 \end{figure}
 
+\begin{figure}[t]
+    \centering
+   
+    \vspace{-.2cm}
+    \begin{tabular}{l}
+ {\scriptsize
+        $\mi{r_1: nationality(X, Y)}  \leftarrow
+        \mi{graduatedFrom(X, Z)},\mi{inCountry(Z,Y)},$ $ \textbf{not}$  $\mi{researchUni(Z)} $}\\        
+          {\scriptsize 
+$\mi{r_2:  nobleFamily(X, Y)}  \leftarrow
+        \mi{spouse(X, Z)}{,}\mi{nobleFamily(Z, Y)}{,}$ $ \textbf{not}$  $\mi{chineseDynasties(Y)} $} \\
+ \end{tabular}     
+  \vspace{-.2cm}
+    \caption{Examples of the revised rules}
+ \label{fig:examplerules}
+ \vspace{-.6cm}
+\end{figure}
+\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} presents examples of rules learned by the RULes system from the Wikidata dataset. The first rule $\mi{r_1}$ says that a person is a citizen of the country where his alma mater is located, unless it is a research institution, since most researchers in
+universities are foreigners. Additionally,
+$\mi{r_2}$ encodes that someone belonged to a noble family if his/her spouse is also from the
+same noble family, excluding the Chinese dynasties. 
