@@ -8,9 +8,9 @@ In this section, we provide an overview of approaches for learning nonmonotonic 
 \subsection{Revision-based Method}
 Exception handling has been traditionally faced in ILP by learning non-monotonic logic programs \cite{DBLP:conf/ijcai/InoueK97,DBLP:journals/tocl/Sakama05,XHAIL,CorapiRL10,ILASP_system} (see Section~\ref{sec:reasoning}). However, most of the existing methods assume that the data from which the rules are induced is complete.
 
-In \cite{gad2016} a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
+In \cite{gad2016}, a revision-based approach for extracting exception-enriched (i.e., nonmonotonic) rules from incomplete KGs has been proposed. 
 It pre-processes a KG by %translating
-projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules, which are then augmented with negated atoms. In \cite{rumis} the approach has been extended to KGs in their original relational form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
+projecting all binary facts into unary ones applying a form of propositionalization technique \cite{propos} (e.g., $\mi{livesIn(brad,berlin)}$ could be translated to $\mi{livesInBerlin(brad)}$ or $\mi{livesInCapital(brad)}$ with obvious loss of information) and adapts data mining methods designed for transaction data to extract Horn rules, which are then augmented with negated atoms. In \cite{rumis}, the approach has been extended to KGs in their original relational form. We now briefly summarize the ideas of  \cite{gad2016,rumis}.
 % In \cite{ilp2016} the results from \cite{DBLP:conf/semweb/Gad-ElrabSUW16} to KGs in their original relational form.
 
 In these works, the KG completion problem from Definition~\ref{def:kgcomp} is treated 
@@ -48,7 +48,7 @@ Intuitively, $q_{\mi{conflict}}(R,\cG)$ estimates the portion of conflicting pre
 
 
 %the original head predicate (e.g. $not\_a$).
-Formally, based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of exception-enriched rules $R$, the measure $\mi{q_{conflict}}$ is defined:
+Formally, based on statistics of both rules $r$ and $\mi{r^{aux}}$ in a set of exception-enriched rules $R$, the measure $\mi{q_{conflict}}$ is defined as%:
 
 \begin{equation}
 \mi{q_{conflict}(R,\cG)=\sum_{p\in pred(R)} \dfrac{|\vec{c}\,|\,p(\vec{c}),not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}{|\vec{c}\,|\,not\_p(\vec{c})\in \cG_{R^{\mi{aux}}}|}}
@@ -106,7 +106,7 @@ ${q_{\mi{conflict}}(R_{\mi{NM}},\cG)}$ is minimal.
 %(ii) $q_{\mi{conflict}}(\cR_{\mi{NM}},\cG)$ is minimal.
 %\\ \\
 %\noindent
-Given the huge size of KGs, finding the best possible revision is unfeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that computes an approximate solution to the above problem has been proposed  (see Figure~\ref{fig:iswc_process} for overview). It combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for computing exceptions. We now briefly discuss the steps of this approach.
+Given the huge size of KGs, finding the best possible revision is infeasible in practice. Thus, in \cite{gad2016,rumis} a heuristics-based method that computes an approximate solution to the above problem has been proposed  (see Figure~\ref{fig:iswc_process} for overview). It combines standard relational association rule mining techniques with a FOIL-like supervised learning algorithm \cite{foil} for computing exceptions. We now briefly discuss the steps of this approach.
 
 \begin{figure}[t]
 \centering
@@ -131,8 +131,8 @@ where $\theta,\theta':\cV \rightarrow \cC$.
 \end{definition}
 
 \begin{example}\label{ex:abns}
-For $\cG$ from Figure~\ref{rdf} and $\mi{r1}$ 
-we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/brad,Y/ann,Z/berlin}\}$, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/li,Z/beijing}\}$ resp. Among substitutions in $\mi{ABS(r1,\cG)}$ we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
+For $\cG$ from Figure~\ref{rdf} and $\mi{r_1}$, 
+we have $\mi{NS(r_1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\{\mi{X/brad,Y/ann,Z/berlin}\}$, $\theta_2=\{\mi{X/john,Y/kate,Z/chicago}\}$ and $\theta_3=\{\mi{X/sui,Y/li,Z/beijing}\}$ respectively. Besides, among substitutions in $\mi{ABS(r_1,\cG)}$, we have $\theta_4=\{\mi{X/mat,Y/lucy,Z/amsterdam}\}$, yet there are others. \qed 
 \end{example}
  
 
@@ -142,7 +142,7 @@ we have $\mi{NS(r1,\cG)}=\{\mi{\theta_1,\theta_2,\theta_3}\}$, where $\theta_1=\
 
 \noindent \textbf{Step 2.} Intuitively, if the given data was complete, then the $r$-normal
 and $r$-abnormal substitutions would exactly correspond to instances for which
-the rule $r$ holds (resp. does not hold) in the real world. Since the KG is
+the rule $r$ holds (respectively does not hold) in the real world. Since the KG is
 potentially incomplete, this is no longer the case and some r-abnormal instances
 might in fact be classified as such due to data incompleteness.  In order to
 distinguish the ``wrongly'' and ``correctly'' classified instances in the
@@ -164,15 +164,17 @@ Let $\cG$ be a KG, let $r$ be a rule mined from it, let $\cV$ be a set of variab
 \end{definition}
 
 \begin{example}
-For $\cG$ in Figure~\ref{rdf} and $\mi{r1}$ 
-we have that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$. Furthermore,
+For $\cG$ in Figure~\ref{rdf} and rule $\mi{r_1}$,  
+we %have 
+observe that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$ and %. Furthermore,
  $\mi{EWS(r,\cG,X)}=\{\mi{artist}\}$. If $\mi{brad}$ with $\mi{ann}$ and $\mi{john}$ with $\mi{kate}$ did not live in %cities different from 
 %$\mi{berlin}$ and $\mi{chicago}$ resp., 
 metropolitan cities, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. \qed
 \end{example}
 In general, when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
 %For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. 
-Combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; extensions to arbitrary combinations of atoms is left for future research.
+Combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; %extensions
+extending exceptions to arbitrary combinations of atoms is left for future research.
 
 
 
@@ -207,7 +209,8 @@ $r^j_i$, four special ranking functions are introduced: a naive one and three mo
     \item {\textbf{\em OPM}} is similar to \textbf{{\em PM}}, but the selected ruleset $R'$ contains only those rules whose Horn version appears above the considered rule $r_i$ in the ruleset $R_H$, ordered (\textbf{\em O}) based on some chosen measure (e.g., the same as $\mi{rm}$). %TODO
 \smallskip
 
-    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
+    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} %in 
+    such that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
 new facts are inferred using only $\cG$.
 
 For reasoning over weighted facts existing 
@@ -283,13 +286,13 @@ probabilistic deductive tools such as ProbLog~\cite{problog2007,problog2015} can
     \vspace{-.2cm}
     \begin{tabular}{l}
  {\scriptsize
-        $\mi{r^1: writtenBy(X, Z)}  \leftarrow
+        $\mi{r_{e1}: writtenBy(X, Z)}  \leftarrow
         \mi{hasPredecessor(X, Y)},\mi{writtenBy(Y, Z)},$ $ \textbf{not}$  $\mi{american\_film(X)} $}\\        
        {\scriptsize 
-$\mi{r^2:  actedIn(X, Z)}  \leftarrow
+$\mi{r_{e2}:  actedIn(X, Z)}  \leftarrow
         \mi{isMarriedTo(X, Y)},\mi{directed(Y, Z)},$ $ \textbf{not}$  $\mi{silent\_film\_actor(X)} $} \\
           {\scriptsize 
-$\mi{r^3:  isPoliticianOf(X, Z)}  \leftarrow
+$\mi{r_{e3}:  isPoliticianOf(X, Z)}  \leftarrow
         \mi{hasChild(X, Y)}{,}\mi{isPoliticianOf(Y, Z)}{,}$$ \textbf{not}$  $\mi{vicepresidentOfMexico(X)} $} \\
  \end{tabular}     
   \vspace{-.2cm}
@@ -297,7 +300,7 @@ $\mi{r^3:  isPoliticianOf(X, Z)}  \leftarrow
  \label{fig:examplerules}
  \vspace{-.6cm}
 \end{figure}
-\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} shows examples of rules obtained in \cite{rumis} by the described method. For instance, $\mi{r_1}$ extracted from IMDB states that movie plot writers stay the same throughout the sequel unless a movie is American, while $\mi{r_2}$ reflects that spouses of movie directors often appear on the cast with the exception of actors of old silent movies. Finally, the rule $\mi{r_3}$ learned from YAGO says that ancestors of politicians are also politicians in the same country with the exception of Mexican vice-presidents.
+\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} shows examples of rules obtained in \cite{rumis} by the described method. For instance, $\mi{r_{e1}}$ extracted from IMDB states that movie plot writers stay the same throughout the sequel unless a movie is American, while $\mi{r_{e2}}$ reflects that spouses of movie directors often appear on the cast with the exception of actors of old silent movies. Finally, the rule $\mi{r_{e3}}$ learned from YAGO says that ancestors of politicians are also politicians in the same country with the exception of Mexican vice-presidents.
 
 
 \subsection{Method Guided by Embedding Models}
