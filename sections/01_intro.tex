@@ -4,7 +4,7 @@
 
 \leanparagraph{Motivation}
 Recent advances in information extraction have led to
-huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples, e.g., $\tuple{\mi{clara\;marriedTo\;dave}}$ or $\tuple{\mi{dave\;type\;researcher}}$. Such triples can be straightforwardly represented by means of positive unary and binary first-order logic facts, e.g. $\mi{marriedTo(clara,dave)}$ and $\mi{researcher(dave)}$.
+huge graph-structured knowledge bases (KBs) also known as knowledge graphs (KGs) such as NELL \cite{nell}, DBpedia \cite{dbpedia}, YAGO \cite{yago} and Wikidata \cite{wikidata}. These KGs contain millions or billions of relational facts in the form of subject-predicate-object (SPO) triples, e.g., $\tuple{\mi{albert\_einstein\;marriedTo\;mileva\_maric}}$ or $\tuple{\mi{albert\_einstein}$\\$\mi{type\;phycisist}}$. Such triples can be straightforwardly represented by means of positive unary and binary first-order logic facts, e.g. $\mi{marriedTo(alber\_einstein,}$\\$\mi{mileva\_maric)}$ and $\mi{phycisist(alber\_einstein)}$.
 
 An important task over KGs is rule learning, which is relevant for a variety of applications ranging from knowledge graph curation (completion, error detection) \cite{DBLP:journals/semweb/Paulheim17} to data mining and semantic culturomics \cite{suchanek2014semantic}. Rules over KGs are of the form $\mi{head \leftarrow body}$, where $\mi{head}$ is a binary atom and $\mi{body}$ is a conjunction of (possibly negated) binary and unary atoms. 
 
@@ -69,7 +69,6 @@ Exception handling has been faced in inductive logic programming (ILP) by learni
 The aim of this article is to survey the current research on rule learning from knowledge graphs. We present and discuss different techniques with the roots in inductive logic programming and relational data mining as well as their interrelation and applications for KGs. 
 
 \leanparagraph{Tutorial Overview}
-%\thi{Could you fix this? Dr.Daria}
 In Section~\ref{sec:kgs} we start by briefly introducing knowledge graphs. We then provide necessary preliminaries on rule-based deductive reasoning over KGs and discuss the tasks within the area of inductive logic programming in Section~\ref{sec:reasoning}. Section~\ref{sec:rules_kg_completion} %presents an overview of rule learning tasks that can be performed on KGs and 
 describes recent research progress in the context of Horn rule induction for KG completion. We present techniques for nonmonotonic rule extraction in Section~\ref{sec:nmrulelearn}. Finally, in Section~\ref{sec:disc} we conclude the article with an outlook discussion, where we identify a number of promising directions for future work.
 

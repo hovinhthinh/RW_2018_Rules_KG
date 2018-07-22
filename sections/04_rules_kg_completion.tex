@@ -20,8 +20,10 @@ More formally,
  we have $\cG_{R}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
  \end{example}
 
-The problem of rule-based KG completion is related to the task of learning from interpretations given in Definition~\ref{def:learnint}, where the KG $\cG$ plays a role of the (partial) interpretation $I$. %The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations from Definition~\ref{def:learnint}. 
-However, in the task of learning from interpretations, the CWA is typically adopted, which makes it not suitable for incomplete KGs. Reusing the methods that induce logical theories from a set of positive and negative examples and background knowledge is likewise not possible due to the following important obstacles \cite{rumis}. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
+If the ideal graph $\cG^i$ was known, then the problem of rule-based KG completion would be essentially the same as the task of learning from interpretations given in Definition~\ref{def:learnint}, with $\cG$ playing a role of the background knowledge and $\cG^i$ the interpretation $I$. %The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations from Definition~\ref{def:learnint}. 
+However, unfortunately $\cG^i$ is unknown, and it cannot be reconstructed as KGs follow OWA. % in the task of learning from interpretations, the CWA is typically adopted, which makes it not suitable for incomplete KGs. R
+
+Moreover, reusing the methods that induce logical theories from a set of positive and negative examples from Definition~\ref{def:learnex} is likewise not possible due to the following important obstacles \cite{rumis}. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
 
 First, the target predicates (e.g. $\mi{fatherOf}$ from Example~\ref{ex:ilp}) can
 not be easily identified, since we do not know which parts of the considered KG need to
@@ -216,7 +218,7 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 \subsubsection{PCA Confidence.} In~\cite{amie} a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
-is Einstein's child''), then all objects for that subject-predicate pair (Einstein’s children)
+is Einstein's child''), then all objects for that subject-predicate pair (Einstein's children)
 are assumed to be known. PCA relies on a hypothesis that the data is usually
 added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
 all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.

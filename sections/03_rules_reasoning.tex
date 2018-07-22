@@ -10,17 +10,23 @@ negation. The then-part has a single atom that has to hold, whenever the if-part
 
 \begin{definition}[Rule]\label{def:rule} A \emph{rule} $r$ is an expression of the form
 \begin{equation}
-H\leftarrow B, \naf\ E
+%H\leftarrow B, \naf\ E
+h(\vec{X})\leftarrow b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k}), \naf\, b_{k+1}(\vec{Y_{k+1}}), \dotsc, \naf\, b_n(\vec{Y_n}) 
 \end{equation}
-where $H$ is a standard first-order atom of the form $h(\vec{X})$, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $E$ is an atom $b_{k+1}(\vec{Y_{k+1}})$.
+%
+where 
+%$H$ is a standard first-order atom of the form 
+$h(\vec{X}), b_1(\vec{Y_1}),\dotsc, b_n(\vec{Y_n})$ are first-order atoms and right-hand side of the rule is a conjunction of atoms. %, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $E$ is an atom $b_{k+1}(\vec{Y_{k+1}})$.
 % is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc, \naf\, b_n(\vec{Y_n})$.
-Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{k+1}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_{k+1}$ respectively.
+Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_{n}$ respectively.
 % . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
 \end{definition}
 
-Note that we focus on rules with a single negated atom in this work for simplicity; in the general case, the negated part of the rule can be a conjunction of multiple negated atoms.
-The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
+
+For simplicity, in this work we use the shortcut $H\leftarrow B, \naf\, E$ to denote rules with a single negated atom, i.e., here $H=h(\vec{X}), B=b_1(\vec{Y_1}), \dotsc, b_k(\vec{Y_k}), E=b_{k+1}(\vec{Y_{k+1}})$. 
+Moreover, the left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
 \emph{Horn} if $\mi{body^-}(r)=\emptyset$.
+
 
 \begin{example}
 Consider $\mi{r_2}$ from Section~\ref{sec:intro}. We have that $\mi{head(r_2)}=\{livesIn(Y,Z)\}$, while $\mi{body^+(r_2)=\{isMarriedTo(X,Y), livesIn(X,Z)\}}$, and moreover it holds that, $\mi{body^-(r_2)=\{not\;researcher(Y)\}}$. \qed
@@ -94,7 +100,7 @@ The relevant part of ground instantiation $Gr(P)$ of $P$ is obtained by substitu
 Apart from the model computation, another important task concerns deciding whether a given atom $a$ is entailed from the program $P$ denoted by $P \models a$. Typically, one distinguishes between brave and cautious entailment. We say that an atom $a$ is \emph{cautiously entailed} from a program $P$ ($P \models_c a$) if $a$ is present in all answer sets of $P$. Conversely, an atom $a$ is \emph{bravely entailed} from a program $P$ ($P \models_b a$) if it is present in at least one answer set of $P$. If a program has only a single answer set, e.g., it is positive, then obviously cautious and brave entailments coincide, in which case we omit the subscript.
 
 \begin{example}
-For $P$ from Example~\ref{ex:as} and $a=\mi{livesIn(ann,berlin)}$, we have that $a$ is entailed both bravely and cautiosly from $P$, i.e., $P\models a$, while for $a'=\mi{marriedTo(brad,brad)}$, it holds that $P \not \models a'$. \qed
+For $P$ from Example~\ref{ex:as} and $a=\mi{livesIn(ann,berlin)}$, we have that $a$ is entailed both bravely and cautiously from $P$, i.e., $P\models a$, while for $a'=\mi{marriedTo(brad,brad)}$, it holds that $P \not \models a'$. \qed
 \end{example}
 
 The answer set semantics for nonmonotonic logic programs is based on the CWA, under which whatever can not be derived from a program is assumed to be false. Nonmonotonic logic programs are widely applied for formalizing common sense deductive reasoning over incomplete information.
@@ -127,7 +133,7 @@ is defined as follows:
 \item[] \textbf{Given:}
 \begin{itemize}
 \item Positive examples $E^+$ and negative examples $E^-$ over the target $n$-ary relation $p$, i.e. sets of facts;
-\item Background knowledge $T$, i.e. an extensive set of facts over various relations and possibly logical rules that can be used to induce the definition of $p$; 
+\item Background knowledge $T$, i.e. an extensive set of facts over various relations and possibly rules that can be used to induce the definition of $p$; 
 \item Syntactic restrictions on the definition of $p$.
 \end{itemize}
 \smallskip
@@ -179,7 +185,7 @@ Formally,
 \item[] \textbf{Given:}
 \begin{itemize}
 \item An interpretation $I$, i.e., a set of facts over various relations
-\item Background knowledge $T$
+\item Background knowledge $T$, i.e., a set facts and possibly rules
 \item Syntactic restrictions on the form of rules to be induced
 \end{itemize}
 \smallskip

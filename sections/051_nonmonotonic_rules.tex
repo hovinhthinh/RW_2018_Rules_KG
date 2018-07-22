@@ -283,13 +283,13 @@ probabilistic deductive tools such as ProbLog~\cite{problog2007,problog2015} can
     \vspace{-.2cm}
     \begin{tabular}{l}
  {\scriptsize
-        $\mi{r_1: writtenBy(X, Z)}  \leftarrow
+        $\mi{r^1: writtenBy(X, Z)}  \leftarrow
         \mi{hasPredecessor(X, Y)},\mi{writtenBy(Y, Z)},$ $ \textbf{not}$  $\mi{american\_film(X)} $}\\        
        {\scriptsize 
-$\mi{r_2:  actedIn(X, Z)}  \leftarrow
+$\mi{r^2:  actedIn(X, Z)}  \leftarrow
         \mi{isMarriedTo(X, Y)},\mi{directed(Y, Z)},$ $ \textbf{not}$  $\mi{silent\_film\_actor(X)} $} \\
           {\scriptsize 
-$\mi{r_3:  isPoliticianOf(X, Z)}  \leftarrow
+$\mi{r^3:  isPoliticianOf(X, Z)}  \leftarrow
         \mi{hasChild(X, Y)}{,}\mi{isPoliticianOf(Y, Z)}{,}$$ \textbf{not}$  $\mi{vicepresidentOfMexico(X)} $} \\
  \end{tabular}     
   \vspace{-.2cm}
@@ -297,14 +297,14 @@ $\mi{r_3:  isPoliticianOf(X, Z)}  \leftarrow
  \label{fig:examplerules}
  \vspace{-.6cm}
 \end{figure}
-\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} shows examples of revised rules obtained in \cite{rumis} by the described method. For example, $\mi{r_1}$ extracted from IMDB states that movie plot writers stay the same throughout the sequel unless a movie is American, while $\mi{r_2}$ reflects that spouses of movie directors often appear on the cast with the exception of actors from of old silent movies. Finally, the rule $\mi{r_3}$ learned from YAGO says that ancestors of politicians are also politicians in the same country with the exception of Mexican vice-presidents.
+\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} shows examples of rules obtained in \cite{rumis} by the described method. For instance, $\mi{r_1}$ extracted from IMDB states that movie plot writers stay the same throughout the sequel unless a movie is American, while $\mi{r_2}$ reflects that spouses of movie directors often appear on the cast with the exception of actors of old silent movies. Finally, the rule $\mi{r_3}$ learned from YAGO says that ancestors of politicians are also politicians in the same country with the exception of Mexican vice-presidents.
 
 
 \subsection{Method Guided by Embedding Models}
 
 
 
-In the work about the RuLES framework (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
+In the work recently proposed RuLES framework (rule learning with embedding support)~\cite{thinh2018} an alternative method for nonmonotonic rule induction has been proposed, which first constructs an approximation of an ideal graph $\cG^i$ and then learns rules by relying on it. For building such approximation, representations (i.e. embeddings) of entities and relations are learned from a given KG possibly enriched with additional information sources (e.g., text). We refer the reader to \cite{Wang2017} for an overview of KG embedding models. % -based methods for KG completion.
 
 The RuLES approach~\cite{thinh2018} established a framework to benefit from the advantages of these models %while constructing nonmonotonic rule sets 
 by iteratively inducing rules from a KG and collecting statistics about them from a precomputed embedding model to prune out not promising rule candidates.
@@ -378,10 +378,10 @@ unlikely predictions.
     \vspace{-.2cm}
     \begin{tabular}{l}
  {\scriptsize
-        $\mi{r_1: nationality(X, Y)}  \leftarrow
+        $\mi{r^1: nationality(X, Y)}  \leftarrow
         \mi{graduatedFrom(X, Z)},\mi{inCountry(Z,Y)},$ $ \textbf{not}$  $\mi{researchUni(Z)} $}\\        
           {\scriptsize 
-$\mi{r_2:  nobleFamily(X, Y)}  \leftarrow
+$\mi{r^2:  nobleFamily(X, Y)}  \leftarrow
         \mi{spouse(X, Z)}{,}\mi{nobleFamily(Z, Y)}{,}$ $ \textbf{not}$  $\mi{chineseDynasties(Y)} $} \\
  \end{tabular}     
   \vspace{-.2cm}
@@ -389,7 +389,7 @@ $\mi{r_2:  nobleFamily(X, Y)}  \leftarrow
  \label{fig:examplerules}
  \vspace{-.6cm}
 \end{figure}
-\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} presents examples of rules learned by the RuLES system from the Wikidata dataset. The first rule $\mi{r_1}$ says that a person is a citizen of the country where his alma mater is located, unless it is a research institution, since most researchers in
+\leanparagraph{Example Rules} Figure~\ref{fig:examplerules} presents examples of rules learned by the RuLES system from the Wikidata KG. The first rule $\mi{r_1}$ says that a person is a citizen of the country where his alma mater is located, unless it is a research institution, since most researchers in
 universities are foreigners. Additionally,
 $\mi{r_2}$ encodes that someone belonged to a noble family if his/her spouse is also from the
 same noble family, excluding the Chinese dynasties. 
