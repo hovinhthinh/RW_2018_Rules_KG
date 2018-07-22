@@ -14,7 +14,7 @@ The set $\cR$ of relations appearing in the given KG contains the predicates $\m
 
 \input{tables/kg_sizes}
 
-All approaches for KG construction can be roughly classified into two major groups: manual and (semi-)automatic. The examples of KGs constructed manually include, e.g., WordNet~\cite{wordnet} which has been created by a group of experts or Freebase~\cite{Freebase} and Wikidata~\cite{wikidata} constructed collaboratively by volunteers. 
+All approaches for KG construction can be roughly classified into two major groups: manual and (semi-)automatic. The examples of KGs constructed manually include, e.g., WordNet~\cite{wordnet} which has been created by a group of experts or Freebase~\cite{Freebase} and Wikidata~\cite{wikidata} which are constructed collaboratively by volunteers. 
 Automatic population of KGs from semi-structured resources such as Wikipedia info-boxes using regular expressions and other techniques gave rise to, e.g., YAGO~\cite{yago} and DBpedia~\cite{dbpedia}. 
 There are also projects 
 devoted to the extraction of facts from unstructured resources using natural language processing and machine learning methods.  
@@ -22,7 +22,7 @@ For example, NELL~\cite{nell} and KnowledgeVault~\cite{KnowledgeVault} belong to
 
 \subsection{Incompleteness, Bias and Noise of Knowledge Graphs}
 \label{sec:kg_realm}
-While the existing KGs contain millions of facts, they are still far from being complete, and therefore treated under the open world assumption (OWA), i.e., facts not present in KGs are assumed to be unknown rather than false. For example, given only Germany as the living place of Albert Einstein,  we cannot say whether $\mi{livedIn(einstein,us)}$ is true or false. This is opposed to the closed world assumption (CWA) made in databases, under which $\mi{\neg livedIn(einstein,us)}$ would be inferred. % from the given data.
+While the existing KGs contain millions of facts, they are still far from being complete; Therefore they are treated under the open world assumption (OWA), i.e., facts not present in KGs are assumed to be unknown rather than false. For example, given only Germany as the living place of Albert Einstein,  we cannot say whether $\mi{livedIn(einstein,us)}$ is true or false. This is opposed to the closed world assumption (CWA) made in databases, under which $\mi{\neg livedIn(einstein,us)}$ would be inferred. % from the given data.
 
 Apart from incompleteness, both manually and semi-automatically created KGs also suffer from the problem of bias in the data. Indeed,  manually created KGs such as Wikidata contain crowd-sourced information. While leveraging crowd-sourcing for KG construction, human curators from different countries add factual statements that they find interesting. Due to the difference in the population of contributors obviously facts about some countries are covered better than about others. For example, KGs typically store more facts about Austrians than Ghanians even though there are three times more inhabitants in Ghana than in Austria.
 %, which in mostly results from the scarcity of the resources written in the local language on the web and the contributors as well. 
