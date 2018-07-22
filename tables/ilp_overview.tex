@@ -1,9 +1,10 @@
 \begin{table}[t]
 \centering
-\begin{tabular}{|c|c|c|c|c|c|c|}
-\hline
-System & Input data&Output rules & Multiple pred. &Increment & Interact &Noise handl.\\
-\hline
+\begin{tabular}{lcccccc}
+\toprule %condit
+System & \shortstack{Input \\data} &\shortstack{Output \\rules} & \shortstack{Multiple \\predicates}   &Increment & Interact & \shortstack{Noise \\handling}\\
+% \multirow{2}{*}{Input data} & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} & \multirow{2}{*}{} \\
+\midrule
 FOIL \cite{foil} & examples&Horn& no &no & no  &yes \\
 GOLEM \cite{golem} &examples&Horn&  no &no & no & yes \\
 LINUS \cite{linus} &examples&Horn&  no& no & no & yes \\
@@ -23,7 +24,7 @@ ILED \cite{ILED}&examples&NM&no&yes&no&no\\
 %CLAUDIEN & no & no & no & no // wr\\
 %QuickFOIL &  &  &  & \\ 
 %RS-ILP &  &  &  & \\
-\hline
+\bottomrule
 \end{tabular}
 \caption{Overview of classical ILP systems.}
 \label{tab:ilp}

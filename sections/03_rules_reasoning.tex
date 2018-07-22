@@ -1,11 +1,13 @@
 \section{Rules and Reasoning}
 \label{sec:reasoning}
-In this section we briefly review concepts of rules, logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) as well as %their usage in 
+In this section, we briefly review the concepts of rules, logic programming (see \cite{DBLP:conf/rweb/EiterIK09} for more details) as well as %their usage in 
 deductive and inductive reasoning.
 %relational association rules \cite{warmer}.
 
 \subsection{Logic Programs} Logic programs consist of a set of rules. Intuitively, a rule is an if-then expression, whose if-part may contain several conditions, some possibly with
-negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the left part of a rule can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
+negation. The then-part has a single atom that has to hold, whenever the if-part holds. In general, the %left part 
+then-part %of a rule
+ can also contain disjunctions, but in this tutorial we consider only non-disjunctive rules. More formally,
 
 
 \begin{definition}[Rule]\label{def:rule} A \emph{rule} $r$ is an expression of the form
@@ -178,7 +180,7 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 The classical ILP task concerns automatic extraction of such hypothesis. \qed
 \end{example}
 
-In an alternative setting, known as \emph{learning from interpretations}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $I$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $I$ is a minimal model of $\mi{Hyp} \cup T$.
+In an alternative setting, known as \emph{learning from interpretations}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $I$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} \gad{which conditions ?} are replaced with the requirement that $I$ is a minimal model of $\mi{Hyp} \cup T$.
 Formally, 
 \begin{definition}[Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}]\label{def:learnint}
 \begin{itemize}
