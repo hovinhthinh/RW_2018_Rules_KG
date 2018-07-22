@@ -152,8 +152,9 @@ The most prominent examples of systems that are specifically tailored towards in
 and RDF2Rules \cite{rdf2rules}.
 \subsubsection{AMIE.}
 AMIE \cite{amie} is a state-of-the-art Horn rule mining system.
-Apart from a KG, it expects from a user a support threshold and maximum
-rule length. In AMIE, rules are treated as sequences of atoms, where the first atom is the head, and subsequent atoms form the body of the rule. The algorithm maintains a queue of intermediate rules, which initially stores a single rule with an empty body for every KG relation. 
+Apart from a KG, %it expects from the user a support threshold and a maximum rule length.
+it expects the maximum length of the rule and the threshold value for its support.   
+In AMIE, rules are treated as sequences of atoms, where the first atom is the head, and subsequent atoms form the body of the rule. The algorithm maintains a queue of intermediate rules, which initially stores a single rule with an empty body for every KG relation. 
 Rules are removed from the queue and refined by adding literals to the body according to a language bias that specifies allowed rule forms (e.g., based on the user-provided rule length). The system then estimates the support of the rule, and if it exceeds the given threshold, the rule is output to the user and also added to the queue for
 possible further processing.
 %Apart from the algorithm being used to construct rules, AMIE also introduces a novel rule measure namely PCA confidence, which is based on the Partial Closed world Assumption (PCA), stating that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
@@ -189,7 +190,7 @@ RDF2Rules is capable of accounting for unary predicates (i.e., types of entities
 The unary predicates are added to the constructed rule at the final stage after analyzing the 
 frequent types for FPCs corresponding to a given rule.
 % Nevertheless, comparing to AMIE, even though RDF2Rules can mine rules faster, the forms of rule it can learn are restricted, s
-While RDF2Rules performs the rule extraction faster then AMIE due to an effective pruning strategy
+While RDF2Rules performs the rule extraction faster than AMIE due to an effective pruning strategy
 used in the process of mining FPCs, the supported rule patterns are more restrictive. 
 
 \subsection{Rule Evaluation}
@@ -215,7 +216,7 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 % Given $r:\mi{H\leftarrow B, \naf\ E}$, with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq X,Y$, and also consider the example rules $r_1$, $r_2$, KG $\cG_1$ in Figure \ref{rdf}, we have:
 
 
-\subsubsection{PCA Confidence.} In~\cite{amie} a completeness-aware rule scoring based
+\subsubsection{PCA Confidence.} In~\cite{amie}, a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
 whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
 is Einstein's child''), then all objects for that subject-predicate pair (Einstein's children)
@@ -281,7 +282,7 @@ conf_{rc}(r,\cG) = \frac{\textit{r-supp}(r,\cG) + |UP(r,G)|}{\textit{b-supp}(r,\
 
 %\subsubsection{Completeness-aware Rule Measures.}  
 \subsubsection{(In)completeness Metadata.}
-In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could be aiming at extracting rules that predict the missing one.
+In the solutions for the rule-based KG completion problem discussed so far, no external meta-information from outside of the KG about potential existence of certain types of facts was exploited. However, this knowledge is obviously useful, and furthermore, it can even be extracted from the Web in the form of cardinality statements, e.g., Brad has three children. If a given KG mentions just a single Brad's child, we could aim at extracting rules that predict the missing one.
 
 Based on this intuition, the recent work on completeness-aware rule learning (CARL) \cite{carl} proposed improvements of rule scoring functions by making use of this additional (in)completeness metadata.
 
@@ -289,7 +290,8 @@ In particular, such metadata is presented using cardinality statements by report
 \begin{equation}\label{eq:num}
 \mi{num}(p,x) = \# y : p(x,y) \in \cG^i 
 \end{equation}
-These cardinality statements can be obtained using Web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
+These cardinality statements can be obtained %using
+via Web extraction techniques~\cite{cardinality-extraction-iswc-2016}.
 It is possible to rewrite cardinalities on the number of subjects for a given predicate and object with such statements provided that inverse relations can be expressed in a KG.
 Naturally, the number of missing facts for a given $p$ and $x$ can be obtained as
 \[\mi{miss}(p,x,\cG) = \mi{num(p,x)} - \#y : p(x,y) \in \cG\]
@@ -381,8 +383,9 @@ the rule quality estimation %, or they have to assign this task
 is usually delegated to some third-party database management system.
 In practice this might not always be effective. % such as SQL, SPARQL \cite{amie}, which might not always be effective.
 
-The focus of a recent % the novel 
- \emph{ontological pathfinding} (OP) \cite{op} algorithm is % not at how to find the candidate rules in the knowledge graph, but rather at
+Unlike other state-of-the-art rule mining systems, the %recent
+ algorithm of %the focus of a recent % the novel 
+ \emph{ontological pathfinding} (OP) \cite{op} focuses on %algorithm is % not at how to find the candidate rules in the knowledge graph, but rather at
 % how to 
 the efficient examination of the rule's quality. % The rule construction step of OP algorithm relies on the relational pathfinding method . The only difference is that, instead of finding paths on the entity-relations graph, OP looks at the domain-range schema graph \cite{op}.
 After candidate rules are constructed relying on a variation of \cite{DBLP:conf/aaai/RichardsM92}, their quality is determined via a sequences of parallelization and optimization methods including KG partitioning, joining and pruning strategies.
