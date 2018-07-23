@@ -28,7 +28,7 @@ Learning temporal rules or constraints such as \emph{``A person cannot graduate 
 \leanparagraph{Learning Rules from Probabilistic Data}  %Nevertheless, e
 %The majority 
 Its common among the existing rule learning approaches over knowledge graphs to model those KGs as sets of true triples; thus, totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are usually %normally automatically 
-constructed using (semi-)automatic methods from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which may propagate faulty facts, if they are used to predict new facts. 
+constructed using (semi-)automatic methods from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which when being applied may propagate faulty facts. %, if they are used to predict new facts. 
 
 A recent ILP approach that accounts for noise has been proposed in \cite{sigmailp}; but it relies on CWA and neglects weights on the facts.
 Learning rules from KGs treated as uncertain data sources has  been considered in \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}; however, these works neglect negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 

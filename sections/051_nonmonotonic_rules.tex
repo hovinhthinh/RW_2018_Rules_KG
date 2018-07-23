@@ -124,8 +124,8 @@ Given the huge size of KGs, finding the best possible revision is infeasible in 
 \begin{definition}[$r$-(Ab)Normal Substitutions]\label{sec:rulelearn}
 Let $\cG$ be a KG, $\mi{r}$ a Horn rule mined from $\cG$, and let $\cV$ be a set of variables occurring in $r$. Then
 \begin{itemize}
-\item $\mi{NS(r, \cG)=\{\theta\, |\, head(r)\theta,body(r)\theta \subseteq \cG\}}$ is an $\mi{r}$-normal set of substitutions;
-\item $\mi{ABS(r, \cG){=}\{\theta'\, |\, body(r)\theta' {\subseteq} \cG\,{,}\,head(r)\theta' {\not \in} \cG\}}$ is an $\mi{r}$-abnormal set of substitutions, 
+\item $\mi{NS(r, \cG)=\{\theta\, |\, head(r)\theta,body(r)\theta \subseteq \cG\}}$ is an \emph{$\mi{r}$-normal set of substitutions};
+\item $\mi{ABS(r, \cG){=}\{\theta'\, |\, body(r)\theta' {\subseteq} \cG\,{,}\,head(r)\theta' {\not \in} \cG\}}$ is an \emph{$\mi{r}$-abnormal set of substitutions}, 
 where $\theta,\theta':\cV \rightarrow \cC$.
 \end{itemize} 
 \end{definition}
@@ -171,9 +171,12 @@ observe that $\mi{EWS(r,\cG,Y)}=\{\mi{researcher}\}$ and %. Furthermore,
 %$\mi{berlin}$ and $\mi{chicago}$ resp., 
 metropolitan cities, then $\mi{EWS(r,\cG,Z)}=\{\mi{metropolitan}\}$. \qed
 \end{example}
-In general, when binary atoms are allowed in the rules, there might be potentially too many possible $\mi{EWS}$s to construct. 
+In general, %when binary atoms are allowed in the rules, 
+there %might be 
+are exponentially %too 
+many possible $\mi{EWS}$s to construct. 
 %For a rule with $n$ distinct variables, $n^2$ candidate $\mi{EWS}$s might exist. 
-Combinations of exception candidates could be an explanation for some missing links, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single predicate as a final exception has been posed; %extensions
+Combinations of exception candidates could be an explanation for some missing KG edges, so the search space of solutions to the above problem is large. In \cite{rumis} a restriction to a single atom as a final exception has been posed; %extensions
 extending exceptions to arbitrary combinations of atoms is left for future research.
 
 
@@ -209,8 +212,7 @@ $r^j_i$, four special ranking functions are introduced: a naive one and three mo
     \item {\textbf{\em OPM}} is similar to \textbf{{\em PM}}, but the selected ruleset $R'$ contains only those rules whose Horn version appears above the considered rule $r_i$ in the ruleset $R_H$, ordered (\textbf{\em O}) based on some chosen measure (e.g., the same as $\mi{rm}$). %TODO
 \smallskip
 
-    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} %in 
-    such that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~\ref{pm}. If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
+    \item {\textbf{\em OWPM}} is the most advanced ranking function. It differs from \textbf{\em OPM} in that the predicted facts in $\cG_{R'}\backslash \cG$ inherit weights (\textbf{\em W}) from the rules that produced them, and facts in $\cG$ get the highest weight. These weights are taken into account when computing the value of~(\ref{pm}). If the same fact is derived by multiple rules,  the highest weight is stored. To avoid propagating uncertainty through rule chaining when computing weighted partial materialization of $\cG$ predicted facts (i.e., derived by applying rules from $R'$) are kept separately from the explicit facts (i.e., those in $\cG$), and %infer 
 new facts are inferred using only $\cG$.
 
 For reasoning over weighted facts existing 
@@ -345,7 +347,7 @@ a minimum rule support $\textit{r-supp}$
 and other \emph{rule-related} parameters such as a maximum number of positive %$\mi{max\_pos}$ 
 and negative 
 atoms allowed in $\mi{body(r)}$.
-As illustrated in the system overview of RuLES in Figure~\ref{fig:system_RulES}, the KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$. The \emph{Rule Learning} component 
+As illustrated in the overview of of the RuLES system in Figure~\ref{fig:system_RulES}, the KG and text corpus are used to train the embedding model that in turn is utilized to construct the probabilistic function $f$. The \emph{Rule Learning} component 
 %The rules $r$ are computed 
 computes the rules
 similar to \cite{amie} in an iterative fashion by applying refinement operators, starting from the head, by adding atoms to its body one after another until at least one of the termination criteria (that depend on $f$) is met. The set of refinement operators from \cite{amie} is extended by the following two to support negations in rule bodies:
@@ -356,18 +358,20 @@ being a constant, and the other one being a shared variable.
 arguments being shared variables.% or a unary negated atom with a shared variable.
 \end{itemize}
  During the construction of a rule $r$, the quality $\mu(r)$ is computed by the \emph{Rule Evaluation} component, based on which a decision about the next action is made.
-Finally as an output, the RuLES produces a set of nonmonotonic rules suitable for KG completion.
+Finally as an output, the RuLES system produces a set of nonmonotonic rules suitable for KG completion.
 
-Note that by exploiting the embedding feedback, it is easier to distinguish
+Note that the exploitation of the embedding feedback helps to distinguish
 exceptions from noise. Consider the rule $r_1$ stating that married people live together. This
 rule can have several possible exceptions, e.g., either one of the spouses is a researcher
 or he/she works at a company, which has headquarter in the US. Whenever the rule is
 enriched with an exception, naturally, the support of its body decreases, i.e., the size of
-$\cG_r$ goes down. Ideally, %such
+$\cG_r$ goes down. Ideally, such
  negated atoms should be added to %its 
- the body of the rule such that the average quality of
-$\cG_r$ increases, %as this will witness that by adding negated atoms to the rule we get rid of unlikely predictions. 
- which indicates reducing the amount of the inaccurate predictions.
+ the body of the rule that the average quality of
+$\cG_r$ increases, as this witnesses that the addition of negated atoms to the rule body %we 
+%one gets rid of 
+reduces unlikely predictions. 
+% which indicates reducing the amount of the inaccurate predictions.
 
 %Figure~\ref{fig:system} demonstrates a high level architecture of RulES, where arrows depict information flow between blocks.
 %The \emph{Rule Learning} block constructs rules over the input KG similar to rule construction described in Section~\ref{subsec:rule_const}, \emph{Rule Evaluation} supplies it with quality scores $\mu$ for $r$, using $\cG$ and $f$, where $f$ is computed by the \emph{Embedding Model} block from $\cG$ and text. As an output, the system produces a set of nonmonotonic rules suitable for KG completion.

@@ -79,8 +79,8 @@ The \emph{(absolute) support} of a conjunctive query $Q$ in a KG $\cG$, is the n
 
 \begin{example}
 The support of the query
-\begin{equation}\mi{Q(X,Y,Z)\text{ :- }marriedTo(X,Y),\, }\mi{livesIn(X,Z)}
-\end{equation}
+\begin{center}$\mi{Q(X,Y,Z)\text{ :- }marriedTo(X,Y),\, }\mi{livesIn(X,Z)}$
+\end{center}
 over $\cG$ in Figure~\ref{rdf} asking for people, their spouses and living places is $6$. \qed
 \end{example} 
 
@@ -90,8 +90,8 @@ An \emph{association rule} is of the form $Q_1\Rightarrow Q_2$, such that $Q_1$ 
 
 \begin{example}
 For instance, from the above $Q(X,Y,Z)$ and
-\begin{equation}Q'(X,Y,Z)\text{ :- }\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}
-\end{equation} we can construct the association rule $Q \Rightarrow Q'$. \qed
+\begin{center}$Q'(X,Y,Z)\text{ :- }\mi{marriedTo(X,Y),\,livesIn(X,Z),\,} \mi{livesIn(Y,Z)}$
+\end{center} we can construct the association rule $Q \Rightarrow Q'$. \qed
  \end{example}
 
 Association rules are sometimes exploited for reasoning purposes, and thus (with some abuse of notation) can be treated as logical rules, i.e., for $Q_1 \Rightarrow Q_2$ we write $Q_2\backslash Q_1 \leftarrow Q_1$, where $Q_2 \backslash Q_1$ refers to the set difference between $Q_2$ and $Q_1$ considered as sets of atoms. For example, $Q \Rightarrow Q'$ from above corresponds to $\mi{r1}$ from Section~\ref{sec:intro}.
@@ -104,8 +104,8 @@ conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
 \end{align*}
 where $\textit{r-supp}(r,\cG)$ and $\textit{b-supp}(r ,\cG)$ are the \textit{rule support} and \textit{body support}, respectively, which are defined as follows:
 \begin{align*}
-\textit{r-supp}(r,\cG) &= \#(x,y): h(x,y) \in \cG, \exists \vec{z}\;B\in \cG,E \not \in \cG\\
-\textit{b-supp}(r,\cG) &= \#(x,y):\exists \vec{z}\; B\in \cG, E \not \in \cG
+\textit{r-supp}(r,\cG) & = \#(x,y): h(x,y) \in \cG, \exists \vec{z}\;B\in \cG,E \not \in \cG\\
+\textit{b-supp}(r,\cG) & = \#(x,y):\exists \vec{z}\; B\in \cG, E \not \in \cG
 \end{align*}
 \begin{example}
 Consider the rules $\mi{r_1}$, $\mi{r_2}$, and the KG $\cG$ in Figure \ref{rdf}, we have $\textit{r-supp}(r_1,\cG) = \textit{r-supp}(r_2,\cG) = 3$, $\textit{b-supp}(r_1,\cG) = 6$ and $\textit{b-supp}(r_2,\cG) = 4$.
@@ -202,7 +202,7 @@ rule ranking function. % quality and how to exploit it in learning rules.
 The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{subsec:assoc_rule} have been designed for datasets treated under the CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
 
 \begin{example}\label{ex:rulesforgprime}
-For instance, consider a KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families. 
+For instance, consider the KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families. 
 The heavily biased rule from Section~\ref{sec:intro}: $\mi{r_1':\;hasChild(X,Y)\leftarrow worksAt(X,Z), educated(Y,Z)}$ can be mined from it along with $\mi{r_2':\,hasSibling(X,Z)\leftarrow hasFather(X,Y),hasChild(Y,Z)}$, which is an accurate rule stating that people with the same father are likely siblings. Since the graph is highly incomplete for the $\mi{hasSibling}$ relation, the standard rule measures such as confidence reflect a counterintuitive rule preference. Indeed, we have $\mi{conf(\mi{r_1',\cG'})}=\frac{2}{8}$, while
  %we have that 
 $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
@@ -218,11 +218,11 @@ $\mi{conf(\mi{r_2',\cG'})}=\frac{1}{6}$. \qed
 
 \subsubsection{PCA Confidence.} In~\cite{amie}, a completeness-aware rule scoring based
 on the partial completeness assumption (PCA) has been introduced. The idea of PCA is that
-whenever at least one object for a given subject and a predicate is in a KG (e.g., ``Eduard
+whenever at least one object for a given subject and a predicate is in the KG (e.g., ``Eduard
 is Einstein's child''), then all objects for that subject-predicate pair (Einstein's children)
 are assumed to be known. PCA relies on a hypothesis that the data is usually
 added to KGs in batches, i.e., if at least one child for a person has been added, then most probably
-all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. However, its effectiveness decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
+all person's children are present in the KG. This assumption has turned out to be indeed valid in real-world KGs for some topics \cite{amie}. 
 The PCA confidence is defined as follows: 
 % measure considers KGs under the Partial Completeness Assumption (PCA), saying that data of the knowledge graph is added in batch \cite{amie}. In particular, with every $p(s,o) \in \cG$, the assumption states that:
 % \[\text{If }\forall o' : p(s,o') \in \cG^i \text{ then }p(s,o') \in \cG\]
@@ -232,6 +232,7 @@ The PCA confidence is defined as follows:
 \[
 \mi{conf_{pca}}(r, \cG) = \frac{\textit{r-supp}(r, \cG)}{\#(x,y): \exists \vec{z}: B \in \cG  \wedge \exists y': h(x,y')\in \cG}
 \]
+However, the effectiveness of the PCA confidence decreases when applied on highly incomplete KGs as experienced in~\cite{thinh2018}.
 \begin{example}
 Given the rules $\mi{r_1'}$ and $\mi{r_2'}$ from Example~\ref{ex:rulesforgprime} and the KG from Figure~\ref{fig:fam_grad}, we have that $\mi{conf_{pca}(r_1',\cG') = \frac{4}{2}}$. Indeed, since $\mi{carol}$ and $\mi{dave}$ are not known
 to have any children, four existing body substitutions are not counted in the
