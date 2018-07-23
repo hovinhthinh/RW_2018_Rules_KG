@@ -25,9 +25,13 @@ Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables
 \end{definition}
 
 
-For simplicity, in this work we use the shortcut $H\leftarrow B, \naf\, E$ to denote rules with a single negated atom, i.e., here $H=h(\vec{X}), B=b_1(\vec{Y_1}), \dotsc, b_k(\vec{Y_k}), E=b_{k+1}(\vec{Y_{k+1}})$. 
-Moreover, the left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
+The left-hand side of a rule $r$ is referred to as its head, denoted by $\mi{head(r)}$, while the right-hand side is its body $\mi{body(r)}$. The positive and negative parts of the body are respectively denoted as $\mi{body^+(r)}$ and $\mi{body^-(r)}$. A rule $r$ is called \emph{positive} or
 \emph{Horn} if $\mi{body^-}(r)=\emptyset$.
+
+For simplicity, in this work we use the shortcut 
+\begin{equation}\label{eq:ruleshort}
+H\leftarrow B, \naf\, E
+\end{equation} to denote rules with a single negated atom, i.e., here $H=h(\vec{X}), B=b_1(\vec{Y_1}), \dotsc, $\\$b_k(\vec{Y_k}), E=b_{k+1}(\vec{Y_{k+1}})$. 
 
 
 \begin{example}
@@ -135,7 +139,7 @@ is defined as follows:
 \item[] \textbf{Given:}
 \begin{itemize}
 \item Positive examples $E^+$ and negative examples $E^-$ over the target $n$-ary relation $p$, i.e. sets of facts;
-\item Background knowledge $T$, i.e. an extensive set of facts over various relations and possibly rules that can be used to induce the definition of $p$; 
+\item Background knowledge $T$, i.e. a set of facts over various relations and possibly rules that can be used to induce the definition of $p$; 
 \item Syntactic restrictions on the definition of $p$.
 \end{itemize}
 \smallskip
@@ -159,11 +163,11 @@ You might have the following beliefs, i.e., background knowledge.
 {\leftline{$T = \left\{
             \renewcommand{\arraystretch}{1.1}
             \begin{array}{@{\,}l@{~~}l@{}}
-              \mbox{(1) } \mi{parent (john, mary)};
+              \mbox{(1) } \mi{parentOf(john, mary)};
                \mbox{(2) }\mi{male(john)};
-              \mbox{(3) }\mi{parent (david, steve)};\\
+              \mbox{(3) }\mi{parentOf(david, steve)};\\
               \mbox{(4) }\mi{ male(david)};
-              \mbox{(5) }\mi{parent (kathy, ellen)};
+              \mbox{(5) }\mi{parentOf(kathy, ellen)};
               \mbox{(6) }\mi{ female (kathy)};
             \end{array}%
             \!\right\}$}}
@@ -180,7 +184,7 @@ $\mi{Hyp: fatherOf(X, Y)\leftarrow parentOf(X,Y), male(X)}$. This hypothesis is 
 The classical ILP task concerns automatic extraction of such hypothesis. \qed
 \end{example}
 
-In an alternative setting, known as \emph{learning from interpretations}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $I$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} \gad{which conditions ?} are replaced with the requirement that $I$ is a minimal model of $\mi{Hyp} \cup T$.
+In an alternative setting, known as \emph{learning from interpretations}, instead of positive and negative examples over a certain relation, one is given a Herbrand interpretation $I$, i.e., a set of facts, and conditions (i) and (ii) in Definition~\ref{def:learnex} are replaced with the requirement that $I$ is a minimal model of $\mi{Hyp} \cup T$.
 Formally, 
 \begin{definition}[Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}]\label{def:learnint}
 \begin{itemize}

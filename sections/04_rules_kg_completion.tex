@@ -20,8 +20,8 @@ More formally,
  we have $\cG_{R}=\cG \cup \{\mi{livesIn(lucy,amsterdam)}\}$. \qed
  \end{example}
 
-If the ideal graph $\cG^i$ was known, then the problem of rule-based KG completion would be essentially the same as the task of learning from interpretations given in Definition~\ref{def:learnint}, with $\cG$ playing a role of the background knowledge and $\cG^i$ the interpretation $I$. %The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations from Definition~\ref{def:learnint}. 
-However, unfortunately $\cG^i$ is unknown, and it cannot be reconstructed as KGs follow OWA. % in the task of learning from interpretations, the CWA is typically adopted, which makes it not suitable for incomplete KGs. R
+If the ideal graph $\cG^i$ was known, then the problem of rule-based KG completion would be essentially the same as the task of learning from interpretations given in Definition~\ref{def:learnint}, with $\cG$ playing a role of the background knowledge $T$ and $\cG^i$ the interpretation $I$. %The closest to the rule-based KG completion setting is the classical ILP task of learning from interpretations from Definition~\ref{def:learnint}. 
+However, unfortunately $\cG^i$ is unknown, and it cannot be easily reconstructed, since KGs follow OWA. % in the task of learning from interpretations, the CWA is typically adopted, which makes it not suitable for incomplete KGs. R
 
 Moreover, reusing the methods that induce logical theories from a set of positive and negative examples from Definition~\ref{def:learnex} is likewise not possible due to the following important obstacles \cite{rumis}. % that prevent one from employing the off-the-shelf traditional ILP algorithms for solving the above rule-based KG completion problem. 
 
@@ -98,7 +98,7 @@ Association rules are sometimes exploited for reasoning purposes, and thus (with
 
 A large number of measures for evaluating the quality of association rules and their subsequent ranking have been proposed, e.g., \emph{support, confidence}. 
 
-For $r:\;\mi{H\leftarrow B, \naf\ E}$ (as presented in Definition \ref{def:rule}), with $H=\mi{h(X,Y)}$ and $B,E$ involving variables from $\vec{Z}\supseteq \{X,Y\}$ and a KG $\cG$, the \emph{(standard) confidence} is given as:
+For $r:\;\mi{H\leftarrow B, \naf\ E}$ (see Equation~\ref{eq:ruleshort}), with $H=\mi{h(X,Y)}$, $B,E$ involving variables from $\vec{Z}\supseteq \{X,Y\}$ and a KG $\cG$, the \emph{(standard) confidence} is given as:
 \begin{align*}
 conf(r,\cG)= \frac{\textit{r-supp}(r,\cG)}{\textit{b-supp}(r,\cG)}
 \end{align*}
@@ -170,7 +170,7 @@ Refinement of a rule relies on the following set of mining operators used to ext
 
 \end{itemize}
 
-The implementation of AMIE employs a variety of techniques from the database community, which allow it to achieve high scalability.
+The implementation of AMIE employs a variety of techniques from the database area, which allow it to achieve high scalability.
 
 \subsubsection{RDF2Rules.}
 While AMIE mines a single rule at a time, RDF2Rules \cite{rdf2rules} parallelizes this process by extracting \emph{frequent predicate cycles} (FPCs) of %some 
@@ -199,7 +199,7 @@ differ from each other with respect to the employed %at the rule %metric
 %that they introduce to quantify 
 rule ranking function. % quality and how to exploit it in learning rules. 
 %Basically, we can plug different rule metrics into these mining systems to work under different situations.
-The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{subsec:assoc_rule} have been designed for datasets treated under CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
+The ranking metrics from data mining such as support and confidence (see e.g., \cite{metrics-summary} for overview of others) presented in Section~\ref{subsec:assoc_rule} have been designed for datasets treated under the CWA, and they can be counterintuitive for the KGs, in which facts are largely missing.
 
 \begin{example}\label{ex:rulesforgprime}
 For instance, consider a KG $\cG'$ in Figure~\ref{fig:fam_grad} \cite{carl}, which presents information about scientific families. 
