@@ -57,6 +57,7 @@
  Title = {{Never-Ending Learning}}, 
 Author = {T. Mitchell and W. Cohen and E. Hruschka and P. Talukdar and J. Betteridge and A. Carlson and B. Dalvi and M. Gardner and B. Kisiel and J. Krishnamurthy and N. Lao and K. Mazaitis and T. Mohamed and N. Nakashole and E. Platanios and A. Ritter and M. Samadi and B. Settles and R. Wang and D. Wijaya and A. Gupta and X. Chen and A. Saparov and M. Greaves and J. Welling}, 
 Booktitle = {AAAI}, 
+pages = {2302--2310},
 Year = {2015}}
 
 @inproceedings{KnowledgeVault,
@@ -394,11 +395,14 @@ issn="1573-0565",
   year      = {1994}
 }
 
-@article{ruleoverview,
-  author    = {Johannes F{\u"}rnkranz and Tomas Kliegr},
-  title     = {A Brief Overview of Rule Learning}
+@inproceedings{ruleoverview,
+  author    = {Johannes F{\"{u}}rnkranz and
+               Tom{\'{a}}s Kliegr},
+  title     = {A Brief Overview of Rule Learning},
+  booktitle = {RuleML},
+  pages     = {54--69},
+  year	    = {2015}
 }
-
 
 
 %%%%%%%%%%%% Rule learning with background knowledge %%%%%%%%%%%%
@@ -755,10 +759,21 @@ issn="1573-0565",
   year      = {2010}
 }
 
-@misc {ILASP_system,
-  author = "Law, Mark and Russo, Alessandra and Broda, Krysia",
-  title  = "The {ILASP} system for learning Answer Set Programs",
-  year   = "2015",
+%@misc {ILASP_system,
+%  author = "Law, Mark and Russo, Alessandra and Broda, Krysia",
+%  title  = "The {ILASP} system for learning Answer Set Programs",
+%  year   = "2015",
+%}
+
+@article{ILASP_system,
+  author    = {Mark Law and
+               Alessandra Russo and
+               Krysia Broda},
+  title     = {The complexity and generality of learning answer set programs},
+  journal   = {Artif. Intell.},
+  volume    = {259},
+  pages     = {110--146},
+  year      = {2018}
 }
 
 @book{ailp,
@@ -829,16 +844,7 @@ pages = {2724-2743},
 title = {Knowledge Graph Embedding: A Survey of Approaches and Applications},
 booktitle = {IEEE Transactions on Knowledge and Data Engineering}
 }
-@article{DBLP:journals/ai/LawRB18,
-  author    = {Mark Law and
-               Alessandra Russo and
-               Krysia Broda},
-  title     = {The complexity and generality of learning answer set programs},
-  journal   = {Artif. Intell.},
-  volume    = {259},
-  pages     = {110--146},
-  year      = {2018}
-}
+
 
 
 @article{ILED,
@@ -1103,16 +1109,24 @@ pages={227-254}
  pages = {2468--2473},
 } 
 
-@article{problog2015, 
-title={Inference and learning in probabilistic logic programs using weighted Boolean formulas}, 
-volume={15},  
-number={3}, 
-journal={Theory and Practice of Logic Programming}, 
-author={FIERENS, DAAN and VAN DEN BROECK, GUY and RENKENS, JORIS and SHTERIONOV, DIMITAR and GUTMANN, BERND and THON, INGO and JANSSENS, GERDA and DE RAEDT, LUC}, 
-year={2015}, 
-pages={358–401}
-}
 
+@article{problog2015,
+  author    = {Daan Fierens and
+               Guy Van den Broeck and
+               Joris Renkens and
+               Dimitar Sht. Shterionov and
+               Bernd Gutmann and
+               Ingo Thon and
+               Gerda Janssens and
+               Luc De Raedt},
+  title     = {Inference and learning in probabilistic logic programs using weighted
+               Boolean formulas},
+  journal   = {{TPLP}},
+  volume    = {15},
+  number    = {3},
+  pages     = {358--401},
+  year      = {2015}
+}
 
 
 %%%%%%%% Learning from Positive and Unlabeled Data %%%%%%
