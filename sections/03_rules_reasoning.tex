@@ -18,7 +18,7 @@ h(\vec{X})\leftarrow b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k}), \naf\, b_{k+1}(\vec{Y
 %
 where 
 %$H$ is a standard first-order atom of the form 
-$h(\vec{X}), b_1(\vec{Y_1}),\dotsc, b_n(\vec{Y_n})$ are first-order atoms and right-hand side of the rule is a conjunction of atoms. %, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $E$ is an atom $b_{k+1}(\vec{Y_{k+1}})$.
+$h(\vec{X}), b_1(\vec{Y_1}),\dotsc, b_n(\vec{Y_n})$ are first-order atoms and the right-hand side of the rule is a conjunction of atoms. %, $B$ is a conjunction of positive atoms of the form $b_1(\vec{Y_1}),\dotsc,b_k(\vec{Y_k})$, and $E$ is an atom $b_{k+1}(\vec{Y_{k+1}})$.
 % is a conjunction of negated atoms $\naf\, b_{k+1}(\vec{Y_{k+1}}),\dotsc, \naf\, b_n(\vec{Y_n})$.
 Moreover,  $\vec{X},\vec{Y_1},\ldots,\vec{Y_{n}}$ are tuples of either variables or constants whose length corresponds to the arity of the predicates $h,b_1,\ldots,b_{n}$ respectively.
 % . such that $\naf$ is the so-called \emph{negation as failure (NAF)} or \emph{default negation}, \ie $\naf\, b_n$ is true if either $b_n$ is false or unknown. 
@@ -55,7 +55,7 @@ A \emph{Herbrand universe}  $\mi{HU(P)}$ is a set of all constants occurring in 
 We now formally define the satisfaction relation. 
 %\gad{what is satisfaction relation?}
 
-\begin{definition}[Satisfaction, Model] An interpretation $I$ satisfies
+\begin{definition}[Satisfaction, Model] An interpretation $I$ \emph{satisfies}
 \begin{itemize}
 \item a ground atom a, denoted $I \models a$, if $a \in I$,
 \item a negated ground atom $\mi{not\; a}$, denoted $I \models \mi{not\; a}$, if $I \not \models a$,
@@ -78,7 +78,7 @@ An alternative definition of answer sets relies on the FLP-reduct \cite{FLP2011}
 For the class of programs considered in this work, the GL-reduct and FLP-reduct are equivalent.
 
 \begin{definition}[Faber-Leone-Pfeifer Reduct \cite{FLP2011}, Answer Set]
-An interpretation $I$ of $P$ is an answer set (or stable model) of $P$ iff $I \in \mi{MM(fP^I)}$, where $fP^I$ is the \emph{Faber-Leone-Pfeifer (FLP) reduct} of  $P$, obtained from $Gr(P)$ by keeping only rules $r$, whose bodies are satisfied by $I$, i.e., \begin{center}$\mi{fP^I = \{r \in P \,\mid\, head(r)\leftarrow body(r), I \models body(r)\}}.$\end{center}
+An interpretation $I$ of $P$ is an \emph{answer set} (or \emph{stable model}) of $P$ iff $I \in \mi{MM(fP^I)}$, where $fP^I$ is the \emph{Faber-Leone-Pfeifer (FLP) reduct} of  $P$, obtained from $Gr(P)$ by keeping only rules $r$, whose bodies are satisfied by $I$, i.e., \begin{center}$\mi{fP^I = \{r \in P \,\mid\, head(r)\leftarrow body(r), I \models body(r)\}}.$\end{center}
 \end{definition}
 
 \begin{example}\label{ex:as}
