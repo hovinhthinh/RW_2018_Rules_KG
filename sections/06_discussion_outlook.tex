@@ -7,7 +7,8 @@ While the problem of rule-based KG completion has recently gained a lot of atten
 
 \leanparagraph{Learning Other Rule Forms}
 %Prominent rule learning approaches only extract normal $closed$ logical rules, which may not capture all interesting patterns. However, 
-While the majority of available methods focus on extracting Horn or nonmonotonic rules, inducing rules of other forms may be beneficial. These include %other rule forms such as 
+%While 
+The majority of available methods focus on extracting Horn or nonmonotonic rules, yet inducing rules of other, more complex, forms would be beneficial. These include %other rule forms such as 
 disjunctive rules
 %(\eg $hasBrother(X,Y) \vee hasSister(X,Y) \leftarrow hasSibling(X,Y)$, or $livesIn(X, north\_korean) \vee livesIn(south\_korean) \leftarrow speaks(X, korean) $),
 (e.g., \emph{``Having a sibling implies having a sister or a brother'', ``Korean speakers are normally either from South or North Korea''})
@@ -25,7 +26,9 @@ Rules that reflect correlations between edge counts in KGs such as \emph{``If a 
 Learning temporal rules or constraints such as \emph{``A person cannot graduate from a university before being born''} is another promising future work direction. Deductive reasoning over temporal KGs has been recently considered in \cite{DBLP:conf/aaai/ChekolPSS17}; however, the inductive setting has not yet been studied in full details to the best of our knowledge. A framework for learning hard boolean constraints has been described in \cite{DBLP:conf/aaai/RaedtPT18}, but its extension to KGs and soft constraints is still missing. 
 
 \leanparagraph{Learning Rules from Probabilistic Data}  %Nevertheless, e
-The majority of existing rule learning approaches over knowledge graphs model KGs as sets of true triples; thus, totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are normally automatically constructed from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which when applied could propagate faulty facts. 
+%The majority 
+Its common among the existing rule learning approaches over knowledge graphs to model those KGs as sets of true triples; thus, totally ignoring possible inaccuracy of some of the facts that they encode. Since KGs are usually %normally automatically 
+constructed using (semi-)automatic methods from noisy textual resources, obviously not all of the extracted facts should have the same weight. Learning rules from such noisy KGs by treating all facts equally might naturally lead to problematic rules, which may propagate faulty facts, if they are used to predict new facts. 
 
 A recent ILP approach that accounts for noise has been proposed in \cite{sigmailp}; but it relies on CWA and neglects weights on the facts.
 Learning rules from KGs treated as uncertain data sources has  been considered in \cite{probfoil,DBLP:conf/ijcai/RaedtDTBV15,DBLP:conf/clima/CorapiSIR11}; however, these works neglect negation, disjunction or existential variables in the head. %  reduce the effect of inaccurate facts in the KG 
@@ -54,7 +57,7 @@ Another interesting research stream is to consider pieces of evidence from hybri
 
 \leanparagraph{Neural-based Rule Learning} Utilizing embedding models for rule learning is a new research direction that has recently gained attention~\cite{DBLP:conf/nips/YangYC17,DBLP:journals/corr/YangYHGD14a}. Most of the existing methods are purely statistics-based, i.e., they reduce the rule learning problem to algebraic operations on neural-embedding-based representations of a given KG. The approach~\cite{DBLP:journals/corr/YangYHGD14a} constructs rules by modeling relation composition as multiplication or addition of two relation embeddings. The authors of \cite{DBLP:conf/nips/YangYC17} propose a differentiable system for learning models defined by sets of first-order rules that exploits a connection between inference and sparse matrix multiplication~\cite{DBLP:journals/corr/Cohen16b}. These techniques pose strong restrictions on target rule patterns, which often prohibits learning interesting rules, e.g. non-chain-like or exception-aware ones. Combining neural methods with symbolic ones in a similar way as in \cite{thinh2018} but also accounting for rich background knowledge in the form of logical theories is expected to be advantageous for obtaining surprising insights from the data. 
 
-Another ambitious direction is to mimic the active learning framework of Angluin \emph{et al} \cite{DBLP:journals/ml/Angluin87} for hypothesis discovery by issuing dedicated queries to possibly text-enhanced KG embedding models instead of a human expert.
+Another ambitious direction is to mimic the active learning framework of Angluin \emph{et al.} \cite{DBLP:journals/ml/Angluin87} for hypothesis discovery by issuing dedicated queries to possibly text-enhanced KG embedding models instead of a human expert.
 
 
 %\leanparagraph{Hybrid rule learning techniques}
