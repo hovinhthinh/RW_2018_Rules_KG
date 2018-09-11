@@ -1,3 +1,257 @@
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% % MASTER FILE START
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+% \documentclass{beamer}
+% \usepackage{etex}
+% \mode<presentation> {
+% \usetheme{Singapore} 
+% \setbeamercovered{invisible}
+% \setbeamertemplate{navigation symbols}{} 
+% }
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% % PACKAGES
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \newcommand\FrameText[1]{%
+%   \begin{textblock*}{\paperwidth}(261pt,239pt)
+%     \raggedright #1\hspace{.5em}
+%   \end{textblock*}}
+% \newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
+% \graphicspath{{./figures/}}
+% \usepackage{cancel}
+% \usepackage{url}               % url typeset correctly
+% \usepackage{transparent}
+% \usepackage{named}
+% \usepackage{tikz}
+% \usepackage{picture}
+% \usepackage{algorithm,algorithmic}
+% \usepackage{multirow}
+% \usepackage{proof}
+% \usepackage{transparent}
+% \usepackage{url}
+% \usepackage{hyperref}	
+% \setlength{\inferLineSkip}{4pt}
+% %\usepackage[inference]{semantic}
+% \usetikzlibrary{shapes,arrows,snakes,backgrounds,%
+% matrix,patterns,arrows,decorations.pathmorphing,decorations.pathreplacing,%
+% positioning,fit,calc,decorations.text, automata%
+% }
+% \tikzset{%
+%   dots/.style args={#1per #2}{%
+%     line cap=round,
+%     dash pattern=on 0 off #2/#1
+%   }
+% }
+
+% \usepackage{color}
+% \newcommand{\hilightbl}[1]{\colorbox{darkblue!18}{#1}}
+% \newcommand{\hilightred}[1]{\colorbox{red!18}{#1}}
+% \usepackage{etoolbox}
+% \usepackage{tikz}
+% \newrobustcmd*{\myfilledtriangle}[1]{\tikz{\filldraw[draw=#1,fill=#1] (0,0) --
+% (0.2cm,0) -- (0.1cm,0.2cm);}}
+
+% \newrobustcmd*{\mytriangle}[2]{\tikz{\filldraw[very thick, dots=6 per 1cm, style=dotted,draw=#1,fill=#2] (0,0) --
+% (0.2cm,0) -- (0.1cm,0.2cm) -- (0,0);}}
+% \definecolor{lightblue}{HTML}{D4E1F5}
+% \definecolor{darkred}{HTML}{632E2E}
+
+
+% \newcommand{\call}{\ensuremath{%
+%   \mathchoice{\includegraphics[height=5ex]{call3}}
+%     {\includegraphics[height=4ex]{call3}}
+%     {\includegraphics[height=3ex]{call3}}
+%     {\includegraphics[height=2.5ex]{call3}}
+% }}
+
+% \newcommand{\sups}{\ensuremath{%
+%   \mathchoice{\includegraphics[height=1.1ex]{supset}}
+%     {\includegraphics[height=1.1ex]{supset}}
+%     {\includegraphics[height=0.6ex]{supset}}
+%     {\includegraphics[height=0.6ex]{supset}}
+% }}
+
+
+
+% \newcommand{\rf}{\ensuremath{%
+%   \mathchoice{\includegraphics[height=14ex]{rf}}
+%     {\includegraphics[height=13ex]{rf}}
+%     {\includegraphics[height=12ex]{rf}}
+%     {\includegraphics[height=11.5ex]{rf}}
+% }}
+
+
+% \newcommand{\rfo}{\ensuremath{%
+%   \mathchoice{\includegraphics[height=14ex]{rf2}}
+%     {\includegraphics[height=13ex]{rf2}}
+%     {\includegraphics[height=12ex]{rf2}}
+%     {\includegraphics[height=11.5ex]{rf2}}
+% }}
+
+
+
+% \definecolor{gray}{rgb}{0.4,0.4,0.4}
+% \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+% \definecolor{cyan}{rgb}{0.0,0.6,0.6}
+% \definecolor{darkgreen}{rgb}{0,0.4,0}
+% \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
+% \setbeamertemplate{blocks}[rounded][shadow=false]
+
+% %%% Grid on the slides
+
+% % \usepackage[texcoord,grid,gridunit=mm,gridcolor=red!10,subgridcolor=green!10]
+% % {eso-pic}
+
+% \usepackage{enumerate}
+% \usepackage{amstext}
+% \usepackage{amssymb}
+% \usepackage{amsbsy}
+% \usepackage{amsmath}
+% \usepackage{color}
+% \usepackage[absolute,overlay]{textpos}
+% \usepackage{cancel}
+
+% \mode<article>
+% {
+% \usepackage{fullpage}
+% }
+
+% \def\uminus{\setbox0=\hbox{$\cup$}\rlap{\hbox
+%     to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+% \def\cminus{\setbox0=\hbox{$\cap$}\rlap{\hbox
+%     to\wd0{\hss\raise0.3ex\hbox{$\scriptscriptstyle{-}$}\hss}}\box0}
+% \definecolor{light-gray}{gray}{0.45}
+
+% \usepackage{soul}
+
+
+
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% %
+% % CUSTOM BEAMER STYLE
+% %
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \setbeamertemplate{blocks}[rounded][shadow=false]
+% % setup margin
+% \beamersetleftmargin{0.5cm}
+% \beamersetrightmargin{0.5cm}
+
+% % setup symbols
+% \setbeamertemplate{bibliography item}[book]
+% \setbeamertemplate{navigation symbols}{} % turn off navigation symbols
+
+% % setup font shapes of various elements
+% \setbeamerfont{frametitle}{series=\bfseries}
+% %\setbeamercolor{alerted text}{series=\bfseries}
+
+% % put number of frames at the bottom
+% \setbeamertemplate{footline}[frame number]
+
+
+% \usepackage[scaled]{helvet}
+
+% \newtheorem{proposition}[theorem]{Proposition}
+
+
+% \setbeamercolor{alerted text}{fg=purple}
+
+% \newcommand{\makeoverview}{%
+%   \begin{frame}
+%     \frametitle{Overview}
+%     \tableofcontents
+%   \end{frame}
+% }
+
+% \newcommand{\makereferences}[1]{%
+%   \begin{frame}[allowframebreaks,allowdisplaybreaks]
+%     \frametitle{References}
+%     \bibliography{#1}
+%   \end{frame}
+% }
+
+
+
+% %%%%%%%%%%%%%% SPACING COMMANDS 
+
+% \newcommand{\bs}{\bigskip}
+% \newcommand{\m}{\medskip}
+% \newcommand{\s}{\smallskip}
+% \newcommand{\cG}{\ensuremath{\mathcal{G}}}
+
+% %%%%%%%%%%%%%% SPECIFIC MACROS
+% \newcommand{\weak}{\ensuremath{\mathit{weak}}}
+% \newcommand{\FLP}{\ensuremath{\mathit{flp}}}
+% \newcommand{\wred}[3]{\ensuremath{{#1^{#2,#3}_{\mi{weak}}}}}
+% \newcommand{\flpred}[3]{\ensuremath{{#1^{#2,#3}_{\mi{flp}}}}}
+% \newcommand{\citeY}[1]{\citeyear{#1}}
+% \newcommand{\naf}{{\it not}\,}
+% \newcommand{\NP}{\ensuremath{\mathrm{NP}}}
+% \newcommand{\SigmaP}[1]{{\Sigma}_{#1}^{P}}
+% \newcommand{\wrt}[0]{w.r.t.\ }
+% \newcommand{\tuple}[1]{\ensuremath{\langle#1\rangle}}
+% \renewcommand{\vec}[1]{\ensuremath{\mathbf{#1}}}
+% \newcommand{\dlliteplugin}{{\fontencoding{OT1}\fontfamily{cmss}\selectfont{dlliteplugin}}}
+% \newcommand{\hnbls}{\vspace*{-.5\baselineskip}}
+% \newcommand{\bl}[1]{\textcolor{blue}{#1}}
+% \newcommand{\prg}{\mathcal{P}}
+% \newcommand{\gr}[1]{\textcolor{darkgreen}{#1}}
+% \newcommand{\dllite}{\ensuremath{DL}\text{-}\ensuremath{Lite}}
+% \newcommand{\el}{\ensuremath{\mathcal{EL}}}
+% \newcommand{\specialcell}[2][l]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
+%    \newcommand*\circled[1]{%
+%       \tikz[baseline=(C.base)]\node[draw,circle,fill=red!10,inner sep=1.7pt](C) {#1};\!
+%     }
+%    \newcommand*\circledbl[1]{%
+%       \tikz[baseline=(C.base)]\node[draw,circle,fill=blue!10,inner sep=1.7pt](C) {#1};\!
+%     }
+
+% \usepackage{color}
+% \newcommand{\hilight}[1]{\colorbox{blue!18}{#1}}
+
+% \setbeamercolor{uppercolblue}{fg=black,bg=darkblue!15}
+% \setbeamercolor{lowercolblue}{fg=black,bg=darkblue!0}
+
+% \setbeamercolor{uppercolgreen}{fg=black,bg=darkgreen!15}
+% \setbeamercolor{lowercolgreen}{fg=black,bg=darkgreen!7}
+
+% \setbeamercolor{uppercolred}{fg=black,bg=red!15}
+% \setbeamercolor{lowercolred}{fg=black,bg=red!7}
+
+% \def\cA{\ensuremath{\mathcal{A}}}
+% \def\cT{\ensuremath{\mathcal{T}}}
+% \def\cI{\ensuremath{\mathcal{I}}}
+% \def\cC{\ensuremath{\mathcal{C}}}
+% \def\cO{\ensuremath{\mathcal{O}}}
+% \def\cR{\ensuremath{\mathcal{R}}}
+% \def\cP{\ensuremath{\mathcal{P}}}
+% \newcommand{\dlvhex}{\textsf{dlvhex}}
+% \usepackage{appendixnumberbeamer}
+
+
+% \newcommand\hex{{\sc hex}}
+
+% \catcode`\@=11 % as in plain.tex
+% \long\def\blank#1{\bl@nk#1@@..\bl@nk}%
+% \long\def\bl@nk#1#2@#3#4\bl@nk{#3#4}
+% \catcode`\@=12
+
+% \long\def\test#1{\begingroup \toks0{[#1]}%
+%   \newlinechar`\/\message{/\the\toks0:
+%   \if\blank{#1}EMPTY\else NOT empty\fi%
+% }\endgroup}
+
+
+
+% \newcommand{\mi}[1]{\ensuremath{\mathit{#1}}}
+% \newcommand{\mb}[1]{\ensuremath{\mathbf{#1}}}
+% \newcommand{\tbf}[1]{\textbf{#1}}
+% \newcommand{\dlatom}[3]{\ensuremath{{\operatorname{DL}}{[#1;#2]}{(#3)}}}
+
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
 % MASTER FILE START
@@ -16,15 +270,11 @@
 % PACKAGES
 %
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
-\newcommand\FrameText[1]{%
-  \begin{textblock*}{\paperwidth}(261pt,239pt)
-    \raggedright #1\hspace{.5em}
-  \end{textblock*}}
+\usepackage[absolute,overlay]{textpos}
 \newcommand{\tikzmark}[1]{\tikz[overlay,remember picture] \node (#1) {};}
 \graphicspath{{./figures/}}
 \usepackage{cancel}
 \usepackage{url}               % url typeset correctly
-\usepackage{transparent}
 \usepackage{named}
 \usepackage{tikz}
 \usepackage{picture}
@@ -34,72 +284,34 @@
 \usepackage{transparent}
 \usepackage{url}
 \usepackage{hyperref}	
+\newcommand*\rot{\rotatebox{60}}
+\usepackage{color, colortbl}
+\usepackage[first=0,last=9]{lcg}
+\newcommand{\ra}{\rand0.\arabic{rand}}
+\newcommand\FrameText[1]{%
+  \begin{textblock*}{\paperwidth}(261pt,239pt)
+    \raggedright #1\hspace{.5em}
+  \end{textblock*}}
+
+\definecolor{LightCyan}{rgb}{1,0.88,1}
+
 \setlength{\inferLineSkip}{4pt}
 %\usepackage[inference]{semantic}
 \usetikzlibrary{shapes,arrows,snakes,backgrounds,%
 matrix,patterns,arrows,decorations.pathmorphing,decorations.pathreplacing,%
 positioning,fit,calc,decorations.text, automata%
 }
-\tikzset{%
-  dots/.style args={#1per #2}{%
-    line cap=round,
-    dash pattern=on 0 off #2/#1
-  }
-}
-
-\usepackage{color}
-\newcommand{\hilightbl}[1]{\colorbox{darkblue!18}{#1}}
-\newcommand{\hilightred}[1]{\colorbox{red!18}{#1}}
-\usepackage{etoolbox}
-\usepackage{tikz}
-\newrobustcmd*{\myfilledtriangle}[1]{\tikz{\filldraw[draw=#1,fill=#1] (0,0) --
-(0.2cm,0) -- (0.1cm,0.2cm);}}
-
-\newrobustcmd*{\mytriangle}[2]{\tikz{\filldraw[very thick, dots=6 per 1cm, style=dotted,draw=#1,fill=#2] (0,0) --
-(0.2cm,0) -- (0.1cm,0.2cm) -- (0,0);}}
-\definecolor{lightblue}{HTML}{D4E1F5}
-\definecolor{darkred}{HTML}{632E2E}
-
-
-\newcommand{\call}{\ensuremath{%
-  \mathchoice{\includegraphics[height=5ex]{call3}}
-    {\includegraphics[height=4ex]{call3}}
-    {\includegraphics[height=3ex]{call3}}
-    {\includegraphics[height=2.5ex]{call3}}
-}}
-
-\newcommand{\sups}{\ensuremath{%
-  \mathchoice{\includegraphics[height=1.1ex]{supset}}
-    {\includegraphics[height=1.1ex]{supset}}
-    {\includegraphics[height=0.6ex]{supset}}
-    {\includegraphics[height=0.6ex]{supset}}
-}}
-
-
-
-\newcommand{\rf}{\ensuremath{%
-  \mathchoice{\includegraphics[height=14ex]{rf}}
-    {\includegraphics[height=13ex]{rf}}
-    {\includegraphics[height=12ex]{rf}}
-    {\includegraphics[height=11.5ex]{rf}}
-}}
-
-
-\newcommand{\rfo}{\ensuremath{%
-  \mathchoice{\includegraphics[height=14ex]{rf2}}
-    {\includegraphics[height=13ex]{rf2}}
-    {\includegraphics[height=12ex]{rf2}}
-    {\includegraphics[height=11.5ex]{rf2}}
-}}
-
-
+\newcommand{\hilightgray}[1]{\colorbox{gray!38}{#1}}
+\newcommand{\hilightgreen}[1]{\colorbox{darkgreen!38}{#1}}
 
 \definecolor{gray}{rgb}{0.4,0.4,0.4}
 \definecolor{darkblue}{rgb}{0.0,0.0,0.6}
+\definecolor{darkbl}{rgb}{0.0,0.0,0.6}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
-\definecolor{darkgreen}{rgb}{0,0.4,0}
+\definecolor{darkgreen}{rgb}{0,0.46,0}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 \setbeamertemplate{blocks}[rounded][shadow=false]
+\newlength{\Size}
 
 %%% Grid on the slides
 
@@ -162,7 +374,7 @@ positioning,fit,calc,decorations.text, automata%
 
 \newcommand{\makeoverview}{%
   \begin{frame}
-    \frametitle{Overview}
+    \frametitle{Outline}
     \tableofcontents
   \end{frame}
 }
@@ -181,7 +393,7 @@ positioning,fit,calc,decorations.text, automata%
 \newcommand{\bs}{\bigskip}
 \newcommand{\m}{\medskip}
 \newcommand{\s}{\smallskip}
-\newcommand{\cG}{\ensuremath{\mathcal{G}}}
+
 
 %%%%%%%%%%%%%% SPECIFIC MACROS
 \newcommand{\weak}{\ensuremath{\mathit{weak}}}
@@ -198,31 +410,35 @@ positioning,fit,calc,decorations.text, automata%
 \newcommand{\dlliteplugin}{{\fontencoding{OT1}\fontfamily{cmss}\selectfont{dlliteplugin}}}
 \newcommand{\hnbls}{\vspace*{-.5\baselineskip}}
 \newcommand{\bl}[1]{\textcolor{blue}{#1}}
-\newcommand{\prg}{\mathcal{P}}
 \newcommand{\gr}[1]{\textcolor{darkgreen}{#1}}
+\usepackage{mathtools}
+\newcommand{\prg}{\mathcal{P}}
+\newcommand{\gre}[1]{\textcolor{darkgreen}{#1}}
 \newcommand{\dllite}{\ensuremath{DL}\text{-}\ensuremath{Lite}}
 \newcommand{\el}{\ensuremath{\mathcal{EL}}}
 \newcommand{\specialcell}[2][l]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
    \newcommand*\circled[1]{%
-      \tikz[baseline=(C.base)]\node[draw,circle,fill=red!10,inner sep=1.7pt](C) {#1};\!
+      \tikz[baseline=(C.base)]\node[draw,circle,inner sep=1pt](C) {#1};\!
     }
    \newcommand*\circledbl[1]{%
       \tikz[baseline=(C.base)]\node[draw,circle,fill=blue!10,inner sep=1.7pt](C) {#1};\!
     }
 
 \usepackage{color}
-\newcommand{\hilight}[1]{\colorbox{blue!18}{#1}}
+\newcommand{\hilightbl}[1]{\colorbox{darkblue!18}{#1}}
+\newcommand{\hilightred}[1]{\colorbox{red!18}{#1}}
 
-\setbeamercolor{uppercolblue}{fg=black,bg=darkblue!15}
-\setbeamercolor{lowercolblue}{fg=black,bg=darkblue!0}
+\setbeamercolor{uppercolblue}{fg=black,bg=darkbl!25}
+\setbeamercolor{lowercolblue}{fg=black,bg=darkbl!0}
 
-\setbeamercolor{uppercolgreen}{fg=black,bg=darkgreen!15}
-\setbeamercolor{lowercolgreen}{fg=black,bg=darkgreen!7}
+\setbeamercolor{uppercolgreen}{fg=black,bg=darkgreen!35}
+\setbeamercolor{lowercolgreen}{fg=black,bg=darkgreen!12}
 
-\setbeamercolor{uppercolred}{fg=black,bg=red!15}
-\setbeamercolor{lowercolred}{fg=black,bg=red!7}
+\setbeamercolor{uppercolred}{fg=black,bg=red!30}
+\setbeamercolor{lowercolred}{fg=black,bg=red!12}
 
 \def\cA{\ensuremath{\mathcal{A}}}
+\def\cG{\ensuremath{\mathcal{G}}}
 \def\cT{\ensuremath{\mathcal{T}}}
 \def\cI{\ensuremath{\mathcal{I}}}
 \def\cC{\ensuremath{\mathcal{C}}}
@@ -232,6 +448,7 @@ positioning,fit,calc,decorations.text, automata%
 \newcommand{\dlvhex}{\textsf{dlvhex}}
 \usepackage{appendixnumberbeamer}
 
+\definecolor{darkblue}{rgb}{0.0, 0.62,0.9}
 
 \newcommand\hex{{\sc hex}}
 
@@ -251,7 +468,6 @@ positioning,fit,calc,decorations.text, automata%
 \newcommand{\mb}[1]{\ensuremath{\mathbf{#1}}}
 \newcommand{\tbf}[1]{\textbf{#1}}
 \newcommand{\dlatom}[3]{\ensuremath{{\operatorname{DL}}{[#1;#2]}{(#3)}}}
-
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 %
@@ -295,15 +511,172 @@ positioning,fit,calc,decorations.text, automata%
 
 
 \section{Motivation}
+\begin{frame}\frametitle{\alt<3>{What is Digital Knowledge?}{What is Knowledge?}}
+\centerline{\alt<3>{\emph{``\bl{Digital knowledge} is semantically enriched machine processable data''}}{Plato: \emph{``\bl{Knowledge} is justified true belief''}}}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
 
-\subsection{Knowledge Graphs}
+\alt<3>{\begin{picture}(0.5,0.5)
+\put(45,-22){\includegraphics[width=.78\textwidth]{know3_}}
+\end{picture}}{\alt<2>{\begin{picture}(0.5,0.5)
+\put(45,-22){\includegraphics[width=.78\textwidth]{know1}}
+\end{picture}}{\begin{picture}(0.5,0.5)
+\put(45,-22){\includegraphics[width=.78\textwidth]{know2}}
+\end{picture}}
+}
+\end{frame}
+
+
+\begin{frame}\frametitle{Semantic Web Search}
+
+\alt<3>{\begin{picture}(0.5,0.5)
+\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch3}}
+\end{picture}}{
+\alt<2>{\begin{picture}(0.5,0.5)
+\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch2}}
+\end{picture}}{
+\begin{picture}(0.5,0.5)
+\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch1}}
+\end{picture}
+}}
+
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Knowledge Graphs}
+ \alt<2->{
+
+
+\begin{picture}(0.5,0.5)
+\put(217,-130){\includegraphics[width=.41\textwidth]{rf_wiki2}}
+\end{picture}
+\begin{picture}(0.5,0.5)
+\put(-5,-120){\includegraphics[width=.65\textwidth]{kg_general1}}
+\end{picture}
+
+
+}{\begin{picture}(0.5,0.5)
+\put(23,-135){\includegraphics[width=.85\textwidth]{rf_wiki}}
+\end{picture}}
+\end{frame}
+
+\begin{frame}\frametitle{Problem: Inconsistency}
+%\alt<2>{
+\includegraphics[width=1\textwidth]{kg_problem1}
+%}{\includegraphics[width=1\textwidth]{kg_er}}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Problem: Incompleteness}
+\bigskip
+
+Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's.. 
+\bigskip
+
+\begin{center}
+\includegraphics[width=1.02\textwidth]{kg_problem2}
+\end{center}
+\end{frame}
+
+% \begin{frame}\frametitle{Inconsistency and Incompleteness in KGs}
+% \bigskip
+
+% \alt<2>{\includegraphics[width=1\textwidth]{kg_inc2}}{\includegraphics[width=1\textwidth]{kg_inc1}}
+% \end{frame}
+
+
+
+\begin{frame}\frametitle{What if we had rules?}
+\begin{center}
+\begin{columns}
+\begin{column}{.49\textwidth}
+  $\gr{\mi{livesIn(Y,Z)\leftarrow marriedTo(X,Y),}}$ \\
+      $\phantom{\mi{livesIn(Y,Z)\leftarrow }}\mi{\gre{livesIn(X,Z)}}$\bigskip
+
+   \uncover<2->{ $\gr{\mi{marriedTo(mirka,roger)}}$\bigskip
+
+  $\gr{\mi{livesIn(mirka, bottmingen)}}$
+------------------------------------}\bigskip
+
+  \uncover<3->{\gr{$\mi{livesIn(roger,bottmingen)}$\\}}
+\end{column}
+\begin{column}{.49\textwidth}
+
+  \emph{Married people live together}\bigskip\bigskip
+
+  \uncover<2->{
+  \emph{Mirka is married to Roger}\bigskip\smallskip
+
+  \emph{Mirka lives in Bottmingen}
+  \uncover<2->{------------------------------------}\bigskip
+
+}
+  \uncover<3->{\emph{Roger lives in Bottmingen}}
+\end{column}
+\end{columns}
+\bigskip
+
+%\begin{picture}(0.5,0.5)
+    % \put(50,-136){
+    \uncover<3->{\includegraphics[width=0.3\textwidth]{bottmingen}}
+%}
+   % \end{picture}
+\end{center}
+\end{frame}
+
+
+\begin{frame}\frametitle{Motivation}
+\begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{\textbf{\alert{Important problems}} of KGs:}
+
+ \medskip
+ \begin{itemize}
+ \item[\alert{\circled{1}}] \alert{Inconsistency}
+ \medskip
+
+ \item[\textbf{\alert{\circled{2}}}] \textbf{\alert{Incompleteness}}
+ \end{itemize}
+ \end{beamerboxesrounded}
+\bigskip
+\bigskip
+\bigskip
+\pause 
+
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{In tutorial: }} Reasoning on top of KGs to address their incompleteness}
+\bigskip
+
+ \begin{itemize}
+ \item[] \bl{Induction}: learning common-sense rules and \bl{completing} KGs
+ \end{itemize}
+\bigskip
+
+ \end{beamerboxesrounded}
+\end{frame}
+
+%\subsection{Knowledge Graphs}
 \begin{frame}\frametitle{Knowledge Graphs}
 \end{frame}
 \begin{frame}\frametitle{Applications of KGs}
 \end{frame}
 \begin{frame}\frametitle{Issues}
 \end{frame}
-\subsection{Rules}
+
+%\subsection{Rules}
 \begin{frame}\frametitle{Rules and Reasoning}
 \end{frame}
 \section{ILP}
@@ -315,7 +688,7 @@ positioning,fit,calc,decorations.text, automata%
 \end{frame}
 
 \section{Learning Rules from KGs}
-\subsection{AMIE and other Systems}
+%\subsection{AMIE and other Systems}
 \begin{frame}
 \frametitle{Itemset Mining}
 \end{frame}
@@ -341,123 +714,6 @@ positioning,fit,calc,decorations.text, automata%
 \frametitle{Approach Description}
 \end{frame}
 
-% \section{Motivation}
-% \begin{frame}\frametitle{\alt<3>{What is Digital Knowledge?}{What is Knowledge?}}
-% \centerline{\alt<3>{\emph{``\bl{Digital knowledge} is semantically enriched machine processable data''}}{Plato: \emph{``\bl{Knowledge} is justified true belief''}}}
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-% \bigskip
-
-% \alt<3>{\begin{picture}(0.5,0.5)
-% \put(45,-22){\includegraphics[width=.78\textwidth]{know3_}}
-% \end{picture}}{\alt<2>{\begin{picture}(0.5,0.5)
-% \put(45,-22){\includegraphics[width=.78\textwidth]{know1}}
-% \end{picture}}{\begin{picture}(0.5,0.5)
-% \put(45,-22){\includegraphics[width=.78\textwidth]{know2}}
-% \end{picture}}
-% }
-% \end{frame}
-
-
-% \begin{frame}\frametitle{Semantic Web Search}
-
-% \alt<3>{\begin{picture}(0.5,0.5)
-% \put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch3}}
-% \end{picture}}{
-% \alt<2>{\begin{picture}(0.5,0.5)
-% \put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch2}}
-% \end{picture}}{
-% \begin{picture}(0.5,0.5)
-% \put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch1}}
-% \end{picture}
-% }}
-
-
-% \end{frame}
-
-
-% \begin{frame}\frametitle{Knowledge Graphs}
-%  \alt<2->{
-
-
-% \begin{picture}(0.5,0.5)
-% \put(217,-130){\includegraphics[width=.41\textwidth]{rf_wiki2}}
-% \end{picture}
-% \begin{picture}(0.5,0.5)
-% \put(-5,-120){\includegraphics[width=.65\textwidth]{kg_general1}}
-% \end{picture}
-
-
-% }{\begin{picture}(0.5,0.5)
-% \put(23,-135){\includegraphics[width=.85\textwidth]{rf_wiki}}
-% \end{picture}}
-% \end{frame}
-
-% \begin{frame}\frametitle{Problem: Inconsistency}
-% %\alt<2>{
-% \includegraphics[width=1\textwidth]{kg_problem1}
-% %}{\includegraphics[width=1\textwidth]{kg_er}}
-
-% \end{frame}
-
-
-% \begin{frame}\frametitle{Problem: Incompleteness}
-% \bigskip
-
-% Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's.. 
-% \bigskip
-
-% \begin{center}
-% \includegraphics[width=1.02\textwidth]{kg_problem2}
-% \end{center}
-% \end{frame}
-
-% % \begin{frame}\frametitle{Inconsistency and Incompleteness in KGs}
-% % \bigskip
-
-% % \alt<2>{\includegraphics[width=1\textwidth]{kg_inc2}}{\includegraphics[width=1\textwidth]{kg_inc1}}
-% % \end{frame}
-
-
-% \begin{frame}\frametitle{Motivation}
-% \begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{\textbf{\alert{Important problems}} of KGs:}
-
-%  \medskip
-%  \begin{itemize}
-%  \item[\alert{\circled{1}}] \alert{Inconsistency}
-%  \medskip
-
-%  \item[\alert{\circled{2}}] \alert{Incompleteness}
-%  \end{itemize}
-%  \end{beamerboxesrounded}
-% \bigskip
-% \bigskip
-% \bigskip
-
-% \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{In this talk: }} Reasoning on top of KGs to address these issues}
-
-%  \medskip
-%  \begin{itemize}
-%  \item[\circledbl{1}] \bl{Deduction}: detecting and \bl{repairing inconsistencies} %and \bl{inconsistency repair}
-%  \medskip
-
-%  \item[\circledbl{2}] \bl{Induction}: learning common-sense rules and \bl{completing} KGs
-%  \end{itemize}
-%  \end{beamerboxesrounded}
-% \end{frame}
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
