@@ -391,11 +391,19 @@ positioning,fit,calc,decorations.text, automata%
 %%%%%%%%%%%%%% SPACING COMMANDS 
 
 \newcommand{\bs}{\bigskip}
-\newcommand{\m}{\medskip}
+\newcommand{\ms}{\medskip}
 \newcommand{\s}{\smallskip}
 
 
 %%%%%%%%%%%%%% SPECIFIC MACROS
+
+\newcommand{\implied}{\mbox{:-}}
+\def\bi{\begin{itemize}}
+\def\ei{\end{itemize}}
+
+\def\HU{{\mathit H\!U}}
+\newcommand\HB{\ensuremath{{\it H\!B}}}
+\newcommand{\nbls}{\vspace*{-1\baselineskip}}
 \newcommand{\weak}{\ensuremath{\mathit{weak}}}
 \newcommand{\FLP}{\ensuremath{\mathit{flp}}}
 \newcommand{\wred}[3]{\ensuremath{{#1^{#2,#3}_{\mi{weak}}}}}
@@ -414,6 +422,7 @@ positioning,fit,calc,decorations.text, automata%
 \usepackage{mathtools}
 \newcommand{\prg}{\mathcal{P}}
 \newcommand{\gre}[1]{\textcolor{darkgreen}{#1}}
+\newcommand<>{\red}[1]{{\color#2[rgb]{1,0,0}#1}}
 \newcommand{\dllite}{\ensuremath{DL}\text{-}\ensuremath{Lite}}
 \newcommand{\el}{\ensuremath{\mathcal{EL}}}
 \newcommand{\specialcell}[2][l]{\begin{tabular}[#1]{@{}c@{}}#2\end{tabular}}
@@ -669,12 +678,516 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 \end{frame}
 
 %\subsection{Knowledge Graphs}
-\begin{frame}\frametitle{Knowledge Graphs}
+
+\section{Horn Rules}
+
+% \frame{\frametitle{}
+% \begin{center}
+% \bl{\Huge{Horn Logic Programming}}
+% \end{center}
+
+
+% \begin{tikzpicture}[remember picture,overlay]
+%     \node[xshift=-90.5mm,yshift=-110,anchor=north east] at (current page.north east){%
+%     \includegraphics[width=15mm]{horn}};
+
+% \end{tikzpicture}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+
+% $\;\;\;\;\;\;\;\;\;\;\;\;\;$Alfred Horn
+% }
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+%\subsection{Positive Logic Programs}
+\begin{frame}
+\frametitle{Syntax}
+
+
+\bs
+\bi
+\item Assume a vocabulary $\Phi$ comprised of nonempty finite sets of 
+\begin{itemize}
+\item constants (e.g., \gre{$\mi{frankfurt}$})
+\item variables (e.g., \gre{$X$})
+\item predicate symbols (e.g., \gre{$\mi{connected}$})
+\end{itemize}
+\bs
+\pause
+
+\item A \bl{term} is either a variable, a constant, or inductively built from other terms using function symbols.
+\bs
+\pause
+
+\item An \bl{atom} is an expression of form \bl{$p(t_1,\ldots{},t_n)$}, where 
+
+
+\bi
+\item \bl{$p$} is a \bl{predicate symbol} of \bl{arity $n \ge 0$} from $\Phi$, and 
+\item \bl{$t_1,\ldots{},t_n$} are terms. 
+\ei
+(e.g., \gre{$\mi{connected(frankfurt)}$})
+\bs
+\pause
+
+\item A \bl{term} or an \bl{atom} is \emph{ground} if it contains no variable.\\
+(e.g., \gre{$\mi{connected(frankfurt)}$ is ground}, \gre{$\mi{connected(X)}$} is nonground.)
+\end{itemize}
+
 \end{frame}
-\begin{frame}\frametitle{Applications of KGs}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Positive Logic Programs}
+
+
+%%\normalsize
+
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Positive logic programs}}
+A \bl{positive logic program}, $P$, is a finite set of
+\bl{rules (clauses)} of the form
+%
+%
+\begin{equation}
+ \label{eq:clause}
+ \bl{a \implied b_1,\ldots,b_m,}
+\end{equation}
+%
+where $a$, $b_1$, \ldots, $b_m$ are atoms.
+%  of a first-order language $L$.
+\begin{itemize}
+            \item  $a$ is the \bl{head} of the rule
+            \item  $b_1,\ldots,b_m$ is the  \bl{body} of the rule.
+\item
+If $m=0$, the rule is a \bl{fact} (written shortly $a$)
+\end{itemize}
+\end{beamerboxesrounded}
+
+\bs
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example:}
+% Ground rule: \gre{$$}
+% \end{beamerboxesrounded}
+
+Intuitively, (\ref{eq:clause}) can be seen as material implication
+\begin{center}
+\bl{$\forall \vec{x}\; b_1\land\cdots\land b_m \rightarrow a$}, where \bl{$\vec{x}$}
+\end{center}
+is the list of all variables occurring in (\ref{eq:clause}).
+
 \end{frame}
-\begin{frame}\frametitle{Issues}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+\frametitle{Example}
+
+
+% 
+\ms
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+% \begin{example}
+\bi
+\item \textbf{Ground rule:} \emph{``If Franfurt
+is a hub airport, and there is a link between Frankfurt and Saarbr{\"u}cken, then Saarbr{\"u}cken is a connected airport.''}
+
+\vspace{-.2cm}
+$$
+\begin{array}{r@{}l}
+\gre{\mathit{connected}(\mathit{srb})} \gre{\implied} & \gre{\mathit{hub\_airport}(\mathit{frankfurt}), \mathit{link}(\mathit{frankfurt},\mathit{srb})} \\
+% connected(X) \implied & hub(Y), link(Y,X)
+\end{array}
+$$
+
+\pause
+
+\ms
+\item \textbf{Non-ground rule:} \emph{``All airports with a link to a hub airport are connected.''}
+\gre{$$
+\begin{array}{r@{}l}
+\mi{connected(X)} \implied & \mi{hub\_airport(Y), link(Y,X)}
+\end{array}
+$$}
+
+\vspace{-.2cm}
+can be read as a universally quantified clause
+%
+\gre{$$\forall X,Y\; \mathit{hub\_airport}(Y) \wedge \mathit{link}(Y,X) \rightarrow \mathit{connected}(X).$$}
+
+
+\ei
+\end{beamerboxesrounded}
+% \qnbls
+% \end{example}
+
 \end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+
+\begin{frame}
+\frametitle{Herbrand Semantics}
+
+{\small
+\medskip
+
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand universe, base, interpretation}}
+
+%\small
+\bi
+\item
+Given a logic program $P$, the \bl{Herbrand universe} of $P$, \bl{$\HU(P)$}, is the set of all terms
+which can be formed from constants and functions symbols in $P$ (resp.,
+the vocabulary $\Phi$ of $P$,
+% of $L$,
+if explicitly known).
+
+\s
+
+\item
+The \bl{Herbrand base} of $P$, \bl{$\HB(P)$}, is the set of all ground
+atoms which can be formed from predicates and terms $t\in \HU(P)$.
+\pause
+
+\s
+\item
+A \bl{(Herbrand) \bl{interpretation}} is a first-order interpretation \bl{$I =
+(D,\cdot^I)$} of the vocabulary with domain \bl{$D=\HU(P)$} where each term $t \in \HU(P)$
+is interpreted by itself, i.e., \bl{$t^I = t$}.
+
+\pause
+
+\s
+\item
+$I$ is identified with the set \bl{$\{\; p(t_1,\ldots,t_n) \in \HB(P) \mid
+\tuple{t_1^I,\ldots,t_n^I}\in p^I\; \}$}.
+\ei
+\end{beamerboxesrounded}
+\bs
+\pause
+
+Informally, a (Herbrand) interpretation can be seen as a set denoting
+which ground atoms are true in a given scenario.
+\pause
+\bigskip
+
+\small{Named after logician Jacques Herbrand.}
+
+}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+\begin{frame}
+\frametitle{Example}
+
+% \begin{example}[Program $P_1$]
+
+% \nbls
+
+\ms
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+Program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
+
+\nbls
+\pause
+
+\bi
+\item
+ Constant symbols: \gre{$0$, $a$, $b$,  $r$.}%;\; \qquad 
+
+% \bigskip
+\pause
+
+\item
+Herbrand universe $\HU(P)$: \qquad \gre{$\{ 0, a, b, r\}$}\pause
+% \bs
+%
+\item ~\\[-0.8\baselineskip]
+$\begin{array}{@{}r@{~}l}
+\text{Herbrand base }\HB(P): \qquad \gre{\{} & \gre{p(0,0,0), p(0,0,a), \ldots , p(r,r,r),}\\ 
+                    & \gre{h(0,0), h(0,a), \ldots,  h(r,r,r),} \\
+                    & \gre{t(0,0,0), t(0,0,a), \ldots ,t(r,r,r) \}}
+\end{array}
+$
+
+\ms
+\pause
+
+\item
+Some Herbrand interpretations:
+
+\s
+
+\qquad \gre{$I_1 = \emptyset$;~ \quad $I_2 = \HB(P)$;~\quad $I_3 = \{ h(0,0), t(a,b,r),
+p(0,0,b)\}$.}%; \ldots
+% \end{example}
+\ei
+\end{beamerboxesrounded}
+\end{frame}
+
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
+
+\begin{frame}
+\frametitle{Grounding Example}
+
+% \begin{example}[Program $P_2$]
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+Program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
+
+\nbls
+\pause
+
+\bi
+\item
+The ground instances of the first rule are
+\ei
+%
+{\small\begin{align*}
+\gre{p(0,0,0)} &\gre{\implied  p(0,0,0), h(0,0), t(0,0,r).} & \gre{X=Y=Z=Z'=0 }\\
+ &\ \ \ \gre{\ldots} \\
+\gre{p(0,r,0)} &\gre{\implied  p(0,r,0), h(0,r), t(0,0,r).} & \gre{X=Z=Z'=0, Y=r} \\
+ &\ \ \ \gre{\ldots} \\
+\gre{p(r,r,r)} &\gre{\implied  p(r,r,r), h(r,r), t(r,r,r).} & \gre{X=Y=Z=Z'=r} \\
+ \end{align*}}
+ 
+ \hnbls
+
+\vspace{-2em}
+\bi
+\item
+The single ground instance of the last rule is
+{\small\begin{align*}
+\gre{t(a,b,r)}
+\end{align*}}
+%\end{example}
+
+\ei
+
+\end{beamerboxesrounded}
+\end{frame}
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Herbrand Models}
+
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand models}}
+\bs
+
+An interpretation $I$ is a \bl{(Herbrand) model} of
+
+\begin{itemize}
+\item a ground (variable-free) \bl{clause} $C = a \implied b_1,\ldots,b_m$,  symbolically $I\models C$,
+if either $\{b_1,\ldots,b_m\} \nsubseteq I$ or $a \in I$;
+%  \hfill ($I\models C$)
+
+\bs
+
+ \item a clause $C$, symbolically $I\models C$,
+ if $I\models C'$ for every
+   $C'\in grnd(C)$;
+%  \hfill ($I\models C$)
+
+   \bs
+
+\item a program $P$, symbolically $I\models P$,
+if $I\models C$ for every clause $C$ in $P$.
+%  \hfill ($I\models P$)
+\end{itemize}
+
+% We write $I\models C$ and $I\models P$ to denote that $I$ is a model of $C$ or $P$, respectively.
+\end{beamerboxesrounded}
+\bs
+
+\visible<2->{
+\begin{proposition}
+For every positive logic program $P$, $\HB(P)$ is a model of $P$.
+\end{proposition}
+}
+\end{frame}
+
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Example}
+
+% \begin{example}[Program $P_2$]
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+Reconsider program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
+
+Which of the following interpretations are models of $P$?
+\begin{itemize}
+  \item  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
+  \item  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
+  \item  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
+\end{itemize}
+
+
+% Which of the above interpretations are models of $P_1$?
+
+% \end{example}
+\end{beamerboxesrounded}
+
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+%\subsection{Minimal Model Semantics}
+
+\begin{frame}
+\frametitle{Minimal Model Semantics}
+
+\begin{itemize}
+\item A logic program has multiple models in general.
+
+\item Select one of these models as the canonical model.
+
+\item Commonly accepted: truth of an atom in model $I$ should be
+   ``founded'' by clauses.
+\end{itemize}
+ 
+\bs
+
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+\textbf{Given:}
+$$\gre{P_1 = \{ a \implied b.}\quad \gre{\ b \implied c.}\quad \gre{\ c \},}$$
+truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
+
+ 
+\bs
+
+\textbf{Given:}
+$$\gre{P_2 = \{ a \implied b}.\quad \ \gre{b \implied a.}\quad \ \gre{c \},}$$
+truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
+\end{beamerboxesrounded}
+
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Minimal Model Semantics (cont'd)}
+\bs
+
+Semantics follows Occam's razor principle: prefer models with true-part as small as possible.
+
+\ms
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def: \textbf{Minimal models}}
+A model $I$ of $P$ is \bl{minimal}, if there exists no
+  model $J$ of $P$ such that $J \subset I$.
+\end{beamerboxesrounded}
+
+
+\ms
+\pause
+
+\begin{theorem}
+Every positive logic program $P$ has a single minimal model {\rm (}called
+the \emph{least model}{\rm )}, denoted $LM(P)$.
+\end{theorem}
+\pause
+
+\ms
+
+This is a consequence of the following property:
+
+\begin{proposition}[Intersection closure]
+If $I$ and $J$ are models of a positive program $P$, then $I\cap
+J$ is also a model of $P$.
+\end{proposition}
+
+\end{frame}
+
+
+%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+
+\begin{frame}
+\frametitle{Example}
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+\begin{itemize}
+                \item
+For \gre{$P_1 = \{\; a \implied b.\quad \ b \implied c.\quad \ c \; \}$},
+we have \gre{$LM(P_1) = \{ a,b, c\}$}.
+
+\bs
+
+\item For
+\gre{$P_2 = \{\; a \implied b.\quad \ b \implied a.\quad \ c \;\}$},
+we have \gre{$LM(P_2) = \{ c\}$}.
+
+\bs
+
+%\item For 
+%$$\begin{array}{r@{}l}
+%P_2 = \{&p(X,Y,Z) \implied  p(X,Y,Z'), h(X,Y),
+%t(Z,Z',r).\\
+%& h(0,0)\},
+%\end{array}$$
+%  we have $LM(P_2) = \{ h(0,0)\}$.
+
+\bs
+
+\item For $P$ from above,
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
+ we have
+\gre{$$LM(P) = \{  h(0,0), t(a,b,r), p(0,0,b), p(0,0,a), h(0,b)\}.$$}
+\end{itemize}
+% \end{example}
+\end{beamerboxesrounded}
+\end{frame}
+
+
 
 %\subsection{Rules}
 \begin{frame}\frametitle{Rules and Reasoning}
@@ -713,6 +1226,8 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 \begin{frame}
 \frametitle{Approach Description}
 \end{frame}
+
+\section{Further Topics}
 
 
 
