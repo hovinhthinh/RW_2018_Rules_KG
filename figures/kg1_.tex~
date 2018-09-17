@@ -1,0 +1,55 @@
+\begin{figure}[t]
+\centering
+\begin{tikzpicture}[->,>=stealth',auto,node distance=3cm,
+  thick,main node/.style={font=\bfseries}]
+
+  \node[main node] (1) {brad};
+  \node[main node] (2) [right=2.5cm of 1] {ann};
+  \node[main node] (3) [right=3cm of 2] {john};
+  \node[main node] (4) [right=2.5cm of 3] {kate};  
+  \node[main node] (5) [below right=1cm and 0.5cm of 1] {berlin};  
+  \node[main node] (11) [right=1.5cm of 5] {\textcolor{red}{researcher}};  
+  \node[main node] (6) [above right=0.3cm and 1.5cm of 5] {\textcolor{red}{metropolitan}};  
+  \node[main node] (7) [right=5cm of 5] {chicago};  
+  \node[main node] (9) [below=2.3cm of 1] {bob};  
+  \node[main node] (10) [right=2.5cm of 9] {alice};  
+  \node[main node] (12) [right=1.6cm of 10] {dave};  
+  \node[main node] (8) [right=2.5cm of 12] {clara};  
+  %\node[main node] (13) [right=6.5cm of 10] {li};  
+  \node[main node] (14) [below=1.3cm of 9] {\textcolor{red}{artist}};  
+  \node[main node] (15) [right=2.4cm of 14] {mat};  
+  %\node[main node] (17) [right=3cm of 15] {sue};  
+  %\node[main node] (18) [right=2.5cm of 17] {beijing};  
+  \node[main node] (19) [below right=2.7cm and 0.7cm of 1] {lucy};  
+  \node[main node] (16) [below right=0.5 and 1.6cm of 10] {amsterdam};  
+  
+  \path[every node/.style={color=teal,fill=white,font=\small}]
+    (1) edge node [right=-23pt] {$\mi{marriedTo}$} (2)
+    (2) edge node [right=-25pt] {$\mi{hasBrother}$} (3)
+    (3) edge node [right=-23pt] {$\mi{marriedTo}$} (4)
+    (9) edge node [right=-23pt] {$\mi{marriedTo}$} (10)
+    (8) edge node [right=-20pt] {$\mi{marriedTo}$} (12)
+    (15) edge node [right=-23pt] {$\mi{marriedTo}$} (19)
+    %(17) edge node [right=-23pt] {$\mi{marriedTo}$} (13)
+    (1) edge node [right=-15pt] {$\mi{livesIn}$} (5)    
+    (2) edge node [right=-15pt] {$\mi{livesIn}$} (5)
+    (3) edge node [right=-15pt] {$\mi{livesIn}$} (7)    
+    (4) edge node [right=-15pt] {$\mi{livesIn}$} (7)
+    (8) edge node [right=-13pt] {$\mi{livesIn}$} (7)    
+    (9) edge node [right=-15pt] {$\mi{livesIn}$} (5)
+    (10) edge node [right=-17pt] {$\mi{livesIn}$} (16)    
+    (15) edge node [right=-18pt] {$\mi{livesIn}$} (16)
+    %(13) edge node [right=-15pt] {$\mi{livesIn}$} (18)    
+    %(17) edge node [right=-18pt] {$\mi{livesIn}$} (18)
+    %(5) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (6)
+    %(7) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (6)    
+    (10) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (11)
+    (12) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (11)    
+    %(9) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (14)
+    %(15) edge node [right=-8pt] {\textcolor{red}{$\mi{isA}$}} (14)    
+    %(4) edge node [right=-20pt] {$\mi{hasFriend}$} (13)
+             ;
+\end{tikzpicture}
+\caption{Example KG: marriage relations and living places}
+\label{rdf}
+\end{figure}
