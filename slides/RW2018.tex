@@ -56,6 +56,7 @@ positioning,fit,calc,decorations.text, automata%
 \definecolor{darkbl}{rgb}{0.0,0.0,0.6}
 \definecolor{cyan}{rgb}{0.0,0.6,0.6}
 \definecolor{darkgreen}{rgb}{0,0.46,0}
+\definecolor{lightbluebeamer}{rgb}{0,0,0.1}
 \def\checkmark{\tikz\fill[scale=0.4](0,.35) -- (.25,0) -- (1,.7) -- (.25,.15) -- cycle;} 
 \setbeamertemplate{blocks}[rounded][shadow=false]
 \newlength{\Size}
@@ -430,7 +431,7 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
     % \put(50,-136){
 %}
    % \end{picture}
-\bigskip
+\smallskip
 
 \uncover<3->{\alert{But where can one get such rules from?}}
 \end{center}
@@ -561,7 +562,7 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Preliminaries}
-
+\subsection{Horn Rules}
 \begin{frame}
   \frametitle{Horn Rules}
 \bigskip
@@ -901,14 +902,14 @@ Which of the following interpretations are models of $P$?
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
 \textbf{Given:}
-$$\gre{P_1 = \{ a \implied b.}\quad \gre{\ b \implied c.}\quad \gre{\ c \},}$$
+$$\gre{P_1 = \{ a \leftarrow b.}\quad \gre{\ b \leftarrow c.}\quad \gre{\ c \},}$$
 truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
 
  
 \bs
 
 \textbf{Given:}
-$$\gre{P_2 = \{ a \implied b}.\quad \ \gre{b \implied a.}\quad \ \gre{c \},}$$
+$$\gre{P_2 = \{ a \leftarrow b}.\quad \ \gre{b \leftarrow a.}\quad \ \gre{c \},}$$
 truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
 \end{beamerboxesrounded}
 
@@ -995,6 +996,8 @@ we have \gre{$LM(P_2) = \{ c\}$}.
 % \end{example}
 \end{beamerboxesrounded}
 \end{frame}
+
+\subsection{Nonmonotonic Rules}
 
 \begin{frame}
   \frametitle{Nonmonotonic Rules}
@@ -1092,6 +1095,173 @@ $\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3>{\cancel{\mi{livesI
 
 \section{Rule Learning}
 
+
+\begin{frame}\frametitle{Reasoning with Incomplete Information}
+\small{
+\begin{columns}
+\begin{column}{0.33\textwidth}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Default Reasoning}\end{center}}
+\begin{center}\bigskip\bigskip
+
+assume normal state of 
+affairs, unless there is 
+evidence to the 
+contrary\bigskip\bigskip
+
+\gre{\emph{}}
+\end{center}
+\end{beamerboxesrounded}
+\end{column}
+\begin{column}{0.33\textwidth}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Abduction}\end{center}}
+\begin{center}\bigskip\bigskip
+
+choose between 
+several explanations  
+that explain an 
+observation\bigskip\bigskip
+
+\gre{\emph{}}
+\end{center}
+\end{beamerboxesrounded}
+\end{column}
+\begin{column}{0.33\textwidth}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
+\begin{center}\bigskip\bigskip
+
+generalize a rule from a 
+number of similar 
+observations\bigskip\bigskip
+
+\gre{\emph{}}
+\end{center}
+\end{beamerboxesrounded}
+\end{column}
+
+\end{columns}}
+\end{frame}
+
+
+\subsection{ILP}
+
+\begin{frame}\frametitle{History of ILP}
+\begin{itemize}
+\item \bl{Philosophy of Science:} \\
+Carnap, Hume, Miller, Popper, Peirce, ...\bigskip
+
+\item \bl{AI \& Machine Learning 60s-70s:} \\
+Banerji, Plotkin, Vere, Michalski, ...\bigskip
+
+\item \bl{AI \& Machine Learning 80s:} \\
+Shapiro, Sammut, Muggleton, ...\bigskip
+
+\item \bl{ILP 1990s:} \\
+Muggleton, Quinlan, De Raedt, ...\bigskip
+
+\item \bl{Statistical Relational Learning 2000s:} \\
+Getoor, Koller, Domingos, Sato, ...
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}\frametitle{Inductive Learning from Examples }
+\smallskip
+
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Examples \cite{DBLP:journals/ngc/Muggleton91}}
+ \smallskip
+
+ \textbf{Given:} 
+ \begin{itemize}
+\item \bl{$\mi{E^+:}$} positive examples (ground facts) over a relation $p$
+\item \bl{$\mi{E^-:}$} negative examples (ground facts) over $p$
+ \item \bl{$\mi{T:}$} background theory (a set of facts and possibly rules)
+\item Syntactic restrictions on the definition of $p$
+ \end{itemize}
+
+\bigskip
+
+ \uncover<2->{\noindent \textbf{Find:} 
+ \begin{itemize}
+\item \bl{$\mi{Hyp:}$} hypothesis defining $p$ the such that 
+\begin{itemize}
+\item \bl{$\mi{Hyp}$} ''covers'' all positive examples given \bl{$B$}, i.e., \\
+\bl{$\mi{\forall e\in E^+:\; T\cup Hyp \models e}$}
+\medskip
+
+\item \bl{$Hyp$} does not ``cover'' any negative examples given \bl{$B$}, i.e., \\
+\bl{$\mi{\forall e\in E^-:\; T \cup Hyp \not \models e}$}
+\end{itemize}
+\end{itemize}}
+ \end{beamerboxesrounded}
+\end{frame}
+
+\begin{frame}\frametitle{Example}
+ \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+ \smallskip
+\small{
+ \textbf{Given:} 
+ \begin{itemize}
+ \item[\gre{$\circ$}] \gre{$T=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$}
+\item[\gre{$\circ$}] \gre{$E^+=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$} 
+\item[\gre{$\circ$}] \gre{$E^-=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$} 
+\item[\gre{$\circ$}] Target language: Horn rules
+ \end{itemize}
+\bigskip
+\bigskip
+
+\pause
+
+\textbf{Possible hypothesis:}
+\begin{itemize}
+\item[\gre{$\circ$}] \gre{$\mi{Hyp:\;fatherOf(X,Y)\leftarrow parentOf(X,Y),male(X)}$}
+\end{itemize}}
+
+ \end{beamerboxesrounded}
+\end{frame}
+
+\begin{frame}\frametitle{Learning from Interpretations}
+\smallskip
+
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ngc/Muggleton91}}
+ \smallskip
+
+ \textbf{Given:} 
+ \begin{itemize}
+\item \bl{$\mi{I:}$} interpretation, i.e., a set of facts over various relations
+\item \bl{$\mi{T:}$} background theory, i.e., a set of facts and possibly rules
+\item Syntactic restrictions on the form of rules to be induced
+ \end{itemize}
+
+\bigskip
+
+ \uncover<2->{\noindent \textbf{Find:} 
+ \begin{itemize}
+\item \bl{$\mi{Hyp:}$} hypothesis, such that \bl{$\mi{I}$} is a minimal model of \bl{$\mi{Hyp \cup T}$}
+\end{itemize}}
+ \end{beamerboxesrounded}
+\end{frame}
+
+\begin{frame}\frametitle{Example}
+
+ \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ngc/Muggleton91}}
+ \smallskip
+
+ \textbf{Given:} 
+ \begin{itemize}
+\item[\gre{$\circ$}] \gre{$\mi{I=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$} 
+\item[$\gre{\circ}$] \gre{$\mi{T=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$}
+\item[$\gre{\circ}$] Target rules: Horn rules
+ \end{itemize}
+
+\bigskip
+
+ \uncover<2->{\noindent \textbf{Possible Hypothesis:} 
+ \begin{itemize}
+\item \gre{$\mi{Hyp:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$} 
+\end{itemize}}
+ \end{beamerboxesrounded}
+\end{frame}
 \begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{Declarative Programming Paradigm}}
 \alt<2>{
  \begin{picture}(0.5,0.5)
@@ -1126,35 +1296,34 @@ $}
 \end{frame}
 
 
-\begin{frame}\frametitle{Rule Mining}
-\alt<2>{\begin{picture}(0.5,0.5)
-\put(20,-190){\includegraphics[width=0.86\textwidth]{asp_4}}
-\end{picture}
+\begin{frame}\frametitle{Rule Induction}
+%\alt<2>{\begin{picture}(0.5,0.5)
+%\put(20,-190){\includegraphics[width=0.86\textwidth]{asp_4}}
+%\end{picture}
 
-\begin{picture}(0.5,0.5)
-\put(209,-35){\includegraphics[width=0.258\textwidth]{kg0}}
-\end{picture}
-\put(26,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
-\mi{livesIn(Y,Z)}\leftarrow \mi{isMarried(X,Y)}, \\
-\phantom{\mi{livesIn(Y,Z)}\leftarrow} \mi{livesIn(X,Y)}, \\ \phantom{\mi{livesIn(Y,Z)}\leftarrow}\naf\ \mi{researcher(Y)}\end{array}
-$}}}
- \put(209,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
-\mi{\gr{isMarriedTo}(brad,ann)};\\ \mi{\gr{isMarriedTo}(john,kate)};\\ \mi{\gr{isMarriedTo}(bob,alice)};\\ \mi{\gr{isMarriedTo}(clara, dave)}; \\ \mi{\gr{livesIn}(brad,berlin};\\ \dotsc\\ \mi{researcher(alice)};\\ \mi{researcher(dave)}\end{array}$}}}
-}{\begin{picture}(0.5,0.5)
+%\begin{picture}(0.5,0.5)
+%\put(209,-35){\includegraphics[width=0.258\textwidth]{kg0}}
+%\end{picture}
+% \put(26,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
+% \mi{livesIn(Y,Z)}\leftarrow \mi{isMarried(X,Y)}, \\
+% \phantom{\mi{livesIn(Y,Z)}\leftarrow} \mi{livesIn(X,Y)}, \\ \phantom{\mi{livesIn(Y,Z)}\leftarrow}\naf\ \mi{researcher(Y)}\end{array}
+% $}}}
+%  \put(209,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
+% \mi{\gr{isMarriedTo}(brad,ann)};\\ \mi{\gr{isMarriedTo}(john,kate)};\\ \mi{\gr{isMarriedTo}(bob,alice)};\\ \mi{\gr{isMarriedTo}(clara, dave)}; \\ \mi{\gr{livesIn}(brad,berlin};\\ \dotsc\\ \mi{researcher(alice)};\\ \mi{researcher(dave)}\end{array}$}}}
+% }{
+  \begin{picture}(0.5,0.5)
 \put(20,-120){\includegraphics[width=0.86\textwidth]{asp_3}}
-\end{picture}}
+\end{picture}
+%}
 \end{frame}
 
-\begin{frame}\frametitle{Rule Mining from KGs}
-\bl{\textbf{Goal:}} learn nonmonotonic rules from KG\\
-\bl{\textbf{Approach:}} revise association rules learned using data mining methods
-\medskip
-
-\includegraphics[width=1.02\textwidth]{nmlearn}
-
+\begin{frame}\frametitle{Zoo of ILP Tasks}
 \end{frame}
 
-%\subsection{AMIE and other Systems}
+\begin{frame}\frametitle{Specificity of Knowledge Graph Setting}
+\end{frame}
+
+
 \begin{frame}
 \frametitle{Itemset Mining}
 \end{frame}
@@ -3463,12 +3632,12 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 % \end{frame}
 
 
-% \appendix
-% \begin{frame}[plain,allowframebreaks,allowdisplaybreaks]
-%   \frametitle{References}
-%   \bibliographystyle{named}
-%  \tiny{\bibliography{references}}
-% \end{frame}
+\appendix
+\begin{frame}[plain,allowframebreaks,allowdisplaybreaks]
+  \frametitle{References}
+  \bibliographystyle{named}
+ \tiny{\bibliography{references}}
+\end{frame}
 % \section{Additional Material}
 
 
