@@ -460,7 +460,7 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{In this Tutorial..}
+\begin{frame}\frametitle{Motivation}
 \begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{\textbf{\alert{Important problems}} of KGs:}
 
  \medskip
@@ -560,94 +560,91 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\section{ILP}
+\section{Preliminaries}
 
 \begin{frame}
-\frametitle{Horn Rules}
+  \frametitle{Horn Rules}
+\bigskip
 
+\small{ \bl{\textbf{Rule:} }
+$\underbrace{a}_{\Large{\bl{\text{head}}}}\; \leftarrow\; \underbrace{b_1,\, \dotsc,\, b_m.}_{\bl{\text{body}}} $
 
-%%\normalsize
+\bigskip
+\bigskip
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Horn rule}}
-A \bl{Horn rules} $r$ is an expression of the form
-%
-%
-\begin{equation}
- \label{eq:clause}
- \bl{a \leftarrow b_1,\ldots,b_m,}
-\end{equation}
-%
-where $a$, $b_1$, \ldots, $b_m$ are atoms.
-%  of a first-order language $L$.
-\begin{itemize}
-            \item  $a$ is the \bl{head} of the rule
-            \item  $b_1,\ldots,b_m$ is the  \bl{body} of the rule.
-\item
-If $m=0$, the rule is a \bl{fact} (written shortly $a$)
-\end{itemize}
+\small{\bl{\textbf{Informal semantics:}} } If $b_1,\dotsc, b_{m}$ are true, then $a$ must be true.\bigskip
+\bigskip
+
+\small{\bl{\textbf{Closed World Assumption (CWA):} }} facts not known to be true are false
+\bigskip
+\bigskip
+
+}
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\alt<2->{Example: non-ground rules}{Example: ground rules}}
+\medskip
+\small{
+\alt<2->{\gre{\%\,Married people live together}\\
+$\mi{livesIn(Y,Z)}\leftarrow\mi{isMarried(X,Y)}, \mi{livesIn(X,Z)}$
+\bigskip
+\bigskip
+
+\gre{\%\,Constraint: ensure that none is a parent of himself}\\
+$ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
+}{\gre{\%\,If Mirka is married to Roger and lives in B., then Roger lives there too}\\
+$\mi{livesIn(roger,bottmingen)}\leftarrow\mi{isMarried(mirka,roger)}, \mi{livesIn(mirka,bottmingen)}$
+\bigskip
+
+\gre{\%\,Constraint: It cannot be the case that Roger is a parent of Leo and vice versa }\\
+$ \bot \leftarrow \mi{parent(roger,leo),parent(leo,roger)}$}}
 \end{beamerboxesrounded}
 
-\bs
-% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example:}
-% Ground rule: \gre{$$}
+\bigskip
+
+
+
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{Horn Rules}
+
+
+% %%\normalsize
+
+% \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Horn rule}}
+% A \bl{Horn rules} $r$ is an expression of the form
+% %
+% %
+% \begin{equation}
+%  \label{eq:clause}
+%  \bl{a \leftarrow b_1,\ldots,b_m,}
+% \end{equation}
+% %
+% where $a$, $b_1$, \ldots, $b_m$ are atoms.
+% %  of a first-order language $L$.
+% \begin{itemize}
+%             \item  $a$ is the \bl{head} of the rule
+%             \item  $b_1,\ldots,b_m$ is the  \bl{body} of the rule.
+% \item
+% If $m=0$, the rule is a \bl{fact} (written shortly $a$)
+% \end{itemize}
 % \end{beamerboxesrounded}
 
-Intuitively, (\ref{eq:clause}) can be seen as material implication
-\begin{center}
-\bl{$\forall \vec{x}\; b_1\land\cdots\land b_m \rightarrow a$}, where \bl{$\vec{x}$}
-\end{center}
-is the list of all variables occurring in (\ref{eq:clause}).
+% \bs
+% % \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example:}
+% % Ground rule: \gre{$$}
+% % \end{beamerboxesrounded}
 
-\end{frame}
+% Intuitively, (\ref{eq:clause}) can be seen as material implication
+% \begin{center}
+% \bl{$\forall \vec{x}\; b_1\land\cdots\land b_m \rightarrow a$}, where \bl{$\vec{x}$}
+% \end{center}
+% is the list of all variables occurring in (\ref{eq:clause}).
 
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
+% \end{frame}
 
+% %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-\frametitle{Example}
-
-
-% 
-\ms
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
-
-% % \begin{example}
-% \bi
-% \item \textbf{Ground rule:} \emph{``If Franfurt
-% is a hub airport, and there is a link between Frankfurt and Saarbr{\"u}cken, then Saarbr{\"u}cken is a connected airport.''}
-
-% \vspace{-.2cm}
-% $$
-% \begin{array}{r@{}l}
-% \gre{\mathit{connected}(\mathit{srb})} \gre{\implied} & \gre{\mathit{hub\_airport}(\mathit{frankfurt}), \mathit{link}(\mathit{frankfurt},\mathit{srb})} \\
-% % connected(X) \implied & hub(Y), link(Y,X)
-% \end{array}
-% $$
-
-% \pause
-
-% \ms
-% \item \textbf{Non-ground rule:} \emph{``All airports with a link to a hub airport are connected.''}
-% \gre{$$
-% \begin{array}{r@{}l}
-% \mi{connected(X)} \implied & \mi{hub\_airport(Y), link(Y,X)}
-% \end{array}
-% $$}
-
-% \vspace{-.2cm}
-% can be read as a universally quantified clause
-% %
-% \gre{$$\forall X,Y\; \mathit{hub\_airport}(Y) \wedge \mathit{link}(Y,X) \rightarrow \mathit{connected}(X).$$}
-
-
-% \ei
-\end{beamerboxesrounded}
-% \qnbls
-% \end{example}
-
-\end{frame}
-
-%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{frame}
@@ -693,8 +690,6 @@ $I$ is identified with the set \bl{$\{\; p(t_1,\ldots,t_n) \in \HB(P) \mid
 
 Informally, a (Herbrand) interpretation can be seen as a set denoting
 which ground atoms are true in a given scenario.
-\pause
-\bigskip
 
 %\small{Named after logician Jacques Herbrand.}
 
@@ -713,49 +708,49 @@ which ground atoms are true in a given scenario.
 \ms
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-% Program $P$:
-% {\small
-% \begin{align*}
-% \gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-% \gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-% \end{align*}
-% }
+Program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
 
-% \nbls
-% \pause
+\nbls
+\pause
 
-% \bi
-% \item
-%  Constant symbols: \gre{$0$, $a$, $b$,  $r$.}%;\; \qquad 
+\bi
+\item
+ Constant symbols: \gre{$0$, $a$, $b$,  $r$.}%;\; \qquad 
 
-% % \bigskip
-% \pause
+% \bigskip
+\pause
 
-% \item
-% Herbrand universe $\HU(P)$: \qquad \gre{$\{ 0, a, b, r\}$}\pause
-% % \bs
-% %
-% \item ~\\[-0.8\baselineskip]
-% $\begin{array}{@{}r@{~}l}
-% \text{Herbrand base }\HB(P): \qquad \gre{\{} & \gre{p(0,0,0), p(0,0,a), \ldots , p(r,r,r),}\\ 
-%                     & \gre{h(0,0), h(0,a), \ldots,  h(r,r,r),} \\
-%                     & \gre{t(0,0,0), t(0,0,a), \ldots ,t(r,r,r) \}}
-% \end{array}
-% $
+\item
+Herbrand universe $\HU(P)$: \qquad \gre{$\{ 0, a, b, r\}$}\pause
+% \bs
+%
+\item ~\\[-0.8\baselineskip]
+$\begin{array}{@{}r@{~}l}
+\text{Herbrand base }\HB(P): \qquad \gre{\{} & \gre{p(0,0,0), p(0,0,a), \ldots , p(r,r,r),}\\ 
+                    & \gre{h(0,0), h(0,a), \ldots,  h(r,r,r),} \\
+                    & \gre{t(0,0,0), t(0,0,a), \ldots ,t(r,r,r) \}}
+\end{array}
+$
 
-% \ms
-% \pause
+\ms
+\pause
 
-% \item
-% Some Herbrand interpretations:
+\item
+Some Herbrand interpretations:
 
-% \s
+\s
 
-% \qquad \gre{$I_1 = \emptyset$;~ \quad $I_2 = \HB(P)$;~\quad $I_3 = \{ h(0,0), t(a,b,r),
-% p(0,0,b)\}$.}%; \ldots
-% % \end{example}
-% \ei
+\qquad \gre{$I_1 = \emptyset$;~ \quad $I_2 = \HB(P)$;~\quad $I_3 = \{ h(0,0), t(a,b,r),
+p(0,0,b)\}$.}%; \ldots
+% \end{example}
+\ei
 \end{beamerboxesrounded}
 \end{frame}
 
@@ -769,43 +764,43 @@ which ground atoms are true in a given scenario.
 % \begin{example}[Program $P_2$]
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-% Program $P$:
-% {\small
-% \begin{align*}
-% \gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-% \gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-% \end{align*}
-% }
+Program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
 
-% \nbls
-% \pause
+\nbls
+\pause
 
-% \bi
-% \item
-% The ground instances of the first rule are
-% \ei
-% %
-% {\small\begin{align*}
-% \gre{p(0,0,0)} &\gre{\implied  p(0,0,0), h(0,0), t(0,0,r).} & \gre{X=Y=Z=Z'=0 }\\
-%  &\ \ \ \gre{\ldots} \\
-% \gre{p(0,r,0)} &\gre{\implied  p(0,r,0), h(0,r), t(0,0,r).} & \gre{X=Z=Z'=0, Y=r} \\
-%  &\ \ \ \gre{\ldots} \\
-% \gre{p(r,r,r)} &\gre{\implied  p(r,r,r), h(r,r), t(r,r,r).} & \gre{X=Y=Z=Z'=r} \\
-%  \end{align*}}
+\bi
+\item
+The ground instances of the first rule are
+\ei
+%
+{\small\begin{align*}
+\gre{p(0,0,0)} &\gre{\implied  p(0,0,0), h(0,0), t(0,0,r).} & \gre{X=Y=Z=Z'=0 }\\
+ &\ \ \ \gre{\ldots} \\
+\gre{p(0,r,0)} &\gre{\implied  p(0,r,0), h(0,r), t(0,0,r).} & \gre{X=Z=Z'=0, Y=r} \\
+ &\ \ \ \gre{\ldots} \\
+\gre{p(r,r,r)} &\gre{\implied  p(r,r,r), h(r,r), t(r,r,r).} & \gre{X=Y=Z=Z'=r} \\
+ \end{align*}}
  
-%  \hnbls
+ \hnbls
 
-% \vspace{-2em}
-% \bi
-% \item
-% The single ground instance of the last rule is
-% {\small\begin{align*}
-% \gre{t(a,b,r)}
-% \end{align*}}
-% %\end{example}
+\vspace{-2em}
+\bi
+\item
+The single ground instance of the last rule is
+{\small\begin{align*}
+\gre{t(a,b,r)}
+\end{align*}}
+%\end{example}
 
-% \ei
+\ei
 
 \end{beamerboxesrounded}
 \end{frame}
@@ -858,26 +853,26 @@ For every positive logic program $P$, $\HB(P)$ is a model of $P$.
 % \begin{example}[Program $P_2$]
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-% Reconsider program $P$:
-% {\small
-% \begin{align*}
-% \gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
-% \gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
-%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-% \end{align*}
-% }
+Reconsider program $P$:
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
+\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
 
-% Which of the following interpretations are models of $P$?
-% \begin{itemize}
-%   \item  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
-%   \item  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
-%   \item  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
-% \end{itemize}
+Which of the following interpretations are models of $P$?
+\begin{itemize}
+  \item  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
+  \item  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
+  \item  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
+\end{itemize}
 
 
-% % Which of the above interpretations are models of $P_1$?
+% Which of the above interpretations are models of $P_1$?
 
-% % \end{example}
+% \end{example}
 \end{beamerboxesrounded}
 
 
@@ -905,16 +900,16 @@ For every positive logic program $P$, $\HB(P)$ is a model of $P$.
 
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-% \textbf{Given:}
-% $$\gre{P_1 = \{ a \implied b.}\quad \gre{\ b \implied c.}\quad \gre{\ c \},}$$
-% truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
+\textbf{Given:}
+$$\gre{P_1 = \{ a \implied b.}\quad \gre{\ b \implied c.}\quad \gre{\ c \},}$$
+truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
 
  
-% \bs
+\bs
 
-% \textbf{Given:}
-% $$\gre{P_2 = \{ a \implied b}.\quad \ \gre{b \implied a.}\quad \ \gre{c \},}$$
-% truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
+\textbf{Given:}
+$$\gre{P_2 = \{ a \implied b}.\quad \ \gre{b \implied a.}\quad \ \gre{c \},}$$
+truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
 \end{beamerboxesrounded}
 
 
@@ -963,41 +958,41 @@ J$ is also a model of $P$.
 \frametitle{Example}
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-% \begin{itemize}
-%                 \item
-% For \gre{$P_1 = \{\; a \implied b.\quad \ b \implied c.\quad \ c \; \}$},
-% we have \gre{$LM(P_1) = \{ a,b, c\}$}.
+\begin{itemize}
+                \item
+For \gre{$P_1 = \{\; a \leftarrow b.\quad \ b \leftarrow c.\quad \ c \; \}$},
+we have \gre{$LM(P_1) = \{ a,b, c\}$}.
 
-% \bs
+\bs
 
-% \item For
-% \gre{$P_2 = \{\; a \implied b.\quad \ b \implied a.\quad \ c \;\}$},
-% we have \gre{$LM(P_2) = \{ c\}$}.
+\item For
+\gre{$P_2 = \{\; a \leftarrow b.\quad \ b \leftarrow a.\quad \ c \;\}$},
+we have \gre{$LM(P_2) = \{ c\}$}.
 
-% \bs
+\bs
 
-% %\item For 
-% %$$\begin{array}{r@{}l}
-% %P_2 = \{&p(X,Y,Z) \implied  p(X,Y,Z'), h(X,Y),
-% %t(Z,Z',r).\\
-% %& h(0,0)\},
-% %\end{array}$$
-% %  we have $LM(P_2) = \{ h(0,0)\}$.
+%\item For 
+%$$\begin{array}{r@{}l}
+%P_2 = \{&p(X,Y,Z) \implied  p(X,Y,Z'), h(X,Y),
+%t(Z,Z',r).\\
+%& h(0,0)\},
+%\end{array}$$
+%  we have $LM(P_2) = \{ h(0,0)\}$.
 
-% \bs
+\bs
 
-% \item For $P$ from above,
-% {\small
-% \begin{align*}
-% \gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-% \gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-% \end{align*}
-% }
-%  we have
-% \gre{$$LM(P) = \{  h(0,0), t(a,b,r), p(0,0,b), p(0,0,a), h(0,b)\}.$$}
-% \end{itemize}
-% % \end{example}
+\item For $P$ from above,
+{\small
+\begin{align*}
+\gre{p(X,Y,Z)   \leftarrow  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+\gre{h(X,Z')  \leftarrow p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+\end{align*}
+}
+ we have
+\gre{$$LM(P) = \{  h(0,0), t(a,b,r), p(0,0,b), p(0,0,a), h(0,b)\}.$$}
+\end{itemize}
+% \end{example}
 \end{beamerboxesrounded}
 \end{frame}
 
@@ -1095,8 +1090,9 @@ $\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3>{\cancel{\mi{livesI
 \only<3>{\bl{Nonmonotonicity}: adding facts might lead to loss of consequences!}
 \end{frame}
 
+\section{Rule Learning}
 
-\begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{ASP: Declarative Programming Paradigm}}
+\begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{Declarative Programming Paradigm}}
 \alt<2>{
  \begin{picture}(0.5,0.5)
  \put(20,-135){\includegraphics[width=0.9\textwidth]{asp_2}}
@@ -1158,7 +1154,6 @@ $}}}
 
 \end{frame}
 
-\section{Learning Horn Rules}
 %\subsection{AMIE and other Systems}
 \begin{frame}
 \frametitle{Itemset Mining}
@@ -2420,7 +2415,7 @@ to organize convenient and effective interaction process?
 \end{frame}
 
 
-\section{Applications and Further Topics}
+\section{Further Topics}
 
 \begin{frame}\frametitle{Commonsense Rule Mining from Hybrid Sources}
 \bigskip
