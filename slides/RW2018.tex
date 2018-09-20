@@ -1152,6 +1152,7 @@ observations\bigskip\bigskip
 
 \subsection{ILP}
 
+
 \begin{frame}\frametitle{History of Inductive Learning}
 \begin{itemize}
 \item \bl{Philosophy of Science:} \\
@@ -1170,6 +1171,53 @@ Muggleton, Quinlan, De Raedt, ...\bigskip
 Getoor, Koller, Domingos, Sato, ...
 \end{itemize}
 \end{frame}
+
+
+\begin{frame}\frametitle{Zoo of ILP Tasks}
+ILP tasks can be classified along several dimensions:
+\smallskip
+\small{
+\begin{columns}
+\begin{column}{0.69\textwidth}
+\begin{itemize}
+\item \bl{type of the data source}, 
+e.g., positive/negative examples, interpretations...
+\pause 
+
+\item \bl{type of the output knowledge}, 
+e.g., rules over single/multiple relations...
+\pause
+
+\item \bl{the way the data is given as input}, 
+e.g., all at once, incrementally...
+
+\pause 
+
+\item \bl{availability of an oracle},
+ e.g., human in the loop...
+
+\pause
+
+\item \bl{quality of the data source},
+e.g., clean vs dirty...
+
+\pause 
+
+\item \bl{data (in)completeness},
+ e.g., OWA vs CWA...
+
+\pause
+ 
+\item \bl{background knowledge},
+e.g., DL ontology, datalog rules, hybrid theories
+\end{itemize}
+\end{column}
+\begin{column}{0.29\textwidth}
+\end{column}
+\end{columns}}
+\end{frame}
+
+
 
 
 \begin{frame}\frametitle{Inductive Learning from Examples }
@@ -1270,7 +1318,16 @@ Getoor, Koller, Domingos, Sato, ...
 \end{itemize}}
  \end{beamerboxesrounded}
 \end{frame}
-\begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{Inductive Learning from Interpretations}}
+
+\begin{frame}\frametitle{Rule Induction from Knowledge Graphs}
+What is the most suitable setting for the task of inducing rules from KGs...
+\begin{center}\includegraphics[width=0.8\textwidth]{hr_learn}
+\huge{?}
+\end{center}
+\end{frame}
+
+
+\begin{frame}\frametitle{\alt<2>{Inductive Learning from Interpretations}{Declarative Programming}}
 \alt<2>{
  \begin{picture}(0.5,0.5)
  \put(20,-135){\includegraphics[width=0.9\textwidth]{asp_2}}
@@ -1325,10 +1382,77 @@ $}
 %}
 \end{frame}
 
-\begin{frame}\frametitle{Zoo of ILP Tasks}
+\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{itemize}
+\item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavailable
+\medskip
+
+\gre{\emph{E.g., Maybe Albert Einstein was a ballet dancer?}}
+\end{itemize}
+\bigskip
+\begin{center}
+\includegraphics[width=0.86\textwidth]{owa_einstein}
+\end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Specificity of Knowledge Graph Setting}
+\begin{frame}\frametitle{Challenges of KG Rule Induction} 
+\begin{itemize}
+\item[] \textbf{\bl{Noise and bias}}\\
+\medskip
+
+\gre{\emph{E.g., as wikipedia stores mostly famous scientists, one can induce a wrong assumption that all scientists are Nobel prize winners}}
+\end{itemize}
+
+\end{frame}
+
+\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{itemize}
+\item[] \textbf{\bl{Huge size}} \\
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{itemize}
+\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' is perfect
+\end{itemize}
+\end{frame}
+
+
+\begin{frame}\frametitle{Exploratory Data Analysis}
+\end{frame}
+
+
+\begin{frame}\frametitle{Motivation Example}
+\end{frame}
+
+\begin{frame}\frametitle{Frequent Pattern Mining}
+\end{frame}
+
+\begin{frame}\frametitle{Association Rules}
+\end{frame}
+
+
+\begin{frame}\frametitle{How to Apply to Relational Data?}
+\end{frame}
+
+\begin{frame}\frametitle{Propositionalization}
+
+\end{frame}
+
+\begin{frame}\frametitle{Relational Association Rule Mining}
+\end{frame}
+
+\begin{frame}\frametitle{WARMER}
+\end{frame}
+
+\begin{frame}\frametitle{AMIE}
+\end{frame}
+
+\begin{frame}\frametitle{RDF2Rules}
+\end{frame}
+
+
+\begin{frame}\frametitle{Ontology Path Finding}
 \end{frame}
 
 
