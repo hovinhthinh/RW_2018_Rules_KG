@@ -1382,12 +1382,13 @@ $}
 %}
 \end{frame}
 
-\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
-\item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavailable
+\item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavaible
 \medskip
+\pause 
 
-\gre{\emph{E.g., Maybe Albert Einstein was a ballet dancer?}}
+\emph{Maybe Albert Einstein was a ballet dancer?}
 \end{itemize}
 \bigskip
 \begin{center}
@@ -1395,48 +1396,70 @@ $}
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Challenges of KG Rule Induction} 
+\begin{frame}\frametitle{Challenges of Rule Induction from KGs} 
 \begin{itemize}
-\item[] \textbf{\bl{Noise and bias}}\\
+\item[] \textbf{\bl{Data bias}}: Only interesting facts are mentioned in text
 \medskip
+\pause 
 
-\gre{\emph{E.g., as wikipedia stores mostly famous scientists, one can induce a wrong assumption that all scientists are Nobel prize winners}}
+\emph{E.g., as wikipedia stores mostly famous people, one can induce wrong assumptions that all scientists are Nobel prize winners or all inhabitants of ancient Egypt are pharaons..}
 \end{itemize}
-
+\bigskip
+\begin{center}
+\includegraphics[width=0.3\textwidth]{noble}  \;\;\;\includegraphics[width=0.2\textwidth]{pharaon} 
+\end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
-\item[] \textbf{\bl{Huge size}} \\
+\item[] \textbf{\bl{Huge size}}: Modern KGs contain billions of facts \\
 \end{itemize}
+\bigskip
+\begin{center}
+\includegraphics[width=0.5\textwidth]{hugekg}
+\end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Challenges of KG Rule Induction}
+\begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
-\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' is perfect
+\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' can be perfect
 \end{itemize}
+
+
 \end{frame}
 
 
 \begin{frame}\frametitle{Exploratory Data Analysis}
+\smallskip
+
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{Question:}}}
+How can we still learn interesting rules from KGs, which do not perfectly fit the data, but still reflect interesting correlations and can predict sufficiently many correct facts?
+\end{beamerboxesrounded}
+\bigskip
+
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{Answer:}}} Relational association rule mining!
+\end{beamerboxesrounded}
+
+\begin{center}
+\includegraphics[width=0.3\textwidth]{eda}
+\end{center}
 \end{frame}
 
-
-\begin{frame}\frametitle{Motivation Example}
-\end{frame}
-
-\begin{frame}\frametitle{Frequent Pattern Mining}
-\end{frame}
 
 \begin{frame}\frametitle{Association Rules}
+
+\begin{itemize}
+\item Which products are often bought together?
+\item 
+
+\end{itemize}
 \end{frame}
 
 
-\begin{frame}\frametitle{How to Apply to Relational Data?}
+\begin{frame}\frametitle{How to Apply Ideas to Relational Data?}
 \end{frame}
 
 \begin{frame}\frametitle{Propositionalization}
-
 \end{frame}
 
 \begin{frame}\frametitle{Relational Association Rule Mining}
@@ -1451,17 +1474,10 @@ $}
 \begin{frame}\frametitle{RDF2Rules}
 \end{frame}
 
-
 \begin{frame}\frametitle{Ontology Path Finding}
 \end{frame}
 
 
-\begin{frame}
-\frametitle{Itemset Mining}
-\end{frame}
-\begin{frame}
-\frametitle{Relational Pattern Mining}
-\end{frame}
 
 
 \section{Exception-awareness}
