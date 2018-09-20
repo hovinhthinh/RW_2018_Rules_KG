@@ -1382,6 +1382,7 @@ $}
 %}
 \end{frame}
 
+\subsection{KG Challenges}
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
 \item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavaible
@@ -1422,13 +1423,16 @@ $}
 
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
-\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' can be perfect
+\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' is perfect
 \end{itemize}
-
+\bigskip
+\begin{center}
+\includegraphics[width=0.5\textwidth]{noperfectmodel}
+\end{center}
 
 \end{frame}
 
-
+\subsection{Association Rules}
 \begin{frame}\frametitle{Exploratory Data Analysis}
 \smallskip
 
@@ -1461,6 +1465,8 @@ How can we still learn interesting rules from KGs, which do not perfectly fit th
 
 \begin{frame}\frametitle{Propositionalization}
 \end{frame}
+
+\subsection{Relational Association Rules}
 
 \begin{frame}\frametitle{Relational Association Rule Mining}
 \end{frame}
@@ -1519,33 +1525,24 @@ How can we still learn interesting rules from KGs, which do not perfectly fit th
 
 
 
-\begin{frame}\frametitle{Nonmonotonic Rule Mining}
-\alt<2>{\begin{picture}(0.5,0.5)
-\put(20,-190){\includegraphics[width=0.86\textwidth]{asp_4}}
-\end{picture}
+% \begin{frame}\frametitle{Nonmonotonic Rule Mining}
+% \alt<2>{\begin{picture}(0.5,0.5)
+% \put(20,-190){\includegraphics[width=0.86\textwidth]{asp_4}}
+% \end{picture}
 
-\begin{picture}(0.5,0.5)
-\put(209,-35){\includegraphics[width=0.258\textwidth]{kg0}}
-\end{picture}
-\put(26,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
-\mi{livesIn(Y,Z)}\leftarrow \mi{isMarried(X,Y)}, \\
-\phantom{\mi{livesIn(Y,Z)}\leftarrow} \mi{livesIn(X,Y)}, \\ \phantom{\mi{livesIn(Y,Z)}\leftarrow}\naf\ \mi{researcher(Y)}\end{array}
-$}}}
- \put(209,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
-\mi{\gr{isMarriedTo}(brad,ann)};\\ \mi{\gr{isMarriedTo}(john,kate)};\\ \mi{\gr{isMarriedTo}(bob,alice)};\\ \mi{\gr{isMarriedTo}(clara, dave)}; \\ \mi{\gr{livesIn}(brad,berlin};\\ \dotsc\\ \mi{researcher(alice)};\\ \mi{researcher(dave)}\end{array}$}}}
-}{\begin{picture}(0.5,0.5)
-\put(20,-120){\includegraphics[width=0.86\textwidth]{asp_3}}
-\end{picture}}
-\end{frame}
-
-\begin{frame}\frametitle{Nonmonotonic Rule Mining from KGs}
-\bl{\textbf{Goal:}} learn nonmonotonic rules from KG\\
-\bl{\textbf{Approach:}} revise association rules learned using data mining methods
-\medskip
-
-\includegraphics[width=1.02\textwidth]{nmlearn}
-
-\end{frame}
+% \begin{picture}(0.5,0.5)
+% \put(209,-35){\includegraphics[width=0.258\textwidth]{kg0}}
+% \end{picture}
+% \put(26,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
+% \mi{livesIn(Y,Z)}\leftarrow \mi{isMarried(X,Y)}, \\
+% \phantom{\mi{livesIn(Y,Z)}\leftarrow} \mi{livesIn(X,Y)}, \\ \phantom{\mi{livesIn(Y,Z)}\leftarrow}\naf\ \mi{researcher(Y)}\end{array}
+% $}}}
+%  \put(209,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
+% \mi{\gr{isMarriedTo}(brad,ann)};\\ \mi{\gr{isMarriedTo}(john,kate)};\\ \mi{\gr{isMarriedTo}(bob,alice)};\\ \mi{\gr{isMarriedTo}(clara, dave)}; \\ \mi{\gr{livesIn}(brad,berlin};\\ \dotsc\\ \mi{researcher(alice)};\\ \mi{researcher(dave)}\end{array}$}}}
+% }{\begin{picture}(0.5,0.5)
+% \put(20,-120){\includegraphics[width=0.86\textwidth]{asp_3}}
+% \end{picture}}
+% \end{frame}
 
 
 \begin{frame}\frametitle{Horn Theory Revision}
@@ -2381,42 +2378,6 @@ on predictions that they make
 \end{frame}
 
 
-\begin{frame}\frametitle{Rule Types}
-
-\begin{itemize}
-\item \textbf{Horn:} AMIE \cite{amieplus}\\
-%\emph{Married people live together}\\
-\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}$}
-\smallskip
-\pause
-
-\item \textbf{Nonmonotonic:} RUMIS \cite{excep}, \cite{rumis}\\ 
-%\emph{Married people live together unless one is a researcher}\\
-\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}, not \;researcher(Z)$}
-\smallskip
-\pause
-
-\item \textbf{Numerical:} CARL \cite{carl}\\
-%\emph{If one has $\geq$ 4 siblings then one's parents have $\geq$ 5 children}\\
-\bl{$\mi{hasChild_{\geq 5}(X) \leftarrow hasFather(Y,X), hasSibling_{\geq 4}(Y)}$}
-\smallskip
-\pause
-
-\item \textbf{Disjunctive:} \\
-%\emph{Actors from capitals are married to actors or politicians }\\
-\bl{$\mi{male(Y) \lor female(Y)\leftarrow hasParent(X,Y)}$}
-\pause
-
-\item \textbf{Existential:} \\
-\bl{$\mi{\exists Y\, hasParent(X,Y)\leftarrow person(X)}$}
-\smallskip
-\pause
-
-\item \textbf{Temporal constraints:} \bl{$\mi{\bot \leftarrow bornIn(X,Y),after(Y,Z),studied(X,Z)}$}
-%\gr{$\mi{}$}
-
-\end{itemize}
-\end{frame}
 
 
 \begin{frame}\frametitle{Related Works}
@@ -2806,6 +2767,42 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 \end{frame}
 
 
+\begin{frame}\frametitle{Rule Types}
+
+\begin{itemize}
+\item \textbf{Horn:} AMIE \cite{amieplus}\\
+%\emph{Married people live together}\\
+\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}$}
+\smallskip
+\pause
+
+\item \textbf{Nonmonotonic:} RUMIS \cite{excep}, \cite{rumis}\\ 
+%\emph{Married people live together unless one is a researcher}\\
+\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}, not \;researcher(Z)$}
+\smallskip
+\pause
+
+\item \textbf{Numerical:} CARL \cite{carl}\\
+%\emph{If one has $\geq$ 4 siblings then one's parents have $\geq$ 5 children}\\
+\bl{$\mi{hasChild_{\geq 5}(X) \leftarrow hasFather(Y,X), hasSibling_{\geq 4}(Y)}$}
+\smallskip
+\pause
+
+\item \textbf{Disjunctive:} \\
+%\emph{Actors from capitals are married to actors or politicians }\\
+\bl{$\mi{male(Y) \lor female(Y)\leftarrow hasParent(X,Y)}$}
+\pause
+
+\item \textbf{Existential:} \\
+\bl{$\mi{\exists Y\, hasParent(X,Y)\leftarrow person(X)}$}
+\smallskip
+\pause
+
+\item \textbf{Temporal constraints:} \bl{$\mi{\bot \leftarrow bornIn(X,Y),after(Y,Z),studied(X,Z)}$}
+%\gr{$\mi{}$}
+
+\end{itemize}
+\end{frame}
 
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
