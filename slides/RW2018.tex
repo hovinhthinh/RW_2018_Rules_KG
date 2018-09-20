@@ -39,7 +39,7 @@
   \begin{textblock*}{\paperwidth}(261pt,239pt)
     \raggedright #1\hspace{.5em}
   \end{textblock*}}
-
+\setbeamertemplate{mini frames}{}
 \definecolor{LightCyan}{rgb}{1,0.88,1}
 
 \setlength{\inferLineSkip}{4pt}
@@ -224,6 +224,8 @@ positioning,fit,calc,decorations.text, automata%
 
 \setbeamercolor{uppercolblue}{fg=black,bg=darkbl!25}
 \setbeamercolor{lowercolblue}{fg=black,bg=darkbl!0}
+\setbeamercolor{lowercoldarkblue}{fg=black,bg=darkbl!15}
+
 
 \setbeamercolor{uppercolgreen}{fg=black,bg=darkgreen!35}
 \setbeamercolor{lowercolgreen}{fg=black,bg=darkgreen!12}
@@ -272,17 +274,16 @@ positioning,fit,calc,decorations.text, automata%
 
 
 \title{Rule Induction and Reasoning over Knowledge Graphs}
- \author[Stepanova, Gad-Elrab, Vinh Ho]
- {
- }
-
+ \author[Stepanova, Gad-Elrab, Vinh Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-elrab\inst{1}, Vinh Thinh Ho\inst{1}}
+\institute[shortinst]{ \inst{1} Max Planck Institute for Informatics, Saarbr\"{u}cken, Germany \\
+\inst{2} Bosch Center for Artificial Intelligence, Renningen, Germany}
  \titlegraphic{
   \centering
-\includegraphics[height=1.3cm]{logo_mpi_430}
+\includegraphics[height=1.3cm]{logo_mpi_430}\includegraphics[height=1.3cm]{bosch}
 
 }
 
-\date{26.09.2018}
+\date{25.09.2018}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -333,13 +334,13 @@ positioning,fit,calc,decorations.text, automata%
 \begin{frame}\frametitle{Semantic Web Search}
 
 \alt<3>{\begin{picture}(0.5,0.5)
-\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch3}}
+\put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch3}}
 \end{picture}}{
 \alt<2>{\begin{picture}(0.5,0.5)
-\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch2}}
+\put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch2}}
 \end{picture}}{
 \begin{picture}(0.5,0.5)
-\put(-13,-125){\includegraphics[width=1.1\textwidth]{semsearch1}}
+\put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch1}}
 \end{picture}
 }}
 
@@ -576,12 +577,14 @@ $\underbrace{a}_{\Large{\bl{\text{head}}}}\; \leftarrow\; \underbrace{b_1,\, \do
 \small{\bl{\textbf{Informal semantics:}} } If $b_1,\dotsc, b_{m}$ are true, then $a$ must be true.\bigskip
 \bigskip
 
-\small{\bl{\textbf{Closed World Assumption (CWA):} }} facts not known to be true are false
+\small{\bl{\textbf{Logic program:}} } Set of rules 
+
+%\small{\bl{\textbf{Closed World Assumption (CWA):} }} facts not known to be true are false
 \bigskip
 \bigskip
 
 }
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\alt<2->{Example: non-ground rules}{Example: ground rules}}
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\alt<2->{Example: non-ground rule}{Example: ground rule}}
 \medskip
 \small{
 \alt<2->{\gre{\%\,Married people live together}\\
@@ -589,14 +592,15 @@ $\mi{livesIn(Y,Z)}\leftarrow\mi{isMarried(X,Y)}, \mi{livesIn(X,Z)}$
 \bigskip
 \bigskip
 
-\gre{\%\,Constraint: ensure that none is a parent of himself}\\
-$ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
+% \gre{\%\,Constraint: ensure that none is a parent of himself}\\
+% $ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
 }{\gre{\%\,If Mirka is married to Roger and lives in B., then Roger lives there too}\\
 $\mi{livesIn(roger,bottmingen)}\leftarrow\mi{isMarried(mirka,roger)}, \mi{livesIn(mirka,bottmingen)}$
 \bigskip
 
-\gre{\%\,Constraint: It cannot be the case that Roger is a parent of Leo and vice versa }\\
-$ \bot \leftarrow \mi{parent(roger,leo),parent(leo,roger)}$}}
+% \gre{\%\,Constraint: It cannot be the case that Roger is a parent of Leo and vice versa }\\
+% $ \bot \leftarrow \mi{parent(roger,leo),parent(leo,roger)}$
+}}
 \end{beamerboxesrounded}
 
 \bigskip
@@ -654,106 +658,101 @@ $ \bot \leftarrow \mi{parent(roger,leo),parent(leo,roger)}$}}
 {\small
 \medskip
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand universe, base, interpretation}}
+%\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand universe, base, interpretation}}
 
 %\small
-\bi
-\item
-Given a logic program $P$, the \bl{Herbrand universe} of $P$, \bl{$\HU(P)$}, is the set of all terms
-which can be formed from constants and functions symbols in $P$ (resp.,
-the vocabulary $\Phi$ of $P$,
-% of $L$,
-if explicitly known).
-
-\s
-
-\item
-The \bl{Herbrand base} of $P$, \bl{$\HB(P)$}, is the set of all ground
-atoms which can be formed from predicates and terms $t\in \HU(P)$.
-\pause
-
-\s
-\item
-A \bl{(Herbrand) \bl{interpretation}} is a first-order interpretation \bl{$I =
-(D,\cdot^I)$} of the vocabulary with domain \bl{$D=\HU(P)$} where each term $t \in \HU(P)$
-is interpreted by itself, i.e., \bl{$t^I = t$}.
-
-\pause
-
-\s
-\item
-$I$ is identified with the set \bl{$\{\; p(t_1,\ldots,t_n) \in \HB(P) \mid
-\tuple{t_1^I,\ldots,t_n^I}\in p^I\; \}$}.
-\ei
-\end{beamerboxesrounded}
+\textbf{\bl{Herbrand universe}} of a logic program $P$, $\bl{HU(P)}$ is the  set of all constants appearing in $P$
 \bs
+
+\textbf{\bl{Herbrand base}} of $P$, \bl{$\HB(P)$} is the set of all ground
+atoms which can be formed from predicates and constants of $P$.
 \pause
 
-Informally, a (Herbrand) interpretation can be seen as a set denoting
-which ground atoms are true in a given scenario.
+\bs
+\textbf{\bl{(Herbrand) interpretation}} of $P$, \bl{$I$} is a subset of the Herbrand base.
 
-%\small{Named after logician Jacques Herbrand.}
+%\end{beamerboxesrounded}
+\bs
+
+
+
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example: Herbrand universe, base, interpretation}
+\medskip
+
+$P=\{isMarriedTo(mirka, roger), livesIn(mirka, bottmingen),$ \s
+
+$\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y)\}$\s
+
+ $\mi{HU(P)=mirka,roger,bottmingen}$\s
+
+ $\mi{HB(P)=\{isMarriedTo(mirka,mirka),isMarriedTo(mirka,roger),\dotsc}$\\$\phantom{HB(P)=\{}\mi{livesIn(mirka,bottmingen),livesIn(roger,bottmingen),\dotsc\}}$\s
+
+ $I_1=\emptyset, I_2=\{\mi{isMarriedTo(mirka, roger),livesIn(bottmingen,bottmingen)}\}, \dotsc$
+
+\end{beamerboxesrounded}
 
 }
+
+
 \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
-\begin{frame}
-\frametitle{Example}
+% \begin{frame}
+% \frametitle{Example}
 
-% \begin{example}[Program $P_1$]
+% % \begin{example}[Program $P_1$]
+
+% % \nbls
+
+% \ms
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+% Program $P$:
+% {\small
+% \begin{align*}
+% \gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+% \gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+% \end{align*}
+% }
 
 % \nbls
+% \pause
 
-\ms
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+% \bi
+% \item
+%  Constant symbols: \gre{$0$, $a$, $b$,  $r$.}%;\; \qquad 
 
-Program $P$:
-{\small
-\begin{align*}
-\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-\end{align*}
-}
+% % \bigskip
+% \pause
 
-\nbls
-\pause
+% \item
+% Herbrand universe $\HU(P)$: \qquad \gre{$\{ 0, a, b, r\}$}\pause
+% % \bs
+% %
+% \item ~\\[-0.8\baselineskip]
+% $\begin{array}{@{}r@{~}l}
+% \text{Herbrand base }\HB(P): \qquad \gre{\{} & \gre{p(0,0,0), p(0,0,a), \ldots , p(r,r,r),}\\ 
+%                     & \gre{h(0,0), h(0,a), \ldots,  h(r,r,r),} \\
+%                     & \gre{t(0,0,0), t(0,0,a), \ldots ,t(r,r,r) \}}
+% \end{array}
+% $
 
-\bi
-\item
- Constant symbols: \gre{$0$, $a$, $b$,  $r$.}%;\; \qquad 
+% \ms
+% \pause
 
-% \bigskip
-\pause
+% \item
+% Some Herbrand interpretations:
 
-\item
-Herbrand universe $\HU(P)$: \qquad \gre{$\{ 0, a, b, r\}$}\pause
-% \bs
-%
-\item ~\\[-0.8\baselineskip]
-$\begin{array}{@{}r@{~}l}
-\text{Herbrand base }\HB(P): \qquad \gre{\{} & \gre{p(0,0,0), p(0,0,a), \ldots , p(r,r,r),}\\ 
-                    & \gre{h(0,0), h(0,a), \ldots,  h(r,r,r),} \\
-                    & \gre{t(0,0,0), t(0,0,a), \ldots ,t(r,r,r) \}}
-\end{array}
-$
+% \s
 
-\ms
-\pause
-
-\item
-Some Herbrand interpretations:
-
-\s
-
-\qquad \gre{$I_1 = \emptyset$;~ \quad $I_2 = \HB(P)$;~\quad $I_3 = \{ h(0,0), t(a,b,r),
-p(0,0,b)\}$.}%; \ldots
-% \end{example}
-\ei
-\end{beamerboxesrounded}
-\end{frame}
+% \qquad \gre{$I_1 = \emptyset$;~ \quad $I_2 = \HB(P)$;~\quad $I_3 = \{ h(0,0), t(a,b,r),
+% p(0,0,b)\}$.}%; \ldots
+% % \end{example}
+% \ei
+% \end{beamerboxesrounded}
+% \end{frame}
 
 
 
@@ -811,26 +810,26 @@ The single ground instance of the last rule is
 \begin{frame}
 \frametitle{Herbrand Models}
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand models}}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand models}}}
 \bs
 
 An interpretation $I$ is a \bl{(Herbrand) model} of
 
 \begin{itemize}
-\item a ground (variable-free) \bl{clause} $C = a \implied b_1,\ldots,b_m$,  symbolically $I\models C$,
+\item \bl{a ground (variable-free) clause $C = a \implied b_1,\ldots,b_m$},  symbolically $I\models C$,
 if either $\{b_1,\ldots,b_m\} \nsubseteq I$ or $a \in I$;
 %  \hfill ($I\models C$)
 
 \bs
 
- \item a clause $C$, symbolically $I\models C$,
+ \item \bl{a clause $C$}, symbolically $I\models C$,
  if $I\models C'$ for every
    $C'\in grnd(C)$;
 %  \hfill ($I\models C$)
 
    \bs
 
-\item a program $P$, symbolically $I\models P$,
+\item \bl{a program $P$}, symbolically $I\models P$,
 if $I\models C$ for every clause $C$ in $P$.
 %  \hfill ($I\models P$)
 \end{itemize}
@@ -865,9 +864,9 @@ Reconsider program $P$:
 
 Which of the following interpretations are models of $P$?
 \begin{itemize}
-  \item  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
-  \item  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
-  \item  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
+  \item[$\gre{\bullet}$]  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
+  \item[$\gre{\bullet}$]  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
+  \item[$\gre{\bullet}$]  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
 \end{itemize}
 
 
@@ -932,14 +931,14 @@ A model $I$ of $P$ is \bl{minimal}, if there exists no
 \end{beamerboxesrounded}
 
 
-\ms
-\pause
+% \ms
+% \pause
 
-\begin{theorem}
-Every positive logic program $P$ has a single minimal model {\rm (}called
-the \emph{least model}{\rm )}, denoted $LM(P)$.
-\end{theorem}
-\pause
+% \begin{theorem}
+% Every positive logic program $P$ has a single minimal model {\rm (}called
+% the \emph{least model}{\rm )}, denoted $LM(P)$.
+% \end{theorem}
+% \pause
 
 \ms
 
@@ -1126,7 +1125,7 @@ observation\bigskip\bigskip
 \end{beamerboxesrounded}
 \end{column}
 \begin{column}{0.33\textwidth}
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
+\alt<2->{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercoldarkblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
 \begin{center}\bigskip\bigskip
 
 generalize a rule from a 
@@ -1135,7 +1134,16 @@ observations\bigskip\bigskip
 
 \gre{\emph{}}
 \end{center}
-\end{beamerboxesrounded}
+\end{beamerboxesrounded}}{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
+\begin{center}\bigskip\bigskip
+
+generalize a rule from a 
+number of similar 
+observations\bigskip\bigskip
+
+\gre{\emph{}}
+\end{center}
+\end{beamerboxesrounded}}
 \end{column}
 
 \end{columns}}
@@ -1144,7 +1152,7 @@ observations\bigskip\bigskip
 
 \subsection{ILP}
 
-\begin{frame}\frametitle{History of ILP}
+\begin{frame}\frametitle{History of Inductive Learning}
 \begin{itemize}
 \item \bl{Philosophy of Science:} \\
 Carnap, Hume, Miller, Popper, Peirce, ...\bigskip
@@ -1155,7 +1163,7 @@ Banerji, Plotkin, Vere, Michalski, ...\bigskip
 \item \bl{AI \& Machine Learning 80s:} \\
 Shapiro, Sammut, Muggleton, ...\bigskip
 
-\item \bl{ILP 1990s:} \\
+\item \bl{Inductive Logic Programming 1990s:} \\
 Muggleton, Quinlan, De Raedt, ...\bigskip
 
 \item \bl{Statistical Relational Learning 2000s:} \\
@@ -1202,10 +1210,10 @@ Getoor, Koller, Domingos, Sato, ...
 \small{
  \textbf{Given:} 
  \begin{itemize}
- \item[\gre{$\circ$}] \gre{$T=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$}
-\item[\gre{$\circ$}] \gre{$E^+=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$} 
-\item[\gre{$\circ$}] \gre{$E^-=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$} 
-\item[\gre{$\circ$}] Target language: Horn rules
+ \item[\gre{$\bullet$}] \gre{$T=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$}
+\item[\gre{$\bullet$}] \gre{$E^+=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$} 
+\item[\gre{$\bullet$}] \gre{$E^-=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$} 
+\item[\gre{$\bullet$}] Target language: Horn rules
  \end{itemize}
 \bigskip
 \bigskip
@@ -1214,7 +1222,7 @@ Getoor, Koller, Domingos, Sato, ...
 
 \textbf{Possible hypothesis:}
 \begin{itemize}
-\item[\gre{$\circ$}] \gre{$\mi{Hyp:\;fatherOf(X,Y)\leftarrow parentOf(X,Y),male(X)}$}
+\item[\gre{$\bullet$}] \gre{$\mi{Hyp:\;fatherOf(X,Y)\leftarrow parentOf(X,Y),male(X)}$}
 \end{itemize}}
 
  \end{beamerboxesrounded}
@@ -1223,7 +1231,7 @@ Getoor, Koller, Domingos, Sato, ...
 \begin{frame}\frametitle{Learning from Interpretations}
 \smallskip
 
- \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ngc/Muggleton91}}
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}}
  \smallskip
 
  \textbf{Given:} 
@@ -1244,25 +1252,25 @@ Getoor, Koller, Domingos, Sato, ...
 
 \begin{frame}\frametitle{Example}
 
- \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ngc/Muggleton91}}
+ \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}}
  \smallskip
 
  \textbf{Given:} 
  \begin{itemize}
-\item[\gre{$\circ$}] \gre{$\mi{I=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$} 
-\item[$\gre{\circ}$] \gre{$\mi{T=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$}
-\item[$\gre{\circ}$] Target rules: Horn rules
+\item[\gre{$\bullet$}] \gre{$\mi{I=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$} 
+\item[$\gre{\bullet}$] \gre{$\mi{T=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$}
+\item[$\gre{\bullet}$] Target rules: Horn rules
  \end{itemize}
 
 \bigskip
 
  \uncover<2->{\noindent \textbf{Possible Hypothesis:} 
  \begin{itemize}
-\item \gre{$\mi{Hyp:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$} 
+\item[$\gre{\bullet}$] \gre{$\mi{Hyp:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$} 
 \end{itemize}}
  \end{beamerboxesrounded}
 \end{frame}
-\begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{Declarative Programming Paradigm}}
+\begin{frame}\frametitle{\alt<2>{Declarative Programming Example}{Inductive Learning from Interpretations}}
 \alt<2>{
  \begin{picture}(0.5,0.5)
  \put(20,-135){\includegraphics[width=0.9\textwidth]{asp_2}}
