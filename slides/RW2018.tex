@@ -2699,11 +2699,33 @@ to organize convenient and effective interaction process?
 }
 
 \end{frame}
+
+\begin{frame}\frametitle{Evaluation}
+
+
+\bl{2 Datasets:}
+\begin{itemize}
+\item FB15K: a subset of Freebase with 592K binary facts over 15K entities and 1345 predicates
+\item Wiki44K: a subset of Wikidata with 250K binary facts over 44K entities and 100 relations
+\end{itemize}
+\bl{Available KGs}: random 80\% of the approximated ideal KG\\	\smallskip
+	
+\bl{Embedding Models}: 2 settings:
+\begin{itemize}
+\item Without additonal textual data: TransE model, HolE model
+\item With entities description text: SSP model
+\end{itemize}
+\bl{Gold standard}: ratio of true facts generated\\
+\smallskip
+\bl{2 Evaluation settings}: \textit{closed world} (CW) and \textit{open world} (OW)						
+\end{frame}
+
+
 \begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
 \captionsetup[subfigure]{font=evensmallerfont}
  \begin{figure}[t]
      \centering
-     \vspace{-0.2cm}
+     \vspace{-0.3cm}
      \subfloat{{\includegraphics[width=0.6\textwidth]{figures/new_exp1/legend-crop.pdf}}}\\
      \setcounter{subfigure}{0}
      \vspace{-0.25cm}
@@ -2736,7 +2758,7 @@ to organize convenient and effective interaction process?
 
 \end{frame}
 
-\begin{frame}\frametitle{RuLES for Exception-Aware Rule Learning}
+\begin{frame}\frametitle{Exception-Aware Rule Learning}
 \input{tables/exception_prediction_result}
 \end{frame}
 
