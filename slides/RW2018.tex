@@ -25,16 +25,22 @@
 \usepackage{named}
 \usepackage{tikz}
 \usepackage{picture}
+\usepackage{subfig}
 \usepackage{algorithm,algorithmic}
 \usepackage{multirow}
 \usepackage{proof}
 \usepackage{transparent}
+\usepackage{caption}
 \usepackage{url}
 \usepackage{hyperref}	
 \newcommand*\rot{\rotatebox{60}}
 \usepackage{color, colortbl}
 \usepackage[first=0,last=9]{lcg}
 \newcommand{\ra}{\rand0.\arabic{rand}}
+
+\definecolor{alertcolor}{HTML}{BF0040}
+\renewcommand{\alert}[1]{\textcolor{alertcolor}{#1}}
+
 \newcommand\FrameText[1]{%
   \begin{textblock*}{\paperwidth}(261pt,239pt)
     \raggedright #1\hspace{.5em}
@@ -100,6 +106,8 @@ positioning,fit,calc,decorations.text, automata%
 % setup margin
 \beamersetleftmargin{0.5cm}
 \beamersetrightmargin{0.5cm}
+\addtobeamertemplate{frametitle}{\vspace{-0.5cm}}{}
+%\addtolength{\headsep}{-0.5cm}
 
 % setup symbols
 \setbeamertemplate{bibliography item}[book]
@@ -112,6 +120,7 @@ positioning,fit,calc,decorations.text, automata%
 % put number of frames at the bottom
 \setbeamertemplate{footline}[frame number]
 
+\DeclareCaptionFont{evensmallerfont}{\fontsize{7}{7}\selectfont}
 
 \usepackage[scaled]{helvet}
 
@@ -140,6 +149,7 @@ positioning,fit,calc,decorations.text, automata%
 
 \newcommand{\makereferences}[1]{%
   \begin{frame}[allowframebreaks,allowdisplaybreaks]
+  	\vspace{0.5cm}
     \frametitle{References}
     \bibliography{#1}
   \end{frame}
@@ -162,6 +172,7 @@ positioning,fit,calc,decorations.text, automata%
 \usepackage{etoolbox}
 
 \usepackage{tikz}
+\usepackage{booktabs}
 
 \usetikzlibrary{shapes,arrows,snakes,backgrounds,%
 matrix,patterns,arrows,decorations.pathmorphing,decorations.pathreplacing,%
@@ -274,7 +285,7 @@ positioning,fit,calc,decorations.text, automata%
 
 
 \title{Rule Induction and Reasoning over Knowledge Graphs}
- \author[Stepanova, Gad-Elrab, Vinh Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-elrab\inst{1}, Vinh Thinh Ho\inst{1}}
+ \author[Stepanova, Gad-Elrab, Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-Elrab\inst{1}, Vinh Thinh Ho\inst{1}}
 \institute[shortinst]{ \inst{1} Max Planck Institute for Informatics, Saarbr\"{u}cken, Germany \\
 \inst{2} Bosch Center for Artificial Intelligence, Renningen, Germany}
  \titlegraphic{
@@ -2276,7 +2287,7 @@ We define a precision and a recall:
  \begin{beamerboxesrounded}[upper=uppercolbl,lower=lowercolbl,shadow=true]{\begin{center}\small{\textbf{Rule-based approaches}}\end{center}}
 \smallskip
 \begin{center}
-  \alt<3->{\includegraphics[width=\linewidth]{rule-based2}}{\includegraphics[width=\linewidth]{rule-based}}
+  \includegraphics[width=\linewidth]{rule-based2}
 \medskip
 
 \tiny{
@@ -2286,14 +2297,13 @@ AMIE \cite{amieplus}, \cite{excep}, \\ RUMIS \cite{rumis}, CARL \cite{carl}, etc
  \end{beamerboxesrounded}
 \end{column}
 \pause
-\pause
 \begin{column}{.5\textwidth}
  \begin{beamerboxesrounded}[upper=uppercolbl,lower=lowercolbl,shadow=true]{\begin{center}\small{\textbf{Statistics-based approaches}}\end{center}}
 
 
 \bigskip
 
-\alt<6->{\includegraphics[width=\linewidth]{statistics-based3}}{\alt<5->{\includegraphics[width=\linewidth]{statistics-based2}}{\includegraphics[width=\linewidth]{statistics-based1}}}
+\alt<4->{\includegraphics[width=\linewidth]{statistics-based2}}{\includegraphics[width=\linewidth]{statistics-based1}}
 \medskip
 \begin{center}
 \tiny{TransE \cite{transe}, TEKE \cite{teke},\\ RESCAL \cite{rescal}, etc.}
@@ -2349,7 +2359,7 @@ Precompute KG embedding and treat the result as an oracle, which can be queried 
  \end{beamerboxesrounded}
 \bigskip
 
-\begin{center}\tiny{Thinh Vinh Ho, Daria Stepanova, Mohamed Gad-Elrab, Evgeny Kharlamov, Gerhard Weikum}\end{center}
+\begin{center}\tiny{Vinh Thinh Ho, Daria Stepanova, Mohamed Gad-Elrab, Evgeny Kharlamov, Gerhard Weikum}\end{center}
 \end{frame}
 
 
@@ -2363,45 +2373,43 @@ Precompute KG embedding and treat the result as an oracle, which can be queried 
 \begin{itemize}
 \item KG 
 \item Embedding model  
-\item Type of rules to be learned (e.g., with(out) negation, disjunctive, etc.)
+\item Form of rules to be learned (e.g.number of atoms, with(out) negation, etc.)
 \end{itemize}
 \bigskip
 
 \item \textbf{Find:} 
 \begin{itemize}
-\item a set of rules of the desired type, which agree with embedding model
+\item Set of rules of the desired type, which agree with embedding model
 on predictions that they make
 \end{itemize}
 \end{itemize}
 \end{beamerboxesrounded}
 \end{frame}
 
-
-
-
-\begin{frame}\frametitle{Related Works}
-\begin{itemize}
-\item \textbf{\bl{Constraints in embedding models}}
-\begin{itemize}
-\item Injecting logical formulas as constraints into embedding models
-(output is still a set of predictions; unclear where they came from)
-\cite{DBLP:journals/corr/abs-1711-11231}
-\end{itemize}
-\bigskip
-\bigskip
-
-\item \textbf{\bl{Rule mining with external support}}
-\begin{itemize}
-
-\item Interactive pattern mining
-\cite{DBLP:conf/kdd/GoethalsMV11}, \\\cite{DBLP:conf/pakdd/DzyubaL17}\medskip
-
-\item Interactive association rule mining
-\cite{DBLP:conf/pkdd/SkrabalSVHMCK12}
-\end{itemize}
-\end{itemize}
-\end{frame}
-
+\iffalse
+	\begin{frame}\frametitle{Related Works}
+	\begin{itemize}
+	\item \textbf{\bl{Constraints in embedding models}}
+	\begin{itemize}
+	\item Injecting logical formulas as constraints into embedding models
+	(output is still a set of predictions; unclear where they came from)
+	\cite{DBLP:journals/corr/abs-1711-11231}
+	\end{itemize}
+	\bigskip
+	\bigskip
+	
+	\item \textbf{\bl{Rule mining with external support}}
+	\begin{itemize}
+	
+	\item Interactive pattern mining
+	\cite{DBLP:conf/kdd/GoethalsMV11}, \\\cite{DBLP:conf/pakdd/DzyubaL17}\medskip
+	
+	\item Interactive association rule mining
+	\cite{DBLP:conf/pkdd/SkrabalSVHMCK12}
+	\end{itemize}
+	\end{itemize}
+	\end{frame}
+\fi
 
 
 
@@ -2552,9 +2560,10 @@ any other standard rule measure can be plugged in
 \item \bl{$\mi{rule\_mrr}$}: predictive quality based on KG embedding\\
 any embedding model including text-enhanced ones can be used
 \end{itemize}
-\bigskip
 
-\item more complex interaction, e.g., information theoretic measures?
+%\bigskip
+%
+%\item more complex interaction, e.g., information theoretic measures?
 
 \end{itemize}
 
@@ -2690,7 +2699,46 @@ to organize convenient and effective interaction process?
 }
 
 \end{frame}
+\begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
+\captionsetup[subfigure]{font=evensmallerfont}
+ \begin{figure}[t]
+     \centering
+     \vspace{-0.2cm}
+     \subfloat{{\includegraphics[width=0.6\textwidth]{figures/new_exp1/legend-crop.pdf}}}\\
+     \setcounter{subfigure}{0}
+     \vspace{-0.25cm}
+     \subfloat[Conf-HolE on FB15K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_hole_conf-crop.pdf} }\label{fig:fb-HoLE-Conf}}
+     \subfloat[Conf-SSP on FB15K]
+{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_ssp_conf-crop.pdf} \label{fig:fb-SSP-Conf}}}
+    \subfloat[PCA-SSP on FB15K]
+    {{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_ssp_pca-crop.pdf} }\label{fig:fb-SSP-PCA}}\\
+     \vspace{-0.25cm}
+    \subfloat[Conf-TransE on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_transe_conf-crop.pdf} }\label{fig:wi-TransE-Conf}}
+    \subfloat[Conf-SSP on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_ssp_conf-crop.pdf} }\label{fig:wi-SSP-Conf}}
+     \subfloat[PCA-SSP on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_ssp_pca-crop.pdf} }\label{fig:wi-SSP-PCA}} \\  
 
+    
+     %\caption{
+     %$pred\_prec_{CW}$ of the \textit{top-k} rules with various $\lambda$ on FB15K.
+     %}
+     \label{fig:diff_lambda}
+ \end{figure}
+\end{frame}
+
+
+\begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
+\input{tables/concrete_rule_type_quality}
+
+\end{frame}
+
+\begin{frame}\frametitle{Horn Rule Learning}
+\input{tables/hybrid_rules_precision}
+
+\end{frame}
+
+\begin{frame}\frametitle{RuLES for Exception-Aware Rule Learning}
+\input{tables/exception_prediction_result}
+\end{frame}
 
 \section{Further Topics}
 
@@ -3810,6 +3858,7 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 
 
 \appendix
+\addtobeamertemplate{frametitle}{\vspace{0.5cm}}{}
 \begin{frame}[plain,allowframebreaks,allowdisplaybreaks]
   \frametitle{References}
   \bibliographystyle{named}
