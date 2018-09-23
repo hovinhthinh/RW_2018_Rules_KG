@@ -39,7 +39,7 @@
   \begin{textblock*}{\paperwidth}(261pt,239pt)
     \raggedright #1\hspace{.5em}
   \end{textblock*}}
-\setbeamertemplate{mini frames}{}
+%\setbeamertemplate{mini frames}{}
 \definecolor{LightCyan}{rgb}{1,0.88,1}
 
 \setlength{\inferLineSkip}{4pt}
@@ -279,7 +279,7 @@ positioning,fit,calc,decorations.text, automata%
 \inst{2} Bosch Center for Artificial Intelligence, Renningen, Germany}
  \titlegraphic{
   \centering
-\includegraphics[height=1.3cm]{logo_mpi_430}\includegraphics[height=1.3cm]{bosch}
+\includegraphics[height=.7cm]{logo_mpi_430}\includegraphics[height=1cm]{bosch}
 
 }
 
@@ -426,7 +426,7 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 }
 \end{column}
 \end{columns}
-\includegraphics[width=.6\textwidth]{rogerInBot}
+\uncover<3->{\includegraphics[width=.6\textwidth]{rogerInBot}}
 %\begin{picture}(0.5,0.5)
     % \put(50,-136){
 %}
@@ -477,11 +477,11 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 \bigskip
 \pause 
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{In this tutorial:}
 \bigskip
 
  \begin{itemize}
- \item[] \bl{Inductive learning of common-sense rules for KG completion}
+ \item[] \bl{Inductive learning of rules from KGs and their application for KG completion and commonsense knowledge discovery}
  \end{itemize}
 \bigskip
 
@@ -562,7 +562,7 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \section{Preliminaries}
-\subsection{Horn Rules}
+%\subsection{Horn Rules}
 \begin{frame}
   \frametitle{Horn Rules}
 \bigskip
@@ -681,10 +681,13 @@ atoms which can be formed from predicates and constants of $P$.
 $P=\{isMarriedTo(mirka, roger), livesIn(mirka, bottmingen),$ \s
 
 $\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y)\}$\s
+\pause
 
  $\mi{HU(P)=mirka,roger,bottmingen}$\s
+\pause
 
  $\mi{HB(P)=\{isMarriedTo(mirka,mirka),isMarriedTo(mirka,roger),\dotsc}$\\$\phantom{HB(P)=\{}\mi{livesIn(mirka,bottmingen),livesIn(roger,bottmingen),\dotsc\}}$\s
+\pause
 
  $I_1=\emptyset, I_2=\{\mi{isMarriedTo(mirka, roger),livesIn(bottmingen,bottmingen)}\}, \dotsc$
 
@@ -762,45 +765,30 @@ $\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y)\}$\s
 
 % \begin{example}[Program $P_2$]
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
-
-Program $P$:
+\bi
+\item[\gre{$\bullet$}]
+\gre{Program $P$:}
 {\small
 \begin{align*}
-\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z). \\
+livesIn(mirka,b). \qquad isMarriedTo(mirka,roger).
 \end{align*}
 }
 
 \nbls
 \pause
 
-\bi
-\item
-The ground instances of the first rule are
+
+\item[\gre{$\bullet$}] \gre{The ground instances of the first rule are}
 \ei
 %
 {\small\begin{align*}
-\gre{p(0,0,0)} &\gre{\implied  p(0,0,0), h(0,0), t(0,0,r).} & \gre{X=Y=Z=Z'=0 }\\
- &\ \ \ \gre{\ldots} \\
-\gre{p(0,r,0)} &\gre{\implied  p(0,r,0), h(0,r), t(0,0,r).} & \gre{X=Z=Z'=0, Y=r} \\
- &\ \ \ \gre{\ldots} \\
-\gre{p(r,r,r)} &\gre{\implied  p(r,r,r), h(r,r), t(r,r,r).} & \gre{X=Y=Z=Z'=r} \\
+livesIn(m,m) &\leftarrow  livesIn(m,m), isMarriedTo(m,m). & X=Y=Z=m\\
+ &\ \ \ \ldots \\
+livesIn(r,b) &\leftarrow  livesIn(r,r), livesIn(r,b). & X=Y=r, Z=b \\
+ &\ \ \ \ldots \\
+livesIn(b,b) &\leftarrow  livesIn(b,b), isMarriedTo(b,b). & X=Y=Z=b \\
  \end{align*}}
- 
- \hnbls
-
-\vspace{-2em}
-\bi
-\item
-The single ground instance of the last rule is
-{\small\begin{align*}
-\gre{t(a,b,r)}
-\end{align*}}
-%\end{example}
-
-\ei
-
 \end{beamerboxesrounded}
 \end{frame}
 
@@ -809,10 +797,10 @@ The single ground instance of the last rule is
 \begin{frame}
 \frametitle{Herbrand Models}
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand models}}}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand models of a Horn program}}}
 \bs
 
-An interpretation $I$ is a \bl{(Herbrand) model} of
+An interpretation $I$ is a \bl{(Herbrand) model} of (or satisfies)
 
 \begin{itemize}
 \item \bl{a ground (variable-free) clause $C = a \implied b_1,\ldots,b_m$},  symbolically $I\models C$,
@@ -852,24 +840,23 @@ For every positive logic program $P$, $\HB(P)$ is a model of $P$.
 % \begin{example}[Program $P_2$]
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-Reconsider program $P$:
+\gre{Reconsider program $P$:}
 {\small
 \begin{align*}
-\gre{p(X,Y,Z)   \implied  p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
-\gre{h(X,Z')  \implied p(X,Y,Z'), h(X,Y), t(Z,Z',r). }\\
-              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z). \\
+livesIn(X,Y)\leftarrow bornIn(X,Y).\\
+livesIn(m,b). \qquad isMarriedTo(m,r). \qquad bornIn(m,b). 
 \end{align*}
 }
 
-Which of the following interpretations are models of $P$?
+\gre{Which of the following interpretations are models of $P$?}
 \begin{itemize}
-  \item[$\gre{\bullet}$]  \gre{$I_1 = \emptyset$}  \visible<2->{ \red{\textbf{no}}}
-  \item[$\gre{\bullet}$]  \gre{$I_2 = \HB(P)$}  \visible<3->{ \gre{\textbf{yes}}}
-  \item[$\gre{\bullet}$]  \gre{$I_3 = \{ h(0,0), t(a,b,r), p(0,0,b)\}$} \visible<4->{ \red{\textbf{no}}}
+  \item[$\gre{\bullet}$]  $I_1 = \emptyset$  \visible<2->{ \red{\textbf{no}}}
+  \item[$\gre{\bullet}$]  $I_2 = \HB(P)$  \visible<3->{ \gre{\textbf{yes}}}
+  \item[$\gre{\bullet}$]  $I_3 = \{\mi{livesIn(m,b),isMarriedTo(m,r),livesIn(r,b)}\}$ \visible<4->{ \red{\textbf{no}}}
 \end{itemize}
 
 
-% Which of the above interpretations are models of $P_1$?
 
 % \end{example}
 \end{beamerboxesrounded}
@@ -883,36 +870,36 @@ Which of the following interpretations are models of $P$?
 
 %\subsection{Minimal Model Semantics}
 
-\begin{frame}
-\frametitle{Minimal Model Semantics}
+% \begin{frame}
+% \frametitle{Minimal Model Semantics}
 
-\begin{itemize}
-\item A logic program has multiple models in general.
+% \begin{itemize}
+% \item A logic program has multiple models in general.
 
-\item Select one of these models as the canonical model.
+% \item Select one of these models as the canonical model.
 
-\item Commonly accepted: truth of an atom in model $I$ should be
-   ``founded'' by clauses.
-\end{itemize}
+% \item Commonly accepted: truth of an atom in model $I$ should be
+%    ``founded'' by clauses.
+% \end{itemize}
  
-\bs
+% \bs
 
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-\textbf{Given:}
-$$\gre{P_1 = \{ a \leftarrow b.}\quad \gre{\ b \leftarrow c.}\quad \gre{\ c \},}$$
-truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
+% \textbf{Given:}
+% $$\gre{P_1 = \{ a \leftarrow b.}\quad \gre{\ b \leftarrow c.}\quad \gre{\ c \},}$$
+% truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is ``founded''.
 
  
-\bs
+% \bs
 
-\textbf{Given:}
-$$\gre{P_2 = \{ a \leftarrow b}.\quad \ \gre{b \leftarrow a.}\quad \ \gre{c \},}$$
-truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
-\end{beamerboxesrounded}
+% \textbf{Given:}
+% $$\gre{P_2 = \{ a \leftarrow b}.\quad \ \gre{b \leftarrow a.}\quad \ \gre{c \},}$$
+% truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
+% \end{beamerboxesrounded}
 
 
-\end{frame}
+% \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -923,79 +910,78 @@ truth of \gre{$a$} in the model \gre{$I=\{ a, b , c\}$}  is not founded.
 
 Semantics follows Occam's razor principle: prefer models with true-part as small as possible.
 
-\ms
+\bs
 \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def: \textbf{Minimal models}}
 A model $I$ of $P$ is \bl{minimal}, if there exists no
   model $J$ of $P$ such that $J \subset I$.
 \end{beamerboxesrounded}
 
 
-% \ms
+\bs
 % \pause
 
-% \begin{theorem}
-% Every positive logic program $P$ has a single minimal model {\rm (}called
-% the \emph{least model}{\rm )}, denoted $LM(P)$.
-% \end{theorem}
-% \pause
+\begin{theorem}
+Every positive logic program $P$ has a single minimal model {\rm (}called
+the \emph{least model}{\rm )}, denoted $LM(P)$.
+\end{theorem}
 
 \ms
 
-This is a consequence of the following property:
+% This is a consequence of the following property:
 
-\begin{proposition}[Intersection closure]
-If $I$ and $J$ are models of a positive program $P$, then $I\cap
-J$ is also a model of $P$.
-\end{proposition}
+% \begin{proposition}[Intersection closure]
+% If $I$ and $J$ are models of a positive program $P$, then $I\cap
+% J$ is also a model of $P$.
+% \end{proposition}
 
 \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-\frametitle{Example}
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+% \begin{frame}
+% \frametitle{Example}
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-\begin{itemize}
-                \item
-For \gre{$P_1 = \{\; a \leftarrow b.\quad \ b \leftarrow c.\quad \ c \; \}$},
-we have \gre{$LM(P_1) = \{ a,b, c\}$}.
+% \begin{itemize}
+%                 \item
+% For \gre{$P_1 = \{\; a \leftarrow b.\quad \ b \leftarrow c.\quad \ c \; \}$},
+% we have \gre{$LM(P_1) = \{ a,b, c\}$}.
 
-\bs
+% \bs
 
-\item For
-\gre{$P_2 = \{\; a \leftarrow b.\quad \ b \leftarrow a.\quad \ c \;\}$},
-we have \gre{$LM(P_2) = \{ c\}$}.
+% \item For
+% \gre{$P_2 = \{\; a \leftarrow b.\quad \ b \leftarrow a.\quad \ c \;\}$},
+% we have \gre{$LM(P_2) = \{ c\}$}.
 
-\bs
+% \bs
 
-%\item For 
-%$$\begin{array}{r@{}l}
-%P_2 = \{&p(X,Y,Z) \implied  p(X,Y,Z'), h(X,Y),
-%t(Z,Z',r).\\
-%& h(0,0)\},
-%\end{array}$$
-%  we have $LM(P_2) = \{ h(0,0)\}$.
+% %\item For 
+% %$$\begin{array}{r@{}l}
+% %P_2 = \{&p(X,Y,Z) \implied  p(X,Y,Z'), h(X,Y),
+% %t(Z,Z',r).\\
+% %& h(0,0)\},
+% %\end{array}$$
+% %  we have $LM(P_2) = \{ h(0,0)\}$.
 
-\bs
+% \bs
 
-\item For $P$ from above,
-{\small
-\begin{align*}
-\gre{p(X,Y,Z)   \leftarrow  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-\gre{h(X,Z')  \leftarrow p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
-              \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
-\end{align*}
-}
- we have
-\gre{$$LM(P) = \{  h(0,0), t(a,b,r), p(0,0,b), p(0,0,a), h(0,b)\}.$$}
-\end{itemize}
-% \end{example}
-\end{beamerboxesrounded}
-\end{frame}
+% \item For $P$ from above,
+% {\small
+% \begin{align*}
+% \gre{p(X,Y,Z)   \leftarrow  p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+% \gre{h(X,Z')  \leftarrow p(X,Y,Z'), h(X,Y), t(Z,Z',r).} \\
+%               \gre{p(0,0,b).} \qquad \gre{h(0,0).} \qquad  \gre{t(a,b,r). }
+% \end{align*}
+% }
+%  we have
+% \gre{$$LM(P) = \{  h(0,0), t(a,b,r), p(0,0,b), p(0,0,a), h(0,b)\}.$$}
+% \end{itemize}
+% % \end{example}
+% \end{beamerboxesrounded}
+% \end{frame}
 
-\subsection{Nonmonotonic Rules}
+%\subsection{Nonmonotonic Rules}
 
 \begin{frame}
   \frametitle{Nonmonotonic Rules}
@@ -1011,7 +997,7 @@ $\underbrace{a}_{\Large{\bl{\text{head}}}}\; \leftarrow\; \underbrace{b_1,\, \do
 \small{\bl{\textbf{Informal semantics:}} } If $b_1,\dotsc, b_{m}$ are true and \bl{none} of $b_{m+1},\dotsc,b_n$ is \bl{known}, \phantom{\textbf{Informal semantics:\;\;\;}}then  $a$ must be true.\bigskip
 \bigskip
 
-\only<2>{\bl{\textbf{Closed World Assumption (CWA):} } facts not known to be true are false}
+\bl{\textbf{Closed World Assumption (CWA):} } facts not known to be true are false
 \bigskip
 \bigskip
 
@@ -1056,26 +1042,40 @@ $ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
 
 \begin{frame}
 \frametitle{Answer Set Semantics}
-\begin{itemize}
-\item[] \only<2,3>{\bl{Evaluation} of ASP programs is model-based\only<2>{\footnote{unlike in prolog, which is based on theorem proving}}, it consists of 2 steps:
-\begin{itemize}
-\item[1.] \bl{Grounding}: substitute all variables with constants in all possible ways 
-\item[2.] \bl{Solving}: compute a minimal \bl{model (answer set) $I$} satisfying all rules
-\end{itemize}
-}
-\end{itemize}
 \bigskip
 
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\only<1>{Answer set program (ASP) $\cP$ is a set of nonmonotonic rules}}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand model, answer set}}}
+\begin{itemize}
+\item An interpretation $I$ is a \bl{Herbrand model} of a rule $r:a\leftarrow b_1,\dotsc,b_m,\naf\ b_{m+1},\dotsc,b_m$ if  $\{b_1,\dotsc,b_m\}\subseteq I$ and $\{b_{m+1},b_n\}\cap I=\emptyset$ imply $a \in I$ (written $I\models r$).
+\bs
+
+\item \bl{Answer set} is a minimal model of a nonmonotonic logic programs.
+\end{itemize}
+\end{beamerboxesrounded}
+\bs
+ 
+%\begin{itemize}
+% \item[] \only<2,3>{\bl{Evaluation} of ASP programs is model-based, it consists of 2 steps:
+%\begin{itemize}
+%\item[1.] \bl{Grounding}: substitute all variables with constants in all possible ways 
+%\item[2.] \bl{Solving}: compute a minimal \bl{model (answer set) $I$} satisfying all rules
+%\end{itemize}
+%}
+%\end{itemize}
+%\bigskip
+
+\pause 
+
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 \bigskip
 
-\small{$\cP = \left\{
+\small{$P = \left\{
       \begin{array}{l@{\qquad}}
          \mbox{(1) }\mi{livesIn(alex,ulm)};\; \mbox{(2) }\mi{isMarried(alex,mat)};\\
-         \mbox{(3) }\mi{livesIn(\alt<2->{\mi{mat,ulm}}{Y,Z})} \leftarrow \mi{isMarried(\alt<2->{alex,mat}{X,Y}),livesIn(\alt<2->{alex,ulm}{X,Z})},\\ 
-         \phantom{\mbox{(3) }\mi{livesIn(\alt<2->{mat,ulm}{Y,Z})} \leftarrow }\naf\ \mi{researcher(\alt<2->{\mi{mat}}{Y})}; \only<3->{\\[0.35ex]\bl{\mbox{(4) }\mi{researcher(mat)}}}
+         \mbox{(3) }\mi{livesIn(\alt<3->{\mi{mat,ulm}}{Y,Z})} \leftarrow \mi{isMarried(\alt<3->{alex,mat}{X,Y}),livesIn(\alt<3->{alex,ulm}{X,Z})},\\ 
+         \phantom{\mbox{(3) }\mi{livesIn(\alt<3->{mat,ulm}{Y,Z})} \leftarrow }\naf\ \mi{researcher(\alt<3->{\mi{mat}}{Y})}; \only<4->{\\[0.35ex]\bl{\mbox{(4) }\mi{researcher(mat)}}}
          % \only<4>{\\[0.35ex]\mbox{(5) }\bot \leftarrow \mi{livesIn(Y,Z_1),livesIn(Y,Z_2),Z_1\neq Z_2}.}
-%\only<6>{\\[0.35ex]\alt<6>{\mbox{(5) }\mi{livesIn(mat,golm)}}{\alert{\mbox{(5) }\mi{livesIn(mat,golm)}}}\\[0.35ex]}\only<4>{\alert{\mbox{(6) }\mi{researcher(\alt<2>{\mi{mat}}{Y})}}}
+%\only<6>{\\[0.35ex]\alt<7>{\mbox{(5) }\mi{livesIn(mat,golm)}}{\alert{\mbox{(5) }\mi{livesIn(mat,golm)}}}\\[0.35ex]}\only<5>{\alert{\mbox{(6) }\mi{researcher(\alt<3>{\mi{mat}}{Y})}}}
       \end{array}
     \right\}$
 
@@ -1097,59 +1097,60 @@ $\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3>{\cancel{\mi{livesI
 \begin{frame}\frametitle{Reasoning with Incomplete Information}
 \small{
 \begin{columns}
-\begin{column}{0.33\textwidth}
+\begin{column}{0.3\textwidth}
 \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Default Reasoning}\end{center}}
-\begin{center}\bigskip\bigskip
+\begin{center}\bigskip\bigskip\bigskip\bigskip
 
-assume normal state of 
+
+Assume normal state of 
 affairs, unless there is 
 evidence to the 
 contrary\bigskip\bigskip
 
-\gre{\emph{}}
+\gre{\emph{By default married people live together.}}\bigskip\bigskip
 \end{center}
 \end{beamerboxesrounded}
 \end{column}
-\begin{column}{0.33\textwidth}
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Abduction}\end{center}}
-\begin{center}\bigskip\bigskip
+\begin{column}{0.3\textwidth}
+\uncover<2->{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Abduction}\end{center}}
+\begin{center}\bigskip\bigskip\bigskip\bigskip
 
-choose between 
+Choose between 
 several explanations  
 that explain an 
 observation\bigskip\bigskip
 
-\gre{\emph{}}
+\gre{\emph{John and Mary live together. They must be a married.}}
 \end{center}
-\end{beamerboxesrounded}
+\end{beamerboxesrounded}}
 \end{column}
-\begin{column}{0.33\textwidth}
-\alt<2->{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercoldarkblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
+\begin{column}{0.3\textwidth}
+\uncover<3->{\alt<4->{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercoldarkblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
 \begin{center}\bigskip\bigskip
 
-generalize a rule from a 
+Generalize a rule from a 
 number of similar 
 observations\bigskip\bigskip
 
-\gre{\emph{}}
+\gre{\emph{\emph{John and his spouse Mary live together, Tom and his spouse Ann live together....$\Rightarrow$ All married people live together.}}}
 \end{center}
 \end{beamerboxesrounded}}{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
 \begin{center}\bigskip\bigskip
 
-generalize a rule from a 
+Generalize a 
 number of similar 
-observations\bigskip\bigskip
+observations into a hypothesis\bigskip\bigskip
 
-\gre{\emph{}}
+\gre{\emph{John and his spouse Mary live together, Tom and his spouse Ann live together....$\Rightarrow$ All married people live together.}}
 \end{center}
-\end{beamerboxesrounded}}
+\end{beamerboxesrounded}}}
 \end{column}
 
 \end{columns}}
 \end{frame}
 
 
-\subsection{ILP}
+%\subsection{ILP}
 
 
 \begin{frame}\frametitle{History of Inductive Learning}
@@ -1219,18 +1220,18 @@ e.g., DL ontology, datalog rules, hybrid theories
 
 
 
-\begin{frame}\frametitle{Inductive Learning from Examples }
+\begin{frame}\frametitle{Learning from Examples }
 \smallskip
 
  \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Examples \cite{DBLP:journals/ngc/Muggleton91}}
  \smallskip
 
- \textbf{Given:} 
+\textbf{Given:} 
  \begin{itemize}
 \item \bl{$\mi{E^+:}$} positive examples (ground facts) over a relation $p$
 \item \bl{$\mi{E^-:}$} negative examples (ground facts) over $p$
  \item \bl{$\mi{T:}$} background theory (a set of facts and possibly rules)
-\item Syntactic restrictions on the definition of $p$
+\item \bl{Syntactic restrictions} on the definition of $p$
  \end{itemize}
 
 \bigskip
@@ -1257,10 +1258,10 @@ e.g., DL ontology, datalog rules, hybrid theories
 \small{
  \textbf{Given:} 
  \begin{itemize}
- \item[\gre{$\bullet$}] \gre{$T=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$}
-\item[\gre{$\bullet$}] \gre{$E^+=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$} 
-\item[\gre{$\bullet$}] \gre{$E^-=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$} 
-\item[\gre{$\bullet$}] Target language: Horn rules
+ \item[\gre{$\bullet$}] $\gre{T}=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$
+\item[\gre{$\bullet$}] $\gre{E^+}=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$
+\item[\gre{$\bullet$}] $\gre{E^-}=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$ 
+\item[\gre{$\bullet$}] \gre{Target language}: Horn rules
  \end{itemize}
 \bigskip
 \bigskip
@@ -1269,7 +1270,7 @@ e.g., DL ontology, datalog rules, hybrid theories
 
 \textbf{Possible hypothesis:}
 \begin{itemize}
-\item[\gre{$\bullet$}] \gre{$\mi{Hyp:\;fatherOf(X,Y)\leftarrow parentOf(X,Y),male(X)}$}
+\item[\gre{$\bullet$}] $\gre{\mi{Hyp}}:\;\mi{fatherOf(X,Y)\leftarrow parentOf(X,Y),male(X)}$
 \end{itemize}}
 
  \end{beamerboxesrounded}
@@ -1281,7 +1282,7 @@ e.g., DL ontology, datalog rules, hybrid theories
  \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Inductive Learning from Interpretations \cite{DBLP:journals/ai/RaedtD94}}
  \smallskip
 
- \textbf{Given:} 
+\textbf{Given:}
  \begin{itemize}
 \item \bl{$\mi{I:}$} interpretation, i.e., a set of facts over various relations
 \item \bl{$\mi{T:}$} background theory, i.e., a set of facts and possibly rules
@@ -1304,29 +1305,75 @@ e.g., DL ontology, datalog rules, hybrid theories
 
  \textbf{Given:} 
  \begin{itemize}
-\item[\gre{$\bullet$}] \gre{$\mi{I=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$} 
-\item[$\gre{\bullet}$] \gre{$\mi{T=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$}
-\item[$\gre{\bullet}$] Target rules: Horn rules
+\item[\gre{$\bullet$}] $\mi{\gre{I}=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$
+\item[$\gre{\bullet}$] $\mi{\gre{T}=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$
+\item[$\gre{\bullet}$] \gre{Target rules}: Horn rules
  \end{itemize}
 
 \bigskip
 
  \uncover<2->{\noindent \textbf{Possible Hypothesis:} 
  \begin{itemize}
-\item[$\gre{\bullet}$] \gre{$\mi{Hyp:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$} 
+\item[$\gre{\bullet}$] $\mi{\gre{Hyp}:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$
 \end{itemize}}
  \end{beamerboxesrounded}
 \end{frame}
 
+\begin{frame}\frametitle{Common Techniques in ILP}
+%\begin{itemize}
+% \item $\geq 20$ years of ground-breaking research
+%\end{itemize}
+\begin{itemize}
+\item \bl{Clause refinement} \cite{clauseref}
+\begin{itemize}
+\item Explore search space of clauses from simple to complex (general to
+specific) or complex to simple (specific to general) to find a hypothesis that will cover all of the examples.
+\end{itemize} 
+\end{itemize}
+\bs
+
+%\begin{beamerboxesrounded}[upper=uppercolgren,lower=lowercolgreen,shadow=true]{}
+\begin{center}
+\includegraphics[width=1\textwidth]{ref_graph}
+\end{center}
+%\end{beamerboxesrounded}
+
+\end{frame}
+
+
+\begin{frame}\frametitle{Common Techniques in ILP}
+\begin{itemize}
+\item \bl{Inverse entailment} \cite{}
+\begin{itemize}
+\item Translate the induction problem into deduction
+\item $\mi{T \wedge Hyp \models E}$
+\item $\mi{T\wedge \overline{E} \models \overline{Hyp}}$
+\item $\mi{T \wedge E \models \bot \models Hyp}$
+\item $\mi{Hyp\models \bot}$
+\end{itemize}
+\end{itemize}
+\bs
+
+\begin{center}
+\includegraphics[width=1\textwidth]{ref_graph}
+\end{center}
+\end{frame}
+
+
 \begin{frame}\frametitle{Rule Induction from Knowledge Graphs}
+\bigskip
+
+
 What is the most suitable setting for the task of inducing rules from KGs...
-\begin{center}\includegraphics[width=0.8\textwidth]{hr_learn}
+
+\begin{center}\includegraphics[width=0.7\textwidth]{hr_learn}
+
 \huge{?}
 \end{center}
 \end{frame}
 
 
-\begin{frame}\frametitle{\alt<2>{Inductive Learning from Interpretations}{Declarative Programming}}
+\begin{frame}\frametitle{\alt<3>{Inductive Learning from Interpretation}{\alt<2>{Example}{Declarative Programming}}}
 \alt<2>{
  \begin{picture}(0.5,0.5)
  \put(20,-135){\includegraphics[width=0.9\textwidth]{asp_2}}
@@ -1381,14 +1428,21 @@ $}
 %}
 \end{frame}
 
-\subsection{KG Challenges}
+%\subsection{KG Challenges}
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs}
+\bs 
+
+\only<1>{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\bl{Goal of ILP:}}Develop a correct (and complete) algorithm which efficiently computes hypotheses.. But world knowledge is complex, and this is not always possible due to several issues...
+\end{beamerboxesrounded}}
+\pause
+
 \begin{itemize}
 \item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavaible
 \medskip
 \pause 
 
 \emph{Maybe Albert Einstein was a ballet dancer?}
+\pause
 \end{itemize}
 \bigskip
 \begin{center}
@@ -1398,15 +1452,17 @@ $}
 
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs} 
 \begin{itemize}
-\item[] \textbf{\bl{Data bias}}: Only interesting facts are mentioned in text
+\item[] \textbf{\bl{Data bias}}: KGs are extracted from text, which typically mentions only popular entities and interesting facts about them.
 \medskip
 \pause 
 
-\emph{E.g., as wikipedia stores mostly famous people, one can induce wrong assumptions that all scientists are Nobel prize winners or all inhabitants of ancient Egypt are pharaons..}
+\begin{center}
+\emph{\bl{``Man bites dog phenomenon''}}\footnote{\url{https://en.wikipedia.org/wiki/Man_bites_dog_(journalism)}}
+\end{center}
 \end{itemize}
 \bigskip
 \begin{center}
-\includegraphics[width=0.3\textwidth]{noble}  \;\;\;\includegraphics[width=0.2\textwidth]{pharaon} 
+\includegraphics[width=0.2\textwidth]{man_bites_dog} 
 \end{center}
 \end{frame}
 
@@ -1431,7 +1487,7 @@ $}
 
 \end{frame}
 
-\subsection{Association Rules}
+%\subsection{Association Rules}
 \begin{frame}\frametitle{Exploratory Data Analysis}
 \smallskip
 
@@ -1450,22 +1506,100 @@ How can we still learn interesting rules from KGs, which do not perfectly fit th
 
 
 \begin{frame}\frametitle{Association Rules}
+You run an on-line store, and want to increase sales.
+You decide on \bl{associative advertising}: show ads of
+relevant products \bl{before} your users search for these
+\bigskip
 
 \begin{itemize}
-\item Which products are often bought together?
-\item 
+\item \bl{Task:} Given a transaction database, find out products that are frequently bought together and form recommendation rules.
+\end{itemize}
 
+%\begin{table}
+% \begin{tabular}{| c | c | c | c | c |} 
+% \hline
+%  $\mi{Apple}$& $\mi{Beer}$& $\mi{Cola}$&$\mi{Donuts}$&$\mi{Eggs}$\\ 
+% \hline
+% $p1$&&&&\\
+% $p2$&&&&\\
+% $p3$&&&&\\
+% $p4$&&&&\\
+% $p5$&&&&\\
+% \hline
+% \end{tabular}
+%\label{table:nonlin} 
+%\end{table}
+\bs
+
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example:}
+\begin{center}
+\includegraphics[width=0.3\textwidth]{assrules}
+
+\ms
+
+Apples and beer are bought together is 3 out of 8 cases.
+\end{center}
+\end{beamerboxesrounded}
+\end{frame}
+
+
+\begin{frame}\frametitle{Some Rule Measures}
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{Def.:} (relative) support and confidence}
+\begin{itemize}
+\item \bl{Support}
+\item \bl{Relative support}
+\item \bl{Confidence}
+\end{itemize}
+\end{beamerboxesrounded}
+\bs
+
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+
+\begin{center}
+\includegraphics[width=0.3\textwidth]{assrules}
+\end{center}
+\end{beamerboxesrounded}
+\end{frame}
+
+%\subsection{Relational Association Rules}
+
+
+\begin{frame}\frametitle{How to Apply Ideas to Relational Data?}
+\begin{itemize}
+\item \bl{DOWNGRADING DATA}: Can we change the
+representation from richer representations to simpler
+ones? (So we can use systems working with simpler
+representations)\bs \bs
+
+\item \bl{UPGRADING SYSTEMS}: Can we develop systems that work
+with richer representations (starting from systems for
+simpler representations)?
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Downgrading the Data}
+\begin{itemize}
+\item \textbf{\bl{Propositionalization}}
 \end{itemize}
 \end{frame}
 
 
-\begin{frame}\frametitle{How to Apply Ideas to Relational Data?}
+
+\begin{frame}\frametitle{Upgrading the Systems}
+\begin{itemize}
+\item Start from existing system for simpler 
+representation
+\bs
+\bs 
+
+\item Extend it for use with richer representation 
+(while trying to keep the original system as a 
+special case)
+\end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{Propositionalization}
-\end{frame}
 
-\subsection{Relational Association Rules}
+
 
 \begin{frame}\frametitle{Relational Association Rule Mining}
 \end{frame}
@@ -2662,7 +2796,7 @@ to organize convenient and effective interaction process?
 \end{frame}
 
 
-\begin{frame}\frametitle{Research Questions}
+\begin{frame}\frametitle{Open Research Questions}
 \small{
 
 
@@ -2683,7 +2817,6 @@ to organize convenient and effective interaction process?
 \begin{itemize}
 \item Ideally, we want to learn the structure of most promising rules, i.e., the best rules have at most 5 atoms, 4 variables, etc..
 \medskip
-
 \end{itemize}
 \end{itemize}
 \end{beamerboxesrounded}
@@ -2692,9 +2825,34 @@ to organize convenient and effective interaction process?
 \end{frame}
 
 
-\section{Further Topics}
+\begin{frame}\frametitle{Commonsense Knowledge}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{}
+``AI has seen great advances of many kinds recently, but there is one critical area
+where progress has been extremely slow: ordinary commonsense.''  \cite{DBLP:journals/cacm/DavisM15}
+\end{beamerboxesrounded}
+\bs
 
-\begin{frame}\frametitle{Commonsense Rule Mining from Hybrid Sources}
+\begin{itemize}
+\item Questions that are easy for people but hard for machines
+\bs
+
+\begin{itemize}
+\item \bl{``Who is \textbf{taller}, Prince William or \textbf{his baby son} Prince George?''}\\
+\bs
+
+\item  \bl{``Can you make a \textbf{salad} out of a \textbf{polyester shirt}?''}
+\bs
+
+\item \bl{``Can an \textbf{elephant} sit on a \textbf{tree}?''}
+\end{itemize}
+\end{itemize}
+\end{frame}
+
+\begin{frame}\frametitle{Commonsense KGs}
+\end{frame}
+
+
+\begin{frame}\frametitle{Commonsense Rule Induction from Hybrid Sources}
 \bigskip
 
  \includegraphics[width=.25\textwidth]{dog_in_car}\uncover<2->{\includegraphics[width=.25\textwidth]{car_in_garage}}\uncover<3->{\includegraphics[width=.25\textwidth]{garage_in_house}}\uncover<4->{\includegraphics[width=.25\textwidth]{house_in_garden}}
@@ -2729,6 +2887,7 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 
 %$\mi{heavier(Y,X)\leftarrow on(X,Y)}$ $\mi{has(X,wings)\leftarrow in(X,sky),flyingObject(X), not\;round(X)}$}\end{picture}}
 \bigskip
+
 
 \end{frame}
 
