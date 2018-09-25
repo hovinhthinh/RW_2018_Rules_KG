@@ -284,7 +284,7 @@ positioning,fit,calc,decorations.text, automata%
 
 
 
-\title{Rule Induction and Reasoning over Knowledge Graphs}
+\title{Rule Induction and Reasoning over\\Knowledge Graphs}
  \author[Stepanova, Gad-Elrab, Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-Elrab\inst{1}, Vinh Thinh Ho\inst{1}}
 \institute[shortinst]{ \inst{1} Max Planck Institute for Informatics, Saarbr\"{u}cken, Germany \\
 \inst{2} Bosch Center for Artificial Intelligence, Renningen, Germany}
@@ -2363,55 +2363,52 @@ Precompute KG embedding and treat the result as an oracle, which can be queried 
 \end{frame}
 
 
+\begin{frame}\frametitle{Related Works}
+\begin{itemize}
+\item \textbf{\bl{Constraints in embedding models}}
+\begin{itemize}
+\item Injecting logical formulas as constraints into embedding models
+(output is still a set of predictions; unclear where they came from)
+\cite{DBLP:journals/corr/abs-1711-11231}
+\end{itemize}
+\bigskip
+\bigskip
+
+\item \textbf{\bl{Rule mining with external support}}
+\begin{itemize}
+
+\item Interactive pattern mining
+\cite{DBLP:conf/kdd/GoethalsMV11}, \\\cite{DBLP:conf/pakdd/DzyubaL17}\medskip
+
+\item Interactive association rule mining
+\cite{DBLP:conf/pkdd/SkrabalSVHMCK12}
+\end{itemize}
+\end{itemize}
+\end{frame}
 
 
 \begin{frame}\frametitle{Problem Statement}
- \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{\textbf{\bl{Feedback-driven rule mining}}}
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{\textbf{\bl{Rule Learning Guided by External Sources}}}
 
+\textbf{Given:} 
 \begin{itemize}
-\item \textbf{Given:} 
+\item Knowledge Graph $\mathcal{G}$
+\item External Source  $\mathcal{P}$
 \begin{itemize}
-\item KG 
-\item Embedding model  
+\item Probability function reflecting trustfulness of $\mathcal{G}$'s missing facts
+\end{itemize}
 \item Form of rules to be learned (e.g.number of atoms, with(out) negation, etc.)
 \end{itemize}
 \bigskip
 
-\item \textbf{Find:} 
+\textbf{Find:} 
 \begin{itemize}
-\item Set of rules of the desired type, which agree with embedding model
+\item Set of rules of the desired type, which agree with the external source
 on predictions that they make
 \end{itemize}
-\end{itemize}
+
 \end{beamerboxesrounded}
 \end{frame}
-
-\iffalse
-	\begin{frame}\frametitle{Related Works}
-	\begin{itemize}
-	\item \textbf{\bl{Constraints in embedding models}}
-	\begin{itemize}
-	\item Injecting logical formulas as constraints into embedding models
-	(output is still a set of predictions; unclear where they came from)
-	\cite{DBLP:journals/corr/abs-1711-11231}
-	\end{itemize}
-	\bigskip
-	\bigskip
-	
-	\item \textbf{\bl{Rule mining with external support}}
-	\begin{itemize}
-	
-	\item Interactive pattern mining
-	\cite{DBLP:conf/kdd/GoethalsMV11}, \\\cite{DBLP:conf/pakdd/DzyubaL17}\medskip
-	
-	\item Interactive association rule mining
-	\cite{DBLP:conf/pkdd/SkrabalSVHMCK12}
-	\end{itemize}
-	\end{itemize}
-	\end{frame}
-\fi
-
-
 
 
 \begin{frame}\frametitle{Mine-Interact-Learn-Repeat}
@@ -2419,24 +2416,27 @@ on predictions that they make
 \item[] Mimic \bl{``mine-interact-learn-repeat''} schema \scriptsize{\cite{interpat}}
 \uncover<2->{\item[] \small{Establish \bl{``user-in-the-loop''} inspired interaction between the
 rule mining algorithm and the embedding model}}
+
 \end{itemize}}
+
 \begin{center}
   \includegraphics[width=.91\textwidth]{user_loop}
 \end{center}
-\uncover<2->{\begin{picture}(0.5,0.5)
-\alt<3->{\put(281,55){\includegraphics[width=.215\textwidth]{blackbox}}
-\end{picture}}{\put(292,45){\includegraphics[width=.37\textwidth]{kgembed}}
-\end{picture}}
+\uncover<2->{
 \begin{picture}(0.5,0.5)
-\put(-15,70){\includegraphics[width=.25\textwidth]{kg}}
+\put(292,45){\includegraphics[width=.17\textwidth]{external_source}}
 \end{picture}
 \begin{picture}(0.5,0.5)
-\put(105,-10){\includegraphics[width=.33\textwidth]{feedback}}
+\put(-10,70){\includegraphics[width=.25\textwidth]{kg}}
 \end{picture}
 \begin{picture}(0.5,0.5)
-\put(125,124){\includegraphics[width=.195\textwidth]{rules}}
+\put(120,-10){\includegraphics[width=.33\textwidth]{feedback}}
+\end{picture}
+\begin{picture}(0.5,0.5)
+\put(135,130){\includegraphics[width=.22\textwidth]{rules}}
 \end{picture}}
 \end{frame}
+%---------------------------------------------
 
 
 \begin{frame}\frametitle{Research Questions}
@@ -2460,15 +2460,71 @@ to organize convenient and effective interaction process?
 \bigskip
 \pause
 
-\item[\bl{Q3}] \textbf{(Learn)} Can anything be learnt from the feedback provided by embeddings?
+\item[\bl{Q3}] \textbf{(Learn)} Can anything be learnt from the feedback provided?
 
 \end{itemize}}
 \end{frame}
 
+\begin{frame}\frametitle{Q1 (Interact)}
+\small{
+							\bigskip
 
+						\gr{General Solution:} Introduce the novel \bl{\textbf{Hybrid Rule Quality Function} \pmb{$\mu$}}:
+						\begin{itemize}
+							\pause
+							\item Measure the \bl{\textbf{descriptive quality} \pmb{$\mu_1$}} of rule $r$ over $\mathcal{G}$:
+							      \gr{\[\mu_1: (r,\cG) \mapsto \alpha \in  [0,1]\]}
+							      $\Rightarrow$ any \textbf{\bl{classical quality measure}} which describes $\cG$ properly\\ (e.g. conf, PCA conf)
+							\pause							      							
+							\item Measure the \bl{\textbf{predictive quality} \pmb{$\mu_2$}} of $r$ based on the \bl{\textbf{external source  $\mathcal{P}$}}:
+							      \gr{\[\mu_2: (r{,}\, \mathcal{P}) \mapsto  \alpha \,{\in}\, [0,1]\]}
+%							      where $\mathcal{G}_r$ is a extension of $\mathcal{G}$ by applying $r$\\ %$\Rightarrow$ capture \textbf{\bl{information about missing facts}} in $\cG$ that are relevant for $r$
+							\pause
+							\item Combine the result as \bl{\textbf{the weighted sum}}:
+							      \gr{\[\mu(r)= (1 - \lambda) \times \mu_1(r,\cG) + \lambda \times \mu_2(r,\mathcal{P})\]}
+							where $\lambda$ is a weighting factor\\
+  							\pause
+							\alert{$\Rightarrow$ Need to define $\mu_2$}
 
+						\end{itemize}
+}
 
-\begin{frame}\frametitle{Embedding-based  Methods}
+\end{frame}
+
+\begin{frame}\frametitle{Mine-Interact-Learn-Repeat}
+\small{\begin{itemize}
+\item[] Mimic \bl{``mine-interact-learn-repeat''} schema \scriptsize{\cite{interpat}}
+\item[] \small{Establish \bl{``user-in-the-loop''} inspired interaction between the
+rule mining algorithm and the embedding model}
+
+\end{itemize}}
+
+\begin{center}
+  \includegraphics[width=.91\textwidth]{user_loop}
+\end{center}
+
+\alt<2->{
+\begin{picture}(0.5,0.5)
+\put(290,55){\includegraphics[width=.35\textwidth]{kgembed}}
+\end{picture}
+}{
+\begin{picture}(0.5,0.5)
+\put(292,45){\includegraphics[width=.17\textwidth]{external_source}}
+\end{picture}
+}
+
+\begin{picture}(0.5,0.5)
+\put(-7,75){\includegraphics[width=.25\textwidth]{kg}}
+\end{picture}
+\begin{picture}(0.5,0.5)
+\put(125,0){\includegraphics[width=.33\textwidth]{feedback}}
+\end{picture}
+\begin{picture}(0.5,0.5)
+\put(138,140){\includegraphics[width=.22\textwidth]{rules}}
+\end{picture}
+\end{frame}
+
+\begin{frame}\frametitle{Embedding-based Methods}
 \begin{itemize}
 \item \textbf{\bl{Intuition:}} For \bl{$\tuple{s,p,o}$} in KG, find \bl{$\mathbf{s,p,o}$} such that \bl{$\mathbf{s}+\mathbf{p}\approx \mathbf{o}$}
 \item The ``error of translation'' of a true KG fact should be smaller by a certain margin than the ``error of translation'' of an out-of-KG one
@@ -2487,7 +2543,7 @@ to organize convenient and effective interaction process?
 
 
 \begin{frame}\frametitle{Q1 (Interact)}
-Measure quality of \bl{ $r: \mi{p(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
+Measure predictive quality \bl{$\mu_2$} of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
 
 \begin{itemize}
 % \item quality of a set of facts is defined using $\mi{mrr}$ measure
@@ -2498,7 +2554,7 @@ Measure quality of \bl{ $r: \mi{p(X,Y)\leftarrow B}$}, based on the embedding mo
 
 \item rely on average quality of predicted facts
 \begin{center}
-\bl{$\mi{rule\_mrr(r)}=\dfrac{1}{|predictions(r)|} \sum\limits_{{<}s\,p\,o{>}\in predictions(r)}\mi{rank({<}s\,p\,o{>})}$}
+\bl{$\mi{\mu_2(r)}=\dfrac{1}{|predictions(r)|} \sum\limits_{{<}s\,p\,o{>}\in predictions(r)}\mi{rank({<}s\,p\,o{>})}$}
 \end{center}
 \end{itemize}
 \bigskip
@@ -2526,7 +2582,7 @@ $\mi{{<}Mat\,livesIn\,Berlin{>}}$}
 % \vspace{-.7cm}
 \begin{center}
 \uncover<2>{\scriptsize{
-$\bl{rule\_mrr(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{NY}{>}\bl{)}{\bl{+}}\bl{rank(}{<}\colorbox{lightbl}{Mat}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{Berlin}{>}\bl{)}}{\bl{2}}$}}
+$\bl{\mu_2(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{NY}{>}\bl{)}{\bl{+}}\bl{rank(}{<}\colorbox{lightbl}{Mat}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{Berlin}{>}\bl{)}}{\bl{2}}$}}
 \end{center}
 % \bigskip
 
@@ -2538,36 +2594,36 @@ $\bl{rule\_mrr(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{l
 
 
 
-
-\begin{frame}\frametitle{Q1 (Interact)}
-Measure quality of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
-\begin{itemize}
-\item rely on average quality of predicted facts estimated by embeddings
-\begin{center}
-\bl{$\mi{rule\_mrr(r)}=\dfrac{1}{|N|} \sum\limits_{s,h,o\in N}\dfrac{1}{\mi{rank(s,h,o)}}$}
-\end{center}
-\bigskip
-
-\item combination of mrr with standard rule measures over KG
-\begin{center}
-\bl{$\mi{embed\_conf(r)}=\lambda*conf(r)+(1-\lambda)*\mi{rule\_mrr(r)}$},
-\end{center}
-\begin{itemize}
-\pause
-\item \bl{$\lambda$}: a weighting factor
-\item \bl{$\mi{conf}$}: descriptive quality based on the original KG \\
-any other standard rule measure can be plugged in
-\item \bl{$\mi{rule\_mrr}$}: predictive quality based on KG embedding\\
-any embedding model including text-enhanced ones can be used
-\end{itemize}
-
+%
+%\begin{frame}\frametitle{Q1 (Interact)}
+%Measure predictive quality \bl{$\mu_2$} of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
+%\begin{itemize}
+%\item rely on average quality of predicted facts estimated by embeddings
+%\begin{center}
+%\bl{$\mi{\mu_2(r)}=\dfrac{1}{|N|} \sum\limits_{s,h,o\in N}\dfrac{1}{\mi{rank(s,h,o)}}$}
+%\end{center}
 %\bigskip
 %
-%\item more complex interaction, e.g., information theoretic measures?
-
-\end{itemize}
-
-\end{frame}
+%\item combination of mrr with standard rule measures over KG
+%\begin{center}
+%\bl{$\mi{embed\_conf(r)}=\lambda*conf(r)+(1-\lambda)*\mi{rule\_mrr(r)}$},
+%\end{center}
+%\begin{itemize}
+%\pause
+%\item \bl{$\lambda$}: a weighting factor
+%\item \bl{$\mi{conf}$}: descriptive quality based on the original KG \\
+%any other standard rule measure can be plugged in
+%\item \bl{$\mi{rule\_mrr}$}: predictive quality based on KG embedding\\
+%any embedding model including text-enhanced ones can be used
+%\end{itemize}
+%
+%%\bigskip
+%%
+%%\item more complex interaction, e.g., information theoretic measures?
+%
+%\end{itemize}
+%
+%\end{frame}
 
 
 \begin{frame}\frametitle{Research Questions}
@@ -2591,6 +2647,7 @@ to organize convenient and effective interaction process?
 \end{frame}
 
 
+
 \begin{frame}\frametitle{Q2 (Mine)}
 
 \bl{\textbf{Tentative algorithm steps:}}
@@ -2602,7 +2659,7 @@ to organize convenient and effective interaction process?
 \item for each rule:
 \begin{itemize}
 \item[1.] process the rule \\
-\uncover<2->{- compute statistics: \bl{$\mi{rule\_mrr, embed\_conf}$}\\
+\uncover<2->{- compute statistics: \bl{$\mu_1, \mu_2, \mu$}\\
 - filter rules based on statistics and output rule}
 \bigskip
 
@@ -2610,8 +2667,8 @@ to organize convenient and effective interaction process?
 \uncover<3->{- add dangling atom\\
 - add closing atom\\
 - add positive unary atom\\
-- add exception unary atom\\
-- add exception binary atom}
+- add \textbf{\bl{exception}} unary atom\\
+- add \textbf{\bl{exception}} binary atom}
 \end{itemize}
 
 \end{itemize}
