@@ -25,22 +25,16 @@
 \usepackage{named}
 \usepackage{tikz}
 \usepackage{picture}
-\usepackage{subfig}
 \usepackage{algorithm,algorithmic}
 \usepackage{multirow}
 \usepackage{proof}
 \usepackage{transparent}
-\usepackage{caption}
 \usepackage{url}
 \usepackage{hyperref}	
 \newcommand*\rot{\rotatebox{60}}
 \usepackage{color, colortbl}
 \usepackage[first=0,last=9]{lcg}
 \newcommand{\ra}{\rand0.\arabic{rand}}
-
-\definecolor{alertcolor}{HTML}{BF0040}
-\renewcommand{\alert}[1]{\textcolor{alertcolor}{#1}}
-
 \newcommand\FrameText[1]{%
   \begin{textblock*}{\paperwidth}(261pt,239pt)
     \raggedright #1\hspace{.5em}
@@ -106,8 +100,6 @@ positioning,fit,calc,decorations.text, automata%
 % setup margin
 \beamersetleftmargin{0.5cm}
 \beamersetrightmargin{0.5cm}
-\addtobeamertemplate{frametitle}{\vspace{-0.5cm}}{}
-%\addtolength{\headsep}{-0.5cm}
 
 % setup symbols
 \setbeamertemplate{bibliography item}[book]
@@ -120,7 +112,6 @@ positioning,fit,calc,decorations.text, automata%
 % put number of frames at the bottom
 \setbeamertemplate{footline}[frame number]
 
-\DeclareCaptionFont{evensmallerfont}{\fontsize{7}{7}\selectfont}
 
 \usepackage[scaled]{helvet}
 
@@ -149,7 +140,6 @@ positioning,fit,calc,decorations.text, automata%
 
 \newcommand{\makereferences}[1]{%
   \begin{frame}[allowframebreaks,allowdisplaybreaks]
-  	\vspace{0.5cm}
     \frametitle{References}
     \bibliography{#1}
   \end{frame}
@@ -172,7 +162,6 @@ positioning,fit,calc,decorations.text, automata%
 \usepackage{etoolbox}
 
 \usepackage{tikz}
-\usepackage{booktabs}
 
 \usetikzlibrary{shapes,arrows,snakes,backgrounds,%
 matrix,patterns,arrows,decorations.pathmorphing,decorations.pathreplacing,%
@@ -284,8 +273,8 @@ positioning,fit,calc,decorations.text, automata%
 
 
 
-\title{Rule Induction and Reasoning over\\Knowledge Graphs}
- \author[Stepanova, Gad-Elrab, Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-Elrab\inst{1}, Vinh Thinh Ho\inst{1}}
+\title{Rule Induction and Reasoning over Knowledge Graphs}
+ \author[Stepanova, Gad-Elrab, Vinh Ho]{\underline{Daria Stepanova}\inst{1,2}, Mohamed Gad-elrab\inst{1}, Vinh Thinh Ho\inst{1}}
 \institute[shortinst]{ \inst{1} Max Planck Institute for Informatics, Saarbr\"{u}cken, Germany \\
 \inst{2} Bosch Center for Artificial Intelligence, Renningen, Germany}
  \titlegraphic{
@@ -317,43 +306,39 @@ positioning,fit,calc,decorations.text, automata%
 \makeoverview
 
 \section{Motivation}
-\begin{frame}\frametitle{Knowledge Graphs}
-\centerline{\emph{\bl{``Semantically enriched machine processable data''}}}
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+% \begin{frame}\frametitle{Knowledge Graphs}
+% \centerline{\emph{\bl{``Semantically enriched machine processable data''}}}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
 
-\begin{picture}(0.5,0.5)
-\put(45,-22){\includegraphics[width=.78\textwidth]{know3_}}
-\end{picture}
-\end{frame}
+% \begin{picture}(0.5,0.5)
+% \put(45,-22){\includegraphics[width=.78\textwidth]{know3_}}
+% \end{picture}
+% \end{frame}
 
 
 \begin{frame}\frametitle{Semantic Web Search}
 
-\alt<3>{\begin{picture}(0.5,0.5)
+\alt<2->{\begin{picture}(0.5,0.5)
 \put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch3}}
 \end{picture}}{
-\alt<2>{\begin{picture}(0.5,0.5)
-\put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch2}}
-\end{picture}}{
 \begin{picture}(0.5,0.5)
-\put(-13,-135){\includegraphics[width=1.1\textwidth]{semsearch1}}
-\end{picture}
-}}
+\put(-13,-115){\includegraphics[width=1.1\textwidth]{lpwoao}}
+\end{picture}}
 
 
 \end{frame}
@@ -376,22 +361,26 @@ positioning,fit,calc,decorations.text, automata%
 % \end{picture}}
 % \end{frame}
 
-\begin{frame}\frametitle{Problem: Inconsistency}
-%\alt<2>{
-\includegraphics[width=1\textwidth]{kg_problem1}
-%}{\includegraphics[width=1\textwidth]{kg_er}}
+% \begin{frame}\frametitle{Problem: Inconsistency}
+% %\alt<2>{
+% \includegraphics[width=1\textwidth]{kg_problem1}
+% %}{\includegraphics[width=1\textwidth]{kg_er}}
 
-\end{frame}
+% \end{frame}
+
+% \begin{frame}\frametitle{Semantic Web Search}
+% \includegraphics[width=1.02\textwidth]{lproger}
+% \end{frame}
 
 
-\begin{frame}\frametitle{Problem: Incompleteness}
+\begin{frame}\frametitle{Semantic Web Search}
 \bigskip
 
-Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's.. 
-\bigskip
+% Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's.. 
+% \bigskip
 
 \begin{center}
-\includegraphics[width=1.02\textwidth]{kg_problem2}
+\includegraphics[width=1.02\textwidth]{lproger}
 \end{center}
 \end{frame}
 
@@ -403,101 +392,171 @@ Google KG \alert{misses} Roger's living place, but contains his wife's Mirka's..
 
 
 
-\begin{frame}\frametitle{What if we had rules?}
+\begin{frame}\frametitle{Semantic Web Search}
+
+\begin{center}
+\includegraphics[width=.8\textwidth]{wofrf}
+\end{center}
+\end{frame}
+
+
+\begin{frame}\frametitle{Semantic Web Search}
+\bigskip
+
+\begin{center}
+\includegraphics[width=0.9\textwidth]{lpmirka}
+\end{center}
+\end{frame}
+
+
+
+\begin{frame}\frametitle{Human Reasoning}
 \begin{center}
 \begin{columns}
 \begin{column}{.49\textwidth}
   $\gr{\mi{livesIn(Y,Z)\leftarrow marriedTo(X,Y),}}$ \\
-      $\phantom{\mi{livesIn(Y,Z)\leftarrow }}\mi{\gre{livesIn(X,Z)}}$\bigskip
+      $\phantom{\mi{livesIn(Y,Z)\leftarrow }}\mi{\gre{livesIn(X,Z)}}$\\$\phantom{\mi{livesIn(Y,Z)\leftarrow }}$\bigskip
 
-   \uncover<2->{ $\gr{\mi{marriedTo(mirka,roger)}}$\bigskip
+ 
+ $\gr{\mi{marriedTo(mirka,roger)}}$\bigskip
 
   $\gr{\mi{livesIn(mirka, bottmingen)}}$
-------------------------------------}\bigskip
+------------------------------------\bigskip
 
-  \uncover<3->{\gr{$\mi{livesIn(roger,bottmingen)}$}\bigskip
+  \uncover<2->{\gr{$\mi{livesIn(roger,bottmingen)}$}\bigskip
 
 % \includegraphics[width=.6\textwidth]{rf_in_bottmingen}
 }
 \end{column}
 \begin{column}{.49\textwidth}
 
-  \emph{Married people live together}\bigskip\bigskip
+  \emph{Married people live together}\bigskip\bigskip\bigskip
 
-  \uncover<2->{
+
   \emph{Mirka is married to Roger}\bigskip\smallskip
 
-  \emph{Mirka lives in Bottmingen}
-  \uncover<2->{------------------------------------}\bigskip
+  \emph{Mirka lives in Bottmingen
+------------------------------------\bigskip
 
 }
-  \uncover<3->{\emph{Roger lives in Bottmingen} \bigskip
+  \uncover<2->{\emph{Roger lives in Bottmingen} \bigskip
+\bigskip
 
 % \includegraphics[width=.6\textwidth]{bottmingen}
 }
 \end{column}
 \end{columns}
-\uncover<3->{\includegraphics[width=.6\textwidth]{rogerInBot}}
+\uncover<2->{\includegraphics[width=.6\textwidth]{rogerInBot}}
 %\begin{picture}(0.5,0.5)
     % \put(50,-136){
 %}
    % \end{picture}
 \smallskip
 
-\uncover<3->{\alert{But where can one get such rules from?}}
+\uncover<3->{But where can a machine get such rules from?}
 \end{center}
 \end{frame}
 
-
-\begin{frame}\frametitle{Extracting Rules from Knowledge Graphs}
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-
-\begin{picture}(0.5,0.5)
-\put(43,-35){\includegraphics[width=0.75\textwidth]{hr_learn}}
-\end{picture}
-\bigskip
-\bigskip
-
+\begin{frame}\frametitle{Inducing Rules from KGs}
 \begin{center}
-\gre{$\mi{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(X,Z)}$}
+\alt<2->{\includegraphics[width=.8\textwidth]{kg_}}{\includegraphics[width=.8\textwidth]{kg}}
+\bigskip
+
+$\gre{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(X,Z)}\uncover<2->{,\alert{\naf\,researcher(Y)}}$
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Motivation}
-\begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{\textbf{\alert{Important problems}} of KGs:}
+\begin{frame}\frametitle{Applications of Rule Learning}
+\begin{itemize}
+\item \bl{Fact prediction}
+\bs
 
- \medskip
- \begin{itemize}
- \item[\alert{\circled{1}}] \alert{Inconsistency} (covered in the morning!)
- \medskip
+\item \bl{Data cleaning}
+\bs
 
- \item[\alert{\circled{2}}] \alert{Incompleteness} (focus of this lecture)
- \end{itemize}
- \end{beamerboxesrounded}
-\bigskip
-\bigskip
-\bigskip
-\pause 
+\item  \bl{Domain description}
+\bs
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{In this tutorial:}
-\bigskip
-
- \begin{itemize}
- \item[] \bl{Inductive learning of rules from KGs and their application for KG completion and commonsense knowledge discovery}
- \end{itemize}
-\bigskip
-
- \end{beamerboxesrounded}
+\item \bl{Finding trends in KGs} $\dotsc$
+\end{itemize}
 \end{frame}
+
+% \begin{frame}\frametitle{Extracting Rules from Knowledge Graphs}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+
+% \begin{picture}(0.5,0.5)
+% \put(43,-35){\includegraphics[width=0.75\textwidth]{hr_learn}}
+% \end{picture}
+% \bigskip
+% \bigskip
+
+% \begin{center}
+% \gre{$\mi{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(X,Z)}$}
+% \end{center}
+% \end{frame}
+
+
+% \begin{frame}\frametitle{Extracting Rules from Knowledge Graphs}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+
+% \begin{picture}(0.5,0.5)
+% \put(43,-35){\includegraphics[width=0.75\textwidth]{rdf6}}
+% \end{picture}
+% \bigskip
+% \bigskip
+
+% \begin{center}
+% \gre{$\mi{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(X,Z), \alert{\naf\ researcher(Y)}}$}
+% \end{center}
+% \end{frame}
+
+
+% \begin{frame}\frametitle{Motivation}
+% \begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{\textbf{\alert{Important problems}} of KGs:}
+
+%  \medskip
+%  \begin{itemize}
+%  \item[\alert{\circled{1}}] \alert{Inconsistency} (covered in the morning!)
+%  \medskip
+
+%  \item[\alert{\circled{2}}] \alert{Incompleteness} (focus of this lecture)
+%  \end{itemize}
+%  \end{beamerboxesrounded}
+% \bigskip
+% \bigskip
+% \bigskip
+% \pause 
+
+% \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{In this tutorial:}
+% \bigskip
+
+%  \begin{itemize}
+%  \item[] \bl{Inductive learning of rules from KGs and their application for KG completion and commonsense knowledge discovery}
+%  \end{itemize}
+% \bigskip
+
+%  \end{beamerboxesrounded}
+% \end{frame}
 
 
 
@@ -660,6 +719,58 @@ $\mi{livesIn(roger,bottmingen)}\leftarrow\mi{isMarried(mirka,roger)}, \mi{livesI
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
+\begin{frame}
+  \frametitle{Nonmonotonic Rules}
+\bigskip
+
+\small{ \bl{\textbf{Rule:} }
+$\underbrace{a}_{\Large{\bl{\text{head}}}}\; \leftarrow\; \underbrace{b_1,\, \dotsc,\, b_m,\,\bl{not} \,b_{m+1},\,\dotsc,\,\bl{not} \,b_n.}_{\bl{\text{body}}} $
+
+}
+\bigskip
+\bigskip
+
+\small{\bl{\textbf{Informal semantics:}} } If $b_1,\dotsc, b_{m}$ are true and \bl{none} of $b_{m+1},\dotsc,b_n$ is \bl{known}, \phantom{\textbf{Informal semantics:\;\;\;}}then  $a$ must be true.\bigskip
+\bigskip
+
+\bl{\textbf{Closed World Assumption (CWA):} } facts not known to be true are false
+\bigskip
+\bigskip
+
+
+\alt<2->{\bigskip
+ \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\large{\bl{$\naf$}} \normalsize{is different from} \large{\bl{$\mathbf{\neg}$}}\normalsize{!}}
+\gre{\% At a rail road crossing cross the road if \textbf{no train is known} to approach''}\\
+$\mi{walk}\leftarrow \mi{at(L), crossing(L), \naf\ train\_approaches(L)}$
+\bigskip
+
+\gre{\% At a rail road crossing cross the road if \textbf{no train} approaches}\\
+$\mi{walk}\leftarrow \mi{at(L), crossing(L), \neg train\_approaches(L)}$
+
+
+\end{beamerboxesrounded}}{\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example: nonmonotonic rule}
+\small{
+\medskip
+
+\gre{\% Two married live together unless one is a researcher}\\
+$\mi{livesIn(Y,Z)}\leftarrow\mi{isMarried(X,Y)}, \mi{livesIn(X,Z)},\naf\ \mi{researcher(Y)}$
+\bigskip
+
+% \gre{\% Disjunctive knowledge: a parent $X$ is either a father or a mother}\\
+% $\mi{father(X,Y)}\lor \mi{mother(X,Y)}\leftarrow \mi{parent(X,Y)}$
+% \bigskip
+
+%\gre{\% Constraint: ensure that none is a parent of himself}\\
+%$ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
+}
+
+\end{beamerboxesrounded}
+}
+\bigskip
+
+
+
+\end{frame}
 
 
 \begin{frame}
@@ -671,12 +782,11 @@ $\mi{livesIn(roger,bottmingen)}\leftarrow\mi{isMarried(mirka,roger)}, \mi{livesI
 %\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \textbf{Herbrand universe, base, interpretation}}
 
 %\small
-\textbf{\bl{Herbrand universe}} of a logic program $P$, $\bl{HU(P)}$ is the  set of all constants appearing in $P$
+\textbf{\bl{Herbrand universe}} of a logic program $P$, $\bl{HU(P)}$ is the  set of all constants appearing in $P$.
 \bs
 
 \textbf{\bl{Herbrand base}} of $P$, \bl{$\HB(P)$} is the set of all ground
 atoms which can be formed from predicates and constants of $P$.
-\pause
 
 \bs
 \textbf{\bl{(Herbrand) interpretation}} of $P$, \bl{$I$} is a subset of the Herbrand base.
@@ -688,17 +798,26 @@ atoms which can be formed from predicates and constants of $P$.
 
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example: Herbrand universe, base, interpretation}
 \medskip
+$P=\left\{      \begin{array}{l@{\qquad}}
+         \mbox{(1) }\mi{isMarriedTo(mary,john)}\;\;\; \mbox{(2) }\mi{livesIn(mary,ulm)}\\[0.35ex]
+\mbox{(3) }\mi{livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Z), \naf\ researcher(Y)}
+      \end{array}
+\right\}
+$
 
-$P=\{isMarriedTo(mirka, roger), livesIn(mirka, bottmingen),$ \s
+% $P=\{isMarriedTo(mirka, roger). \;livesIn(mirka, bottmingen).$ \s
 
-$\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y)\}$\s
+%$\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y), \naf\ researcher(Y).\}$\s
 \pause
+\s
 
- $\mi{HU(P)=mirka,roger,bottmingen}$\s
+ $\mi{HU(P)=\{mirka,roger,bottmingen\}}$\s
 \pause
+\s
 
  $\mi{HB(P)=\{isMarriedTo(mirka,mirka),isMarriedTo(mirka,roger),\dotsc}$\\$\phantom{HB(P)=\{}\mi{livesIn(mirka,bottmingen),livesIn(roger,bottmingen),\dotsc\}}$\s
 \pause
+\s
 
  $I_1=\emptyset, I_2=\{\mi{isMarriedTo(mirka, roger),livesIn(bottmingen,bottmingen)}\}, \dotsc$
 
@@ -771,76 +890,83 @@ $\phantom{P=\{}livesIn(Y,Z)\leftarrow isMarriedTo(X,Y), livesIn(X,Y)\}$\s
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%5
 
-\begin{frame}
-\frametitle{Grounding Example}
+% \begin{frame}
+% \frametitle{Grounding Example}
 
-% \begin{example}[Program $P_2$]
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
-\bi
-\item[\gre{$\bullet$}]
-\gre{Program $P$:}
-{\small
-\begin{align*}
-livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z). \\
-livesIn(mirka,b). \qquad isMarriedTo(mirka,roger).
-\end{align*}
-}
+% % \begin{example}[Program $P_2$]
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-\nbls
-\pause
+% {\small
+% $\gre{P}=\{livesIn(mirka,b).\; isMarriedTo(mirka,roger).\\
+% livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z), \naf\ researcher(Y). \}$
+% }
 
+% \nbls
+% \pause
+% \bigskip
+% \bigskip
 
-\item[\gre{$\bullet$}] \gre{The ground instances of the first rule are}
-\ei
-%
-{\small\begin{align*}
-livesIn(m,m) &\leftarrow  livesIn(m,m), isMarriedTo(m,m). & X=Y=Z=m\\
- &\ \ \ \ldots \\
-livesIn(r,b) &\leftarrow  livesIn(r,r), livesIn(r,b). & X=Y=r, Z=b \\
- &\ \ \ \ldots \\
-livesIn(b,b) &\leftarrow  livesIn(b,b), isMarriedTo(b,b). & X=Y=Z=b \\
- \end{align*}}
-\end{beamerboxesrounded}
-\end{frame}
+% \gre{The ground instances of the rule are}
+
+% %
+% \small{$X=Y=Z=m$\\
+% $livesIn(m,m) \leftarrow  livesIn(m,m), isMarriedTo(m,m), \naf\;researcher(m).$ \bigskip
+
+% $X=Y=r, Z=b$ \\
+% $livesIn(r,b) \leftarrow  livesIn(r,r), livesIn(r,b), \naf\;researcher(r). $\bigskip
+
+% $X=Y=Z=b$\\
+% $livesIn(b,b) \leftarrow  livesIn(b,b), isMarriedTo(b,b), \naf\;researcher(b).$  }
+% \end{beamerboxesrounded}
+
+% \end{frame}
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 \begin{frame}
-\frametitle{Herbrand Models}
+\frametitle{Answer Set Semantics}
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand models of a Horn program}}}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand models, answer sets}}}
 \bs
-
-An interpretation $I$ is a \bl{(Herbrand) model} of (or satisfies)
+\bi
+\item An interpretation $I$ is a \bl{(Herbrand) model} of (or satisfies)
 
 \begin{itemize}
-\item \bl{a ground (variable-free) clause $C = a \implied b_1,\ldots,b_m$},  symbolically $I\models C$,
-if either $\{b_1,\ldots,b_m\} \nsubseteq I$ or $a \in I$;
-%  \hfill ($I\models C$)
+% \item \bl{a ground (variable-free) clause $C = a \implied b_1,\ldots,b_m, \naf\ b_{m+1},\dotsc, \naf\ b_n$},  symbolically $I\models C$,
+% if either $\{b_1,\ldots,b_m\} \nsubseteq I$ or $a \in I$;
+% %  \hfill ($I\models C$)
 
+% \bs
+% \item a rule ground rule $r:a\leftarrow b_1,\dotsc,b_m,\naf\ b_{m+1},\dotsc,b_m$ if  $\{b_1,\dotsc,b_m\}\subseteq I$ and $\{b_{m+1},b_n\}\cap I=\emptyset$ imply $a \in I$ (written $I\models r$).
+% \bs
+
+\item \bl{ground rule $r:a\leftarrow b_1,\dotsc,b_m,\naf\ b_{m+1},\dotsc,\naf\ b_n$}, if  $\{b_1,\dotsc,b_m\}\subseteq I$ and $\{b_{m+1},b_n\}\cap I=\emptyset$ imply $a \in I$ (written $I\models r$).
 \bs
+\pause
 
- \item \bl{a clause $C$}, symbolically $I\models C$,
- if $I\models C'$ for every
-   $C'\in grnd(C)$;
+ \item \bl{a nonground rule $r$}, symbolically $I\models r$,
+ if $I\models r$ for every  $r\in grnd(C)$;
 %  \hfill ($I\models C$)
-
    \bs
+\pause
 
 \item \bl{a program $P$}, symbolically $I\models P$,
 if $I\models C$ for every clause $C$ in $P$.
 %  \hfill ($I\models P$)
-\end{itemize}
 
+\end{itemize}
+\bs
+\item  Minimal model (answer set): none of its subsets is a model.
+\ei
 % We write $I\models C$ and $I\models P$ to denote that $I$ is a model of $C$ or $P$, respectively.
 \end{beamerboxesrounded}
-\bs
+% \bs
 
-\visible<2->{
-\begin{proposition}
-For every positive logic program $P$, $\HB(P)$ is a model of $P$.
-\end{proposition}
-}
+% \visible<2->{
+% \begin{proposition}
+% For every positive logic program $P$, $\HB(P)$ is a model of $P$.
+% \end{proposition}
+% }
 \end{frame}
 
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -851,29 +977,34 @@ For every positive logic program $P$, $\HB(P)$ is a model of $P$.
 % \begin{example}[Program $P_2$]
 \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
 
-\gre{Reconsider program $P$:}
+\gre{Consider program $P$:}
 {\small
 \begin{align*}
-livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z). \\
-livesIn(X,Y)\leftarrow bornIn(X,Y).\\
-livesIn(m,b). \qquad isMarriedTo(m,r). \qquad bornIn(m,b). 
+livesIn(m,b). \qquad isMarriedTo(m,r). \qquad bornIn(m,b). \\
+livesIn(Y,Z)   \leftarrow  livesIn(X,Y), isMarriedTo(Y,Z), \naf\ researcher(Y). \\
+livesIn(X,Y)\leftarrow bornIn(X,Y).
 \end{align*}
 }
 
-\gre{Which of the following interpretations are models of $P$?}
+\small{
+\alt<5->{
+\gre{Which of the following interpretations are minimal models of $P$?}
+\begin{itemize}
+\item[$\gre{\bullet}$] $I_1=\HB(P)$ \visible<6->{\red{\textbf{no}}}
+\item[$\gre{\bullet}$] $I_2=\{\mi{livesIn(m,b),isMarriedTo(m,r),livesIn(r,b),bornIn(m,b)}\}$ \visible<7->{\gre{\textbf{yes}}}
+\end{itemize}}{\gre{Which of the following interpretations are models of $P$?}
 \begin{itemize}
   \item[$\gre{\bullet}$]  $I_1 = \emptyset$  \visible<2->{ \red{\textbf{no}}}
   \item[$\gre{\bullet}$]  $I_2 = \HB(P)$  \visible<3->{ \gre{\textbf{yes}}}
   \item[$\gre{\bullet}$]  $I_3 = \{\mi{livesIn(m,b),isMarriedTo(m,r),livesIn(r,b)}\}$ \visible<4->{ \red{\textbf{no}}}
-\end{itemize}
+\end{itemize}}}
+\bigskip
+\pause
 
 
 
 % \end{example}
 \end{beamerboxesrounded}
-
-
-
 \end{frame}
 
 
@@ -915,37 +1046,30 @@ livesIn(m,b). \qquad isMarriedTo(m,r). \qquad bornIn(m,b).
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
-\begin{frame}
-\frametitle{Minimal Model Semantics (cont'd)}
-\bs
+% \begin{frame}
+% \frametitle{Minimal Model Semantics (cont'd)}
+% \bs
 
-Semantics follows Occam's razor principle: prefer models with true-part as small as possible.
+% \bl{Occam's razor principle}: prefer models with the smallest true-part.
 
-\bs
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def: \textbf{Minimal models}}
-A model $I$ of $P$ is \bl{minimal}, if there exists no
-  model $J$ of $P$ such that $J \subset I$.
-\end{beamerboxesrounded}
+% \bs
+% \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def: \textbf{Minimal models}}
+% A model $I$ of $P$ is \bl{minimal}, if there exists no
+%   model $J$ of $P$ such that $J \subset I$.
+% \end{beamerboxesrounded}
 
 
-\bs
-% \pause
+% \bs
+% % \pause
 
-\begin{theorem}
-Every positive logic program $P$ has a single minimal model {\rm (}called
-the \emph{least model}{\rm )}, denoted $LM(P)$.
-\end{theorem}
+% \begin{theorem}
+% Every positive logic program $P$ has a single minimal model.
+% \end{theorem}
 
-\ms
+% \ms
 
-% This is a consequence of the following property:
 
-% \begin{proposition}[Intersection closure]
-% If $I$ and $J$ are models of a positive program $P$, then $I\cap
-% J$ is also a model of $P$.
-% \end{proposition}
-
-\end{frame}
+% \end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
@@ -994,76 +1118,62 @@ the \emph{least model}{\rm )}, denoted $LM(P)$.
 
 %\subsection{Nonmonotonic Rules}
 
-\begin{frame}
-  \frametitle{Nonmonotonic Rules}
-\bigskip
 
-\small{ \bl{\textbf{Rule:} }
-$\underbrace{a}_{\Large{\bl{\text{head}}}}\; \leftarrow\; \underbrace{b_1,\, \dotsc,\, b_m,\,\bl{not} \,b_{m+1},\,\dotsc,\,\bl{not} \,b_n.}_{\bl{\text{body}}} $
-
-}
-\bigskip
-\bigskip
-
-\small{\bl{\textbf{Informal semantics:}} } If $b_1,\dotsc, b_{m}$ are true and \bl{none} of $b_{m+1},\dotsc,b_n$ is \bl{known}, \phantom{\textbf{Informal semantics:\;\;\;}}then  $a$ must be true.\bigskip
-\bigskip
-
-\bl{\textbf{Closed World Assumption (CWA):} } facts not known to be true are false
-\bigskip
-\bigskip
-
-
-\alt<2->{\bigskip
- \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\large{\bl{$\naf$}} \normalsize{is different from} \large{\bl{$\mathbf{\neg}$}}\normalsize{!}}
-\gre{\% At a rail road crossing cross the road if \textbf{no train is known} to approach''}\\
-$\mi{walk}\leftarrow \mi{at(L), crossing(L), \naf\ train\_approaches(L)}$
-\bigskip
-
-\gre{\% At a rail road crossing cross the road if \textbf{no train} approaches}\\
-$\mi{walk}\leftarrow \mi{at(L), crossing(L), \neg train\_approaches(L)}$
-
-
-\end{beamerboxesrounded}}{\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example}
-\small{
-\medskip
-
-\gre{\% Two married live together unless one is a researcher}\\
-$\mi{livesIn(Y,Z)}\leftarrow\mi{isMarried(X,Y)}, \mi{livesIn(X,Z)},\naf\ \mi{researcher(Y)}$
-\bigskip
-
-% \gre{\% Disjunctive knowledge: a parent $X$ is either a father or a mother}\\
-% $\mi{father(X,Y)}\lor \mi{mother(X,Y)}\leftarrow \mi{parent(X,Y)}$
-% \bigskip
-
-\gre{\% Constraint: ensure that none is a parent of himself}\\
-$ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
-}
-
-\end{beamerboxesrounded}
-}
-\bigskip
-
-
-
-\end{frame}
 
 
 %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 
 \begin{frame}
-\frametitle{Answer Set Semantics}
+\frametitle{Answer Set Programs}
+\begin{itemize}
+\item[]\uncover<1->{\bl{Evaluation} of ASP programs is model-based }%\footnote{unlike in prolog, which is based on theorem proving}}%\uncover<3->{, it consists of 2 steps:}
+\begin{itemize}
+\uncover<2->{\item[1.]\bl{Grounding}: substitute all \bl{variables with constants} in all possible ways }
+\uncover<4->{\item[2.]\bl{Solving}: compute a \bl{minimal model (answer set) $I$} satisfying all rules}
+\end{itemize}
+\end{itemize}
 \bigskip
 
-\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Herbrand model, answer set}}}
-\begin{itemize}
-\item An interpretation $I$ is a \bl{Herbrand model} of a rule $r:a\leftarrow b_1,\dotsc,b_m,\naf\ b_{m+1},\dotsc,b_m$ if  $\{b_1,\dotsc,b_m\}\subseteq I$ and $\{b_{m+1},b_n\}\cap I=\emptyset$ imply $a \in I$ (written $I\models r$).
-\bs
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{\textbf{Answer set program (ASP)} is a set of nonmonotonic rules}
+\bigskip
 
-\item \bl{Answer set} is a minimal model of a nonmonotonic logic programs.
-\end{itemize}
+$\gr{
+      \begin{array}{l@{\qquad}}
+         \mbox{(1) }\mi{isMarriedTo(mary,john)}\;\;\; \mbox{(2) }\mi{livesIn(mary,ulm)}\\[0.35ex]
+         \mbox{(3) }\mi{livesIn(\alt<3->{\mi{john,ulm}}{\bl{Y,Z}})} \leftarrow \alt<3->{\mi{isMarriedTo(mary,john)}}{\mi{isMarriedTo(\bl{X,Y})}},\mi{livesIn(\alt<3->{mary,ulm}{\bl{X,Z}})},\\
+\phantom{\mbox{(3) }\mi{livesIn(john,ulm)}\leftarrow}\naf\,researcher(\alt<3->{john}{\bl{Y}})\\
+          \uncover<5->{\\[0.35ex]\bl{\mbox{(4) }\mi{researcher(john)}}}
+      \end{array}
+    }$
+\medskip
+
+\uncover<5->{\small{$\phantom{\mi{I{=}\{\mi{isMarriedTo(mary,john),livesIn(mary,ulm)}}}\bl{\mi{researcher(john)}}$}}
+\uncover<4->{
+\small{$\gr{\mi{I{=}\{\mi{isMarriedTo(mary,john),livesIn(mary,ulm)},\alt<5->{\cancel{\mi{livesIn(john,ulm)}}}{\mi{livesIn(john,ulm)}}\}}}$}
+
+\uncover<4>{\medskip
+
+\bl{CWA:} \gr{$\mi{researcher(john)}$} can not be derived, thus it is false}}
+
 \end{beamerboxesrounded}
-\bs
+\uncover<6->{\begin{center}Particularly suited for reasoning under incompleteness!\end{center}}
+\end{frame}
+
+
+% \begin{frame}
+% \frametitle{Answer Set Semantics}
+% \bigskip
+
+% \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{Def.: \bl{\textbf{Answer sets}}}
+% \begin{itemize}
+% \item An interpretation $I$ is a \bl{Herbrand model} of a rule $r:a\leftarrow b_1,\dotsc,b_m,\naf\ b_{m+1},\dotsc,b_m$ if  $\{b_1,\dotsc,b_m\}\subseteq I$ and $\{b_{m+1},b_n\}\cap I=\emptyset$ imply $a \in I$ (written $I\models r$).
+% \bs
+
+% \item \bl{Answer set} is a minimal model of a nonmonotonic logic programs.
+% \end{itemize}
+% \end{beamerboxesrounded}
+% \bs
  
 %\begin{itemize}
 % \item[] \only<2,3>{\bl{Evaluation} of ASP programs is model-based, it consists of 2 steps:
@@ -1075,32 +1185,32 @@ $ \bot \leftarrow \mi{parent(X,Y),parent(Y,X)}$
 %\end{itemize}
 %\bigskip
 
-\pause 
+% \pause 
 
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
-\bigskip
+% \begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+% \bigskip
 
-\small{$P = \left\{
-      \begin{array}{l@{\qquad}}
-         \mbox{(1) }\mi{livesIn(alex,ulm)};\; \mbox{(2) }\mi{isMarried(alex,mat)};\\
-         \mbox{(3) }\mi{livesIn(\alt<3->{\mi{mat,ulm}}{Y,Z})} \leftarrow \mi{isMarried(\alt<3->{alex,mat}{X,Y}),livesIn(\alt<3->{alex,ulm}{X,Z})},\\ 
-         \phantom{\mbox{(3) }\mi{livesIn(\alt<3->{mat,ulm}{Y,Z})} \leftarrow }\naf\ \mi{researcher(\alt<3->{\mi{mat}}{Y})}; \only<4->{\\[0.35ex]\bl{\mbox{(4) }\mi{researcher(mat)}}}
-         % \only<4>{\\[0.35ex]\mbox{(5) }\bot \leftarrow \mi{livesIn(Y,Z_1),livesIn(Y,Z_2),Z_1\neq Z_2}.}
-%\only<6>{\\[0.35ex]\alt<7>{\mbox{(5) }\mi{livesIn(mat,golm)}}{\alert{\mbox{(5) }\mi{livesIn(mat,golm)}}}\\[0.35ex]}\only<5>{\alert{\mbox{(6) }\mi{researcher(\alt<3>{\mi{mat}}{Y})}}}
-      \end{array}
-    \right\}$
+% \small{$P = \left\{
+%       \begin{array}{l@{\qquad}}
+%          \mbox{(1) }\mi{livesIn(alex,ulm)};\; \mbox{(2) }\mi{isMarried(alex,mat)};\\
+%          \mbox{(3) }\mi{livesIn(\alt<3->{\mi{mat,ulm}}{Y,Z})} \leftarrow \mi{isMarried(\alt<3->{alex,mat}{X,Y}),livesIn(\alt<3->{alex,ulm}{X,Z})},\\ 
+%          \phantom{\mbox{(3) }\mi{livesIn(\alt<3->{mat,ulm}{Y,Z})} \leftarrow }\naf\ \mi{researcher(\alt<3->{\mi{mat}}{Y})}; \only<3->{\\[0.35ex]\bl{\mbox{(4) }\mi{researcher(mat)}}}
+%          % \only<4>{\\[0.35ex]\mbox{(5) }\bot \leftarrow \mi{livesIn(Y,Z_1),livesIn(Y,Z_2),Z_1\neq Z_2}.}
+% %\only<6>{\\[0.35ex]\alt<7>{\mbox{(5) }\mi{livesIn(mat,golm)}}{\alert{\mbox{(5) }\mi{livesIn(mat,golm)}}}\\[0.35ex]}\only<5>{\alert{\mbox{(6) }\mi{researcher(\alt<3>{\mi{mat}}{Y})}}}
+%       \end{array}
+%     \right\}$
 
-\only<2->{\bigskip\bigskip
+% \only<2->{\bigskip\bigskip
 
-$\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3>{\cancel{\mi{livesIn(mat,ulm)}},\bl{\mi{researcher(mat)}}}{\mi{livesIn(mat,ulm)}}\}}$\bigskip
+% $\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3->{\cancel{\mi{livesIn(mat,ulm)}},\bl{\mi{researcher(mat)}}}{\mi{livesIn(mat,ulm)}}\}}$\bigskip
 
-\only<2>{\bl{CWA:} $\mi{researcher(mat)}$ can not be derived, thus it is false}}
-}
-\end{beamerboxesrounded}
-\bigskip
+% \only<2>{\bl{CWA:} $\mi{researcher(mat)}$ can not be derived, thus it is false}}
+% }
+% \end{beamerboxesrounded}
+% \medskip
 
-\only<3>{\bl{Nonmonotonicity}: adding facts might lead to loss of consequences!}
-\end{frame}
+% \only<4>{\bl{Nonmonotonicity}: adding facts might lead to loss of consequences!}
+% \end{frame}
 
 \section{Rule Learning}
 
@@ -1110,7 +1220,7 @@ $\mi{I{=}\{\mi{livesIn(alex,ulm),isMarried(alex,mat)},\alt<3>{\cancel{\mi{livesI
 \begin{columns}
 \begin{column}{0.3\textwidth}
 \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Default Reasoning}\end{center}}
-\begin{center}\bigskip\bigskip\bigskip\bigskip
+\begin{center}\bigskip\bigskip
 
 
 Assume normal state of 
@@ -1124,14 +1234,14 @@ contrary\bigskip\bigskip
 \end{column}
 \begin{column}{0.3\textwidth}
 \uncover<2->{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Abduction}\end{center}}
-\begin{center}\bigskip\bigskip\bigskip\bigskip
+\begin{center}\bigskip\bigskip
 
 Choose between 
 several explanations  
 that explain an 
 observation\bigskip\bigskip
 
-\gre{\emph{John and Mary live together. They must be a married.}}
+\gre{\emph{John and Mary live together. They must be married.}}
 \end{center}
 \end{beamerboxesrounded}}
 \end{column}
@@ -1143,7 +1253,7 @@ Generalize a rule from a
 number of similar 
 observations\bigskip\bigskip
 
-\gre{\emph{\emph{John and his spouse Mary live together, Tom and his spouse Ann live together....$\Rightarrow$ All married people live together.}}}
+\gre{\emph{\emph{Given many examples of spouses living together generalize this knowledge.}}}
 \end{center}
 \end{beamerboxesrounded}}{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\begin{center}\bl{Induction}\end{center}}
 \begin{center}\bigskip\bigskip
@@ -1152,7 +1262,7 @@ Generalize a
 number of similar 
 observations into a hypothesis\bigskip\bigskip
 
-\gre{\emph{John and his spouse Mary live together, Tom and his spouse Ann live together....$\Rightarrow$ All married people live together.}}
+\gre{\emph{Given many examples of spouses living together generalize this knowledge.}}
 \end{center}
 \end{beamerboxesrounded}}}
 \end{column}
@@ -1166,13 +1276,13 @@ observations into a hypothesis\bigskip\bigskip
 
 \begin{frame}\frametitle{History of Inductive Learning}
 \begin{itemize}
-\item \bl{Philosophy of Science:} \\
-Carnap, Hume, Miller, Popper, Peirce, ...\bigskip
+%\item \bl{Philosophy:} \\
+%Aristotle, Hume, Miller, Popper, Peirce, ...\bigskip
 
-\item \bl{AI \& Machine Learning 60s-70s:} \\
+\item \bl{AI \& Machine Learning 1960s-70s:} \\
 Banerji, Plotkin, Vere, Michalski, ...\bigskip
 
-\item \bl{AI \& Machine Learning 80s:} \\
+\item \bl{AI \& Machine Learning 1980s:} \\
 Shapiro, Sammut, Muggleton, ...\bigskip
 
 \item \bl{Inductive Logic Programming 1990s:} \\
@@ -1183,50 +1293,6 @@ Getoor, Koller, Domingos, Sato, ...
 \end{itemize}
 \end{frame}
 
-
-\begin{frame}\frametitle{Zoo of ILP Tasks}
-ILP tasks can be classified along several dimensions:
-\smallskip
-\small{
-\begin{columns}
-\begin{column}{0.69\textwidth}
-\begin{itemize}
-\item \bl{type of the data source}, 
-e.g., positive/negative examples, interpretations...
-\pause 
-
-\item \bl{type of the output knowledge}, 
-e.g., rules over single/multiple relations...
-\pause
-
-\item \bl{the way the data is given as input}, 
-e.g., all at once, incrementally...
-
-\pause 
-
-\item \bl{availability of an oracle},
- e.g., human in the loop...
-
-\pause
-
-\item \bl{quality of the data source},
-e.g., clean vs dirty...
-
-\pause 
-
-\item \bl{data (in)completeness},
- e.g., OWA vs CWA...
-
-\pause
- 
-\item \bl{background knowledge},
-e.g., DL ontology, datalog rules, hybrid theories
-\end{itemize}
-\end{column}
-\begin{column}{0.29\textwidth}
-\end{column}
-\end{columns}}
-\end{frame}
 
 
 
@@ -1242,14 +1308,14 @@ e.g., DL ontology, datalog rules, hybrid theories
 \item \bl{$\mi{E^+:}$} positive examples (ground facts) over a relation $p$
 \item \bl{$\mi{E^-:}$} negative examples (ground facts) over $p$
  \item \bl{$\mi{T:}$} background theory (a set of facts and possibly rules)
-\item \bl{Syntactic restrictions} on the definition of $p$
+\item \bl{Language bias:} syntactic restrictions on the definition of $p$
  \end{itemize}
 
 \bigskip
 
  \uncover<2->{\noindent \textbf{Find:} 
  \begin{itemize}
-\item \bl{$\mi{Hyp:}$} hypothesis defining $p$ the such that 
+\item \bl{$\mi{Hyp:}$} hypothesis defining $p$ such that 
 \begin{itemize}
 \item \bl{$\mi{Hyp}$} ''covers'' all positive examples given \bl{$B$}, i.e., \\
 \bl{$\mi{\forall e\in E^+:\; T\cup Hyp \models e}$}
@@ -1269,10 +1335,10 @@ e.g., DL ontology, datalog rules, hybrid theories
 \small{
  \textbf{Given:} 
  \begin{itemize}
- \item[\gre{$\bullet$}] $\gre{T}=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$
 \item[\gre{$\bullet$}] $\gre{E^+}=\{\mi{fatherOf(john,mary),fatherOf(david,steve)}\}$
 \item[\gre{$\bullet$}] $\gre{E^-}=\{\mi{fatherOf(kathy,ellen),fatherOf(john,steve)}\}$ 
-\item[\gre{$\bullet$}] \gre{Target language}: Horn rules
+ \item[\gre{$\bullet$}] $\gre{T}=\{\mi{parentOf(john,mary),male(john),}$\\$\phantom{T=\{}\mi{parentOf(david,steeve),male(david),}$\\$\phantom{T=\{}\mi{parentOf(kathy,ellen),female(kathy)}\}$
+\item[\gre{$\bullet$}] \gre{Language bias}: Horn rules with 2 body atoms
  \end{itemize}
 \bigskip
 \bigskip
@@ -1297,7 +1363,7 @@ e.g., DL ontology, datalog rules, hybrid theories
  \begin{itemize}
 \item \bl{$\mi{I:}$} interpretation, i.e., a set of facts over various relations
 \item \bl{$\mi{T:}$} background theory, i.e., a set of facts and possibly rules
-\item Syntactic restrictions on the form of rules to be induced
+\item \bl{Language bias:} syntactic restrictions on the target hypothesis
  \end{itemize}
 
 \bigskip
@@ -1318,74 +1384,183 @@ e.g., DL ontology, datalog rules, hybrid theories
  \begin{itemize}
 \item[\gre{$\bullet$}] $\mi{\gre{I}=\{isMarriedTo(mirka,roger), livesIn(mirka,b),}$\\$\phantom{I=\{}\mi{livesIn(roger,b), bornIn(mirka,b)\}}$
 \item[$\gre{\bullet}$] $\mi{\gre{T}=\{isMarriedTo(mirka,roger);\,bornIn(mirka,b);}$\\$\phantom{I=\{}\mi{livesIn(X,Y)\leftarrow bornIn(X,Y)}\}$
-\item[$\gre{\bullet}$] \gre{Target rules}: Horn rules
+\item[$\gre{\bullet}$] \gre{Language bias}: Horn rules
  \end{itemize}
 
 \bigskip
 
  \uncover<2->{\noindent \textbf{Possible Hypothesis:} 
  \begin{itemize}
-\item[$\gre{\bullet}$] $\mi{\gre{Hyp}:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),livesIn(Y,Z)}$
+\item[$\gre{\bullet}$] $\mi{\gre{Hyp}:livesIn(Y,Z)\leftarrow isMarriedTo(X,Y),bornIn(X,Z)}$
 \end{itemize}}
  \end{beamerboxesrounded}
 \end{frame}
 
 \begin{frame}\frametitle{Common Techniques in ILP}
-%\begin{itemize}
-% \item $\geq 20$ years of ground-breaking research
-%\end{itemize}
+
 \begin{itemize}
-\item \bl{Clause refinement} \cite{clauseref}
+\item \bl{Generality ($\succeq$)}: essential component of symbolic learning systems\\
+\item \bl{Genaralization as $\theta$-subsumption}
 \begin{itemize}
-\item Explore search space of clauses from simple to complex (general to
-specific) or complex to simple (specific to general) to find a hypothesis that will cover all of the examples.
-\end{itemize} 
+\item \bl{Atoms}: $\mi{a\succeq b}$ iff a substitution $\theta$ exists such that $a\theta =b$ \\
+\pause
+\gre{$\mi{person(X)\succeq person(roger)},\;\;\theta=\{X/roger\}$}
+\pause
+\item \bl{Clause}: $C\succeq D$ iff $\theta$ exists, s.t. $C\theta \subseteq D$\\
+\pause
+\gre{$\mi{\{worksAt(X,Y)}\} \succeq \{\mi{worksAt(Z,luxUni),researcher(Z)}\},$\\\pause
+$ \gre{\theta=\{X/Z,Y/uniLux\}}$}
+\pause
 \end{itemize}
-\bs
+\item \bl{Generalization as entailment}
+\begin{itemize}
+\item \bl{Logic program}: $\mi{Hyp1}\succeq \mi{Hyp2}$ iff $\mi{Hyp1}\models \mi{Hyp2}$\\\pause
 
-%\begin{beamerboxesrounded}[upper=uppercolgren,lower=lowercolgreen,shadow=true]{}
-\begin{center}
-\includegraphics[width=1\textwidth]{ref_graph}
-\end{center}
-%\end{beamerboxesrounded}
+ \small{\gre{$\underbrace{\mi{person(X)\leftarrow researcher(X)}}_{\mi{Hyp1}}$} 
+\alt<9->{\gre{$\underbrace{\mi{person(X)\leftarrow researcher(X),alive(X)}}_{\mi{Hyp2}}$}}{\gre{$\underbrace{\mi{person(mat)\leftarrow researcher(mat)}}_{Hyp_2}$}}}\\
+\uncover<8,10->{\centerline{$\gre{\mi{Hyp1\succeq Hyp2}}$}}
+\smallskip
 
+\uncover<11->{\item \bl{Relative entailment}: $\mi{Hyp1 \succeq Hyp2}$ wrt $T$ iff $\mi{Hyp1\cup T \models Hyp2}$}
+\uncover<12->{$\gre{\mi{livesIn(roger,bottmingen})}$ \alt<14->{$\succeq$}{?} $\mi{\gre{livesIn(roger,switzeland)}}$\\
+\uncover<13->{$\gre{\mi{T:\,livesIn(X,switzerland)\leftarrow livesIn(X,bottmingen)}}$}
+}
+\end{itemize}
+\end{itemize}
+
+% \bs
+% \pause
+% \pause
+
+% \item \bl{Clause refinement} \cite{clauseref}: e.g., MIS, FOIL, etc.
+% \begin{itemize}
+% \item Explore clause search space from general to
+% specific or vice versa to find a hypothesis that covers all examples.
+% \end{itemize}
+% \end{itemize}
+
+% %\begin{beamerboxesrounded}[upper=uppercolgren,lower=lowercolgreen,shadow=true]{}
+% \begin{center}
+% \includegraphics[width=0.7\textwidth]{ref_graph}
+% \end{center}
+% %\end{beamerboxesrounded}
+% \uncover<3->{\begin{itemize}
+% \item \bl{Inverse entailment} \cite{DBLP:journals/ngc/Muggleton95}: e.g., Progol
+% \end{itemize}}
 \end{frame}
 
 
 \begin{frame}\frametitle{Common Techniques in ILP}
-\begin{itemize}
-\item \bl{Inverse entailment} \cite{}
-\begin{itemize}
-\item Translate the induction problem into deduction
-\item $\mi{T \wedge Hyp \models E}$
-\item $\mi{T\wedge \overline{E} \models \overline{Hyp}}$
-\item $\mi{T \wedge E \models \bot \models Hyp}$
-\item $\mi{Hyp\models \bot}$
-\end{itemize}
-\end{itemize}
-\bs
 
+\begin{itemize}
+\item \bl{Clause refinement} \cite{clauseref}: e.g., MIS, FOIL, etc.
+\begin{itemize}
+\item Explore clause search space from general to
+specific or vice versa to find a hypothesis that covers all examples.
+\end{itemize}
+\end{itemize}
+
+%\begin{beamerboxesrounded}[upper=uppercolgren,lower=lowercolgreen,shadow=true]{}
 \begin{center}
-\includegraphics[width=1\textwidth]{ref_graph}
+\includegraphics[width=0.7\textwidth]{ref_graph}
 \end{center}
+%\end{beamerboxesrounded}
+\uncover<2->{\begin{itemize}
+\item \bl{Inverse entailment} \cite{DBLP:journals/ngc/Muggleton95}: e.g., Progol, etc.
+\begin{itemize}
+\item Properties of deduction to make hypothesis search space finite
+\end{itemize}
+\end{itemize}}
 \end{frame}
+
+
+
+\begin{frame}\frametitle{Zoo of Other ILP Tasks}
+ILP tasks can be classified along several dimensions:
+\smallskip
+\small{
+% \begin{columns}
+% \begin{column}{0.69\textwidth}
+\begin{itemize}
+\item \bl{type of the data source}, 
+e.g., positive/negative examples, interpretations, answer sets \cite{ILASP_system}
+\pause 
+
+\item \bl{type of the output knowledge}, 
+e.g., rules, DL ontologies \cite{dllearner}
+\pause
+
+\item \bl{the way the data is given as input}, 
+e.g., all at once, incrementally \cite{ILED}
+
+\pause 
+
+\item \bl{availability of an oracle},
+ e.g., human in the loop
+
+\pause
+
+\item \bl{quality of the data source},
+e.g.,  noisy \cite{sigmailp}
+
+\pause 
+
+\item \bl{data (in)completeness},
+ e.g., OWA vs CWA...
+
+\pause
+ 
+\item \bl{background knowledge},
+e.g., DL ontology \cite{d2016ontology}, hybrid theories \cite{DBLP:journals/tplp/Lisi10}
+\end{itemize}
+% \end{column}
+% \begin{column}{0.29\textwidth}
+% \end{column}
+% \end{columns}
+}
+\end{frame}
+
+
+% \begin{frame}\frametitle{Common Techniques in ILP}
+% \begin{itemize}
+
+% \begin{itemize}
+% \item Translate the induction problem into deduction
+% \item $\mi{T \wedge Hyp \models E}$
+% \item $\mi{T\wedge \overline{E} \models \overline{Hyp}}$
+% \item $\mi{T \wedge E \models \bot \models Hyp}$
+% \item $\mi{Hyp\models \bot}$
+% \end{itemize}
+% \end{itemize}
+% \bs
+
+% \begin{center}
+% \includegraphics[width=1\textwidth]{ref_graph}
+% \end{center}
+% \end{frame}
 
 
 \begin{frame}\frametitle{Rule Induction from Knowledge Graphs}
 \bigskip
 
-
-What is the most suitable setting for the task of inducing rules from KGs...
-
-\begin{center}\includegraphics[width=0.7\textwidth]{hr_learn}
-
-\huge{?}
+\begin{center}
+What is the most suitable ILP task for the KG setting?
 \end{center}
+
+\begin{center}\includegraphics[width=0.7\textwidth]{kg}\\
+\pause 
+Probably learning from interpretations..
+\end{center}
+
+
 \end{frame}
 
 
-\begin{frame}\frametitle{\alt<3>{Inductive Learning from Interpretation}{\alt<2>{Example}{Declarative Programming}}}
-\alt<2>{
+\begin{frame}\frametitle{\alt<3->{Ideal Setting}{\alt<2->{Example}{Declarative Programming}}}
+\alt<3->{\begin{picture}(0.5,0.5)
+    \put(20,-120){\includegraphics[width=0.86\textwidth]{asp_25}}
+\end{picture}
+}{\alt<2->{
  \begin{picture}(0.5,0.5)
  \put(20,-135){\includegraphics[width=0.9\textwidth]{asp_2}}
  \end{picture}
@@ -1414,11 +1589,40 @@ $}
 \begin{picture}(0.5,0.5)
 \put(20,-120){\includegraphics[width=0.86\textwidth]{asp_1}}
 \end{picture}
-}
+}}
 \end{frame}
 
 
-\begin{frame}\frametitle{Rule Induction}
+%\subsection{KG Challenges}
+\begin{frame}\frametitle{\alt<2->{Specialities of KGs}{Classical ILP for KGs}}
+\bs 
+
+\only<1>{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{ILP Goal}''The goal of ILP is to develop a correct (and complete) algorithm which efficiently computes hypotheses.'' \cite{DBLP:journals/tocl/Sakama05}
+ \end{beamerboxesrounded}}
+\bigskip
+\bigskip
+
+\only<1>{\begin{beamerboxesrounded}[upper=uppercolred,lower=lowercolred,shadow=true]{Knowledge Graphs}
+ But the world knowledge is complex, and this might not always be possible in the context of KGs due to several issues...
+ \end{beamerboxesrounded}}
+
+
+\only<2,3>{\begin{itemize}
+\item[] \textbf{\bl{Open World Assumption}}: negative facts cannot be easily derived
+\medskip
+\pause 
+
+\emph{Maybe Roger Federer is a researcher and Albert Einstein was a ballet dancer?}
+\pause
+\end{itemize}
+\bigskip
+\begin{center}
+\includegraphics[width=0.86\textwidth]{owa_einstein}
+\end{center}}
+\end{frame}
+
+
+%\begin{frame}\frametitle{Rule Induction}
 %\alt<2>{\begin{picture}(0.5,0.5)
 %\put(20,-190){\includegraphics[width=0.86\textwidth]{asp_4}}
 %\end{picture}
@@ -1433,39 +1637,17 @@ $}
 %  \put(209,-138){\gr{\tiny{$\begin{array}{@{\,}l@{~\,}}
 % \mi{\gr{isMarriedTo}(brad,ann)};\\ \mi{\gr{isMarriedTo}(john,kate)};\\ \mi{\gr{isMarriedTo}(bob,alice)};\\ \mi{\gr{isMarriedTo}(clara, dave)}; \\ \mi{\gr{livesIn}(brad,berlin};\\ \dotsc\\ \mi{researcher(alice)};\\ \mi{researcher(dave)}\end{array}$}}}
 % }{
-  \begin{picture}(0.5,0.5)
-\put(20,-120){\includegraphics[width=0.86\textwidth]{asp_3}}
-\end{picture}
+%  \begin{picture}(0.5,0.5)
+%\put(20,-120){\includegraphics[width=0.86\textwidth]{asp_3}}
+%\end{picture}
 %}
-\end{frame}
+%\end{frame}
 
-%\subsection{KG Challenges}
-\begin{frame}\frametitle{Challenges of Rule Induction from KGs}
-\bs 
-
-\only<1>{\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\bl{Goal of ILP:}}Develop a correct (and complete) algorithm which efficiently computes hypotheses.. But world knowledge is complex, and this is not always possible due to several issues...
-\end{beamerboxesrounded}}
-\pause
-
-\begin{itemize}
-\item[] \textbf{\bl{Open World Assumption}}: Negative examples are unavaible
-\medskip
-\pause 
-
-\emph{Maybe Albert Einstein was a ballet dancer?}
-\pause
-\end{itemize}
-\bigskip
-\begin{center}
-\includegraphics[width=0.86\textwidth]{owa_einstein}
-\end{center}
-\end{frame}
 
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs} 
 \begin{itemize}
 \item[] \textbf{\bl{Data bias}}: KGs are extracted from text, which typically mentions only popular entities and interesting facts about them.
 \medskip
-\pause 
 
 \begin{center}
 \emph{\bl{``Man bites dog phenomenon''}}\footnote{\url{https://en.wikipedia.org/wiki/Man_bites_dog_(journalism)}}
@@ -1473,13 +1655,14 @@ $}
 \end{itemize}
 \bigskip
 \begin{center}
-\includegraphics[width=0.2\textwidth]{man_bites_dog} 
+\includegraphics[width=0.5\textwidth]{man_bites_dog} 
 \end{center}
 \end{frame}
 
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
 \item[] \textbf{\bl{Huge size}}: Modern KGs contain billions of facts \\
+\emph{E.g., Google KG stores 70 billion facts}
 \end{itemize}
 \bigskip
 \begin{center}
@@ -1489,7 +1672,7 @@ $}
 
 \begin{frame}\frametitle{Challenges of Rule Induction from KGs}
 \begin{itemize}
-\item \textbf{\bl{World knowledge is complex}}, none of its ``models'' is perfect
+\item[] \textbf{\bl{World knowledge is complex}}, none of its ``models'' is perfect
 \end{itemize}
 \bigskip
 \begin{center}
@@ -1503,11 +1686,11 @@ $}
 \smallskip
 
  \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{Question:}}}
-How can we still learn interesting rules from KGs, which do not perfectly fit the data, but still reflect interesting correlations and can predict sufficiently many correct facts?
+How can we still learn rules from KGs, which do not perfectly fit the data, but still reflect interesting correlations that can predict sufficiently many correct facts?
 \end{beamerboxesrounded}
 \bigskip
 
- \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{Answer:}}} Relational association rule mining!
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{\bl{Answer:}}} Relational association rule mining! Roots in classical datamining.
 \end{beamerboxesrounded}
 
 \begin{center}
@@ -1517,13 +1700,10 @@ How can we still learn interesting rules from KGs, which do not perfectly fit th
 
 
 \begin{frame}\frametitle{Association Rules}
-You run an on-line store, and want to increase sales.
-You decide on \bl{associative advertising}: show ads of
-relevant products \bl{before} your users search for these
 \bigskip
 
 \begin{itemize}
-\item \bl{Task:} Given a transaction database, find out products that are frequently bought together and form recommendation rules.
+\item \bl{Classical data mining task:} Given a transaction database, find out products (called itemsets) that are frequently bought together and form recommendation rules.
 \end{itemize}
 
 %\begin{table}
@@ -1542,40 +1722,60 @@ relevant products \bl{before} your users search for these
 %\end{table}
 \bs
 
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Example:}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{}
 \begin{center}
 \includegraphics[width=0.3\textwidth]{assrules}
 
 \ms
 
-Apples and beer are bought together is 3 out of 8 cases.
+Out of 4 people who bought apples, 3 also bought beer.
 \end{center}
 \end{beamerboxesrounded}
 \end{frame}
 
 
 \begin{frame}\frametitle{Some Rule Measures}
- \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{Def.:} (relative) support and confidence}
-\begin{itemize}
-\item \bl{Support}
-\item \bl{Relative support}
-\item \bl{Confidence}
-\end{itemize}
-\end{beamerboxesrounded}
-\bs
+%  \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\textbf{Def.:} (relative) support and confidence}
+% \begin{itemize}
+% \item \bl{Support}: frequency of an itemset
+% \item \bl{Confidence}: conditional probability of rule head given its body
+% \end{itemize}
+% \end{beamerboxesrounded}
+% \bs
 
-\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+\begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolblue,shadow=true]{\bl{Support, confidence, lift}}
+\begin{columns}
+\begin{column}{0.23\textwidth}
+\includegraphics[width=2\textwidth]{supp}
 
-\begin{center}
-\includegraphics[width=0.3\textwidth]{assrules}
-\end{center}
+\uncover<2->{\includegraphics[width=2.5\textwidth]{conf}}
+
+\uncover<3->{\includegraphics[width=2.5\textwidth]{lift}}
+\end{column}
+\begin{column}{0.77\textwidth}
+\rightline{
+\includegraphics[width=0.44\textwidth]{assrules}
+}
+\end{column}
+\end{columns}
 \end{beamerboxesrounded}
 \end{frame}
 
 %\subsection{Relational Association Rules}
 
+\begin{frame}\frametitle{Frequent Itemset Mining}
+\begin{itemize}
+\item A=apple, B=beer... Frequent patterns are in green.
+\item Monotonicity: any superset of an infrequent pattern is infrequent\\
+At the heart of Apriori algorithm
+\end{itemize}
+\begin{center}
+\includegraphics[width=1\textwidth]{apriori}
+\end{center}
+\end{frame}
 
-\begin{frame}\frametitle{How to Apply Ideas to Relational Data?}
+
+\begin{frame}\frametitle{How to Apply this to Relational Data?}
 \begin{itemize}
 \item \bl{DOWNGRADING DATA}: Can we change the
 representation from richer representations to simpler
@@ -1590,8 +1790,31 @@ simpler representations)?
 
 \begin{frame}\frametitle{Downgrading the Data}
 \begin{itemize}
-\item \textbf{\bl{Propositionalization}}
+\item \textbf{\bl{Propositionalization}} \cite{propos}: transform a KG into a transaction database
 \end{itemize}
+\small{\begin{table}
+\begin{tabular}{| c | c | c | c | c | c |} 
+\hline
+& \gre{$\mi{bornInUS}$}& \gre{$\mi{livesInUS}$}&\gre{$\mi{isMarriedToSinger}$} &$\mi{researcher}$&$\mi{sportsman}$ \\ [0.5ex]  
+\hline 
+$\mi{p1}$ & \gre{$\checkmark$} & \gre{$\checkmark$}  &  & & \gre{$\checkmark$}\\
+[1.5ex] 
+$\mi{p2}$ &\gre{$\checkmark$}  & \gre{$\checkmark$}  &  &\gre{$\checkmark$}&  \\
+[1.5ex]
+$\mi{p3}$ & \gre{$\checkmark$} & \gre{$\checkmark$} &  & & \\
+[1.5ex]
+$\mi{p4}$ & \gre{$\checkmark$}  & \gre{$\checkmark$}   &  &  &\\
+[1.5ex]
+$\mi{p5}$ & \gre{$\checkmark$}  &   & \gre{$\checkmark$}  & &\\
+[1.5ex]
+$\mi{p6}$ & \gre{$\checkmark$}  &   &\gre{$\checkmark$}   &  & \gre{$\checkmark$}\\
+[1.5ex]
+$\mi{p7}$ & \gre{$\checkmark$}  &   &  &\gre{$\checkmark$}  & \\
+[1.5ex]
+$\mi{p8}$ & \gre{$\checkmark$}  &\gre{$\checkmark$}   &   & &  \\
+\end{tabular}
+\label{table:nonlin} 
+\end{table}}
 \end{frame}
 
 
@@ -1613,32 +1836,168 @@ special case)
 
 
 \begin{frame}\frametitle{Relational Association Rule Mining}
+\begin{itemize}
+\item \bl{WARMER} \cite{warmer}
+\item Upgrade frequent itemsets to frequent conjunctive queries
+\uncover<2->{\begin{itemize}
+\item traverse the lattice 
+\item get frequent CQs based on user-specified value
+\item split into body and head
+\item rank based on a rule measure, e.g., confidence
+\end{itemize}}
+\end{itemize}
+\bs
+
+\alt<2->{\begin{center}
+\includegraphics[width=.8\textwidth]{cq_lattice}
+\end{center}}{\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{}
+\gre{CQ: return all people with their spouses and living places}
+\begin{center}
+$q_1(X,Y,Z):-\mi{isMarriedTo(X,Y) \wedge livesIn(X,Z)}$
+\end{center} 
+
+\gre{Output}: 6 tuples, i.e., $\mi{supp(q_1)=6}$ 
+\bs
+
+\gre{CQ: return all people with their spouses and living places}
+\begin{center}
+$q_2(X,Y,Z):- \mi{isMarriedTo(X,Y) \wedge livesIn(X,Z) \wedge livesIn(Y,Z)}$
+\end{center} 
+
+\gre{Output}: 3 tuples, i.e., $\mi{supp(q_2)=3}$ 
+\end{beamerboxesrounded}}
 \end{frame}
 
-\begin{frame}\frametitle{WARMER}
+\begin{frame}\frametitle{Horn Rule Mining from KGs}
+\smallskip
+\begin{center}
+\alt<4->{\bl{AMIE} \cite{amie}: PCA confidence\\PCA: If at least 1 living place of Alice is known, then all are known.}{\bl{WARMER}: confidence \\CWA: Whatever is not known is false.}
+\end{center}
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+ \bigskip
+
+\alt<4->{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg1_pca}}\end{picture}}{
+\alt<3->{
+\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg2}}\end{picture}
+}{\alt<2->{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg1}}\end{picture}}{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg0}}\end{picture}}}}
+\begin{center}
+\visible<2->{\rightline{\gr{$\mi{conf(r)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=$\alt<4>{$\dfrac{2}{3}$}{$\dfrac{2}{4}$}}}}
+\bigskip
+
+\uncover<2->{\normalsize{\textcolor{darkgreen}{$r:\;\mi{livesIn(X,Z)}\leftarrow \mi{isMarriedTo(Y,X),livesIn(Y,Z)}$}}}
+ \end{center}
+
 \end{frame}
 
 \begin{frame}\frametitle{AMIE}
+
+\bl{\textbf{Language bias:}} \bl{safe} and \bl{closed} rules 
+\begin{itemize}
+\item[] \bl{safe:} every head variable must appear in the body
+\item[] \bl{closed:} every variable must appear in at least two atoms
+\end{itemize}
+\bs
+\bs
+\pause
+
+\bl{\textbf{Algorithm steps:}}
+
+\begin{itemize}
+\item maintain a rule queue, starting from an empty rule
+\bigskip
+
+\item for each rule:
+\begin{itemize}
+\item[1.] process the rule \\
+\uncover<2->{- compute statistics: \bl{$\mi{supp, conf_{PCA}}$}\\
+- filter rules based on statistics and output rule}
+\bigskip
+
+\item[2.] extend the queue by applying refinement operators\\
+\uncover<3->{- add dangling atom\\
+- add closing atom\\
+- add instantiated atom (with constant)}
+\end{itemize}
+
+\end{itemize}
 \end{frame}
 
-\begin{frame}\frametitle{RDF2Rules}
+
+
+\begin{frame}\frametitle{Refinement Operators}
+%\begin{picture}(0.5,0.5)\put(-30,-100){
+%\alt<3->{\includegraphics[width=1\textwidth]{figures/refinement_operators2}}{\alt<2->{\includegraphics[width=1\textwidth]{figures/refinement_operators1}}{\includegraphics[width=1\textwidth]{figures/refinement_operators0}}}}
+%\end{picture}
+\begin{picture}(0.5,0.5)\put(-52,-130){
+\leftline{\includegraphics[width=1.3\textwidth]{refinement_operators_amie}}
+}
+\end{picture}
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+\bigskip
+
 \end{frame}
 
-\begin{frame}\frametitle{Ontology Path Finding}
+
+
+
+\begin{frame}\frametitle{Other Related Works}
+\begin{itemize}
+\item \bl{RDF2Rules} \cite{rdf2rules}
+\begin{itemize}
+\item Optimized for cycles (even more restricted language bias)
+\end{itemize}
+\bs
+\bs
+
+\item \bl{Ontology path finding} \cite{op}
+\begin{itemize}
+\item Parallelizations of the rule evaluation stage
+\end{itemize}
+\bs
+
+\item \bl{Comparison of rule measures for KGs} \cite{metrics-summary}
+\bs
+
+\item \bl{Neural-based rule mining methods} \cite{DBLP:conf/nips/YangYC17}
+\begin{itemize}
+\item reduce the rule learning problem to algebraic operations
+on neural-embedding-based representations of a given KG
+\end{itemize}
+\end{itemize}
 \end{frame}
+
 
 
 
 
 \section{Exception-awareness}
-\begin{frame}\frametitle{\alt<4>{Nonmonotonic Rule Mining}{Horn Rule Mining}}
+\begin{frame}\frametitle{Nonmonotonic Rule Mining}
 \smallskip
 
-\uncover<2->{\alt<4->{\bl{Nonmonotonic rule mining} from KGs: \alert{OWA} is a challenge!}{\bl{Horn rule} mining for KG \bl{completion} \cite{amie} } }
- \bigskip
- \bigskip
- \bigskip
- \bigskip
+\bl{Nonmonotonic rule mining} from KGs: \alert{OWA} is a challenge!
  \bigskip
  \bigskip
  \bigskip
@@ -1652,16 +2011,13 @@ special case)
  \bigskip
  \bigskip
 
-\alt<4->{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg3}}\end{picture}}{
-\alt<3->{
-\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg2}}\end{picture}
-}{\alt<2->{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg1}}\end{picture}}{\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg0}}\end{picture}}}}
+\begin{picture}(0.5,0.5)\put(43,-33){\includegraphics[width=0.75\textwidth]{kg3}}\end{picture}
+
+%\visible<2->{\rightline{\gr{$\mi{conf(r)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=$\alt<4>{$1$}{$\dfrac{2}{4}$}}}}
+\bigskip
+\bigskip
 \begin{center}
-\visible<2->{\rightline{\gr{$\mi{conf(r)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=$\alt<4>{$1$}{$\dfrac{2}{4}$}}}}
-\bigskip
-\bigskip
-
-\uncover<2->{\normalsize{\alt<4>{\textcolor{darkgreen}{$r:\;\mi{livesIn(X,Z)}\leftarrow \mi{isMarriedTo(Y,X),livesIn(Y,Z)},$}\,\alert{$\naf\ researcher(X)$}}{\textcolor{darkgreen}{$r:\;\mi{livesIn(X,Z)}\leftarrow \mi{isMarriedTo(Y,X),livesIn(Y,Z)}$}}}}
+\normalsize{\gre{$r:\;\mi{livesIn(X,Z)}\leftarrow \mi{isMarriedTo(Y,X),livesIn(Y,Z)},$}\,\alert{$\naf\ researcher(X)$}}
  \end{center}
 
 \end{frame}
@@ -1769,12 +2125,23 @@ is \textbf{maximal}
  \end{beamerboxesrounded}
 \begin{picture}(0.5,0.5)\put(143,68){\includegraphics[width=0.58\textwidth]{big_pic_4}}\end{picture}
 %\textcolor{gray}{\tiny{M. Gad-Elrab, D. Stepanova, J. Urbani, G. Weikum. Exception-enriched Rule Learning from Knowledge Graphs, ISWC 2016}}
+
+\tiny{M. Gad-Elrab, D. Stepanova, J. Urbani, G. Weikum. Exception-enriched Rule Learning from Knowledge Graphs. \emph{ISWC2016}}\\
+\tiny{D. Tran{,}\,D. Stepanova{,}\,M. Gad-Elrab{,}\,F. Lisi{,}\,G. Weikum. Towards Nonmonotonic Relational Learning from KGs{.}\,\emph{ILP2016}}
 \end{frame}
 
+\begin{frame}\frametitle{Nonmonotonic Rule Mining from KGs}
+\bl{\textbf{Goal:}} learn nonmonotonic rules from KG\\
+\bl{\textbf{Approach:}} revise association rules learned using data mining methods
+\medskip
+
+\includegraphics[width=1.02\textwidth]{nmlearn}
+
+\end{frame}
 
 \begin{frame}\frametitle{Approach Description}
 \begin{center}
-\includegraphics[width=1\textwidth]{nrl}
+\includegraphics[width=.8\textwidth]{approach}
 \end{center}
 \end{frame}
 
@@ -1842,11 +2209,9 @@ $\mi{\gr{rule1}\;\;\; \alert{\{\underline{\mathbf{e_1}},e_2,e_3, \dotsc\}}}$\\
 \end{itemize}
 \bigskip
 
-\tiny{M. Gad-Elrab, D. Stepanova, J. Urbani, G. Weikum. Exception-enriched Rule Learning from Knowledge Graphs. \emph{ISWC2016}}\\
-\tiny{D. Tran{,}\,D. Stepanova{,}\,M. Gad-Elrab{,}\,F. Lisi{,}\,G. Weikum. Towards Nonmonotonic Relational Learning from KGs{.}\,\emph{ILP2016}}
 \end{frame}
 
-\begin{frame}\frametitle{Experimental Setup}
+\begin{frame}\frametitle{Experiments}
 \vspace{-.4cm}
 \begin{itemize}
 \item \bl{Approximated ideal KG}: original KG 
@@ -1906,54 +2271,103 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 
 \section{Incompleteness}
 
-\begin{frame}\frametitle{Completeness-aware Rule Mining}
-\begin{itemize}
-\item Exploit \bl{cardinality meta-data} \cite{card} in \bl{rule mining}\\
-\emph{\gr{John has \textbf{5} children, Mary is a citizen of \textbf{2} countries}}
-\end{itemize}
-\bigskip\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+% \begin{frame}\frametitle{Reasonable Rules}
+% \bigskip
 
-\begin{picture}(0.5,0.5)\put(40,-26){\includegraphics[width=0.8\textwidth]{worldmap}}
-\end{picture}
+% \uncover<2->{
+% \small{\emph{\gr{ \uncover<3->{$\checkmark$} People with the same parents are likely siblings}}}
+% }
+
+% \uncover<4->{\alt<4>{
+% \bl{Standard confidence}
+% }{
+% \small{\bl{PCA confidence}}}}
+% \uncover<5->{\cite{amie}}
+
+% \alt<-2>{
+% \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl1}}\end{picture}
+% }{\alt<3>{
+% \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl3}}\end{picture}
+% }{
+% \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl2}}\end{picture}
+% }}
+
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<4->{\rightline{\gr{$\mi{conf(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}$}}}
+% \bigskip
+
+% \uncover<5->{
+% \rightline{\gr{$\mi{conf_{pca}(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasChild}(Z, \_)\in \cG\}|}}=\dfrac{2}{2}$}}}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<2->{\centerline{\gr{$\mi{r_1:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}}
+% \bigskip
+% \end{frame}
 
 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
+% \begin{frame}\frametitle{Erroneous Rules due to Data Bias}
+% \bigskip
 
-\tiny{In Proc. ISWC 2017, Completeness-aware Rule Learning from Knolwegde Graphs. T. Pellissier-Tanon, D. Stepanova, S. Razniewski, P. Mirza, G. Weikum, 2018.}
-\end{frame}
+% \uncover<2->{
+% \small{\emph{\uncover<3->{\textbf{\huge{\alert{$\times$}}}}\normalsize{\gr{People working and studying at the same institute are likely relatives}}}}
+% }
+
+% \alt<1>{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works0}}
+% \end{picture}}{\alt<2>{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works2}}
+% \end{picture}}{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works1}}
+% \end{picture}}}
+
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<3->{\rightline{$\gr{\mi{conf(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}}$}}
+% \bigskip
+
+% \uncover<3->{\rightline{$\gr{\mi{conf_{pca}(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasSibling}(Z, \_)\in \cG\}|}}=\dfrac{2}{2}}$}}
+
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<2->{\centerline{\gr{$\mi{r_2:\;hasChild(X,Z)\leftarrow worksAt(X,Y),educatedAt(Z,Y)}$}}}
+
+% \end{frame}
 
 \begin{frame}\frametitle{Reasonable Rules}
 \bigskip
 
-\uncover<2->{
+\uncover<3->{
 \small{\emph{\gr{ \uncover<3->{$\checkmark$} People with the same parents are likely siblings}}}
 }
 
-\uncover<4->{\alt<4>{
-\bl{Closed World Assumption (CWA)}: all children of Alice are known
-}{
-\small{\bl{Partial Completeness A. (PCA)}: if a child of Alice is known, then all children are known}}}
-\uncover<5->{\cite{amie}}
+%\uncover<5->{\alt<5>{
+%\begin{center}\bl{CWA}\end{center}
+%}{
+%\begin{center}\small{\bl{PCA}}\end{center}}}
 
-\alt<-2>{
+\alt<1>{
 \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl1}}\end{picture}
-}{\alt<3>{
+}{\alt<-3>{
+\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl4}}\end{picture}
+}{\alt<4>{
 \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl3}}\end{picture}
 }{
 \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_sibl2}}\end{picture}
-}}
+}}}
 
 \bigskip
 \bigskip
@@ -1961,11 +2375,11 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 \bigskip
 \bigskip
 \bigskip
-\uncover<4->{\rightline{\gr{$\mi{conf(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}$}}}
+\uncover<5->{\rightline{\gr{$\mi{conf(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}$}}}
 \bigskip
 
-\uncover<5->{
-\rightline{\gr{$\mi{conf_{pca}(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasChild}(Z, \_)\in \cG\}|}}=\dfrac{2}{2}$}}}
+\uncover<6->{
+\rightline{\gr{$\mi{conf_{pca}(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasSibling}(X, \_)\in \cG\}|}}=\dfrac{2}{2}$}}}
 \bigskip
 \bigskip
 \bigskip
@@ -1973,7 +2387,7 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 \bigskip
 \bigskip
 \bigskip
-\uncover<2->{\centerline{\gr{$\mi{r_1:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}}
+\uncover<3->{\centerline{\gr{$\mi{r_1:\;hasSibling(X,Z) \leftarrow hasParent(X,Y),hasChild(Y,Z)}$}}}
 \bigskip
 \end{frame}
 
@@ -1981,24 +2395,30 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 \begin{frame}\frametitle{Erroneous Rules due to Data Bias}
 \bigskip
 
-\uncover<2->{
-\small{\emph{\uncover<3->{\textbf{\huge{\alert{$\times$}}}}\normalsize{\gr{People working and studying at the same institute are likely relatives}}}}
+\uncover<3->{
+\small{\emph{\uncover<3->{\textbf{\huge{\alert{$\times$}}}}\normalsize{\gr{If one is studying in a university where you teach, he/she is your child}}}}
 }
 
-\alt<1>{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works0}}
-\end{picture}}{\alt<2>{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works2}}
-\end{picture}}{\begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works1}}
-\end{picture}}}
+\alt<1>{
+  \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works0}}\end{picture}
+}{\alt<-3>{
+  \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works3}}\end{picture}
+}{\alt<4>{
+  \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works2}}\end{picture}
+}{
+  \begin{picture}(0.5,0.5)\put(-5,-145){\includegraphics[width=.6\textwidth]{kg_works1}}
+\end{picture}
+}}}
 
 \bigskip
 \bigskip
 \bigskip
 \bigskip
 \bigskip
-\uncover<3->{\rightline{$\gr{\mi{conf(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}}$}}
+\uncover<5->{\rightline{$\gr{\mi{conf(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}|}=\dfrac{2}{4}}$}}
 \bigskip
 
-\uncover<3->{\rightline{$\gr{\mi{conf_{pca}(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasSibling}(Z, \_)\in \cG\}|}}=\dfrac{2}{2}}$}}
+\uncover<5->{\rightline{$\gr{\mi{conf_{pca}(r_2)}=\dfrac{|\myfilledtriangle{lightblue}|}{{\scriptstyle |\{\mytriangle{black}{white} \mid \mi{hasChild}(X, \_)\in \cG\}|}}=\dfrac{2}{2}}$}}
 
 \bigskip
 \bigskip
@@ -2006,9 +2426,11 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 \bigskip
 \bigskip
 \bigskip
-\uncover<2->{\centerline{\gr{$\mi{r_2:\;hasChild(X,Z)\leftarrow worksAt(X,Y),educatedAt(Z,Y)}$}}}
+\uncover<3->{\centerline{\gr{$\mi{r_2:\;hasChild(X,Z)\leftarrow worksAt(X,Y),educatedAt(Z,Y)}$}}}
 
 \end{frame}
+
+
 
 
 
@@ -2030,11 +2452,15 @@ $\gr{r_2:  \mi{actedIn(X, Z)}  \leftarrow
 \bigskip
 
 \bigskip
+\bigskip
+\bigskip
 
 \begin{picture}(0.5,0.5)\put(40,-10){\includegraphics[width=0.83\textwidth]{problem_pic}}
 \end{picture}
 \bigskip
 \bigskip
+
+\tiny{T. Pellissier-Tanon, D. Stepanova, S. Razniewski, P. Mirza, G. Weikum. Completeness-aware rule learning from KGs. \emph{ISWC2017}.}
 
 \end{frame}
 
@@ -2228,7 +2654,7 @@ Remove predictions in complete KG parts \small{\cite{galarragapredicting}}, \\
 \uncover<3->{\rightline{\gr{$\mi{conf_{comp}(r_1)}=\dfrac{|\myfilledtriangle{lightblue}|}{|\myfilledtriangle{lightblue}|+|\mytriangle{darkred}{white}| - npi(r_1)}=\dfrac{2}{3}$}}}
 
 \bigskip
-\uncover<2->{\centerline{\gr{$\mi{r_1:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}}
+\uncover<2->{\centerline{\gr{$\mi{r_1:\;hasSibling(X,Z) \leftarrow hasParent(X,Y),hasChild(Z,X)}$}}}
 \end{frame}
 
 \begin{frame}\frametitle{Completeness Confidence Example 2}
@@ -2257,7 +2683,7 @@ Remove predictions in complete KG parts \small{\cite{galarragapredicting}}, \\
 \uncover<2->{\centerline{\gr{$\mi{r_2:\;hasChild(X,Z)\leftarrow worksAt(X,Y),educatedAt(Z,Y)}$}}}
 \end{frame}
 
-\begin{frame}\frametitle{Other Measures}
+\begin{frame}\frametitle{Other Completeness-aware Measures}
 \bigskip
 
 \bl{$\mi{precision_{comp}:}$} penalize $r$ that predict facts in complete areas
@@ -2322,87 +2748,88 @@ Remove predictions in complete KG parts \small{\cite{galarragapredicting}}, \\
 \end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Cardinality statements mining}
 
-\begin{itemize}
-\item Introduce $p_{\geq k}(s)$ and $p_{\leq k}(s)$ for each $num(p,s)$
-\item Introduce $p_{\geq |\{ o \mid (s,p,o) \in \mathcal{G}|}(s)$ for all $p$ and $s$
-\item Use the background rules $p_{\geq k}(s) \leftarrow p_{\geq k+1}(s)$ and $p_{\leq k+1}(s) \leftarrow p_{\leq k}(s)$.
-\item Mine rules which head is a $p_{\_}(\_)$
-\item Complete the $\mathcal{G}$ with a confidence threshold
-\item if $p_{\geq k}(s) \in \mathcal{G}_c$ and $p_{\leq k}(s) \in \mathcal{G}_c$ then $num(p,s)=k$
-\end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{Cardinality statements mining}
 
-\begin{frame}\frametitle{Completeness precision and recall}
+% \begin{itemize}
+% \item Introduce $p_{\geq k}(s)$ and $p_{\leq k}(s)$ for each $num(p,s)$
+% \item Introduce $p_{\geq |\{ o \mid (s,p,o) \in \mathcal{G}|}(s)$ for all $p$ and $s$
+% \item Use the background rules $p_{\geq k}(s) \leftarrow p_{\geq k+1}(s)$ and $p_{\leq k+1}(s) \leftarrow p_{\leq k}(s)$.
+% \item Mine rules which head is a $p_{\_}(\_)$
+% \item Complete the $\mathcal{G}$ with a confidence threshold
+% \item if $p_{\geq k}(s) \in \mathcal{G}_c$ and $p_{\leq k}(s) \in \mathcal{G}_c$ then $num(p,s)=k$
+% \end{itemize}
+% \end{frame}
 
-We define a precision and a recall:
-\begin{itemize}
-\item[] $\mi{precision_{comp}(r)} = 1 - \frac{\mi{npc}(r)}{\mi{supp}(\mathbf{B})}$ (ratio of "complete" results)
-\item[] $\mi{recall_{comp}(r)} = \frac{\mi{npi}(r)}{\sum_s \mi{miss}(h, s)}$ (ratio of "incomplete" results filled)
-\end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{Completeness precision and recall}
+
+% We define a precision and a recall:
+% \begin{itemize}
+% \item[] $\mi{precision_{comp}(r)} = 1 - \frac{\mi{npc}(r)}{\mi{supp}(\mathbf{B})}$ (ratio of "complete" results)
+% \item[] $\mi{recall_{comp}(r)} = \frac{\mi{npi}(r)}{\sum_s \mi{miss}(h, s)}$ (ratio of "incomplete" results filled)
+% \end{itemize}
+% \end{frame}
 
 
-\begin{frame}\frametitle{Example with precision and recall}
-\begin{picture}(0.5,0.5)\put(15,-170){\includegraphics[width=.6\textwidth]{kg_sibl2}}
-\end{picture}
+% \begin{frame}\frametitle{Example with precision and recall}
+% \begin{picture}(0.5,0.5)\put(15,-170){\includegraphics[width=.6\textwidth]{kg_sibl2}}
+% \end{picture}
 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\uncover<2->{\rightline{\bl{$npi(r) = 1$ $npc(r) = 0$}}}
-\uncover<3->{\rightline{\gr{$\mi{precision_{comp}(r)}=1 - \frac{0}{4}=1$}}}
-\uncover<4->{\rightline{\gr{$\mi{recall_{comp}(r)}=\frac{1}{2}$}}}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<2->{\rightline{\bl{$npi(r) = 1$ $npc(r) = 0$}}}
+% \uncover<3->{\rightline{\gr{$\mi{precision_{comp}(r)}=1 - \frac{0}{4}=1$}}}
+% \uncover<4->{\rightline{\gr{$\mi{recall_{comp}(r)}=\frac{1}{2}$}}}
 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\centerline{\gr{$\mi{r:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}
-\centerline{\bl{$miss(hasSibling, Mary) = 2$}}
-\end{frame}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \centerline{\gr{$\mi{r:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}
+% \centerline{\bl{$miss(hasSibling, Mary) = 2$}}
+% \end{frame}
 
-\begin{frame}\frametitle{Directional metric}
-\begin{itemize}
-\item[] $\mi{dir\_metric}(r) = \dfrac{\mi{npi}(r)-\mi{npc}(r)}{2\cdot(\mi{npi}(r)+\mi{npc}(r))}+0.5$
-\item<2->[] \bl{Weighted:} $\mi{wdm}(r) = \beta \cdot \mi{conf}(r) + (1-\beta) \cdot \mi{dir\_metric}(r)$
-\end{itemize}
-\end{frame}
+% \begin{frame}\frametitle{Directional metric}
+% \begin{itemize}
+% \item[] $\mi{dir\_metric}(r) = \dfrac{\mi{npi}(r)-\mi{npc}(r)}{2\cdot(\mi{npi}(r)+\mi{npc}(r))}+0.5$
+% \item<2->[] \bl{Weighted:} $\mi{wdm}(r) = \beta \cdot \mi{conf}(r) + (1-\beta) \cdot \mi{dir\_metric}(r)$
+% \end{itemize}
+% \end{frame}
 
-\begin{frame}\frametitle{Example with directional metric}
-\begin{picture}(0.5,0.5)\put(15,-170){\includegraphics[width=.6\textwidth]{kg_sibl2}}
-\end{picture}
+% \begin{frame}\frametitle{Example with directional metric}
+% \begin{picture}(0.5,0.5)\put(15,-170){\includegraphics[width=.6\textwidth]{kg_sibl2}}
+% \end{picture}
 
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\uncover<2->{\rightline{\bl{$npi(r) = 1$ $npc(r) = 0$}}}
-\uncover<3->{\rightline{\gr{$\mi{dir\_metric}(r) = \frac{1-0}{2\cdot (1+0)}+0.5= 1$}}}
-\uncover<4->{
-	\rightline{\gr{$\mi{wdm}(r) = 0.5 \cdot \frac{2}{4} + 0.5 \cdot 1 = \frac{3}{4}$}}
-	\rightline{$\beta = 0.5$}
-}
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\bigskip
-\centerline{\gr{$\mi{r:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}
-\centerline{\bl{$miss(hasSibling, Mary) = 2$} $\beta = 0.5$}
-\end{frame}
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \uncover<2->{\rightline{\bl{$npi(r) = 1$ $npc(r) = 0$}}}
+% \uncover<3->{\rightline{\gr{$\mi{dir\_metric}(r) = \frac{1-0}{2\cdot (1+0)}+0.5= 1$}}}
+% \uncover<4->{
+% 	\rightline{\gr{$\mi{wdm}(r) = 0.5 \cdot \frac{2}{4} + 0.5 \cdot 1 = \frac{3}{4}$}}
+% 	\rightline{$\beta = 0.5$}
+% }
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \bigskip
+% \centerline{\gr{$\mi{r:\;hasSibling(Z,Y) \leftarrow hasChild(X,Y),hasParent(Z,X)}$}}
+% \centerline{\bl{$miss(hasSibling, Mary) = 2$} $\beta = 0.5$}
+% \end{frame}
 
 
 \section{Rules from Hybrid Sources}
@@ -2421,15 +2848,16 @@ We define a precision and a recall:
  \begin{beamerboxesrounded}[upper=uppercolbl,lower=lowercolbl,shadow=true]{\begin{center}\small{\textbf{Rule-based approaches}}\end{center}}
 \smallskip
 \begin{center}
-  \includegraphics[width=\linewidth]{rule-based2}
+  \alt<3->{\includegraphics[width=\linewidth]{rule-based2}}{\includegraphics[width=\linewidth]{rule-based}}
 \medskip
 
 \tiny{
-AMIE \cite{amieplus}, \cite{excep}, \\ RUMIS \cite{rumis}, CARL \cite{carl}, etc.
+AMIE \cite{amie}, \\ RUMIS \cite{rumis}, CARL \cite{carl}, etc.
 }
 \end{center}
  \end{beamerboxesrounded}
 \end{column}
+\pause
 \pause
 \begin{column}{.5\textwidth}
  \begin{beamerboxesrounded}[upper=uppercolbl,lower=lowercolbl,shadow=true]{\begin{center}\small{\textbf{Statistics-based approaches}}\end{center}}
@@ -2437,7 +2865,7 @@ AMIE \cite{amieplus}, \cite{excep}, \\ RUMIS \cite{rumis}, CARL \cite{carl}, etc
 
 \bigskip
 
-\alt<4->{\includegraphics[width=\linewidth]{statistics-based2}}{\includegraphics[width=\linewidth]{statistics-based1}}
+\alt<6->{\includegraphics[width=\linewidth]{statistics-based3}}{\alt<5->{\includegraphics[width=\linewidth]{statistics-based2}}{\includegraphics[width=\linewidth]{statistics-based1}}}
 \medskip
 \begin{center}
 \tiny{TransE \cite{transe}, TEKE \cite{teke},\\ RESCAL \cite{rescal}, etc.}
@@ -2493,11 +2921,37 @@ Precompute KG embedding and treat the result as an oracle, which can be queried 
  \end{beamerboxesrounded}
 \bigskip
 
-\begin{center}\tiny{Vinh Thinh Ho, Daria Stepanova, Mohamed Gad-Elrab, Evgeny Kharlamov, Gerhard Weikum}\end{center}
+\begin{center}\tiny{T. Vinh Ho, D. Stepanova, M. Gad-Elrab, E. Kharlamov, G. Weikum. Rule Learning from KGs guided by Embedding Models. \emph{ISWC2018}.}\end{center}
 \end{frame}
 
 
-\begin{frame}\frametitle{Related Works}
+
+
+\begin{frame}\frametitle{Problem Statement}
+ \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{\textbf{\bl{Feedback-driven rule mining}}}
+
+\begin{itemize}
+\item \textbf{Given:} 
+\begin{itemize}
+\item KG 
+\item Embedding model  
+\item Type of rules to be learned (e.g., with(out) negation, disjunctive, etc.)
+\end{itemize}
+\bigskip
+
+\item \textbf{Find:} 
+\begin{itemize}
+\item a set of rules of the desired type, which agree with embedding model
+on predictions that they make
+\end{itemize}
+\end{itemize}
+\end{beamerboxesrounded}
+\end{frame}
+
+
+
+
+\begin{frame}\frametitle{Related Work}
 \begin{itemize}
 \item \textbf{\bl{Constraints in embedding models}}
 \begin{itemize}
@@ -2521,56 +2975,32 @@ Precompute KG embedding and treat the result as an oracle, which can be queried 
 \end{frame}
 
 
-\begin{frame}\frametitle{Problem Statement}
- \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{\textbf{\bl{Rule Learning Guided by External Sources}}}
 
-\textbf{Given:} 
-\begin{itemize}
-\item Knowledge Graph $\mathcal{G}$
-\item External Source  $\mathcal{P}$
-\begin{itemize}
-\item Probability function reflecting trustfulness of $\mathcal{G}$'s missing facts
-\end{itemize}
-\item Form of rules to be learned (e.g.number of atoms, with(out) negation, etc.)
-\end{itemize}
-\bigskip
-
-\textbf{Find:} 
-\begin{itemize}
-\item Set of rules of the desired type, which agree with the external source
-on predictions that they make
-\end{itemize}
-
-\end{beamerboxesrounded}
-\end{frame}
 
 
 \begin{frame}\frametitle{Mine-Interact-Learn-Repeat}
 \small{\begin{itemize}
-\item[] Mimic \bl{``mine-interact-learn-repeat''} schema \scriptsize{\cite{interpat}}
+\item[] Mimic \bl{``mine-interact-learn-repeat''} schema \scriptsize{\cite{DBLP:conf/pakdd/DzyubaL17}}
 \uncover<2->{\item[] \small{Establish \bl{``user-in-the-loop''} inspired interaction between the
 rule mining algorithm and the embedding model}}
-
 \end{itemize}}
-
 \begin{center}
   \includegraphics[width=.91\textwidth]{user_loop}
 \end{center}
-\uncover<2->{
+\uncover<2->{\begin{picture}(0.5,0.5)
+\alt<3->{\put(281,55){\includegraphics[width=.215\textwidth]{blackbox}}
+\end{picture}}{\put(292,45){\includegraphics[width=.37\textwidth]{kgembed}}
+\end{picture}}
 \begin{picture}(0.5,0.5)
-\put(292,45){\includegraphics[width=.17\textwidth]{external_source}}
+\put(-15,70){\includegraphics[width=.25\textwidth]{kg}}
 \end{picture}
 \begin{picture}(0.5,0.5)
-\put(-10,70){\includegraphics[width=.25\textwidth]{kg}}
+\put(105,-10){\includegraphics[width=.33\textwidth]{feedback}}
 \end{picture}
 \begin{picture}(0.5,0.5)
-\put(120,-10){\includegraphics[width=.33\textwidth]{feedback}}
-\end{picture}
-\begin{picture}(0.5,0.5)
-\put(135,130){\includegraphics[width=.22\textwidth]{rules}}
+\put(125,124){\includegraphics[width=.195\textwidth]{rules}}
 \end{picture}}
 \end{frame}
-%---------------------------------------------
 
 
 \begin{frame}\frametitle{Research Questions}
@@ -2594,71 +3024,15 @@ to organize convenient and effective interaction process?
 \bigskip
 \pause
 
-\item[\bl{Q3}] \textbf{(Learn)} Can anything be learnt from the feedback provided?
+\item[\bl{Q3}] \textbf{(Learn)} Can anything be learnt from the feedback provided by embeddings?
 
 \end{itemize}}
 \end{frame}
 
-\begin{frame}\frametitle{Q1 (Interact)}
-\small{
-							\bigskip
 
-						\gr{General Solution:} Introduce the novel \bl{\textbf{Hybrid Rule Quality Function} \pmb{$\mu$}}:
-						\begin{itemize}
-							\pause
-							\item Measure the \bl{\textbf{descriptive quality} \pmb{$\mu_1$}} of rule $r$ over $\mathcal{G}$:
-							      \gr{\[\mu_1: (r,\cG) \mapsto \alpha \in  [0,1]\]}
-							      $\Rightarrow$ any \textbf{\bl{classical quality measure}} which describes $\cG$ properly\\ (e.g. conf, PCA conf)
-							\pause							      							
-							\item Measure the \bl{\textbf{predictive quality} \pmb{$\mu_2$}} of $r$ based on the \bl{\textbf{external source  $\mathcal{P}$}}:
-							      \gr{\[\mu_2: (r{,}\, \mathcal{P}) \mapsto  \alpha \,{\in}\, [0,1]\]}
-%							      where $\mathcal{G}_r$ is a extension of $\mathcal{G}$ by applying $r$\\ %$\Rightarrow$ capture \textbf{\bl{information about missing facts}} in $\cG$ that are relevant for $r$
-							\pause
-							\item Combine the result as \bl{\textbf{the weighted sum}}:
-							      \gr{\[\mu(r)= (1 - \lambda) \times \mu_1(r,\cG) + \lambda \times \mu_2(r,\mathcal{P})\]}
-							where $\lambda$ is a weighting factor\\
-  							\pause
-							\alert{$\Rightarrow$ Need to define $\mu_2$}
 
-						\end{itemize}
-}
 
-\end{frame}
-
-\begin{frame}\frametitle{Mine-Interact-Learn-Repeat}
-\small{\begin{itemize}
-\item[] Mimic \bl{``mine-interact-learn-repeat''} schema \scriptsize{\cite{interpat}}
-\item[] \small{Establish \bl{``user-in-the-loop''} inspired interaction between the
-rule mining algorithm and the embedding model}
-
-\end{itemize}}
-
-\begin{center}
-  \includegraphics[width=.91\textwidth]{user_loop}
-\end{center}
-
-\alt<2->{
-\begin{picture}(0.5,0.5)
-\put(290,55){\includegraphics[width=.35\textwidth]{kgembed}}
-\end{picture}
-}{
-\begin{picture}(0.5,0.5)
-\put(292,45){\includegraphics[width=.17\textwidth]{external_source}}
-\end{picture}
-}
-
-\begin{picture}(0.5,0.5)
-\put(-7,75){\includegraphics[width=.25\textwidth]{kg}}
-\end{picture}
-\begin{picture}(0.5,0.5)
-\put(125,0){\includegraphics[width=.33\textwidth]{feedback}}
-\end{picture}
-\begin{picture}(0.5,0.5)
-\put(138,140){\includegraphics[width=.22\textwidth]{rules}}
-\end{picture}
-\end{frame}
-
-\begin{frame}\frametitle{Embedding-based Methods}
+\begin{frame}\frametitle{Embedding-based  Methods}
 \begin{itemize}
 \item \textbf{\bl{Intuition:}} For \bl{$\tuple{s,p,o}$} in KG, find \bl{$\mathbf{s,p,o}$} such that \bl{$\mathbf{s}+\mathbf{p}\approx \mathbf{o}$}
 \item The ``error of translation'' of a true KG fact should be smaller by a certain margin than the ``error of translation'' of an out-of-KG one
@@ -2677,7 +3051,7 @@ rule mining algorithm and the embedding model}
 
 
 \begin{frame}\frametitle{Q1 (Interact)}
-Measure predictive quality \bl{$\mu_2$} of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
+Measure quality of \bl{ $r: \mi{p(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
 
 \begin{itemize}
 % \item quality of a set of facts is defined using $\mi{mrr}$ measure
@@ -2688,7 +3062,7 @@ Measure predictive quality \bl{$\mu_2$} of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, b
 
 \item rely on average quality of predicted facts
 \begin{center}
-\bl{$\mi{\mu_2(r)}=\dfrac{1}{|predictions(r)|} \sum\limits_{{<}s\,p\,o{>}\in predictions(r)}\mi{rank({<}s\,p\,o{>})}$}
+\bl{$\mi{rule\_mrr(r)}=\dfrac{1}{|predictions(r)|} \sum\limits_{{<}s\,p\,o{>}\in predictions(r)}\mi{rank({<}s\,p\,o{>})}$}
 \end{center}
 \end{itemize}
 \bigskip
@@ -2716,7 +3090,7 @@ $\mi{{<}Mat\,livesIn\,Berlin{>}}$}
 % \vspace{-.7cm}
 \begin{center}
 \uncover<2>{\scriptsize{
-$\bl{\mu_2(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{NY}{>}\bl{)}{\bl{+}}\bl{rank(}{<}\colorbox{lightbl}{Mat}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{Berlin}{>}\bl{)}}{\bl{2}}$}}
+$\bl{rule\_mrr(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{NY}{>}\bl{)}{\bl{+}}\bl{rank(}{<}\colorbox{lightbl}{Mat}\,\mathbf{\gr{livesIn}}\,\colorbox{lightgr}{Berlin}{>}\bl{)}}{\bl{2}}$}}
 \end{center}
 % \bigskip
 
@@ -2728,36 +3102,35 @@ $\bl{\mu_2(r){=}}\dfrac{\bl{rank(}{<}\colorbox{lightbl}{Jack}\,\mathbf{\gr{lives
 
 
 
-%
-%\begin{frame}\frametitle{Q1 (Interact)}
-%Measure predictive quality \bl{$\mu_2$} of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
-%\begin{itemize}
-%\item rely on average quality of predicted facts estimated by embeddings
-%\begin{center}
-%\bl{$\mi{\mu_2(r)}=\dfrac{1}{|N|} \sum\limits_{s,h,o\in N}\dfrac{1}{\mi{rank(s,h,o)}}$}
-%\end{center}
-%\bigskip
-%
-%\item combination of mrr with standard rule measures over KG
-%\begin{center}
-%\bl{$\mi{embed\_conf(r)}=\lambda*conf(r)+(1-\lambda)*\mi{rule\_mrr(r)}$},
-%\end{center}
-%\begin{itemize}
-%\pause
-%\item \bl{$\lambda$}: a weighting factor
-%\item \bl{$\mi{conf}$}: descriptive quality based on the original KG \\
-%any other standard rule measure can be plugged in
-%\item \bl{$\mi{rule\_mrr}$}: predictive quality based on KG embedding\\
-%any embedding model including text-enhanced ones can be used
-%\end{itemize}
-%
-%%\bigskip
-%%
-%%\item more complex interaction, e.g., information theoretic measures?
-%
-%\end{itemize}
-%
-%\end{frame}
+
+\begin{frame}\frametitle{(Q1) Interact}
+Measure quality of \bl{ $r: \mi{h(X,Y)\leftarrow B}$}, based on the embedding model\bigskip
+\begin{itemize}
+\item rely on average quality of predicted facts estimated by embeddings
+\begin{center}
+\bl{$\mi{rule\_mrr(r)}=\dfrac{1}{|N|} \sum\limits_{s,h,o\in N}\dfrac{1}{\mi{rank(s,h,o)}}$}
+\end{center}
+\bigskip
+
+\item combination of mrr with standard rule measures over KG
+\begin{center}
+\bl{$\mi{embed\_conf(r)}=\lambda*conf(r)+(1-\lambda)*\mi{rule\_mrr(r)}$},
+\end{center}
+\begin{itemize}
+\pause
+\item \bl{$\lambda$}: a weighting factor
+\item \bl{$\mi{conf}$}: descriptive quality based on the original KG \\
+any other standard rule measure can be plugged in
+\item \bl{$\mi{rule\_mrr}$}: predictive quality based on KG embedding\\
+any embedding model including text-enhanced ones can be used
+\end{itemize}
+\bigskip
+
+\item more complex interaction, e.g., information theoretic measures?
+
+\end{itemize}
+
+\end{frame}
 
 
 \begin{frame}\frametitle{Research Questions}
@@ -2781,10 +3154,9 @@ to organize convenient and effective interaction process?
 \end{frame}
 
 
+\begin{frame}\frametitle{(Q2) Mine}
 
-\begin{frame}\frametitle{Q2 (Mine)}
-
-\bl{\textbf{Tentative algorithm steps:}}
+\bl{\textbf{Algorithm steps:}}
 
 \begin{itemize}
 \item maintain a rule queue, starting from an empty rule
@@ -2793,7 +3165,7 @@ to organize convenient and effective interaction process?
 \item for each rule:
 \begin{itemize}
 \item[1.] process the rule \\
-\uncover<2->{- compute statistics: \bl{$\mu_1, \mu_2, \mu$}\\
+\uncover<2->{- compute statistics: \bl{$\mi{rule\_mrr, embed\_conf...}$}\\
 - filter rules based on statistics and output rule}
 \bigskip
 
@@ -2801,13 +3173,35 @@ to organize convenient and effective interaction process?
 \uncover<3->{- add dangling atom\\
 - add closing atom\\
 - add positive unary atom\\
-- add \textbf{\bl{exception}} unary atom\\
-- add \textbf{\bl{exception}} binary atom}
+- add exception unary atom\\
+- add exception binary atom}
 \end{itemize}
 
 \end{itemize}
+
+% Algorithm goal:
+% \bigskip
+
+% \begin{itemize} 
+% \item \bl{\textbf{Input:}} KG, embedding model
+% \bigskip
+
+% \item \bl{\textbf{Output:}} rules with:
+% \begin{itemize}
+% \item  unary predicates
+% \item  binary predicates
+% \item negated atoms in the body
+% \item disjunctions in the head
+% \end{itemize} 
+% \bigskip
+
+% \item Follow top-down clause search based on refinement operators \cite{DBLP:journals/ml/Quinlan90}, \cite{amieplus}
+% \medskip
 
 % \item Query embedding model at every step before rule expansion
+% \end{itemize}
+% \begin{center}
+% \end{center}
 \end{frame}
 
 
@@ -2839,21 +3233,8 @@ to organize convenient and effective interaction process?
 \end{beamerboxesrounded}
 \end{frame}
 
-\begin{frame}\frametitle{System Overview}
- \begin{figure}[t]
-\includegraphics[width=0.65\textwidth]{figures/mining.pdf} 
 
-\label{fig:fb-HoLE-Conf}
-
-    
-     %\caption{
-     %$pred\_prec_{CW}$ of the \textit{top-k} rules with various $\lambda$ on FB15K.
-     %}
-     \label{fig:diff_lambda}
- \end{figure}
-\end{frame}
-
-\begin{frame}\frametitle{Open Research Questions}
+\begin{frame}\frametitle{Open Questions}
 \small{
 
 
@@ -2881,67 +3262,98 @@ to organize convenient and effective interaction process?
 
 \end{frame}
 
-\begin{frame}\frametitle{Evaluation}
+% \begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
+% \captionsetup[subfigure]{textfont=scriptsize}
 
-
-\bl{2 Datasets:}
-\begin{itemize}
-\item FB15K: a subset of Freebase with 592K binary facts over 15K entities and 1345 predicates
-\item Wiki44K: a subset of Wikidata with 250K binary facts over 44K entities and 100 relations
-\end{itemize}
-\bl{Available KGs}: random 80\% of the approximated ideal KG\\	\smallskip
-	
-\bl{Embedding Models}: 2 settings:
-\begin{itemize}
-\item Without additonal textual data: TransE model, HolE model
-\item With entities description text: SSP model
-\end{itemize}
-\bl{Gold standard}: ratio of true facts generated\\
-\smallskip
-\bl{2 Evaluation settings}: \textit{closed world} (CW) and \textit{open world} (OW)						
-\end{frame}
-
-
-\begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
-\captionsetup[subfigure]{font=evensmallerfont}
- \begin{figure}[t]
-     \centering
-     \vspace{-0.3cm}
-     \subfloat{{\includegraphics[width=0.6\textwidth]{figures/new_exp1/legend-crop.pdf}}}\\
-     \setcounter{subfigure}{0}
-     \vspace{-0.25cm}
-     \subfloat[Conf-HolE on FB15K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_hole_conf-crop.pdf} }\label{fig:fb-HoLE-Conf}}
-     \subfloat[Conf-SSP on FB15K]
-{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_ssp_conf-crop.pdf} \label{fig:fb-SSP-Conf}}}
-    \subfloat[PCA-SSP on FB15K]
-    {{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/fb15k_ssp_pca-crop.pdf} }\label{fig:fb-SSP-PCA}}\\
-     \vspace{-0.25cm}
-    \subfloat[Conf-TransE on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_transe_conf-crop.pdf} }\label{fig:wi-TransE-Conf}}
-    \subfloat[Conf-SSP on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_ssp_conf-crop.pdf} }\label{fig:wi-SSP-Conf}}
-     \subfloat[PCA-SSP on Wiki44K]{{\includegraphics[width=0.27\textwidth,height=3.1cm]{figures/new_exp1/wiki44k_ssp_pca-crop.pdf} }\label{fig:wi-SSP-PCA}} \\  
+%  \begin{figure}[t]
+%      \centering
+%       %Gad: to unify legend and save space
+%      \subfloat{{\includegraphics[width=0.7\textwidth]{figures/new_exp1/legend-crop.pdf} }}\\[-1ex]
+%      \setcounter{subfigure}{0}
+     
+%      \subfloat[Conf-HolE on FB15K]{{\includegraphics[width=0.33\textwidth]{figures/new_exp1/fb15k_hole_conf-crop.pdf} }\label{fig:fb-HoLE-Conf}}
+%      \subfloat[Conf-SSP on FB15K]{{\includegraphics[width=0.33\textwidth]{figures/new_exp1/fb15k_ssp_conf-crop.pdf} \label{fig:fb-SSP-Conf}}}
+%     \subfloat[PCA-SSP on FB15K]{{\includegraphics[width=0.33\textwidth]{figures/new_exp1/fb15k_ssp_pca-crop.pdf} }\label{fig:fb-SSP-PCA}}\\
 
     
-     %\caption{
-     %$pred\_prec_{CW}$ of the \textit{top-k} rules with various $\lambda$ on FB15K.
-     %}
-     \label{fig:diff_lambda}
- \end{figure}
+%      \caption{$pred\_prec_{CW}$ of the \textit{top-k} rules with various $\lambda$ on FB15K.}
+%      \label{fig:diff_lambda}
+%  \end{figure}
+% \end{frame}
+% \begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
+% \captionsetup[subfigure]{textfont=scriptsize}
+
+%  \begin{figure}[t]
+%      \centering
+%       %Gad: to unify legend and save space
+%      \subfloat{{\includegraphics[width=0.7\textwidth]{new_exp1/legend-crop.pdf} }}\\[-1ex]
+%      \setcounter{subfigure}{0}
+
+%     \subfloat[Conf-TransE on Wiki44K]{{\includegraphics[width=0.33\textwidth]{new_exp1/wiki44k_transe_conf-crop.pdf} }\label{fig:wi-TransE-Conf}}
+%     \subfloat[Conf-SSP on Wiki44K]{{\includegraphics[width=0.33\textwidth]{new_exp1/wiki44k_ssp_conf-crop.pdf} }\label{fig:wi-SSP-Conf}}
+%      \subfloat[PCA-SSP on Wiki44K]{{\includegraphics[width=0.33\textwidth]{new_exp1/wiki44k_ssp_pca-crop.pdf} }\label{fig:wi-SSP-PCA}} \\  
+    
+%      \caption{$pred\_prec_{CW}$ of the \textit{top-k} rules with various $\lambda$ on Wiki44K.}
+%      \label{fig:diff_lambda}
+%  \end{figure}
+% \end{frame}
+
+\begin{frame}\frametitle{Experimental Setup}
+\begin{itemize}
+\item \bl{Datasets}: 
+\begin{itemize}
+\item FB15K: 592M facts, 15M entities and 1345 relations
+relations
+\item Wiki44K: 250M facts, 44M entities and 100 relations
+\end{itemize}
+\bs
+
+\item \bl{Ideal graph}: remove 80\% of facts for every relation
+\item \bl{Embedding models}: TransE, HolE, SSP
+
+\item For every dataset selected a model that works best
+
+\begin{itemize}
+\item Evaluate predictive capabilities of rules obtained by our system vs others
+\end{itemize}
+\end{itemize}
 \end{frame}
 
-
-\begin{frame}\frametitle{Embedding-Based Hybrid Quality Function}
-\input{tables/concrete_rule_type_quality}
-
+\begin{frame}\frametitle{Evaluation}
+\begin{center}
+\includegraphics[width=1\textwidth]{new_exp1/experiments}
+\end{center}
 \end{frame}
 
-\begin{frame}\frametitle{Horn Rule Learning}
-\input{tables/hybrid_rules_precision}
+\begin{frame}\frametitle{Example Rules}
+\begin{beamerboxesrounded}[upper=uppercolgreen,lower=lowercolgreen,shadow=true]{Examples of rules learned from Wikidata}
 
+ \begin{tabular}{l}
+\footnotesize{
+
+Plots of films in a sequel are written by the same writer, unless a film is American}\\
+        \footnotesize{$\gr{r_1:  \mi{nationality(X, Y)}  \leftarrow
+        \mi{graduatedFrom(X, Z)},\mi{inCountry(Z, Y)},}$ \alert{$ not$  $\mi{researchUni(X)} $}}\\   
+\\     
+\footnotesize{
+Script writers stay the same across sequels, but not for TV series
+}\\
+      \footnotesize{ 
+$\gr{r_2:  \mi{scriptwriterOf(X, Y)}  \leftarrow
+        \mi{preceededBy(X, Z)},\mi{scriptWriterOf(Y, Z)},}$ \alert{$ not$  $\mi{tvSeries(Z)} $}} \\
+    \\
+\footnotesize{
+Nobles are typically married to nobles but not in the case of Chinese dynasties
+}\\
+      \footnotesize{ 
+$\gr{r_3:  \mi{nobleFamily(X, Y)}  \leftarrow
+        \mi{spouse(X, Z)},\mi{nobleFamily(Z,Y)},}$ \alert{$ not$  $\mi{chineseDynasty(Y)} $}} \\
+    
+ \end{tabular} 
+\end{beamerboxesrounded}
 \end{frame}
 
-\begin{frame}\frametitle{Exception-Aware Rule Learning}
-\input{tables/exception_prediction_result}
-\end{frame}
+\section{Further Topics}
 
 \begin{frame}\frametitle{Commonsense Knowledge}
 \begin{beamerboxesrounded}[upper=uppercolblue,lower=lowercolbl,shadow=true]{}
@@ -2964,9 +3376,6 @@ where progress has been extremely slow: ordinary commonsense.''  \cite{DBLP:jour
 \item \bl{``Can an \textbf{elephant} sit on a \textbf{tree}?''}
 \end{itemize}
 \end{itemize}
-\end{frame}
-
-\begin{frame}\frametitle{Commonsense KGs}
 \end{frame}
 
 
@@ -3006,7 +3415,7 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 %$\mi{heavier(Y,X)\leftarrow on(X,Y)}$ $\mi{has(X,wings)\leftarrow in(X,sky),flyingObject(X), not\;round(X)}$}\end{picture}}
 \bigskip
 
-
+\uncover<7->{WebChild KG \cite{DBLP:conf/acl/TandonMW17}}
 \end{frame}
 
 \begin{frame}\frametitle{Commonsense Rule Mining from Hybrid Sources (Text)}
@@ -3027,60 +3436,99 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 
 \end{frame}
 
-\begin{frame}\frametitle{Commonsense Rule Mining from Hybrid Sources (Text)}
+\begin{frame}\frametitle{Commonsense Rules from Text}
 
 
 \bigskip
 \begin{itemize}
 
-	\item \textbf{SHERLOCK}~\cite{Schoenmackers:2010}: Early attempt to learn rules from open domain text extractions.
-	\item  \textbf{Golden et. al.}~\cite{Gordon:2011}: Utilizes presuppositional discourse patterns (such as statements with but, yet ... etc) to collect conditional knowledge in the form of \textit{if-then}.
-  \item  \textbf{Dragoni et. al.}~\cite{Gordon:2011}: Extracts dependencies between text chunks in legal document such as contract. Then, these dependencies are converted into machine readable rules. 
-  \item None of the existing work considered the combination between KGs and Text.
+  \item  \bl{\cite{dragoni2016}}: Guido's talk on Sunday
+\bs
+	\item \bl{SHERLOCK}~\cite{Schoenmackers:2010}: Early attempt to learn rules from open domain text extractions.
+\bs
+
+	\item  \bl{\cite{Gordon:2011}}: Utilizes presuppositional discourse patterns (such as statements with but, yet ... etc) to collect conditional knowledge in the form of \textit{if-then}.
+\bs
+
+\item \bl{\cite{DBLP:conf/iccs/PetrovaR16}} Mining rules from consessional statements\\
+\gre{``Although he is a researcher, he never moved.''} leads to a rule \gre{``Researchers normally move frequently.''}
+\bs
+
+
+  \item KG + text?
 \end{itemize}
 \bigskip
 
 \end{frame}
 
 
-\begin{frame}\frametitle{Rule Types}
-
-\begin{itemize}
-\item \textbf{Horn:} AMIE \cite{amieplus}\\
-%\emph{Married people live together}\\
-\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}$}
-\smallskip
-\pause
-
-\item \textbf{Nonmonotonic:} RUMIS \cite{excep}, \cite{rumis}\\ 
-%\emph{Married people live together unless one is a researcher}\\
-\bl{$\mi{livesIn(Z,Y)\leftarrow livesIn(X,Y), marriedTo(X,Z)}, not \;researcher(Z)$}
-\smallskip
-\pause
-
-\item \textbf{Numerical:} CARL \cite{carl}\\
-%\emph{If one has $\geq$ 4 siblings then one's parents have $\geq$ 5 children}\\
-\bl{$\mi{hasChild_{\geq 5}(X) \leftarrow hasFather(Y,X), hasSibling_{\geq 4}(Y)}$}
-\smallskip
-\pause
-
+\begin{frame}\frametitle{Other Rule Types to Consider}
+\bi
 \item \textbf{Disjunctive:} \\
 %\emph{Actors from capitals are married to actors or politicians }\\
 \bl{$\mi{male(Y) \lor female(Y)\leftarrow hasParent(X,Y)}$}
 \pause
+\bs
 
 \item \textbf{Existential:} \\
 \bl{$\mi{\exists Y\, hasParent(X,Y)\leftarrow person(X)}$}
-\smallskip
+\bs
 \pause
 
-\item \textbf{Temporal constraints:} \bl{$\mi{\bot \leftarrow bornIn(X,Y),after(Y,Z),studied(X,Z)}$}
-%\gr{$\mi{}$}
+\item \textbf{Constraints:}\\
+\bl{$\mi{\bot \leftarrow hasParent(X,Y),hasParent(Y,X)}$}
+\pause
+\bs
 
+\item \textbf{Temporal constraints:} \bl{$\mi{\bot \leftarrow bornIn(X,Y),after(Y,Z),studied(X,Z)}$}
+\ei
+\end{frame}
+
+\begin{frame}\frametitle{Outlook Issues}
+
+\begin{itemize}
+\item Rules from hybrid sources
+\bigskip
+
+\item Complex rule types, e.g., numerical, constraints, datalog+-
+%\emph{If one has $\geq$ 4 siblings then one's parents have $\geq$ 5 children}\\
+\bigskip
+
+\item Background knowledge
+\bigskip
+
+\item Causality and novel rule measures
+\bigskip
+
+\item Exploit external functions possibly as a blackbox
+\bigskip
+
+\item Rule learning from commonsense KGs 
+\bigskip
+
+\item Optimizations
 \end{itemize}
 \end{frame}
 
 
+
+\begin{frame}\frametitle{Huge Thanks!}
+\begin{itemize}
+\item \bl{For collaborations on the presented work}:
+\begin{itemize}
+\item Mohamed Gad-elrab, Hai Dang Tran, Thinh Vinh Ho, Thomas Pellissier-Tanon, Gerhard Weikum, Jacopo Urbani,  Evgeny Kharlamov, Francesca A. Lisi, Simon Razniewski, Paramita Mirza\\
+\end{itemize}
+\bs
+
+\item \bl{For making the presentation material available online}:
+\begin{itemize}
+\item Thomas Eiter, Stephen Muggleton, Luc De Raedt, Luis Gallaraga
+\end{itemize}
+\end{itemize}
+\bs
+
+
+\end{frame}
 % %%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%%
 
 % %\makeoverview
@@ -4087,7 +4535,6 @@ $\mi{has(X,wings) \lor round(X) \leftarrow in(X,sky)}$
 
 
 \appendix
-\addtobeamertemplate{frametitle}{\vspace{0.5cm}}{}
 \begin{frame}[plain,allowframebreaks,allowdisplaybreaks]
   \frametitle{References}
   \bibliographystyle{named}
